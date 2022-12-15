@@ -20,9 +20,14 @@ Route::get('/', function () {
 Route::group(["prefix" => "admin"], function () {
     Route::get('/login', [\App\Http\Controllers\Admin\AuthController::class, 'loginAdminForm']);
     Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'processAdminLogin']);
+    Route::get('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'signupAdminForm']);
+    Route::get('/forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgotPasswordForm']);
 
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard']);
 
+    Route::group(["prefix" => "doctors"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\DoctorController::class, 'index']);
+    });
 //    Route::group(["prefix" => "users"], function () {
 //        Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
 //        Route::post("/delete", [\App\Http\Controllers\Admin\UserController::class, 'destroy']);

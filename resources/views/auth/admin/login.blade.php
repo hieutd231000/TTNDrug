@@ -85,17 +85,17 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="addon-wrapping">@</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
                         </div>
                         <div class="mb-3">
                             <input type="checkbox" id="remember" name="remember">
-                            <label for="remember">Remember me</label>
+                            <label for="remember">Ghi nhớ cho lần đăng nhập tiếp theo</label>
                             <div class="text-center mb-1">
-                                <a href="" class="btn btn-sign-in">Đăng nhập</a>
-                                <a href="" class="btn btn-sign-up">Đăng ký</a>
+                                <a href="/admin/dashboard" class="btn btn-sign-in">Đăng nhập</a>
+                                <a href="/admin/signup" class="btn btn-sign-up">Đăng ký</a>
                             </div>
                             <div class="text-center">
-                                <a href="">Quên mật khẩu?</a>
+                                <a href="/admin/forgot-password">Quên mật khẩu?</a>
                             </div>
                         </div>
 {{--                        <div class="input-group icon before_span">--}}
