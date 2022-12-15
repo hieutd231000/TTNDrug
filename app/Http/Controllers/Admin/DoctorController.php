@@ -10,4 +10,12 @@ class DoctorController extends Controller
     public function index(Request $request) {
         return view("admin.page.doctors.index");
     }
+
+    public function addDoctorForm(Request $request) {
+        return view("admin.page.doctors.add");
+    }
+
+    public function doctorProfile(Request $request) {
+        return view("admin.page.doctors.profile");
+    }
 }

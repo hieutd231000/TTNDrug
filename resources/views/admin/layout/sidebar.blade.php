@@ -159,19 +159,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/list-doctor" class="nav-link">
+                            <a href="/admin/doctors" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Danh sách bác sĩ</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/doctors/add-doctor" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Thêm bác sĩ</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/doctors/doctor-profile" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Hồ sơ bác sĩ</p>
                             </a>

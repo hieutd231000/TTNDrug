@@ -31,6 +31,9 @@
         background: linear-gradient(60deg, #09b9ac, #7dd1c1);
         color: #fff !important;
     }
+    .margin-bottom-20 {
+        margin-bottom: 20px;
+    }
 </style>
 
 @extends("admin.master")
@@ -57,7 +60,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row clearfix">
+                <div class="row clearfix margin-bottom-20">
                     <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                         <div class="card">
                             <div class="body">
@@ -115,7 +118,7 @@
                 </div>
                 <div class="row clearfix">
                     <div class="col-md-12 text-center">
-                        <a href="javascript:void(0);" class="btn btn-raised g-bg-cyan">Add Doctor</a>
+                        <a href="/admin/doctors/add-doctor" class="btn btn-raised g-bg-cyan">Thêm bác sĩ</a>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->

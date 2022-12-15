@@ -27,6 +27,8 @@ Route::group(["prefix" => "admin"], function () {
 
     Route::group(["prefix" => "doctors"], function () {
         Route::get("/", [\App\Http\Controllers\Admin\DoctorController::class, 'index']);
+        Route::get("/add-doctor", [\App\Http\Controllers\Admin\DoctorController::class, 'addDoctorForm']);
+        Route::get("/doctor-profile", [\App\Http\Controllers\Admin\DoctorController::class, 'doctorProfile']);
     });
 //    Route::group(["prefix" => "users"], function () {
 //        Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
