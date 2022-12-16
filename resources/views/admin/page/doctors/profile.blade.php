@@ -1,88 +1,116 @@
 <style>
-    .body {
-        padding: 20px;
-    }
-    .member-card {
+    .profile-image {
+        padding: 50px 0px;
         text-align: center;
     }
-    .text-link {
-        display: block;
-        color: #007bff !important;
+    .profile-image>img {
+        border-radius: 50%;
     }
-    .btn-raised {
-        border-radius: 2px;
-        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
-        border: none;
+    .profile-body {
+        background: rgba(0,0,0,0) url("https://thememakker.com/templates/swift/hospital/assets/images/profile-bg.jpg") repeat scroll center center/cover;
     }
-    .btn-sm {
-        padding: 0.25rem 0.5rem;
-        font-size: .875rem;
-        line-height: 1.5;
+    .btn-message  {
+        background: linear-gradient(60deg, #09b9ac, #7dd1c1) !important;
+        color: #fff !important;
+        cursor: pointer;
     }
     .m-t-10 {
-        margin-top: 10px;
+        margin-top: 5px;
         margin-bottom: 3px;
     }
     .social-links>li {
         display: inline-block;
         margin: 0 5px;
     }
-    .g-bg-cyan {
-        background: linear-gradient(60deg, #09b9ac, #7dd1c1);
+    .social-links>li>a {
+        color: #ffffff !important;
+    }
+    .box-list>ul {
+        padding: 0;
+        display: inline-block;
+        width: 100%;
+        background-color: #f5f5f5;
+    }
+    .box-list>ul>li:first-child {
+        border-left: 1px solid #e0e0e0;
+    }
+    .box-list>ul>li {
+        float: left;
+        border-right: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        list-style: none;
+        width: 25%;
+    }
+    .box-list>ul>li:hover{
+        background: linear-gradient(45deg, #49cdd0, #ab9ae5);
+    }
+    .box-list>ul>li:hover>a {
         color: #fff !important;
     }
-    .margin-bottom-20 {
-        margin-bottom: 20px;
+    .box-list>ul>li>a {
+        padding-top: 15px;
+        display: block;
+        color: #424242;
     }
     .card .header {
-        padding: 20px 20px 15px 20px;
+        padding: 20px 20px 0 20px;
     }
     .card .body {
         padding: 20px;
     }
-    .form-block {
-        border-bottom: 1px solid #bdbdbd;
+    .list-skill {
+        list-style: none;
+        padding: 0;
     }
-    .form-block .form-control {
-        border: none !important;
-        padding-left: 0 !important;
+    .nav-tabs {
+        border-bottom: 1px solid #dee2e6;
+    }
+    .nav-item {
+        cursor: pointer;
+    }
+    .nav-tabs .nav-link {
+        color: #9e9e9e !important;
+    }
+    .nav-tabs .nav-link.active {
+        color: #495057 !important;
+        border-color: #fff #fff #fff !important;
+        border-bottom: 2px solid #ab9ae5 !important;
+    }
+    .tab-content {
+        padding: 15px 0;
     }
     .no-resize {
         resize: none;
     }
-    .btn-save {
-        background: linear-gradient(60deg, #09b9ac, #7dd1c1) !important;
-        color: #fff !important;
-        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%) !important;
-        cursor: pointer;
+    .form-group .form-line textarea {
+        border: none !important;
+        border-bottom: 1px solid #bdbdbd !important;
     }
-    .btn-cancel {
-        background-color: #cbcdcf !important;
-        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%) !important;
-        color: #3a3a3a !important;
+    .btn-custom {
+        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
     }
-    .margin-right-3 {
-        margin-right: 3px;
+    .btn-white {
+        padding: 8px !important;
+    }
+    .margin-bottom-15 {
+        margin-bottom: 15px;
+    }
+    .margin-bottom-10 {
+        margin-bottom: 10px;
+    }
+    .hr {
+        margin-top: 16px;
+        margin-bottom: 16px;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
     }
 </style>
 
 @extends("admin.master")
 @section("content")
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
+    <div class="content-wrapper"><!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h4 class="m-0">Thêm bác sĩ</h4>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
@@ -90,171 +118,193 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row clearfix margin-bottom-20">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5>Thông tin cá nhân</h5>
-                            </div>
-                            <div class="body">
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Họ">
-                                            </div>
-                                        </div>
+                <div class="row clearfix">
+                    <div class="col-md-12">
+                        <div class="profile-box">
+                            <div class="profile-body">
+                                <div class="profile-image">
+                                    <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                                    <h4 class="text-white font-weight-bold mb-0">DR.Hieu</h4>
+                                    <span class="text-white font-weight-normal">Bác sĩ nha khoa</span>
+                                    <div>
+                                        <button class="btn btn-message">Nhắn tin</button>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Tên">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Ngày sinh">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <select class="form-control" name="gender">
-                                                    <option value="">-- Gender --</option>
-                                                    <option value="male">Nam</option>
-                                                    <option value="female">Nữ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Công việc">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Số điện thoại">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Website URL">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản về bản thân..."></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
-                                        <button type="submit" class="btn btn-cancel">Huỷ</button>
+                                    <div>
+                                        <ul class="social-links list-inline m-t-10">
+                                            <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>
+                                            <li><a title="twitter" href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                            <li><a title="instagram" href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5>Thông tin tài khoản</h5>
-                            </div>
-                            <div class="body">
-                                <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Mật khẩu">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Xác nhận">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
-                                        <button type="submit" class="btn btn-cancel">Huỷ</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5>Thông tin mạng xã hội</h5>
-                            </div>
-                            <div class="body">
-                                <div class="row clearfix">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Facebook">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Instagram">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Twitter">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
-                                        <button type="submit" class="btn btn-cancel">Huỷ</button>
-                                    </div>
+                            <div class="profile-sub-body">
+                                <div class="box-list">
+                                    <ul class="text-center">
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-envelope"></i>
+                                                <p>Thư của tôi</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-image"></i>
+                                                <p>Bài post</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-th"></i>
+                                                <p>Hoạt động</p>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <i class="fas fa-calendar-alt"></i>
+                                                <p>Công việc</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row clearfix">
-                    <div class="col-md-12 text-center">
-                        <a href="/admin/doctors/add-doctor" class="btn btn-raised g-bg-cyan">Thêm mới</a>
+                    <div class="col-lg-4 col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4>Giới thiệu</h4>
+                            </div>
+                            <div class="body">
+                                <p>
+                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="header">
+                                <h4>Kỹ năng</h4>
+                            </div>
+                            <div class="body">
+                                <ul class="list-skill">
+                                    <li>
+                                        <div>Phẫu thuật</div>
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>Phẫu thuật</div>
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar bg-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 30%"> </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>Phẫu thuật</div>
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar bg-warning progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div>Phẫu thuật</div>
+                                        <div class="progress mb-3">
+                                            <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 80%"> </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-12">
+                        <div class="card">
+                            <div class="body">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a href="#mypost" class="nav-link active" data-toggle="tab">Bài đăng</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#timeline" class="nav-link" data-toggle="tab">Hoạt động</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#account" class="nav-link" data-toggle="tab">Tài khoản</a>
+                                    </li>
+                                </ul>
+                                {{--tab-content--}}
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane in active" id="mypost">
+                                        <div class="post-form margin-bottom-15">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    <textarea rows="4" class="form-control no-resize" placeholder="Bạn đang nghĩ gì thế..."></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="post-toolbar-b">
+                                                <a href="" tooltip="Add File" class="btn btn-custom btn-white btn-sm"><i class="fas fa-paperclip"></i></a>
+                                                <a href="" tooltip="Add Image" class="btn btn-custom btn-white btn-sm"><i class="fas fa-camera"></i></a>
+                                                <a href="" class="pull-right btn btn-custom btn-success btn-sm" tooltip="Post it!">
+                                                    <span style="font-size: 15px">Đăng</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="post-list">
+                                            <div class="box-post">
+                                                <span class="text-muted text-small">
+                                                    <i class="fas fa-clock"></i> 3 minutes ago
+                                                </span>
+                                                <div class="post-img margin-bottom-10">
+                                                    <img src="https://via.placeholder.com/1000x400" class="img-fluid" alt="">
+                                                </div>
+                                                <div>
+                                                    <h4>Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p>
+                                                        <a href="" class="btn btn-info btn-sm">
+                                                            <i class="fas fa-heart"></i> Thích (5)
+                                                        </a>
+                                                        <a href="" class="btn btn-custom btn-sm">
+                                                            <i class="fas fa-comment"></i> Bình luận
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                            <div class="box-post">
+                                                <span class="text-muted text-small">
+                                                    <i class="fas fa-clock"></i> 3 minutes ago
+                                                </span>
+                                                <div class="post-img margin-bottom-10">
+                                                    <img src="https://via.placeholder.com/1000x400" class="img-fluid" alt="">
+                                                </div>
+                                                <div>
+                                                    <h4>Lorem Ipsum is simply dummy text of the printing</h4>
+                                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
+                                                    <p>
+                                                        <a href="" class="btn btn-info btn-sm">
+                                                            <i class="fas fa-heart"></i> Thích (5)
+                                                        </a>
+                                                        <a href="" class="btn btn-custom btn-sm">
+                                                            <i class="fas fa-comment"></i> Bình luận
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                            <div class="text-center">
+                                                <a href="" class="btn btn-custom btn-white">Xem thêm …</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="timeline">
+                                        cxcxc
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane" id="account">
+                                        tae
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->

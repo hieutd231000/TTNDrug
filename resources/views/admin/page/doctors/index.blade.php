@@ -68,7 +68,6 @@
                                     <div class="thumb-xl member-thumb">
                                         <img src="http://via.placeholder.com/130x130" class="img-thumbnail rounded-circle" alt="profile-image">
                                     </div>
-
                                     <div class="">
                                         <h4 class="m-b-5 m-t-20">Dr. John</h4>
                                         <p class="text-muted">Dentist<span> <a href="javascript:void(0);" class="text-link">websitename.com</a> </span></p>

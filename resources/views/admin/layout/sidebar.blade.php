@@ -78,9 +78,9 @@
                 <span class="info-welcome">Xin chào</span>
                 <h5>Dr. Hiếu</h5>
                 <div>
-                    <i class="fas fa-envelope fa-style"></i>
-                    <i class="fas fa-user fa-style"></i>
-                    <i class="fas fa-arrow-circle-right fa-style"></i>
+                    <a href=""><i class="fas fa-envelope fa-style"></i></a>
+                    <a href="/admin/doctors/doctor-profile"><i class="fas fa-user fa-style"></i></a>
+                    <a href="/admin/login"><i class="fas fa-arrow-circle-right fa-style"></i></a>
                 </div>
             </div>
         </div>
