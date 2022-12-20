@@ -30,6 +30,16 @@ Route::group(["prefix" => "admin"], function () {
         Route::get("/add-doctor", [\App\Http\Controllers\Admin\DoctorController::class, 'addDoctorForm']);
         Route::get("/doctor-profile", [\App\Http\Controllers\Admin\DoctorController::class, 'doctorProfile']);
     });
+    Route::group(["prefix" => "appointments"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\AppointmentController::class, 'index']);
+        Route::get("/add-appointment", [\App\Http\Controllers\Admin\AppointmentController::class, 'addAppointmentForm']);
+        Route::get("/doctor-profile", [\App\Http\Controllers\Admin\AppointmentController::class, 'doctorProfile']);
+    });
+    Route::group(["prefix" => "patients"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\PatientController::class, 'index']);
+        Route::get("/add-patient", [\App\Http\Controllers\Admin\PatientController::class, 'addPatientForm']);
+        Route::get("/patient-profile", [\App\Http\Controllers\Admin\PatientController::class, 'patientProfile']);
+    });
 //    Route::group(["prefix" => "users"], function () {
 //        Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
 //        Route::post("/delete", [\App\Http\Controllers\Admin\UserController::class, 'destroy']);

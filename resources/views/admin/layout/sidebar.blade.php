@@ -142,7 +142,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/appointments/add-appointment" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Đặt lịch hẹn</p>
                             </a>
@@ -188,19 +188,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/patients" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Danh sách bệnh nhân</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/patients/add-patient" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Thêm bệnh nhân</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/patients/patient-profile" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Hồ sơ bệnh nhân</p>
                             </a>

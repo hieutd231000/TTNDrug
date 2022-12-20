@@ -74,7 +74,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Thêm bác sĩ</h4>
+                        <h4 class="m-0">Thêm lịch hẹn</h4>
                     </div><!-- /.col -->
 {{--                    <div class="col-sm-6">--}}
 {{--                        <ol class="breadcrumb float-sm-right">--}}
@@ -94,7 +94,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="header">
-                                <h5>Thông tin cá nhân</h5>
+                                <h5>Thông tin lịch hẹn</h5>
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
@@ -117,7 +117,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Ngày sinh">
+                                                <input type="text" class="form-control" placeholder="Ngày sinh" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
                                             </div>
                                         </div>
                                     </div>
@@ -142,119 +142,40 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
+                                                <input type="text" class="form-control" placeholder="Email">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-block">
                                                 <input type="text" class="form-control" placeholder="Số điện thoại">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Website URL">
+                                                <input type="text" class="form-control" placeholder="Chọn ngày giờ hẹn" id="reservationdatetime"  data-target="#reservationdatetime" data-toggle="datetimepicker">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản về bản thân..."></textarea>
+                                                <textarea rows="4" class="form-control no-resize" placeholder="Yêu cầu đặc biệt..."></textarea>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
+                                        <button type="submit" class="btn btn-save margin-right-3">Thêm</button>
                                         <button type="submit" class="btn btn-cancel">Huỷ</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5>Thông tin tài khoản</h5>
-                            </div>
-                            <div class="body">
-                                <div class="row clearfix">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Mật khẩu">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Xác nhận">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
-                                        <button type="submit" class="btn btn-cancel">Huỷ</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5>Thông tin mạng xã hội</h5>
-                            </div>
-                            <div class="body">
-                                <div class="row clearfix">
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Facebook">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Instagram">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Twitter">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
-                                        <button type="submit" class="btn btn-cancel">Huỷ</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="col-md-12 text-center">
-                        <a href="/admin/doctors/add-doctor" class="btn btn-raised g-bg-cyan">Thêm mới</a>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -262,3 +183,15 @@
         <!-- /.content -->
     </div>
 @endsection
+
+@section("custom-js")
+    <script>
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+        //Date and time picker
+        $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+    </script>
+@endsection
+

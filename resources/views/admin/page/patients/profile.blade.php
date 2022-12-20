@@ -162,101 +162,21 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row clearfix">
-                    <div class="col-md-12">
-                        <div class="profile-box">
-                            <div class="profile-body">
-                                <div class="profile-image">
-                                    <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
-                                    <h4 class="text-white font-weight-bold mb-0">DR.Hieu</h4>
-                                    <span class="text-white font-weight-normal">Bác sĩ nha khoa</span>
-                                    <div>
-                                        <button class="btn btn-message">Nhắn tin</button>
-                                    </div>
-                                    <div>
-                                        <ul class="social-links list-inline m-t-10">
-                                            <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>
-                                            <li><a title="twitter" href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a title="instagram" href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-sub-body">
-                                <div class="box-list">
-                                    <ul class="text-center">
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-envelope"></i>
-                                                <p>Thư của tôi</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-image"></i>
-                                                <p>Bài post</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-th"></i>
-                                                <p>Hoạt động</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-calendar-alt"></i>
-                                                <p>Công việc</p>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row clearfix">
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
-                            <div class="header">
-                                <h4>Giới thiệu</h4>
-                            </div>
-                            <div class="body">
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                </p>
-                            </div>
+                            <img src="https://via.placeholder.com/130x130" class="img-fluid" alt="">
                         </div>
                         <div class="card">
                             <div class="header">
-                                <h4>Kỹ năng</h4>
+                                <h4>Về bệnh nhân</h4>
                             </div>
                             <div class="body">
-                                <ul class="list-skill">
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 30%"> </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-warning progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 80%"> </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                <strong>Tên</strong>
+                                <p>Trần Thanh Nam</p>
+                                <strong>Email</strong>
+                                <p>dsa</p>
+                                <strong>Số điện thoại</strong>
+                                <p>0904559165</p>
                             </div>
                         </div>
                     </div>
