@@ -74,7 +74,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Thêm bệnh nhân</h4>
+                        <h4 class="m-0">Thêm hoá đơn</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -88,131 +88,86 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="header">
-                                <h5>Thông tin cá nhân</h5>
+                                <h5>Thông tin hoá đơn</h5>
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Họ">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Tên">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Ngày sinh" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <select class="form-control" name="gender">
-                                                    <option value="">-- Gender --</option>
-                                                    <option value="male">Nam</option>
-                                                    <option value="female">Nữ</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Công việc">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Số điện thoại">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Email">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Website URL">
+                                                <input type="text" class="form-control" placeholder="Số hoá đơn">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản về bản thân..."></textarea>
+                                                <input type="text" class="form-control" placeholder="Tên bệnh nhân">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
-                                        <button type="submit" class="btn btn-cancel">Huỷ</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="card">
-                            <div class="header">
-                                <h5>Bác sĩ quản lý</h5>
-                            </div>
-                            <div class="body">
-                                <div class="row clearfix">
-                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-block">
                                                 <input type="text" class="form-control" placeholder="Tên bác sĩ">
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Khoa">
+                                                <input type="text" class="form-control" placeholder="Ngày giờ khám" id="reservationdatetime"  data-target="#reservationdatetime" data-toggle="datetimepicker">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" class="form-control" placeholder="Số tiền thanh toán">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" class="form-control" placeholder="Khuyến mãi">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <select class="form-control" name="method">
+                                                    <option value="">-- Phương thức thanh toán --</option>
+                                                    <option value="card">Tiền mặt</option>
+                                                    <option value="credit card">Thẻ ghi nợ</option>
+                                                    <option value="debit card">Thẻ tín dụng</option>
+                                                    <option value="netbanking">Tài khoản ngân hàng</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <select class="form-control" name="status">
+                                                    <option value="">-- Trạng thái thanh toán --</option>
+                                                    <option value="complete">Hoàn thành</option>
+                                                    <option value="pending">Đang xử lý</option>
+                                                    <option value="partial">Một phần</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Mô tả về bệnh..."></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-save margin-right-3">Lưu</button>
+                                        <button type="submit" class="btn btn-save margin-right-3">Thêm</button>
                                         <button type="submit" class="btn btn-cancel">Huỷ</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="row clearfix">
-                    <div class="col-md-12 text-center">
-                        <a href="/admin/doctors/add-doctor" class="btn btn-raised g-bg-cyan">Thêm mới</a>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
@@ -220,11 +175,15 @@
         <!-- /.content -->
     </div>
 @endsection
+
 @section("custom-js")
     <script>
         //Date picker
         $('#reservationdate').datetimepicker({
             format: 'L'
         });
+        //Date and time picker
+        $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
     </script>
 @endsection
+

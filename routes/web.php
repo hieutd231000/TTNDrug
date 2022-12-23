@@ -40,6 +40,11 @@ Route::group(["prefix" => "admin"], function () {
         Route::get("/add-patient", [\App\Http\Controllers\Admin\PatientController::class, 'addPatientForm']);
         Route::get("/patient-profile", [\App\Http\Controllers\Admin\PatientController::class, 'patientProfile']);
     });
+    Route::group(["prefix" => "payments"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\PaymentController::class, 'index']);
+        Route::get("/add-payment", [\App\Http\Controllers\Admin\PaymentController::class, 'addPaymentForm']);
+        Route::get("/patient-invoice", [\App\Http\Controllers\Admin\PaymentController::class, 'patientInvoice']);
+    });
 //    Route::group(["prefix" => "users"], function () {
 //        Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
 //        Route::post("/delete", [\App\Http\Controllers\Admin\UserController::class, 'destroy']);

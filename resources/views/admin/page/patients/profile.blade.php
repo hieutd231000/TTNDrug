@@ -147,6 +147,14 @@
     .border-danger {
         border-color: #dc3545 !important;
     }
+    hr {
+        margin: 14px 0;
+        border: 0;
+        border-top: 1px solid rgba(0,0,0,.1);
+    }
+    .progress {
+        height: 8px !important;
+    }
 </style>
 
 @extends("admin.master")
@@ -177,6 +185,9 @@
                                 <p>dsa</p>
                                 <strong>Số điện thoại</strong>
                                 <p>0904559165</p>
+                                <hr>
+                                <strong>Địa chỉ</strong>
+                                <p>258 Bạch Mai, Hai Bà Trưng, Hà Nội</p>
                             </div>
                         </div>
                     </div>
@@ -185,78 +196,58 @@
                             <div class="body">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-                                        <a href="#mypost" class="nav-link active" data-toggle="tab">Bài đăng</a>
+                                        <a href="#mybiography" class="nav-link active" data-toggle="tab">Tiểu sử</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#timeline" class="nav-link" data-toggle="tab">Hoạt động</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="#account" class="nav-link" data-toggle="tab">Tài khoản</a>
-                                    </li>
                                 </ul>
                                 {{--tab-content--}}
                                 <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane in active" id="mypost">
-                                        <div class="post-form margin-bottom-15">
-                                            <div class="form-group">
-                                                <div class="form-line">
-                                                    <textarea rows="4" class="form-control no-resize" placeholder="Bạn đang nghĩ gì thế..."></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="post-toolbar-b">
-                                                <a href="" tooltip="Add File" class="btn btn-custom btn-white btn-sm"><i class="fas fa-paperclip"></i></a>
-                                                <a href="" tooltip="Add Image" class="btn btn-custom btn-white btn-sm"><i class="fas fa-camera"></i></a>
-                                                <a href="" class="pull-right btn btn-custom btn-success btn-sm" tooltip="Post it!">
-                                                    <span style="font-size: 15px">Đăng</span>
-                                                </a>
-                                            </div>
+                                    <div role="tabpanel" class="tab-pane in active" id="mybiography">
+                                        <div class="box-post margin-bottom-15">
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
                                         </div>
-                                        <div class="post-list">
-                                            <div class="box-post">
-                                                <span class="text-muted text-small">
-                                                    <i class="fas fa-clock"></i> 3 minutes ago
-                                                </span>
-                                                <div class="post-img margin-bottom-10">
-                                                    <img src="https://via.placeholder.com/1000x400" class="img-fluid" alt="">
-                                                </div>
-                                                <div>
-                                                    <h4>Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p>
-                                                        <a href="" class="btn btn-info btn-sm">
-                                                            <i class="fas fa-heart"></i> Thích (5)
-                                                        </a>
-                                                        <a href="" class="btn btn-custom btn-sm">
-                                                            <i class="fas fa-comment"></i> Bình luận
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            <div class="box-post">
-                                                <span class="text-muted text-small">
-                                                    <i class="fas fa-clock"></i> 3 minutes ago
-                                                </span>
-                                                <div class="post-img margin-bottom-10">
-                                                    <img src="https://via.placeholder.com/1000x400" class="img-fluid" alt="">
-                                                </div>
-                                                <div>
-                                                    <h4>Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p>
-                                                        <a href="" class="btn btn-info btn-sm">
-                                                            <i class="fas fa-heart"></i> Thích (5)
-                                                        </a>
-                                                        <a href="" class="btn btn-custom btn-sm">
-                                                            <i class="fas fa-comment"></i> Bình luận
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            <div class="text-center">
-                                                <a href="" class="btn btn-custom btn-white">Xem thêm …</a>
-                                            </div>
+                                        <hr>
+                                        <div class="box-post margin-bottom-15">
+                                            <h4>Tình trạng bệnh nhân</h4>
+                                            <ul class="list-skill">
+                                                <li>
+                                                    <div>Phẫu thuật</div>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div>Phẫu thuật</div>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 30%"> </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div>Phẫu thuật</div>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-warning progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div>Phẫu thuật</div>
+                                                    <div class="progress mb-3">
+                                                        <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 80%"> </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <hr>
+                                        <div class="box-post margin-bottom-15">
+                                            <h4>Lịch sử tham khám</h4>
+                                            <ul>
+                                                <li>Thăm bác sĩ Hiếu</li>
+                                                <li>Thăm bác sĩ Hiếu</li>
+                                                <li>Thăm bác sĩ Hiếu</li>
+                                                <li>Thăm bác sĩ Hiếu</li>
+                                            </ul>
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane" id="timeline">

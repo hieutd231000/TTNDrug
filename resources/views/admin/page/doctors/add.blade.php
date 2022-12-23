@@ -117,7 +117,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" class="form-control" placeholder="Ngày sinh">
+                                                <input type="text" class="form-control" placeholder="Ngày sinh" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
                                             </div>
                                         </div>
                                     </div>
@@ -261,4 +261,12 @@
         </section>
         <!-- /.content -->
     </div>
+@endsection
+@section("custom-js")
+    <script>
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format: 'L'
+        });
+    </script>
 @endsection
