@@ -18,4 +18,8 @@ class DoctorController extends Controller
     public function doctorProfile(Request $request) {
         return view("admin.page.doctors.profile");
     }
+
+    public function doctorCalendar(Request $request) {
+        return view("admin.page.doctors.calendar");
+    }
 }

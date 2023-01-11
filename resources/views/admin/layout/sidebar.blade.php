@@ -78,7 +78,7 @@
                 <span class="info-welcome">Xin chào</span>
                 <h5>Dr. Hiếu</h5>
                 <div>
-                    <a href=""><i class="fas fa-envelope fa-style"></i></a>
+                    <a href="/admin/doctors/mailbox"><i class="fas fa-envelope fa-style"></i></a>
                     <a href="/admin/doctors/doctor-profile"><i class="fas fa-user fa-style"></i></a>
                     <a href="/admin/login"><i class="fas fa-arrow-circle-right fa-style"></i></a>
                 </div>
@@ -136,7 +136,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="/admin/doctors/doctor-calendar" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Lịch làm việc</p>
                             </a>

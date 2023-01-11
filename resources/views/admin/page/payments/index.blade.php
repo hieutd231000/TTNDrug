@@ -398,19 +398,19 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="../mailbox/mailbox.html" class="nav-link">
+                                <a href="../mailbox/mailbox.blade.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Inbox</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../mailbox/compose.html" class="nav-link">
+                                <a href="../mailbox/compose.blade.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Compose</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="../mailbox/read-mail.html" class="nav-link">
+                                <a href="../mailbox/readmail.blade.php" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Read</p>
                                 </a>

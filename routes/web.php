@@ -29,6 +29,12 @@ Route::group(["prefix" => "admin"], function () {
         Route::get("/", [\App\Http\Controllers\Admin\DoctorController::class, 'index']);
         Route::get("/add-doctor", [\App\Http\Controllers\Admin\DoctorController::class, 'addDoctorForm']);
         Route::get("/doctor-profile", [\App\Http\Controllers\Admin\DoctorController::class, 'doctorProfile']);
+        Route::get("/doctor-calendar", [\App\Http\Controllers\Admin\DoctorController::class, 'doctorCalendar']);
+        Route::group(["prefix" => "mailbox"], function () {
+            Route::get("/", [\App\Http\Controllers\Admin\MailController::class, 'index']);
+            Route::get("/compose", [\App\Http\Controllers\Admin\MailController::class, 'compose']);
+            Route::get("/read-mail", [\App\Http\Controllers\Admin\MailController::class, 'read']);
+        });
     });
     Route::group(["prefix" => "appointments"], function () {
         Route::get("/", [\App\Http\Controllers\Admin\AppointmentController::class, 'index']);

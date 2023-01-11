@@ -31,6 +31,10 @@
     <link rel="stylesheet" href="{{ asset("admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css") }}">
     <link rel="stylesheet" href="{{ asset("admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css") }}">
     <link rel="stylesheet" href="{{ asset("admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css") }}">
+    <!-- fullCalendar -->
+    <link rel="stylesheet" href="{{ asset("admin/plugins/fullcalendar/main.css") }}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{ asset("admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css") }}">
 </head>
 <style>
     .content-wrapper {
@@ -105,6 +109,10 @@
 <script src="{{ asset("admin/plugins/datatables-buttons/js/buttons.html5.min.js") }}"></script>
 <script src="{{ asset("admin/plugins/datatables-buttons/js/buttons.print.min.js") }}"></script>
 <script src="{{ asset("admin/plugins/datatables-buttons/js/buttons.colVis.min.js") }}"></script>
+<script src="{{ asset("admin/plugins/moment/moment.min.js") }}"></script>
+<script src="{{ asset("admin/plugins/fullcalendar/main.js") }}"></script>
+<script src="{{ asset("admin/plugins/summernote/summernote-bs4.min.js") }}"></script>
+
 @yield("custom-js")
 </body>
 </html>
