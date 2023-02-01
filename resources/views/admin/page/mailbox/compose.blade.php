@@ -152,6 +152,9 @@
                                     <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Draft</button>
                                     <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i> Send</button>
                                 </div>
+                                <div>
+                                    <button type="button" class="bt"></button>
+                                </div>
                                 <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
                             </div>
                             <!-- /.card-footer -->

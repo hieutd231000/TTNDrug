@@ -6,6 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <title>Admin Login</title>
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -83,6 +84,14 @@
         background-color: #cbcdcf !important;
         color: #3a3a3a !important;
     }
+    .help-block{
+        height: 10px;
+        width: 100%;
+        color: red;
+        font-size: 14px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+    }
 </style>
 <body class="auth-layout">
 <div class="container">
@@ -94,64 +103,88 @@
                 <span class="title-e2">Đăng ký thành viên mới</span>
             </h5>
             <div class="content">
-                <form>
+                <form action="{{ url("/admin/signup") }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Họ và tên" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" name="username" placeholder="Họ và tên" aria-label="Username" aria-describedby="basic-addon1" value="{{old('username')}}">
+                        @if ($errors->has('username'))
+                            <div class="help-block">
+                                {{ $errors->first('username') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-envelope"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" name="email" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1" value="{{old('email')}}">
+                        @if ($errors->has('email'))
+                            <div class="help-block">
+                                {{ $errors->first('email') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
+                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
+                        @if ($errors->has('password'))
+                            <div class="help-block">
+                                {{ $errors->first('password') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Xác nhận" aria-label="Password" aria-describedby="basic-addon1">
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Xác nhận" aria-label="Password" aria-describedby="basic-addon1">
+                        @if ($errors->has('password_confirmation'))
+                            <div class="help-block mb-1">
+                                {{ $errors->first('password_confirmation') }}
+                            </div>
+                        @endif
                     </div>
                     <div class="mb-3">
-                        <input type="checkbox" id="remember" name="remember">
-                        <label for="remember">Tôi đã đọc và ghi nhớ <a href="">điều khoản.</a></label>
+                        <input type="checkbox" id="confirm_terms" name="confirm_terms">
+                        <label for="confirm_terms" style="margin-bottom: 5px">Tôi đã đọc và ghi nhớ <a href="" data-bs-toggle="modal" data-bs-target="#exampleModal">điều khoản.</a></label>
+                        @if ($errors->has('confirm_terms'))
+                            <div class="help-block mb-3">
+                                {{ $errors->first('confirm_terms') }}
+                            </div>
+                        @endif
                         <div class="text-center mb-1">
-                            <a href="/admin/login" class="btn btn-sign-in">Đăng ký</a>
+                            <button type="submit" class="btn btn-sign-in">Đăng ký</button>
                         </div>
                         <div class="text-center">
                             <a href="/admin/login">Bạn đã có tài khoản?</a>
                         </div>
                     </div>
-                    {{--                        <div class="input-group icon before_span">--}}
-                    {{--                            <span class="input-group-addon"> <i class="zmdi zmdi-account"></i> </span>--}}
-                    {{--                            <div class="form-line">--}}
-                    {{--                                <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="">--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                        <div class="input-group icon before_span">--}}
-                    {{--                            <span class="input-group-addon"> <i class="zmdi zmdi-lock"></i> </span>--}}
-                    {{--                            <div class="form-line">--}}
-                    {{--                                <input type="password" class="form-control" name="password" placeholder="Password" required="">--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                        <div>--}}
-                    {{--                            <div class="">--}}
-                    {{--                                <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">--}}
-                    {{--                                <label for="rememberme">Remember Me</label>--}}
-                    {{--                            </div>--}}
-                    {{--                            <div class="text-center">--}}
-                    {{--                                <a href="index.html" class="btn btn-raised waves-effect g-bg-cyan">SIGN IN</a>--}}
-                    {{--                                <a href="sign-up.html" class="btn btn-raised waves-effect">SIGN UP</a>--}}
-                    {{--                            </div>--}}
-                    {{--                            <div class="text-center"> <a href="forgot-password.html">Forgot Password?</a></div>--}}
-                    {{--                        </div>--}}
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="exampleModalLabel">Điều khoản dịch vụ</h3>
+                                </div>
+                                <div class="modal-body">
+                                    <p> 1. Chào mừng bạn đến với phần mềm quản lý tại Bệnh viện Dream Hospital. Vui lòng đọc kỹ các Điều Khoản Dịch Vụ sau đây trước khi tiếp tục truy cập hoặc sử dụng các dịch vụ của Phần mềm, để bạn biết được các quyền lợi và nghĩa vụ hợp pháp của mình liên quan đến bệnh viện Dream Hospital và các bên thứ ba có liên kết. </p>
+                                    <p> 2. Bằng việc sử dụng các dịch vụ hoặc tiếp tục truy cập trang web, bạn cho biết rằng bạn chấp nhận, không rút lại, các điều khoản dịch vụ này. nếu bạn không đồng ý với các điều khoản này, vui lòng không sử dụng các dịch vụ của chúng tôi hay tiếp tục truy cập phần mềm.</p>
+                                    <p> 3. Chúng tôi có quyền chỉnh sửa các Điều Khoản Dịch Vụ này vào bất kỳ lúc nào mà không cần thông báo cho người dùng. Việc bạn tiếp tục sử dụng Các Dịch Vụ, Phần mềm, hoặc Tài Khoản Của Bạn sẽ được xem là sự chấp nhận, không rút lại đối với các điều khoản chỉnh sửa đó.</p>
+                                    <p> 4. Chúng tôi có quyền thay đổi, điều chỉnh, đình chỉ hoặc ngưng bất kỳ phần nào của Phần mềm này hoặc Các Dịch Vụ vào bất kỳ lúc nào. Chúng tôi có thể ra mắt Các Dịch Vụ nhất định hoặc các tính năng của chúng trong một phiên bản beta, phiên bản này có thể không hoạt động chính xác hoặc theo cùng cách như phiên bản cuối cùng, và chúng tôi sẽ không chịu trách nhiệm pháp lý trong các trường hợp đó. Chúng tôi cũng có thể toàn quyền áp dụng giới hạn đối với các tính năng nhất định hoặc hạn chế quyền truy cập của bạn đối với một phần hoặc toàn bộ Phần mềm hoặc Các Dịch Vụ mà không cần thông báo hoặc phải chịu trách nhiệm pháp lý.</p>
+                                    <p> 5. Chúng tôi có quyền từ chối cho phép bạn truy cập Phần mềm hoặc Các Dịch Vụ vì bất kỳ lý do gì.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sign-in" data-bs-dismiss="modal">Đóng</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

@@ -16,5 +16,13 @@ return [
     'failed' => 'These credentials do not match our records.',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
+    'signup_success' => 'Sign up success',
+    'signup_failed' => 'Sign up failed',
+    'login_failed' => 'Email hoặc mật khẩu không hợp lệ',
+    'empty' => 'Data not found',
+    'delete' => [
+        'failed' => "Failed to delete",
+        'success' => "Success to delete"
+    ]
 
 ];

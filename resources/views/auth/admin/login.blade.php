@@ -83,6 +83,14 @@
         background-color: #cbcdcf !important;
         color: #3a3a3a !important;
     }
+    .help-block{
+        height: 10px;
+        width: 100%;
+        color: red;
+        font-size: 14px;
+        margin-bottom: 5px;
+        margin-top: 2px;
+    }
 </style>
 <body class="auth-layout">
     <div class="container">
@@ -94,53 +102,46 @@
                     <span class="title-e2">Đăng nhập để bắt đầu phiên làm việc của bạn</span>
                 </h5>
                 <div class="content">
-                    <form>
+                    <form action="{{ url("/admin/login") }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Email" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" name="email" placeholder="Email" aria-label="email" aria-describedby="basic-addon1">
+                            @if ($errors->has('email'))
+                                <div class="help-block">
+                                    {{ $errors->first('email') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
+                            <input type="password" class="form-control" name="password" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
+                            @if ($errors->has('password'))
+                                <div class="help-block">
+                                    {{ $errors->first('password') }}
+                                </div>
+                            @endif
+                            @if (session('error'))
+                                <div class="help-block">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                         </div>
                         <div class="mb-3">
-                            <input type="checkbox" id="remember" name="remember">
-                            <label for="remember">Ghi nhớ cho lần đăng nhập tiếp theo</label>
+                            <input type="checkbox" id="remember_me" name="remember_me">
+                            <label for="remember_me">Ghi nhớ cho lần đăng nhập tiếp theo</label>
                             <div class="text-center mb-1">
-                                <a href="/admin/dashboard" class="btn btn-sign-in">Đăng nhập</a>
+                                <button type="submit" class="btn btn-sign-in">Đăng nhập</button>
                                 <a href="/admin/signup" class="btn btn-sign-up">Đăng ký</a>
                             </div>
                             <div class="text-center">
                                 <a href="/admin/forgot-password">Quên mật khẩu?</a>
                             </div>
                         </div>
-{{--                        <div class="input-group icon before_span">--}}
-{{--                            <span class="input-group-addon"> <i class="zmdi zmdi-account"></i> </span>--}}
-{{--                            <div class="form-line">--}}
-{{--                                <input type="text" class="form-control" name="username" placeholder="Username" required="" autofocus="">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="input-group icon before_span">--}}
-{{--                            <span class="input-group-addon"> <i class="zmdi zmdi-lock"></i> </span>--}}
-{{--                            <div class="form-line">--}}
-{{--                                <input type="password" class="form-control" name="password" placeholder="Password" required="">--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div>--}}
-{{--                            <div class="">--}}
-{{--                                <input type="checkbox" name="rememberme" id="rememberme" class="filled-in chk-col-pink">--}}
-{{--                                <label for="rememberme">Remember Me</label>--}}
-{{--                            </div>--}}
-{{--                            <div class="text-center">--}}
-{{--                                <a href="index.html" class="btn btn-raised waves-effect g-bg-cyan">SIGN IN</a>--}}
-{{--                                <a href="sign-up.html" class="btn btn-raised waves-effect">SIGN UP</a>--}}
-{{--                            </div>--}}
-{{--                            <div class="text-center"> <a href="forgot-password.html">Forgot Password?</a></div>--}}
-{{--                        </div>--}}
                     </form>
                 </div>
             </div>
