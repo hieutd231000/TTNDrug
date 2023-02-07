@@ -43,10 +43,10 @@ class ResponseHelper
      *
      * @return JsonResponse
      */
-    public function unAuthenticated()
+    public function unAuthenticated($message = "Unauthorized")
     {
         return response()->json([
-            'message' => 'Unauthorized',
+            'message' => $message,
             'code' => 401,
             'data' => null,
         ], 401);

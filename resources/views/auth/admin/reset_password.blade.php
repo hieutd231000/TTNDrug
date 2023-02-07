@@ -94,68 +94,57 @@
     }
 </style>
 <body class="auth-layout">
-    <div class="container">
-        @if(session("success"))
-            <div class="alert alert-success">
-                {{ session("success") }}
-            </div>
-        @elseif(session("failed"))
-            <div class="alert alert-danger">
-                {{ session("failed") }}
-            </div>
-        @endif
-        <div class="card">
-            <div class="card-container">
-                <h5 class="title">
-                    <span class="title-e1">Dream Hospital</span>
-                    Đăng nhập
-                    <span class="title-e2">Đăng nhập để bắt đầu phiên làm việc của bạn</span>
-                </h5>
-                <div class="content">
-                    <form action="{{ url("/admin/login") }}" method="post">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-user-alt"></i></span>
-                            </div>
-                            <input type="text" class="form-control" name="email" placeholder="Email" aria-label="email" aria-describedby="basic-addon1">
-                            @if ($errors->has('email'))
-                                <div class="help-block">
-                                    {{ $errors->first('email') }}
-                                </div>
-                            @endif
+<div class="container">
+    @if(session("success"))
+        <div class="alert alert-success">
+            {{ session("success") }}
+        </div>
+    @elseif(session("failed"))
+        <div class="alert alert-danger">
+            {{ session("failed") }}
+        </div>
+    @endif
+    <div class="card">
+        <div class="card-container">
+            <h5 class="title">
+                <span class="title-e1">Dream Hospital</span>
+                Đổi mật khẩu
+            </h5>
+            <div class="content">
+                <form action="{{ url("/admin/reset-password") }}" method="post">
+                    <input type="hidden" name="token_" value="{{ $_GET["token_"] }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                         </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
+                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu mới" aria-label="Password" aria-describedby="basic-addon1">
+                        @if ($errors->has('password'))
+                            <div class="help-block">
+                                {{ $errors->first('password') }}
                             </div>
-                            <input type="password" class="form-control" name="password" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
-                            @if ($errors->has('password'))
-                                <div class="help-block">
-                                    {{ $errors->first('password') }}
-                                </div>
-                            @endif
-                            @if (session('error'))
-                                <div class="help-block">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
+                        @endif
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                         </div>
-                        <div class="mb-3">
-                            <input type="checkbox" id="remember_me" name="remember_me">
-                            <label for="remember_me">Ghi nhớ cho lần đăng nhập tiếp theo</label>
-                            <div class="text-center mb-1">
-                                <button type="submit" class="btn btn-sign-in">Đăng nhập</button>
-                                <a href="/admin/signup" class="btn btn-sign-up">Đăng ký</a>
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Xác nhận mật khẩu" aria-label="Password Confirmation" aria-describedby="basic-addon1">
+                        @if ($errors->has('password_confirmation'))
+                            <div class="help-block">
+                                {{ $errors->first('password_confirmation') }}
                             </div>
-                            <div class="text-center">
-                                <a href="/admin/forgot-password">Quên mật khẩu?</a>
-                            </div>
+                        @endif
+                    </div>
+                    <div class="mb-3">
+                        <div class="text-center mb-1">
+                            <button type="submit" class="btn btn-sign-in">Đổi mật khẩu</button>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
 </div>
 <script>
     /**

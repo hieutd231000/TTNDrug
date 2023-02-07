@@ -23,6 +23,10 @@ Route::group(["prefix" => "admin"], function () {
     Route::get('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'signupAdminForm']);
     Route::post('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'processAdminSignup']);
     Route::get('/forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgotPasswordForm']);
+    Route::post('/confirm-otp', [\App\Http\Controllers\Admin\AuthController::class, 'confirmOtp']);
+    Route::post('/forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'postForgotPassword']);
+    Route::get('/reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'resetPasswordForm']);
+    Route::post('/reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'postResetPassword']);
 
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard']);
 

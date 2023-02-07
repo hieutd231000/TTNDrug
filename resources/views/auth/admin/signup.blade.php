@@ -131,7 +131,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                         </div>
-                        <input type="password" class="form-control" name="password" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
+                        <input type="password" id="password" class="form-control" name="password" placeholder="Mật khẩu" aria-label="Password" aria-describedby="basic-addon1">
                         @if ($errors->has('password'))
                             <div class="help-block">
                                 {{ $errors->first('password') }}
@@ -142,7 +142,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="addon-wrapping"><i class="fas fa-lock"></i></span>
                         </div>
-                        <input type="password" class="form-control" name="password_confirmation" placeholder="Xác nhận" aria-label="Password" aria-describedby="basic-addon1">
+                        <input type="password" id="password_confirmation" class="form-control" name="password_confirmation" placeholder="Xác nhận" aria-label="Password" aria-describedby="basic-addon1">
                         @if ($errors->has('password_confirmation'))
                             <div class="help-block mb-1">
                                 {{ $errors->first('password_confirmation') }}
@@ -190,5 +190,10 @@
         </div>
     </div>
 </div>
+<script>
+    // function handleSubmitForm() {
+    //     document.getElementById('password').value = '';
+    // }
+</script>
 </body>
 </html>
