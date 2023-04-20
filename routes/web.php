@@ -30,16 +30,35 @@ Route::group(["prefix" => "admin"], function () {
 
     Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard']);
 
-    Route::group(["prefix" => "doctors"], function () {
-        Route::get("/", [\App\Http\Controllers\Admin\DoctorController::class, 'index']);
-        Route::get("/add-doctor", [\App\Http\Controllers\Admin\DoctorController::class, 'addDoctorForm']);
-        Route::get("/doctor-profile", [\App\Http\Controllers\Admin\DoctorController::class, 'doctorProfile']);
-        Route::get("/doctor-calendar", [\App\Http\Controllers\Admin\DoctorController::class, 'doctorCalendar']);
-        Route::group(["prefix" => "mailbox"], function () {
-            Route::get("/", [\App\Http\Controllers\Admin\MailController::class, 'index']);
-            Route::get("/compose", [\App\Http\Controllers\Admin\MailController::class, 'compose']);
-            Route::get("/read-mail", [\App\Http\Controllers\Admin\MailController::class, 'read']);
-        });
+    Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index']);
+
+    Route::group(["prefix" => "categories"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\CategoryController::class, 'index']);
+        Route::post("/add", [\App\Http\Controllers\Admin\CategoryController::class, 'store']);
+        Route::post("/delete", [\App\Http\Controllers\Admin\CategoryController::class, 'destroy']);
+        Route::get("/info", [\App\Http\Controllers\Admin\CategoryController::class, 'detail']);
+        Route::post("/edit", [\App\Http\Controllers\Admin\CategoryController::class, 'edit']);
+    });
+
+    Route::group(["prefix" => "units"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\UnitController::class, 'index']);
+        Route::post("/add", [\App\Http\Controllers\Admin\UnitController::class, 'store']);
+        Route::post("/delete", [\App\Http\Controllers\Admin\UnitController::class, 'destroy']);
+        Route::get("/info", [\App\Http\Controllers\Admin\UnitController::class, 'detail']);
+        Route::post("/edit", [\App\Http\Controllers\Admin\UnitController::class, 'edit']);
+    });
+
+    Route::group(["prefix" => "users"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
+        Route::get("/add-user", [\App\Http\Controllers\Admin\UserController::class, 'addUserForm']);
+        Route::post("/add-user", [\App\Http\Controllers\Admin\UserController::class, 'store']);
+        Route::get("/user-profile", [\App\Http\Controllers\Admin\UserController::class, 'userProfile']);
+        Route::get("/user-calendar", [\App\Http\Controllers\Admin\UserController::class, 'userCalendar']);
+//        Route::group(["prefix" => "mailbox"], function () {
+//            Route::get("/", [\App\Http\Controllers\Admin\MailController::class, 'index']);
+//            Route::get("/compose", [\App\Http\Controllers\Admin\MailController::class, 'compose']);
+//            Route::get("/read-mail", [\App\Http\Controllers\Admin\MailController::class, 'read']);
+//        });
     });
     Route::group(["prefix" => "appointments"], function () {
         Route::get("/", [\App\Http\Controllers\Admin\AppointmentController::class, 'index']);
@@ -56,7 +75,7 @@ Route::group(["prefix" => "admin"], function () {
         Route::get("/add-payment", [\App\Http\Controllers\Admin\PaymentController::class, 'addPaymentForm']);
         Route::get("/patient-invoice", [\App\Http\Controllers\Admin\PaymentController::class, 'patientInvoice']);
     });
-//    Route::group(["prefix" => "users"], function () {
+//    Route::group(["prefix" => "usersss"], function () {
 //        Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
 //        Route::post("/delete", [\App\Http\Controllers\Admin\UserController::class, 'destroy']);
 //    });

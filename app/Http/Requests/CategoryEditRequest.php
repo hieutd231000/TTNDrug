@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ForgotPasswordRequest extends FormRequest
+class CategoryEditRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +25,11 @@ class ForgotPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:usersss,email',
+            'name' => [
+                'required',
+                'max:64',
+                Rule::unique('categories')->ignore($this->request->get('id'))
+            ]
         ];
     }
 
@@ -35,8 +40,7 @@ class ForgotPasswordRequest extends FormRequest
     {
         return [
             'required' => 'Không được để trống trường này',
-            'email.email' => 'Email không hợp lệ',
-            'exists' => 'Email không tồn tại'
+            'unique' => 'Tên danh mục này đã được sử dụng'
         ];
     }
 }

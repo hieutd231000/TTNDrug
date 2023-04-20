@@ -1,12 +1,56 @@
-@extends('admin.master')
-@section('content')
+<style>
+    .body {
+        padding: 20px;
+    }
+    .member-card {
+        text-align: center;
+    }
+    .text-link {
+        display: block;
+        color: #007bff !important;
+    }
+    .btn-raised {
+        border-radius: 2px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
+        border: none;
+    }
+    .btn-sm {
+        padding: 0.25rem 0.5rem;
+        font-size: .875rem;
+        line-height: 1.5;
+    }
+    .m-t-10 {
+        margin-top: 10px;
+        margin-bottom: 3px;
+    }
+    .social-links>li {
+        display: inline-block;
+        margin: 0 5px;
+    }
+    .g-bg-cyan {
+        background: linear-gradient(60deg, #09b9ac, #7dd1c1);
+        color: #fff !important;
+    }
+    .margin-bottom-20 {
+        margin-bottom: 20px;
+    }
+</style>
+
+@extends("admin.master")
+@section("content")
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">{{ trans('label.admin.title.t1') }}</h1>
+                        <h4 class="m-0">Danh sách bác sĩ</h4>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Dashboard v1</li>
+                        </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -15,101 +59,69 @@
 
         <!-- Main content -->
         <section class="content">
-{{--            @include('admin.pages.partials.errors')--}}
-            @if(session("success"))
-                <div class="alert alert-success">
-                    {{ session("success") }}
-                </div>
-            @elseif(session("failed"))
-                <div class="alert alert-danger">
-                    {{ session("failed") }}
-                </div>
-            @endif
             <div class="container-fluid">
-                <!-- Small boxes (Stat box) -->
-                <div class="row">
-                    <div class="col-md-12">
+                <div class="row clearfix margin-bottom-20">
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                         <div class="card">
-                            @if(count($data) == 0)
-                                <div class="card-body">
-                                    <p class="card-text" style="font-size: 20px; color: red">{{ trans('auth.admin.empty') }}</p>
-                                </div>
-                            @else
-                                <div class="card-body">
-                                    <table class="table table-bordered table-striped table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th> {{ trans("label.admin.thead.th1") }} </th>
-                                            <th> {{ trans("label.admin.thead.th2") }} </th>
-                                            <th> {{ trans("label.admin.thead.th3") }} </th>
-                                            <th> {{ trans("label.admin.thead.th5") }} </th>
-                                            <th> {{ trans("label.admin.thead.th7") }} </th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($data as $user)
-                                            <tr>
-                                                <td> {{ $user->id }} </td>
-                                                <td> {{ $user->name }} </td>
-                                                <td> {{ $user->email }} </td>
-                                                <td> {{ $user->role }} </td>
-                                                <td>
-                                                    <button type="button" onclick="confirmDelete( {{ $user->id }} )" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#deleteUser"> {{ trans("label.btn.delete") }} </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                            <div class="body">
+                                <div class="member-card verified">
+                                    <div class="thumb-xl member-thumb">
+                                        <img src="http://via.placeholder.com/130x130" class="img-thumbnail rounded-circle" alt="profile-image">
+                                    </div>
+                                    <div class="">
+                                        <h4 class="m-b-5 m-t-20">Dr. John</h4>
+                                        <p class="text-muted">Dentist<span> <a href="javascript:void(0);" class="text-link">websitename.com</a> </span></p>
+                                    </div>
 
-                                        </tbody>
-
-                                    </table>
+                                    <p class="text-muted">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
+                                    <a href="" class="btn btn-raised btn-sm">View Profile</a>
+                                    <ul class="social-links list-inline m-t-10">
+                                        <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>
+                                        <li><a title="twitter" href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
+                                        <li><a title="instagram" href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
+                                    </ul>
                                 </div>
-                            @endif
-                            <div class="d-flex justify-content-end" style="margin-right: 3%">
-                                {!! $data->appends($_GET)->links("pagination::bootstrap-4") !!}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        <div class="card">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        <div class="card">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        <div class="card">
+                            <img src="..." class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.row (main row) -->
+                <div class="row clearfix">
+                    <div class="col-md-12 text-center">
+                        <a href="/admin/doctors/add-doctor" class="btn btn-raised g-bg-cyan">Thêm bác sĩ</a>
+                    </div>
+                </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
     </div>
-
-    <div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <form action="{{ url("/admin/users/delete") }}" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="id" id="id_user" value="">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Are you sure?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Once deleted, you will not be able to recover this Data!
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
-                        <button type="submit" class="btn btn-danger">Ok</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-@endsection
-
-@section("custom-js")
-    <script>
-        /**
-         * Confirm delete user
-         * @param id
-         */
-        function confirmDelete(id) {
-            $("#id_user").val(id);
-            $("#deleteUser").modal("show");
-        }
-    </script>
 @endsection

@@ -64,7 +64,7 @@
     <!-- Brand Logo -->
     <a href="" class="brand-link">
         {{--        <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">--}}
-        <h4 class="brand-text margin-0 color-white">Dream Hospital</h4>
+        <h4 class="brand-text margin-0 color-white">TTN DRUG</h4>
     </a>
 
     <!-- Sidebar -->
@@ -76,15 +76,15 @@
             </div>
             <div class="info">
                 <span class="info-welcome">Xin chào</span>
-                <h5>Dr. Hiếu</h5>
+                <h5>Mr. Hiếu</h5>
                 <div>
-                    <a href="/admin/doctors/mailbox"><i class="fas fa-envelope fa-style"></i></a>
-                    <a href="/admin/doctors/doctor-profile"><i class="fas fa-user fa-style"></i></a>
+                    {{-- <a href="/admin/users/mailbox"><i class="fas fa-envelope fa-style"></i></a> --}}
+                    <a href="/admin/users/user-profile"><i class="fas fa-user fa-style"></i></a>
                     <a href="/admin/login"><i class="fas fa-arrow-circle-right fa-style"></i></a>
                 </div>
             </div>
         </div>
-        <div class="user-panel pb-3 mb-3">
+        {{-- <div class="user-panel pb-3 mb-3">
             <div class="quick-start">
                 <h5>Thống kê</h5>
                 <ul>
@@ -102,7 +102,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> --}}
         <!-- SidebarSearch Form -->
         <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
@@ -119,18 +119,82 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="" class="nav-link active">
+                    <a href="/admin/dashboard" class="nav-link active">
                         <i class="nav-icon fas fa-chart-pie"></i>
                         <p>
-                            Dashboard
+                            Biểu đồ
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/categories" class="nav-link">
+                        <i class="nav-icon far fa-edit"></i>
+                        <p>
+                            Danh mục
+                            <i class="fas right"></i>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/units" class="nav-link">
+                        <i class="nav-icon far fa-edit"></i>
+                        <p>
+                            Đơn vị
+                            <i class="fas right"></i>
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Medicines
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/doctors/doctor-calendar" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Lịch làm việc</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/appointments/add-appointment" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Đặt lịch hẹn</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon far fa-calendar-alt"></i>
                         <p>
-                            Lịch hẹn
+                            Inventory
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/doctors/doctor-calendar" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Lịch làm việc</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/appointments/add-appointment" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Đặt lịch hẹn</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-columns"></i>
+                        <p>
+                            Sale
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -153,27 +217,27 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
-                            Bác sĩ
+                            User
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/doctors" class="nav-link">
+                            <a href="/admin/users" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách bác sĩ</p>
+                                <p>Danh sách nhân viên</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/doctors/add-doctor" class="nav-link">
+                            <a href="/admin/users/add-user" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm bác sĩ</p>
+                                <p>Thêm nhân viên</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/doctors/doctor-profile" class="nav-link">
+                            <a href="/admin/users/user-profile" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Hồ sơ bác sĩ</p>
+                                <p>Hồ sơ nhân viên</p>
                             </a>
                         </li>
                     </ul>
@@ -182,7 +246,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-plus"></i>
                         <p>
-                            Bệnh nhân
+                            Supplier
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -211,7 +275,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            Hóa đơn
+                            Bill
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -241,6 +305,14 @@
                         <i class="nav-icon fas fa-file"></i>
                         <p>
                             Reports
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-ellipsis-h"></i>
+                        <p>
+                            Setting
                         </p>
                     </a>
                 </li>

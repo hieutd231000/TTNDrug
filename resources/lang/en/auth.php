@@ -21,8 +21,8 @@ return [
     'login_failed' => 'Email hoặc mật khẩu không hợp lệ',
     'empty' => 'Dữ liệu không tồn tại',
     'delete' => [
-        'failed' => "Failed to delete",
-        'success' => "Success to delete"
+        'failed' => "Xoá không thành công",
+        'success' => "Xoá thành công"
     ]
 
 ];

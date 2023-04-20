@@ -17,14 +17,14 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Check admin(0)/users(1) function
+     * Check admin(0)/usersss(1) function
      *
      * @param $userId
      * @return bool|void
      */
     public function checkRole($userEmail)
     {
-        $user = DB::table("users")
+        $user = DB::table("usersss")
             ->where("email", $userEmail)
             ->first();
         if($user->role) {
@@ -33,7 +33,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Split users email function
+     * Split usersss email function
      *
      * @param $userEmail
      * @return string
@@ -49,10 +49,9 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
      * @param $userId
      * @return mixed
      */
-    public function getUserName($userId)
+    public function getEmail()
     {
         return DB::table("users")
-            ->where("id", $userId)
-            ->first()->name;
+            ->pluck("email");
     }
 }

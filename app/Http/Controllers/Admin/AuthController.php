@@ -189,11 +189,42 @@ class AuthController extends Controller
         }
         try {
             $data['password'] = Hash::make($request['password']);
-            DB::table("users")->update($data);
+            DB::table("usersss")->update($data);
             return redirect('/admin/login')->with('success', 'Đổi mật khẩu thành công.');
         } catch (\Exception $e) {
             Log::error($e);
             return $this->response->error();
         }
+    }
+
+    /**
+     * Test reset password
+     */
+    public function resetPasswordFormInput(Request $request) {
+        try {
+            $data["password"] = Hash::make($request['password']);
+            return redirect('/admin/login')->with('success', 'Thanh cong');
+        } catch (\Exception $e) {
+            Log::error($e);
+            return $this->response->error();
+        }
+    }
+
+    public function handleResetPassword(Request $request, $id) {
+        $user = User::where("id", $id);
+        if(isset($user)) {
+            return redirect()->back();
+        } else {
+            try {
+                $data["name"] = $request->name;
+            } catch (\Exception $e) {
+                Log::error($e);
+                return $this->response->error();
+            }
+        }
+    }
+
+    public function loginForm(Request $request) {
+        return response('Hello World', 200)->header('Content-Type', 'text/plain');
     }
  }

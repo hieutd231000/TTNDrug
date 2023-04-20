@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ForgotPasswordRequest extends FormRequest
+class UnitRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ForgotPasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|exists:usersss,email',
+            'name' => 'required|unique:units|max:64',
         ];
     }
 
@@ -35,8 +35,7 @@ class ForgotPasswordRequest extends FormRequest
     {
         return [
             'required' => 'Không được để trống trường này',
-            'email.email' => 'Email không hợp lệ',
-            'exists' => 'Email không tồn tại'
+            'unique' => 'Tên đơn vị này đã được sử dụng'
         ];
     }
 }
