@@ -8,14 +8,14 @@ use Illuminate\Http\Request;
 class PatientController extends Controller
 {
     public function index(Request $request) {
-        return view("admin.page.patients.index");
+        return view("admin.page.suppliers.index");
     }
 
     public function addPatientForm(Request $request) {
-        return view("admin.page.patients.add");
+        return view("admin.page.suppliers.add");
     }
 
     public function patientProfile(Request $request) {
-        return view("admin.page.patients.profile");
+        return view("admin.page.suppliers.profile");
     }
 }

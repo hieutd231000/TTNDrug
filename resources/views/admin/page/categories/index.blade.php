@@ -207,7 +207,7 @@
                     <input type="hidden" name="id" id="id_category" value="">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn?</h4>
+                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá danh mục này?</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>

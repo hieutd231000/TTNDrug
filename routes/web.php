@@ -52,6 +52,9 @@ Route::group(["prefix" => "admin"], function () {
         Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);
         Route::get("/add-user", [\App\Http\Controllers\Admin\UserController::class, 'addUserForm']);
         Route::post("/add-user", [\App\Http\Controllers\Admin\UserController::class, 'store']);
+        Route::post("/delete", [\App\Http\Controllers\Admin\UserController::class, 'destroy']);
+        Route::get("/{id}/edit", [\App\Http\Controllers\Admin\UserController::class, 'edit']);
+        Route::post("/edit-user", [\App\Http\Controllers\Admin\UserController::class, 'handleEdit']);
         Route::get("/user-profile", [\App\Http\Controllers\Admin\UserController::class, 'userProfile']);
         Route::get("/user-calendar", [\App\Http\Controllers\Admin\UserController::class, 'userCalendar']);
 //        Route::group(["prefix" => "mailbox"], function () {
@@ -65,9 +68,9 @@ Route::group(["prefix" => "admin"], function () {
         Route::get("/add-appointment", [\App\Http\Controllers\Admin\AppointmentController::class, 'addAppointmentForm']);
         Route::get("/doctor-profile", [\App\Http\Controllers\Admin\AppointmentController::class, 'doctorProfile']);
     });
-    Route::group(["prefix" => "patients"], function () {
-        Route::get("/", [\App\Http\Controllers\Admin\PatientController::class, 'index']);
-        Route::get("/add-patient", [\App\Http\Controllers\Admin\PatientController::class, 'addPatientForm']);
+    Route::group(["prefix" => "suppliers"], function () {
+        Route::get("/", [\App\Http\Controllers\Admin\SupplierController::class, 'index']);
+        Route::get("/add-supplier", [\App\Http\Controllers\Admin\SupplierController::class, 'addSupplierForm']);
         Route::get("/patient-profile", [\App\Http\Controllers\Admin\PatientController::class, 'patientProfile']);
     });
     Route::group(["prefix" => "payments"], function () {

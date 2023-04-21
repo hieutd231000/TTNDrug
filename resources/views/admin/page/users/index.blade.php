@@ -34,6 +34,15 @@
     .margin-bottom-20 {
         margin-bottom: 20px;
     }
+    .m-b-0 {
+        margin-bottom: 0px !important;
+    }
+    .m-b-20 {
+        margin-bottom: 20px !important;
+    }
+    .alert {
+        padding: .5rem 1.25rem !important;
+    }
 </style>
 
 @extends("admin.master")
@@ -44,12 +53,10 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Danh sách bác sĩ</h4>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Dashboard v1</li>
+                        <h3>Danh sách nhân viên</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/users">Danh sách nhân viên</a></li>
                         </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -60,68 +67,98 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                <div class="row clearfix">
+                    <div class="col-md-12 m-b-20" style="text-align: end">
+                        <a href="/admin/users/add-user" class="btn btn-raised g-bg-cyan">Thêm nhân viên</a>
+                    </div>
+                </div>
+                @if (session('failed'))
+                    <div class="alert alert-danger" style="display: inline-block">
+                        {{ session('failed') }}
+                    </div>
+                @elseif(session('success'))
+                    <div class="alert alert-success" style="display: inline-block">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="row clearfix margin-bottom-20">
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <div class="body">
-                                <div class="member-card verified">
-                                    <div class="thumb-xl member-thumb">
-                                        <img src="http://via.placeholder.com/130x130" class="img-thumbnail rounded-circle" alt="profile-image">
+                    @foreach($users as $key => $data)
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                            <div class="card">
+                                <div class="body">
+                                    <div class="member-card verified">
+                                        <div class="thumb-xl member-thumb">
+                                            <img src="http://via.placeholder.com/130x130" class="img-thumbnail rounded-circle" alt="profile-image">
+                                        </div>
+                                        <div class="">
+                                            <h4 class="m-t-20 m-b-0">{{$data->firstname}} {{$data->lastname}}</h4>
+                                            @if($data->yearBirth)
+                                                <p class="m-b-0">Tuổi: {{2023 - $data->yearBirth }}</p>
+                                            @endif
+                                            <a href="javascript:void(0);" class="text-link">{{$data->email}}</a>
+                                        </div>
+                                        <p class="text-muted">{{$data->phone}}</p>
+                                        <a href="/admin/users/{{$data->id}}/edit" class="btn btn-primary btn-sm">Chỉnh sửa</a>
+                                        <button class="btn btn-danger btn-sm" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal">Xoá</button>
+{{--                                        <ul class="social-links list-inline m-t-10">--}}
+{{--                                            <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>--}}
+{{--                                            <li><a title="twitter" href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>--}}
+{{--                                            <li><a title="instagram" href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>--}}
+{{--                                        </ul>--}}
                                     </div>
-                                    <div class="">
-                                        <h4 class="m-b-5 m-t-20">Dr. John</h4>
-                                        <p class="text-muted">Dentist<span> <a href="javascript:void(0);" class="text-link">websitename.com</a> </span></p>
-                                    </div>
-
-                                    <p class="text-muted">795 Folsom Ave, Suite 600 San Francisco, CADGE 94107</p>
-                                    <a href="" class="btn btn-raised btn-sm">View Profile</a>
-                                    <ul class="social-links list-inline m-t-10">
-                                        <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>
-                                        <li><a title="twitter" href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a title="instagram" href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
-                        <div class="card">
-                            <img src="..." class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="row clearfix">
-                    <div class="col-md-12 text-center">
-                        <a href="/admin/doctors/add-doctor" class="btn btn-raised g-bg-cyan">Thêm bác sĩ</a>
+                <div class="d-flex justify-content-end" style="margin-right: 3%">
+                    {!! $users->appends($_GET)->links("pagination::bootstrap-4") !!}
+                </div>
+                <!--Delete Modal -->
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <form action="{{ url("/admin/users/delete") }}" method="post">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="id" id="id_user" value="">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá người dùng này?</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" style="border: none">
+                                    Một khi xoá thì bạn sẽ không thể phục hồi !
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                    <button type="submit" class="btn btn-danger">Đồng ý</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
     </div>
+@endsection
+
+@section("custom-js")
+    <script>
+        /**
+         * Hidden alert
+         */
+        $(document).ready(function(){
+            $('.alert').fadeIn().delay(2000).fadeOut();
+        });
+        /**
+         * Confirm delete user
+         * @param id
+         */
+        function confirmDelete(id) {
+            $("#id_user").val(id);
+            $("#deleteModal").modal("show");
+        }
+    </script>
 @endsection

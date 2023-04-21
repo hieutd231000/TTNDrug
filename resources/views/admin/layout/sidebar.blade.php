@@ -246,27 +246,21 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-plus"></i>
                         <p>
-                            Supplier
+                            Nhà cung cấp
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/patients" class="nav-link">
+                            <a href="/admin/suppliers" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách bệnh nhân</p>
+                                <p>Danh sách nhà cung cấp</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/patients/add-patient" class="nav-link">
+                            <a href="/admin/suppliers/add-supplier" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm bệnh nhân</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/patients/patient-profile" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Hồ sơ bệnh nhân</p>
+                                <p>Thêm nhà cung cấp</p>
                             </a>
                         </li>
                     </ul>

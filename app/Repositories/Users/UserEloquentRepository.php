@@ -24,7 +24,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
      */
     public function checkRole($userEmail)
     {
-        $user = DB::table("usersss")
+        $user = DB::table("users")
             ->where("email", $userEmail)
             ->first();
         if($user->role) {
