@@ -112,7 +112,7 @@
                     <span class="title-e2">Đăng nhập để bắt đầu phiên làm việc của bạn</span>
                 </h5>
                 <div class="content">
-                    <form action="{{ url("/admin/login") }}" method="post">
+                    <form action="{{ url("/login") }}" method="post">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -146,10 +146,10 @@
                             <label for="remember_me">Ghi nhớ cho lần đăng nhập tiếp theo</label>
                             <div class="text-center mb-1">
                                 <button type="submit" class="btn btn-sign-in">Đăng nhập</button>
-                                <a href="/admin/signup" class="btn btn-sign-up">Đăng ký</a>
+{{--                                <a href="/signup" class="btn btn-sign-up">Đăng ký</a>--}}
                             </div>
                             <div class="text-center">
-                                <a href="/admin/forgot-password">Quên mật khẩu?</a>
+                                <a href="/forgot-password">Quên mật khẩu?</a>
                             </div>
                         </div>
                     </form>

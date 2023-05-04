@@ -76,11 +76,15 @@
             </div>
             <div class="info">
                 <span class="info-welcome">Xin chào</span>
-                <h5>Mr. Hiếu</h5>
+                @if (auth()->user()->gender == 0)
+                    <h5>Mr.{{auth()->user()->lastname}}</h5>
+                @elseif (auth()->user()->gender == 1)
+                    <h5>Ms.{{auth()->user()->lastname}}</h5>
+                @endif
                 <div>
                     {{-- <a href="/admin/users/mailbox"><i class="fas fa-envelope fa-style"></i></a> --}}
-                    <a href="/admin/users/user-profile"><i class="fas fa-user fa-style"></i></a>
-                    <a href="/admin/login"><i class="fas fa-arrow-circle-right fa-style"></i></a>
+                    <a href="/user-profile"><i class="fas fa-user fa-style"></i></a>
+                    <a href="/logout"><i class="fas fa-arrow-circle-right fa-style"></i></a>
                 </div>
             </div>
         </div>
@@ -119,36 +123,52 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="/admin/dashboard" class="nav-link active">
-                        <i class="nav-icon fas fa-chart-pie"></i>
+                    <a href="/orders" class="nav-link">
+                        <i class="nav-icon fas fa-user-md"></i>
                         <p>
-                            Biểu đồ
+                            Orders
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/categories" class="nav-link">
-                        <i class="nav-icon far fa-edit"></i>
+                    <a href="/orders" class="nav-link">
+                        <i class="nav-icon fas fa-puzzle-piece"></i>
                         <p>
-                            Danh mục
-                            <i class="fas right"></i>
+                            PoS
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/admin/units" class="nav-link">
-                        <i class="nav-icon far fa-edit"></i>
+                    <a href="/user-profile" class="nav-link">
+                        <i class="nav-icon fas fa-address-card"></i>
                         <p>
-                            Đơn vị
-                            <i class="fas right"></i>
+                            Profile
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-header">Báo cáo</li>
+                <li class="nav-item">
+                    <a href="/admin/dashboard" class="nav-link" {{ Request::is('my/url','my/url/*') ? 'active' : '' }}>
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/dashboard" class="nav-link">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Prediction Report
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-chart-line"></i>
                         <p>
-                            Medicines
+                            Sales Report
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -156,36 +176,54 @@
                         <li class="nav-item">
                             <a href="/admin/doctors/doctor-calendar" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Lịch làm việc</p>
+                                <p>Danh sách</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/admin/appointments/add-appointment" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Đặt lịch hẹn</p>
+                                <p>Thêm mới</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+
+                <li class="nav-header">Quản lý</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="nav-icon far fa-calendar-alt"></i>
+                        <i class="nav-icon fas fa-book"></i>
                         <p>
-                            Inventory
+                            Sản phẩm
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/doctors/doctor-calendar" class="nav-link">
+                            <a href="/admin/products" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Lịch làm việc</p>
+                                <p>Danh sách sản phẩm</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/appointments/add-appointment" class="nav-link">
+                            <a href="/admin/products/add-product" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Đặt lịch hẹn</p>
+                                <p>Thêm sản phẩm mới</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/categories" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>
+                                    Danh mục
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/units" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>
+                                    Đơn vị
+                                </p>
                             </a>
                         </li>
                     </ul>
@@ -194,7 +232,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-columns"></i>
                         <p>
-                            Sale
+                            Kho hàng
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -202,42 +240,19 @@
                         <li class="nav-item">
                             <a href="/admin/doctors/doctor-calendar" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Lịch làm việc</p>
+                                <p>Danh sách sản phẩm</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/admin/appointments/add-appointment" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Đặt lịch hẹn</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user"></i>
-                        <p>
-                            User
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/users" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách nhân viên</p>
+                                <p>Sản phẩm hết hàng</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/users/add-user" class="nav-link">
+                            <a href="/admin/appointments/add-appointment" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm nhân viên</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/users/user-profile" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Hồ sơ nhân viên</p>
+                                <p>Sản phẩm hết hạn</p>
                             </a>
                         </li>
                     </ul>
@@ -245,6 +260,29 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-plus"></i>
+                        <p>
+                            Người dùng
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/users" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Danh sách người dùng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/users/add-user" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Thêm người dùng</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-truck"></i>
                         <p>
                             Nhà cung cấp
                             <i class="fas fa-angle-left right"></i>
@@ -265,45 +303,45 @@
                         </li>
                     </ul>
                 </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a href="#" class="nav-link">--}}
+{{--                        <i class="nav-icon fas fa-tachometer-alt"></i>--}}
+{{--                        <p>--}}
+{{--                            Bill--}}
+{{--                            <i class="fas fa-angle-left right"></i>--}}
+{{--                        </p>--}}
+{{--                    </a>--}}
+{{--                    <ul class="nav nav-treeview">--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="/admin/payments" class="nav-link">--}}
+{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
+{{--                                <p>Danh sách hóa đơn</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="/admin/payments/add-payment" class="nav-link">--}}
+{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
+{{--                                <p>Thêm hóa đơn</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="/admin/payments/patient-invoice" class="nav-link">--}}
+{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
+{{--                                <p>Hóa đơn bệnh nhân</p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
+{{--                    </ul>--}}
+{{--                </li>--}}
+{{--                <li class="nav-item">--}}
+{{--                    <a href="#" class="nav-link">--}}
+{{--                        <i class="nav-icon fas fa-file"></i>--}}
+{{--                        <p>--}}
+{{--                            Reports--}}
+{{--                        </p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Bill
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/payments" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách hóa đơn</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/payments/add-payment" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm hóa đơn</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/payments/patient-invoice" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Hóa đơn bệnh nhân</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-file"></i>
-                        <p>
-                            Reports
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#" id="dksada" class="nav-link">
                         <i class="nav-icon fas fa-ellipsis-h"></i>
                         <p>
                             Setting
@@ -316,3 +354,19 @@
     </div>
     <!-- /.sidebar -->
 </aside>
+
+<script>
+    /** add active class and stay opened when selected */
+    var url = window.location;
+
+    // for sidebar menu entirely but not cover treeview
+    $('ul.nav-sidebar a').filter(function() {
+        console.log(this.href);
+        return this.href == url;
+    }).addClass('active');
+
+    // for treeview
+    $('ul.nav-treeview a').filter(function() {
+        return this.href == url;
+    }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
+</script>

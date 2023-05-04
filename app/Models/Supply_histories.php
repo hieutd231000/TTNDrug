@@ -27,7 +27,7 @@ class Supply_histories extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function medicine() {
-        return $this->belongsTo(Medicines::class, "medicine_id", "id");
+        return $this->belongsTo(Products::class, "medicine_id", "id");
     }
 
     /**

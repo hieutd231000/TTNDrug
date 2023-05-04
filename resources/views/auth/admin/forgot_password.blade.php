@@ -143,7 +143,7 @@
                             <button type="submit" class="btn btn-sign-in">Reset mật khẩu</button>
                         </div>
                         <div class="text-center">
-                            <a href="/admin/login">Đăng nhập?</a>
+                            <a href="/login">Đăng nhập?</a>
                         </div>
                     </div>
                 </form>
@@ -186,7 +186,7 @@
 
             $.ajax({
                 type: "POST",
-                url : "{{url('/admin/forgot-password')}}",
+                url : "{{url('/forgot-password')}}",
                 data : formData,
                 dataType : "json",
                 encode: true,
@@ -222,12 +222,12 @@
 
             $.ajax({
                 type: "POST",
-                url : "{{url('/admin/confirm-otp')}}",
+                url : "{{url('/confirm-otp')}}",
                 data : formData,
                 dataType : "json",
                 encode: true,
                 success: function( result ) {
-                    window.location.href = "{{url('/admin/reset-password?token_=')}}"+""+result.data;
+                    window.location.href = "{{url('/reset-password?token_=')}}"+""+result.data;
                 },
                 error: function(result) {
                     $('.help-block-modal').removeClass("hidden");

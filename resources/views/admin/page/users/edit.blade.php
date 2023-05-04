@@ -101,7 +101,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row clearfix margin-bottom-20">
+                <div class="margin-bottom-20">
                     <form>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

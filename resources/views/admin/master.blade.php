@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="{{ asset("admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css") }}">
     <!-- JQVMap -->
     <link rel="stylesheet" href="{{ asset("admin/plugins/jqvmap/jqvmap.min.css") }}">
+    <link rel="stylesheet" href="{{ asset("admin/plugins/custom-slider/swiper-bundle.min.css") }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset("admin/dist/css/adminlte.min.css") }}">
     <!-- overlayScrollbars -->
@@ -79,6 +80,7 @@
 <script src="{{ asset("admin/plugins/sparklines/sparkline.js") }}"></script>
 <!-- JQVMap -->
 <script src="{{ asset("admin/plugins/jqvmap/jquery.vmap.min.js") }}"></script>
+<script src="{{ asset("admin/plugins/custom-slider/swiper-bundle.min.js") }}"></script>
 <script src="{{ asset("admin/plugins/jqvmap/maps/jquery.vmap.usa.js") }}"></script>
 <!-- jQuery Knob Chart -->
 <script src="{{ asset("admin/plugins/jquery-knob/jquery.knob.min.js") }}"></script>

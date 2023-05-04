@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Medicines extends Model
+class Products extends Model
 {
     use HasFactory;
 
@@ -14,13 +14,11 @@ class Medicines extends Model
      */
     protected $fillable = [
         'category_id',
-        'medicine_name',
-        'medicine_image',
+        'product_name',
+        'product_image',
         'unit_id',
-        'quantity',
-        'barcode',
-        'price',
-        'discount',
+        'price_unit',
+        'product_code',
         'instruction',
         'expire_date'
     ];

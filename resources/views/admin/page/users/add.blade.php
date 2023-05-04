@@ -101,7 +101,7 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row clearfix margin-bottom-20">
+                <div class="margin-bottom-20">
                     <form>
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -170,7 +170,7 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <div class="form-block">
-                                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại *">
+                                                    <input type="text" maxlength="10" name="phone" id="phone" class="form-control" placeholder="Số điện thoại *">
                                                 </div>
                                                 <div id="help-block-phone" style="color: red">
                                                 </div>
@@ -359,6 +359,8 @@
                 }
                 if(!phone) {
                     blockErrPhone.innerHTML = "Không được để trống";
+                } else if(!checkPhone(phone) || phone.length < 10) {
+                    blockErrPhone.innerHTML = "Phone không hợp lệ";
                 } else {
                     blockErrPhone.innerHTML = "";
                 }
@@ -490,7 +492,6 @@
                     blockErrSubmit.innerHTML = "Thông tin bạn nhập chưa chính xác";
                 }
             });
-
         });
 
         /**
@@ -514,6 +515,16 @@
         const checkExistEmail = (email) => {
             console.log(listEmail);
             return listEmail.indexOf(email) !== -1;
+        }
+
+        /**
+         *
+         *
+         * @param str
+         * @returns {boolean}
+         */
+        const checkPhone = (str) => {
+            return /^\d+$/.test(str);
         }
     </script>
 @endsection

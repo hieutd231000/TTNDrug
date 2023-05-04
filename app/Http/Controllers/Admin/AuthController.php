@@ -54,12 +54,20 @@ class AuthController extends Controller
     public function processAdminLogin(LoginRequest $request) {
         $request->validated();
         // dd($request['remember_me'])
-
         if (Auth::attempt(request(['email', 'password']))) {
-            return redirect("/admin/dashboard");
+            return redirect('/admin/dashboard');
         } else {
-            return redirect("/admin/login")->with('error', trans("auth.login_failed"));;
+            return back()->with('error', trans("auth.login_failed"));;
         }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function processAdminLogout(Request $request) {
+        auth()->logout();
+        return redirect('/login');
     }
 
     /**
@@ -82,10 +90,10 @@ class AuthController extends Controller
         $data['password'] = Hash::make($data['password']);
         try {
             $this->userRepository->create($data);
-            return redirect('/admin/login')->with('success', trans("auth.signup_success"));
+            return redirect('/login')->with('success', trans("auth.signup_success"));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect('/admin/signup')->with('error', trans("auth.signup_failed"));
+            return redirect('/signup')->with('error', trans("auth.signup_failed"));
         }
     }
 
@@ -178,19 +186,19 @@ class AuthController extends Controller
         $token = $request["token_"];
         $resetToken = PasswordReset::where('token', $token)->first();
         if ($resetToken === null) {
-            return redirect('/admin/forgot-password')->with('failed', 'Mời bạn thử lại.');
+            return redirect('/forgot-password')->with('failed', 'Mời bạn thử lại.');
         }
         if (Carbon::now() > Carbon::parse($resetToken->created_at)->addMinutes(720)) {
-            return redirect('/admin/forgot-password')->with('failed', 'Password reset token không hợp lệ.');
+            return redirect('/forgot-password')->with('failed', 'Password reset token không hợp lệ.');
         }
         $user = User::where('email', $resetToken->email)->first();
         if ($user === null) {
-            return redirect('/admin/forgot-password')->with('failed', 'Tài khoản không tồn tài.');
+            return redirect('/forgot-password')->with('failed', 'Tài khoản không tồn tài.');
         }
         try {
             $data['password'] = Hash::make($request['password']);
-            DB::table("usersss")->update($data);
-            return redirect('/admin/login')->with('success', 'Đổi mật khẩu thành công.');
+            DB::table("users")->update($data);
+            return redirect('/login')->with('success', 'Đổi mật khẩu thành công.');
         } catch (\Exception $e) {
             Log::error($e);
             return $this->response->error();
@@ -203,7 +211,7 @@ class AuthController extends Controller
     public function resetPasswordFormInput(Request $request) {
         try {
             $data["password"] = Hash::make($request['password']);
-            return redirect('/admin/login')->with('success', 'Thanh cong');
+            return redirect('/login')->with('success', 'Thanh cong');
         } catch (\Exception $e) {
             Log::error($e);
             return $this->response->error();
@@ -224,6 +232,16 @@ class AuthController extends Controller
         }
     }
 
+    public function changePassword(Request $request) {
+        dd($request->all());
+    }
+
+    /**
+     * Test
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function loginForm(Request $request) {
         return response('Hello World', 200)->header('Content-Type', 'text/plain');
     }

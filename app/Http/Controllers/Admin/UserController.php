@@ -156,18 +156,20 @@ class UserController extends Controller
                     Log::error($exception->getMessage());
                 }
             }
-            return $this->response->success($data, 200, 'Update thông tin người dùng thành công');
+            return $this->response->success($data, 200, 'Chỉnh sửa thông tin người dùng thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Update thông tin người dùng thất bại');
+            return $this->response->error(null, 500, 'Chỉnh sửa thông tin người dùng thất bại');
         }
     }
 
+    /**
+     * View profile user
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function userProfile(Request $request) {
         return view("admin.page.users.profile");
-    }
-
-    public function userCalendar(Request $request) {
-        return view("admin.page.users.calendar");
     }
 }

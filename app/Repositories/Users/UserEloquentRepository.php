@@ -17,7 +17,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Check admin(0)/usersss(1) function
+     * Check admin(0)/users(1) function
      *
      * @param $userId
      * @return bool|void
@@ -33,7 +33,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Split usersss email function
+     * Split users email function
      *
      * @param $userEmail
      * @return string
@@ -44,10 +44,9 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     }
 
     /**
-     * Get username by id
+     * Get email
      *
-     * @param $userId
-     * @return mixed
+     * @return \Illuminate\Support\Collection
      */
     public function getEmail()
     {

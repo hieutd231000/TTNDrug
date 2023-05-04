@@ -111,7 +111,7 @@
                 Đổi mật khẩu
             </h5>
             <div class="content">
-                <form action="{{ url("/admin/reset-password") }}" method="post">
+                <form action="{{ url("/reset-password") }}" method="post">
                     <input type="hidden" name="token_" value="{{ $_GET["token_"] }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="input-group mb-3">

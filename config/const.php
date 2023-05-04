@@ -1,9 +1,9 @@
 <?php
 return [
     'paginate' => 8,
-    'usersss' => [
+    'users' => [
         'admin' => 0,
-        'usersss' => 1,
+        'user' => 1,
     ],
 //    'news' => [
 //        'nhap' => 0,

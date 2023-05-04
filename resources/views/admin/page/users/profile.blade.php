@@ -14,6 +14,11 @@
         color: #fff !important;
         cursor: pointer;
     }
+    .btn-cancel {
+        background-color: #cbcdcf !important;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%) !important;
+        color: #3a3a3a !important;
+    }
     .m-t-10 {
         margin-top: 5px;
         margin-bottom: 3px;
@@ -167,268 +172,142 @@
                             <div class="profile-body">
                                 <div class="profile-image">
                                     <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
-                                    <h4 class="text-white font-weight-bold mb-0">DR.Hieu</h4>
-                                    <span class="text-white font-weight-normal">Bác sĩ nha khoa</span>
-                                    <div>
-                                        <button class="btn btn-message">Nhắn tin</button>
-                                    </div>
-                                    <div>
-                                        <ul class="social-links list-inline m-t-10">
-                                            <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>
-                                            <li><a title="twitter" href="javascript:void(0);"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a title="instagram" href="javascript:void(0);"><i class="fab fa-instagram"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="profile-sub-body">
-                                <div class="box-list">
-                                    <ul class="text-center">
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-envelope"></i>
-                                                <p>Thư của tôi</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-image"></i>
-                                                <p>Bài post</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="">
-                                                <i class="fas fa-th"></i>
-                                                <p>Hoạt động</p>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/admin/doctors/doctor-calendar">
-                                                <i class="fas fa-calendar-alt"></i>
-                                                <p>Công việc</p>
-                                            </a>
-                                        </li>
-                                    </ul>
+                                    @if (auth()->user()->gender == 0)
+                                        <h4 class="text-white font-weight-bold mb-0">Mr.{{auth()->user()->lastname}}</h4>
+                                    @elseif (auth()->user()->gender == 1)
+                                        <h4 class="text-white font-weight-bold mb-0">Ms.{{auth()->user()->lastname}}</h4>
+                                    @endif
+                                    <span class="text-white font-weight-normal">{{auth()->user()->email}}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="row clearfix">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card">
-                            <div class="header">
-                                <h4>Giới thiệu</h4>
-                            </div>
-                            <div class="body">
-                                <p>
-                                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="header">
-                                <h4>Kỹ năng</h4>
-                            </div>
-                            <div class="body">
-                                <ul class="list-skill">
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-success progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-info progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 30%"> </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-warning progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 60%"> </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div>Phẫu thuật</div>
-                                        <div class="progress mb-3">
-                                            <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 80%"> </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-12">
+                    <div class="col-lg-12 col-md-12">
                         <div class="card">
                             <div class="body">
                                 <ul class="nav nav-tabs" role="tablist">
                                     <li class="nav-item">
-                                        <a href="#mypost" class="nav-link active" data-toggle="tab">Bài đăng</a>
+                                        <a href="#infor" class="nav-link active" data-toggle="tab">Thông tin</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#timeline" class="nav-link" data-toggle="tab">Hoạt động</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#account" class="nav-link" data-toggle="tab">Tài khoản</a>
+                                        <a href="#password" class="nav-link" data-toggle="tab">Đổi mật khẩu</a>
                                     </li>
                                 </ul>
                                 {{--tab-content--}}
                                 <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane in active" id="mypost">
-                                        <div class="post-form margin-bottom-15">
-                                            <div class="form-group">
-                                                <div class="form-line">
-                                                    <textarea rows="4" class="form-control no-resize" placeholder="Bạn đang nghĩ gì thế..."></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="post-toolbar-b">
-                                                <a href="" tooltip="Add File" class="btn btn-custom btn-white btn-sm"><i class="fas fa-paperclip"></i></a>
-                                                <a href="" tooltip="Add Image" class="btn btn-custom btn-white btn-sm"><i class="fas fa-camera"></i></a>
-                                                <a href="" class="pull-right btn btn-custom btn-success btn-sm" tooltip="Post it!">
-                                                    <span style="font-size: 15px">Đăng</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="post-list">
-                                            <div class="box-post">
-                                                <span class="text-muted text-small">
-                                                    <i class="fas fa-clock"></i> 3 minutes ago
-                                                </span>
-                                                <div class="post-img margin-bottom-10">
-                                                    <img src="https://via.placeholder.com/1000x400" class="img-fluid" alt="">
-                                                </div>
-                                                <div>
-                                                    <h4>Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p>
-                                                        <a href="" class="btn btn-info btn-sm">
-                                                            <i class="fas fa-heart"></i> Thích (5)
-                                                        </a>
-                                                        <a href="" class="btn btn-custom btn-sm">
-                                                            <i class="fas fa-comment"></i> Bình luận
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            <div class="box-post">
-                                                <span class="text-muted text-small">
-                                                    <i class="fas fa-clock"></i> 3 minutes ago
-                                                </span>
-                                                <div class="post-img margin-bottom-10">
-                                                    <img src="https://via.placeholder.com/1000x400" class="img-fluid" alt="">
-                                                </div>
-                                                <div>
-                                                    <h4>Lorem Ipsum is simply dummy text of the printing</h4>
-                                                    <p class="mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, </p>
-                                                    <p>
-                                                        <a href="" class="btn btn-info btn-sm">
-                                                            <i class="fas fa-heart"></i> Thích (5)
-                                                        </a>
-                                                        <a href="" class="btn btn-custom btn-sm">
-                                                            <i class="fas fa-comment"></i> Bình luận
-                                                        </a>
-                                                    </p>
-                                                </div>
-                                                <hr>
-                                            </div>
-                                            <div class="text-center">
-                                                <a href="" class="btn btn-custom btn-white">Xem thêm …</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="timeline">
-                                        <div class="timeline-box">
-                                            <div class="timeline-content">
-                                                <div>12:00</div>
-                                                <p>Hoàn thành task 1</p>
-                                            </div>
-                                            <div class="timeline-content border-info">
-                                                <div>12:00</div>
-                                                <p>Hoàn thành task 1</p>
-                                            </div>
-                                            <div class="timeline-content border-warning">
-                                                <div>12:00</div>
-                                                <p>Hoàn thành task 1</p>
-                                            </div>
-                                            <div class="timeline-content border-danger">
-                                                <div>12:00</div>
-                                                <p>Hoàn thành task 1</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane padding-20" id="account">
-                                        <h4>Đổi mật khẩu</h4>
+                                    <div role="tabpanel" class="tab-pane padding-20 in active" id="infor">
+                                        <h4>Thông tin cá nhân</h4>
                                         <div class="row clearfix">
                                             <div class="col-md-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="password" class="form-control" placeholder="Mật khẩu hiện tại">
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Tên:</p>
+                                                            <p class="col-sm-10">{{auth()->user()->firstname}} {{auth()->user()->lastname}}</p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Email:</p>
+                                                            <p class="col-sm-10">{{auth()->user()->email}}</p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Quyền:</p>
+                                                            @if (auth()->user()->role === 0)
+                                                                <p class="col-sm-10">
+                                                                    admin
+                                                                </p>
+                                                            @elseif (auth()->user()->role === 1)
+                                                                <p class="col-sm-10">
+                                                                    người dùng
+                                                                </p>
+                                                            @endif
+
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="password" class="form-control" placeholder="Mật khẩu mới">
+                                                <!-- Edit Details Modal -->
+                                                <div class="modal fade" id="edit_personal_details" role="dialog" style="display: none;" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Thông tin nhân viên</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:8001/admin/profile/1">
+                                                                    <input type="hidden" name="_token" value="lqCt0M8FqtOsDmgfVOws7YfZkFQGNH61JPLqECtm">											<div class="row form-row">
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <label>Họ và tên</label>
+                                                                                <input class="form-control" name="name" type="text" value="{{auth()->user()->firstname}} {{auth()->user()->lastname}}" placeholder="Họ tên">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <label>Email</label>
+                                                                                <input class="form-control" name="email" type="text" value="{{auth()->user()->email}}" placeholder="Email">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <label>Avatar</label>
+                                                                                <input type="file" value="" class="form-control" name="avatar">
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary btn-block">Lưu thay đổi</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="password" class="form-control" placeholder="Xác nhận mật khẩu">
-                                                    </div>
-                                                </div>
-                                                <button class="btn btn-success btn-sm">Lưu thay đổi</button>
-                                            </div>
-                                        </div>
-                                        <h4 class="margin-top-40">Thông tin cá nhân</h4>
-                                        <div class="row clearfix">
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" placeholder="Họ">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 col-md-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" placeholder="Tên">
-                                                    </div>
-                                                </div>
+                                                <!-- /Edit Details Modal -->
                                             </div>
                                             <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <textarea rows="4" style="padding: 0" class="form-control no-resize" placeholder="Địa chỉ"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" placeholder="Số điện thoại">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" placeholder="Email">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6 col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        <input type="text" class="form-control" placeholder="Facebook">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <button class="btn btn-success btn-sm">Lưu thay đổi</button>
+                                                <button data-toggle="modal" href="#edit_personal_details" class="btn btn-success btn-sm">Chỉnh sửa</button>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane padding-20" id="password">
+                                        <form>
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <h4>Đổi mật khẩu</h4>
+                                            <div class="row clearfix">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            <input type="password" name="currentPassword" id="currentPassword" class="form-control" placeholder="Mật khẩu hiện tại">
+                                                        </div>
+                                                        <div id="help-block-currentPass" class="margin-bottom-10" style="color: red">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            <input type="password" name="newPassword" id="newPassword" class="form-control" placeholder="Mật khẩu mới">
+                                                        </div>
+                                                        <div id="help-block-newPass" class="margin-bottom-10" style="color: red">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control" placeholder="Xác nhận mật khẩu">
+                                                        </div>
+                                                        <div id="help-block-confirmPass" class="margin-bottom-10" style="color: red">
+                                                        </div>
+                                                    </div>
+                                                    <div id="help-block-submit" class="margin-bottom-10" style="color: green">
+                                                    </div>
+                                                    <div class="">
+                                                        <button type="submit" class="btn btn-success btn-sm handleSubmit">Lưu thay đổi</button>
+                                                        <button type="submit" class="btn btn-secondary btn-sm handleCancel">Huỷ bỏ</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -440,3 +319,70 @@
         <!-- /.content -->
     </div>
 @endsection
+@section("custom-js")
+    <script>
+        var currentPass, newPass, confirmPass;
+        var blockErrCurrentPass = document.getElementById("help-block-currentPass");
+        var blockErrNewPass = document.getElementById("help-block-newPass");
+        var blockErrConfirmPass = document.getElementById("help-block-confirmPass");
+        var blockErrSubmit = document.getElementById("help-block-submit");
+
+        $(document).ready(function() {
+            $(".handleSubmit").click(function(e){
+                e.preventDefault();
+                currentPass = $("input[name='currentPassword']").val();
+                newPass = $("input[name='newPassword']").val();
+                confirmPass = $("input[name='confirmPassword']").val();
+                // Check validate
+                if(!currentPass) {
+                    blockErrCurrentPass.innerHTML = "Không được để trống";
+                } else {
+                    blockErrCurrentPass.innerHTML = "";
+                }
+                if(!newPass) {
+                    blockErrNewPass.innerHTML = "Không được để trống";
+                } else if(newPass.length < 6) {
+                    blockErrNewPass.innerHTML = "Mật khẩu mới phải có ít nhất 6 kí tự";
+                } else {
+                    blockErrNewPass.innerHTML = "";
+                }
+                if(!confirmPass) {
+                    blockErrConfirmPass.innerHTML = "Không được để trống";
+                } else if(newPass !== confirmPass) {
+                    blockErrConfirmPass.innerHTML = "Mật khẩu không khớp";
+                } else {
+                    blockErrConfirmPass.innerHTML = "";
+                }
+
+                // Thành công
+                if(!blockErrConfirmPass.innerHTML && !blockErrNewPass.innerHTML && !blockErrCurrentPass.innerHTML) {
+                    var _token = $("input[name='_token']").val();
+                    $.ajax({
+                        url: "/change-password",
+                        type:'POST',
+                        data: {_token:_token, currentPass:currentPass, newPass:newPass, confirmPass:confirmPass},
+                        success: function(response) {
+                            // blockErrSubmit.innerHTML = response["message"];
+                            // setTimeout(function(){
+                            //     window.location.href = '/admin/suppliers';
+                            // }, 700);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            });
+            $(".handleCancel").click(function(e){
+                e.preventDefault();
+                $("input[name='currentPassword']").val("");
+                $("input[name='newPassword']").val("");
+                $("input[name='confirmPassword']").val("");
+                blockErrCurrentPass.innerHTML = "";
+                blockErrNewPass.innerHTML = "";
+                blockErrConfirmPass.innerHTML = "";
+            });
+        });
+    </script>
+@endsection
+

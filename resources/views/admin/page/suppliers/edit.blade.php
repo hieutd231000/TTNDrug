@@ -74,7 +74,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Thêm nhà cung cấp</h4>
+                        <h4 class="m-0">Chỉnh sửa thông tin nhà cung cấp</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -87,70 +87,70 @@
                 <form>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <div class="card">
-                        <div class="header">
-                            <h5>Thông tin nhà cung cấp</h5>
+                        <div class="card">
+                            <div class="header">
+                                <h5>Thông tin nhà cung cấp</h5>
+                            </div>
+                            <div class="body">
+                                <div class="row clearfix">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" value="{{$supplier->name}}" name="name" id="name" class="form-control" placeholder="Tên *">
+                                            </div>
+                                            <div id="help-block-name" style="color: red">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" value="{{$supplier->email}}" name="email" id="email" class="form-control" placeholder="Email *">
+                                            </div>
+                                            <div id="help-block-email" style="color: red">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" value="{{$supplier->phone}}" name="phone" id="phone" class="form-control" placeholder="Phone *">
+                                            </div>
+                                            <div id="help-block-phone" style="color: red">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" value="{{$supplier->address}}" name="address" id="address" class="form-control" placeholder="Địa chỉ *">
+                                            </div>
+                                            <div id="help-block-address" style="color: red">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <textarea name="introduce" id="introduce" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{$supplier->introduce}}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div id="help-block-submit" class="margin-bottom-10" style="color: green">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Chỉnh sửa</button>
+                                        <button type="submit" class="btn btn-cancel handleCancel">Huỷ</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="body">
-                            <div class="row clearfix">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-block">
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Tên *">
-                                        </div>
-                                        <div id="help-block-name" style="color: red">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-block">
-                                            <input type="text" name="email" id="email" class="form-control" placeholder="Email *">
-                                        </div>
-                                        <div id="help-block-email" style="color: red">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-block">
-                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone *">
-                                        </div>
-                                        <div id="help-block-phone" style="color: red">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <div class="form-block">
-                                            <input type="text" name="address" id="address" class="form-control" placeholder="Địa chỉ *">
-                                        </div>
-                                        <div id="help-block-address" style="color: red">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row clearfix">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <div class="form-block">
-                                            <textarea name="introduce" id="introduce" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản..."></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div id="help-block-submit" class="margin-bottom-10" style="color: green">
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Thêm mới</button>
-                                    <button type="submit" class="btn btn-cancel handleCancel">Huỷ</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     </div>
                 </form>
             </div><!-- /.container-fluid -->
@@ -161,6 +161,7 @@
 @section("custom-js")
     <script>
         var listEmail = {!! $listEmail !!};
+        var currentSupplier = {!! $supplier !!};
         var name, phone, address, introduce, email;
         var blockErrName = document.getElementById("help-block-name");
         var blockErrPhone = document.getElementById("help-block-phone");
@@ -208,10 +209,10 @@
                 if(!blockErrEmail.innerHTML && !blockErrName.innerHTML && !blockErrPhone.innerHTML && !blockErrAddress.innerHTML) {
                     var _token = $("input[name='_token']").val();
                     $.ajax({
-                        url: "/admin/suppliers/add-supplier",
+                        url: "/admin/suppliers/edit-supplier",
                         type:'POST',
-                        data: {_token:_token, name:name, email:email,
-                              phone:phone , address:address, introduce:introduce
+                        data: {_token:_token, id:currentSupplier["id"], name:name, email:email,
+                            phone:phone , address:address, introduce:introduce
                         },
                         success: function(response) {
                             blockErrSubmit.innerHTML = response["message"];
@@ -224,7 +225,7 @@
                         }
                     });
                 }
-                });
+            });
             $(".handleCancel").click(function(e){
                 e.preventDefault();
                 $("input[name='name']").val("");
@@ -260,8 +261,7 @@
          * @returns {boolean}
          */
         const checkExistEmail = (email) => {
-            console.log(listEmail);
-            return listEmail.indexOf(email) !== -1;
+            return listEmail.indexOf(email) !== -1 && currentSupplier["email"] !== email;
         }
 
         /**

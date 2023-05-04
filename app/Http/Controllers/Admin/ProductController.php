@@ -4,22 +4,27 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Repositories\Suppliers\SuppierRepositoryInterface;
+use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\Products\ProductRepositoryInterface;
+use App\Repositories\Units\UnitRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-class SupplierController extends Controller
+class ProductController extends Controller
 {
     /**
      * @var
      */
-    protected $supplierRepository;
+    protected $productRepository;
+    protected $categoryRepository;
+    protected $unitRepository;
     protected $response;
 
-
-    public function __construct(SuppierRepositoryInterface $supplierRepository, ResponseHelper $response)
+    public function __construct(CategoryRepositoryInterface $categoryRepository, UnitRepositoryInterface $unitRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
     {
-        $this->supplierRepository = $supplierRepository;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->unitRepository = $unitRepository;
         $this->response = $response;
     }
 
@@ -31,8 +36,8 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $supplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
-        return view("admin.page.suppliers.index", ['supplier' => $supplier]);
+        $product = $this->productRepository->getAll(config("const.paginate"), "DESC");
+        return view("admin.page.products.index", ['product' => $product]);
     }
 
     /**
@@ -41,8 +46,9 @@ class SupplierController extends Controller
      */
     public function addSupplierForm(Request $request)
     {
-        $listEmail = $this->supplierRepository->getEmail();
-        return view("admin.page.suppliers.add", ['listEmail' => $listEmail]);
+        $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
+        $unit = $this->unitRepository->getAll(config("const.paginate"), "DESC");
+        return view("admin.page.products.add", ['category' => $category, 'unit' => $unit]);
     }
 
     /**
@@ -54,7 +60,7 @@ class SupplierController extends Controller
     public function store(Request $request) {
         try {
             $data = $request->all();
-            $this->supplierRepository->create($data);
+            $this->productRepository->create($data);
             return $this->response->success($data, 200, 'Thêm nhà cung cấp thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -70,8 +76,8 @@ class SupplierController extends Controller
      * @return void
      */
     public function edit(Request $request, $id) {
-        $supplier = $this->supplierRepository->find($id);
-        $listEmail = $this->supplierRepository->getEmail();
+        $supplier = $this->productRepository->find($id);
+        $listEmail = $this->productRepository->getEmail();
         return view("admin.page.suppliers.edit", ["supplier" => $supplier, 'listEmail' => $listEmail]);
     }
 
@@ -82,12 +88,12 @@ class SupplierController extends Controller
      * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function handleEdit(Request $request) {
-        $supplier = $this->supplierRepository->find($request["id"]);
+        $supplier = $this->productRepository->find($request["id"]);
         if(empty($supplier)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
         }
         try {
-            $supplier = $this->supplierRepository->update($request->all(), $supplier->id);
+            $supplier = $this->productRepository->update($request->all(), $supplier->id);
             return $this->response->success($supplier, 200, 'Chỉnh sửa thông tin nhà cung cấp thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -103,12 +109,12 @@ class SupplierController extends Controller
      */
     public function destroy(Request $request) {
         $data = $request->all();
-        $supplier = $this->supplierRepository->find($data["id"]);
+        $supplier = $this->productRepository->find($data["id"]);
         if(empty($supplier)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
         }
         try {
-            $this->supplierRepository->delete($supplier->id);
+            $this->productRepository->delete($supplier->id);
             return redirect()->back()->with("success", trans("auth.delete.success"));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
