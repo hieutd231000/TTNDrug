@@ -101,8 +101,17 @@
 
         <!-- Main content -->
         <section class="content">
+            @if (session('failed'))
+                <div class="alert alert-danger">
+                    {{ session('failed') }}
+                </div>
+            @elseif(session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
             <div class="container-fluid">
-                <form>
+                <form action="{{ url("admin/products/add-product") }}" enctype="multipart/form-data" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
@@ -114,10 +123,14 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="name" id="name" class="form-control" placeholder="Tên sản phẩm *">
+                                                <input type="text" name="product_name" id="product_name" class="form-control" placeholder="Tên sản phẩm *" value="{{ old("product_name") }}">
                                             </div>
-                                            <div id="help-block-name" style="color: red">
-                                            </div>
+                                            @if($errors->has('product_name'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('product_name')}}
+                                                </p>
+                                                <br>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -125,47 +138,63 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <select class="form-control" name="category" id="category">
+                                                <select class="form-control" name="category_id" id="category_id">
                                                     <option value="">Danh mục *</option>
                                                     @foreach($category as $key => $data)
-                                                        <option value={{$loop->index}}>{{$data->name}}</option>
+                                                        <option value={{$data->id}} {{ old("category_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div id="help-block-category" style="color: red">
-                                            </div>
+                                            @if($errors->has('category_id'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('category_id')}}
+                                                </p>
+                                                <br>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <select class="form-control" name="unit" id="unit">
+                                                <select class="form-control" name="unit_id" id="unit_id">
                                                     <option value="">Đơn vị *</option>
                                                     @foreach($unit as $key => $data)
-                                                        <option value={{$loop->index}}>{{$data->name}}</option>
+                                                        <option value={{$data->id}} {{ old("unit_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
-                                            <div id="help-block-unit" style="color: red">
-                                            </div>
+                                            @if($errors->has('unit_id'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('unit_id')}}
+                                                </p>
+                                                <br>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="price_unit" id="price_unit" class="form-control" placeholder="Giá/Đơn vị *">
+                                                <input type="text" name="price_unit" id="price_unit" class="form-control" placeholder="Giá/Đơn vị (VNĐ) *" value="{{ old("price_unit") }}">
                                             </div>
-                                            <div id="help-block-price_unit" style="color: red">
-                                            </div>
+                                            @if($errors->has('price_unit'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('price_unit')}}
+                                                </p>
+                                                <br>
+                                            @endif
                                         </div>
                                     </div>
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="price_code" id="price_code" class="form-control" placeholder="Mã sản phẩm *">
+                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ old("product_code") }}">
                                             </div>
-                                            <div id="help-block-price_code" style="color: red">
-                                            </div>
+                                            @if($errors->has('product_code'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('product_code')}}
+                                                </p>
+                                                <br>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +202,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <textarea name="introduce" id="introduce" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản..."></textarea>
+                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("instruction") }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -182,13 +211,19 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block" style="border-bottom: 0">
-                                                <input type="file" name="photo" id="photo" accept="image/*" style="display: none">
-                                                <label for="photo" class="inputFileCustom">
+                                                <input type="file" name="product_image" id="product_image" accept="image/*" style="display: none">
+                                                <label for="product_image" class="inputFileCustom">
                                                         Chọn hình ảnh mô tả sản phẩm
                                                 </label>
                                                 <div id="img_preview" class="hidden">
                                                     <img id="imgPreview" src="#" alt="pic" />
                                                 </div>
+                                                @if($errors->has('product_image'))
+                                                    <p style="height: 0; margin: 0; color: red">
+                                                        {{$errors->first('product_image')}}
+                                                    </p>
+                                                    <br>
+                                                @endif
                                             </div>
                                             <div id="help-block-photo" style="color: red">
                                             </div>
@@ -200,7 +235,7 @@
                                     </div>
                                     <div class="col-sm-12">
                                         <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Thêm mới</button>
-                                        <button type="submit" class="btn btn-cancel handleCancel">Huỷ</button>
+                                        <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
                                     </div>
                                 </div>
                             </div>
@@ -214,17 +249,18 @@
 @endsection
 @section("custom-js")
     <script>
-        var name, category, unit, introduce, price_unit, price_code, image;
-        var blockErrName = document.getElementById("help-block-name");
-        var blockErrCategory = document.getElementById("help-block-category");
-        var blockErrUnit = document.getElementById("help-block-unit");
-        var blockErrPriceUnit = document.getElementById("help-block-price_unit");
-        var blockErrPriceCode = document.getElementById("help-block-price_code");
-        var blockErrIntroduce = document.getElementById("help-block-introduce");
-        var blockErrSubmit = document.getElementById("help-block-submit");
+        {{--var listName = {!! $listName !!};--}}
+        {{--var name, category, unit, introduce, price_unit, product_code, image;--}}
+        {{--var blockErrName = document.getElementById("help-block-name");--}}
+        {{--var blockErrCategory = document.getElementById("help-block-category");--}}
+        {{--var blockErrUnit = document.getElementById("help-block-unit");--}}
+        {{--var blockErrPriceUnit = document.getElementById("help-block-price_unit");--}}
+        {{--var blockErrProductCode = document.getElementById("help-block-product_code");--}}
+        {{--var blockErrIntroduce = document.getElementById("help-block-introduce");--}}
+        {{--var blockErrSubmit = document.getElementById("help-block-submit");--}}
 
         $(document).ready(function() {
-            $("#photo").change(function () {
+            $("#product_image").change(function () {
                 const file = this.files[0];
                 if (file) {
                     document.getElementById("img_preview").classList.remove("hidden");
@@ -237,76 +273,95 @@
                 }
             });
 
-            $(".handleSubmit").click(function(e){
-                e.preventDefault();
-                name = $("input[name='name']").val();
-                category = $("select[name='category']").val();
-                unit = $("select[name='unit']").val();
-                price_unit = $("input[name='price_unit']").val();
-                price_code = $("input[name='price_code']").val();
-                introduce = $("textarea[name='introduce']").val();
-                // Check validate
-                if(!name) {
-                    blockErrName.innerHTML = "Không được để trống";
-                } else {
-                    blockErrName.innerHTML = "";
-                }
-                if(!category) {
-                    blockErrCategory.innerHTML = "Không được để trống";
-                } else {
-                    blockErrCategory.innerHTML = "";
-                }
-                if(!unit) {
-                    blockErrUnit.innerHTML = "Không được để trống";
-                } else {
-                    blockErrUnit.innerHTML = "";
-                }
-                if(!price_unit) {
-                    blockErrPriceUnit.innerHTML = "Không được để trống";
-                } else {
-                    blockErrPriceUnit.innerHTML = "";
-                }
-                if(!price_code) {
-                    blockErrPriceCode.innerHTML = "Không được để trống";
-                } else {
-                    blockErrPriceCode.innerHTML = "";
-                }
-
-                //Thành công
-                // if(!blockErrEmail.innerHTML && !blockErrName.innerHTML && !blockErrPhone.innerHTML && !blockErrAddress.innerHTML) {
-                //     var _token = $("input[name='_token']").val();
-                //     $.ajax({
-                //         url: "/admin/suppliers/add-supplier",
-                //         type:'POST',
-                //         data: {_token:_token, name:name, email:email,
-                //             phone:phone , address:address, introduce:introduce
-                //         },
-                //         success: function(response) {
-                //             blockErrSubmit.innerHTML = response["message"];
-                //             setTimeout(function(){
-                //                 window.location.href = '/admin/suppliers';
-                //             }, 700);
-                //         },
-                //         error: function (err) {
-                //             console.log(err);
-                //         }
-                //     });
-                // }
-            });
-            // $(".handleCancel").click(function(e){
+            // $(".handleSubmit").click(function(e){
             //     e.preventDefault();
-            //     $("input[name='name']").val("");
-            //     $("input[name='phone']").val("");
-            //     $("input[name='email']").val("");
-            //     $("input[name='address']").val("");
-            //     $("textarea[name='introduce']").val("");
-            //     blockErrName.innerHTML = "";
-            //     blockErrEmail.innerHTML = "";
-            //     blockErrAddress.innerHTML = "";
-            //     blockErrPhone.innerHTML = "";
-            //     blockErrIntroduce.innerHTML = "";
+            //     name = $("input[name='name']").val();
+            //     category = $("select[name='category']").val();
+            //     unit = $("select[name='unit']").val();
+            //     price_unit = $("input[name='price_unit']").val();
+            //     product_code = $("input[name='product_code']").val();
+            //     image = $("input[name='photo']").val();
+            //     introduce = $("textarea[name='introduce']").val();
+            //     // Check validate
+            //     if(!name) {
+            //         blockErrName.innerHTML = "Không được để trống";
+            //     } else if(checkExistName(name)) {
+            //         blockErrName.innerHTML = "Tên sản phẩm đã được sủ dụng";
+            //     } else {
+            //         blockErrName.innerHTML = "";
+            //     }
+            //     if(!category) {
+            //         blockErrCategory.innerHTML = "Không được để trống";
+            //     } else {
+            //         blockErrCategory.innerHTML = "";
+            //     }
+            //     if(!unit) {
+            //         blockErrUnit.innerHTML = "Không được để trống";
+            //     } else {
+            //         blockErrUnit.innerHTML = "";
+            //     }
+            //     if(!price_unit) {
+            //         blockErrPriceUnit.innerHTML = "Không được để trống";
+            //     } else if(!checkPrice(price_unit)) {
+            //         blockErrPriceUnit.innerHTML = "Giá không hợp lệ";
+            //     } else if(price_unit < 1000) {
+            //         blockErrPriceUnit.innerHTML = "Giá phải lớn hơn 1000 VNĐ";
+            //     } else {
+            //         blockErrPriceUnit.innerHTML = "";
+            //     }
+            //     if(!product_code) {
+            //         blockErrProductCode.innerHTML = "Không được để trống";
+            //     } else {
+            //         blockErrProductCode.innerHTML = "";
+            //     }
+            //
+            //     // Thành công
+            //     if(!blockErrPriceUnit.innerHTML && !blockErrName.innerHTML && !blockErrCategory.innerHTML && !blockErrUnit.innerHTML && !blockErrProductCode.innerHTML) {
+            //         var _token = $("input[name='_token']").val();
+            //         $.ajax({
+            //             url: "/admin/products/add-product",
+            //             type:'POST',
+            //             data: {_token:_token, product_name:name, category_id:category, product_code: product_code, product_image: image,
+            //                 unit_id:unit, price_unit:price_unit, instruction:introduce
+            //             },
+            //             success: function(response) {
+            //                 blockErrSubmit.innerHTML = response["message"];
+            //                 // setTimeout(function(){
+            //                 //     window.location.href = '/admin/products';
+            //                 // }, 700);
+            //             },
+            //             error: function (err) {
+            //                 console.log(err);
+            //             }
+            //         });
+            //     }
             // });
+            $(".handleCancel").click(function(e){
+                e.preventDefault();
+                $("input[name='product_name']").val("");
+                $("select[name='category_id']").val("");
+                $("select[name='unit_id']").val("");
+                $("input[name='price_unit']").val("");
+                $("input[name='product_code']").val("");
+                $("textarea[name='instruction']").val("");
+                // blockErrName.innerHTML = "";
+                // blockErrCategory.innerHTML = "";
+                // blockErrPriceUnit.innerHTML = "";
+                // blockErrUnit.innerHTML = "";
+                // blockErrProductCode.innerHTML = "";
+                // blockErrIntroduce.innerHTML = "";
+            });
         });
+
+        /**
+         *
+         *
+         * @param str
+         * @returns {boolean}
+         */
+        const checkPrice = (str) => {
+            return /^\d+$/.test(str);
+        }
 
         const randomCode = (length) => {
             let result = '';

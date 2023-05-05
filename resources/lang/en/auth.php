@@ -23,6 +23,9 @@ return [
     'delete' => [
         'failed' => "Xoá không thành công",
         'success' => "Xoá thành công"
+    ],
+    'add' => [
+        'failed' => "Thêm không thành công",
+        'success' => "Thêm thành công"
     ]
-
 ];
