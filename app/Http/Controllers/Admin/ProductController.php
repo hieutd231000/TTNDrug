@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ProductEditRequest;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
@@ -30,22 +31,23 @@ class ProductController extends Controller
     }
 
     /**
-     * View list supplier
+     * View list product
      *
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request)
     {
-        $product = $this->productRepository->getAll(config("const.paginate"), "DESC");
-        return view("admin.page.products.index", ['product' => $product]);
+        $product = $this->productRepository->getAllItem(config("const.paginate"), "DESC");
+        $rank = $product->firstItem();
+        return view("admin.page.products.index", ['rank' => $rank , 'product' => $product]);
     }
 
     /**
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function addSupplierForm(Request $request)
+    public function addProductForm(Request $request)
     {
         $listName = $this->productRepository->getName();
         $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
@@ -54,7 +56,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Store new supplier
+     * Store new product
      *
      * @param Request $request
      * @return \App\Helpers\JsonResponse
@@ -78,19 +80,6 @@ class ProductController extends Controller
             Log::error($exception->getMessage());
             return redirect()->back()->with("failed", trans("auth.add.failed"));
         }
-//        dd($request->all());
-        dd($request->file("product_image"));
-        $file = $request->file("product_image");
-        dd($file);
-        dd($request->all());
-        try {
-            $data = $request->all();
-            $this->productRepository->create($data);
-            return $this->response->success($data, 200, 'Thêm nhà cung cấp thành công');
-        } catch (\Exception $exception) {
-            Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Thêm nhà cung cấp thất bại');
-        }
     }
 
     /**
@@ -101,9 +90,11 @@ class ProductController extends Controller
      * @return void
      */
     public function edit(Request $request, $id) {
-        $supplier = $this->productRepository->find($id);
-        $listEmail = $this->productRepository->getEmail();
-        return view("admin.page.suppliers.edit", ["supplier" => $supplier, 'listEmail' => $listEmail]);
+        $product = $this->productRepository->find($id);
+        $listName = $this->productRepository->getName();
+        $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
+        $unit = $this->unitRepository->getAll(config("const.paginate"), "DESC");
+        return view("admin.page.products.edit", ["product" => $product, 'listName' => $listName, 'category' => $category, 'unit' => $unit]);
     }
 
     /**
@@ -112,17 +103,25 @@ class ProductController extends Controller
      * @param Request $request
      * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
      */
-    public function handleEdit(Request $request) {
-        $supplier = $this->productRepository->find($request["id"]);
-        if(empty($supplier)) {
+    public function handleEdit(ProductEditRequest $request) {
+        $product = $this->productRepository->find($request["id"]);
+        $listName = $this->productRepository->getName();
+        if(empty($product)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
+        } else if($product->name != $request["product_name"]) {
+            foreach ($listName as $data) {
+                if($data == $request["product_name"]) {
+                    $invalid = ["Tên sản phảm này đã được sử dụng", $data];
+                    return redirect()->back()->with("invalid", $invalid);
+                }
+            }
         }
         try {
-            $supplier = $this->productRepository->update($request->all(), $supplier->id);
-            return $this->response->success($supplier, 200, 'Chỉnh sửa thông tin nhà cung cấp thành công');
+            $this->productRepository->update($request->all(), $product->id);
+            return redirect("/admin/products")->with("success", trans("auth.edit.success"));;
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Chỉnh sửa thông tin nhà cung cấp thất bại');
+            return redirect("/admin/products")->with("failed", trans("auth.edit.failed"));;
         }
     }
 
@@ -134,12 +133,12 @@ class ProductController extends Controller
      */
     public function destroy(Request $request) {
         $data = $request->all();
-        $supplier = $this->productRepository->find($data["id"]);
-        if(empty($supplier)) {
+        $product = $this->productRepository->find($data["id"]);
+        if(empty($product)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
         }
         try {
-            $this->productRepository->delete($supplier->id);
+            $this->productRepository->delete($product->id);
             return redirect()->back()->with("success", trans("auth.delete.success"));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

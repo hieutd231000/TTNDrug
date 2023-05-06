@@ -23,129 +23,26 @@
         margin-top: 10px;
         margin-bottom: 3px;
     }
-    .slide-container{
-        max-width: 1120px;
-        width: 100%;
-        padding: 40px 0;
+    .social-links>li {
+        display: inline-block;
+        margin: 0 5px;
     }
-    .slide-content{
-        margin: 0 40px;
-        overflow: hidden;
-        border-radius: 25px;
+    .g-bg-cyan {
+        background: linear-gradient(60deg, #09b9ac, #7dd1c1);
+        color: #fff !important;
     }
-    .card{
-        border-radius: 25px;
-        background-color: #FFF;
+    .margin-20 {
+        margin-bottom: 20px;
+        margin-top: 20px;
     }
-    .image-content,
-    .card-content{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px 14px;
+    .hidden {
+        display: none;
     }
-    .image-content{
-        position: relative;
-        row-gap: 5px;
-        padding: 25px 0;
-    }
-    .overlay{
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100%;
-        background-color: #4070F4;
-        border-radius: 25px 25px 0 25px;
-    }
-    .overlay::before,
-    .overlay::after{
-        content: '';
-        position: absolute;
-        right: 0;
-        bottom: -40px;
-        height: 40px;
-        width: 40px;
-        background-color: #4070F4;
-    }
-    .overlay::after{
-        border-radius: 0 25px 0 0;
-        background-color: #FFF;
-    }
-    .card-image{
-        position: relative;
-        height: 150px;
-        width: 150px;
-        border-radius: 50%;
-        background: #FFF;
-        padding: 3px;
-    }
-    .card-image .card-img{
-        height: 100%;
-        width: 100%;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 4px solid #4070F4;
-    }
-    .name{
-        font-size: 18px;
-        font-weight: 500;
-        color: #333;
-    }
-    .description{
-        font-size: 14px;
-        color: #707070;
-        text-align: center;
-    }
-    .button{
-        border: none;
-        font-size: 16px;
-        color: #FFF;
-        padding: 8px 16px;
-        background-color: #4070F4;
-        border-radius: 6px;
-        margin: 14px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .button:hover{
-        background: #265DF2;
-    }
-
-    .swiper-navBtn{
-        color: #6E93f7;
-        transition: color 0.3s ease;
-    }
-    .swiper-navBtn:hover{
-        color: #4070F4;
-    }
-    .swiper-navBtn::before,
-    .swiper-navBtn::after{
-        font-size: 35px;
-    }
-    .swiper-button-next{
-        right: 0;
-    }
-    .swiper-button-prev{
-        left: 0;
-    }
-    .swiper-pagination-bullet{
-        background-color: #6E93f7;
-        opacity: 1;
-    }
-    .swiper-pagination-bullet-active{
-        background-color: #4070F4;
-    }
-
-    @media screen and (max-width: 768px) {
-        .slide-content{
-            margin: 0 10px;
-        }
-        .swiper-navBtn{
-            display: none;
-        }
+    .alert-edit {
+        padding: .5rem 1.25rem !important;
     }
 </style>
+
 @extends("admin.master")
 @section("content")
     <div class="content-wrapper">
@@ -154,213 +51,130 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Danh sách sản phẩm</h4>
+                        <h3>Sản phẩm</h3>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/products">Danh sách sản phẩm</a></li>
+                        </ol>
+                    </div><!-- /.col -->
+                    <div class="col-sm-6">
+                        <a href="/admin/products/add-product" class="btn btn-raised g-bg-cyan float-right mt-2">Thêm sản phẩm</a>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
-        @if (session('failed'))
-            <div class="alert alert-danger" style="display: inline-block">
-                {{ session('failed') }}
-            </div>
-        @elseif(session('success'))
-            <div class="alert alert-success" style="display: inline-block">
-                {{ session('success') }}
-            </div>
-        @endif
         <!-- /.content-header -->
 
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="slide-container swiper">
-                    <div class="slide-content">
-                        <div class="card-wrapper swiper-wrapper">
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile1.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
+                @if (session('failed'))
+                    <div class="alert alert-edit alert-danger" style="display: inline">
+                        {{ session('failed') }}
+                    </div>
+                @elseif(session('success'))
+                    <div class="alert alert-edit alert-success" style="display: inline">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                <div class="row clearfix margin-20">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <table id="products" class="table table-bordered table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Mã code</th>
+                                        <th>Hướng dẫn sử dụng</th>
+                                        <th>Xem/Sửa/Xoá</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($product as $key => $data)
+                                        <tr>
+                                            <td>{{ $rank++ }}</td>
+                                            <td>{{$data->product_name}}</td>
+                                            <td>{{$data->category_name}}</td>
+                                            <td>{{$data->product_code}}</td>
+                                            <td>{{$data->instruction}}</td>
+                                            <td>
+                                                <a data-id="1" id="viewBtn">
+                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )" data-toggle="modal" data-target="#viewModal"><i class="fas fa-eye"></i></button>
+                                                </a>
+                                                <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                <a data-id="2" id="deleteBtn">
+                                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile2.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile3.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile4.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile5.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile6.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile7.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile8.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
-                            </div>
-                            <div class="card swiper-slide">
-                                <div class="image-content">
-                                    <span class="overlay"></span>
-
-                                    <div class="card-image">
-                                        <img src="images/profile9.jpg" alt="" class="card-img">
-                                    </div>
-                                </div>
-
-                                <div class="card-content">
-                                    <h2 class="name">David Dell</h2>
-                                    <p class="description">The lorem text the section that contains header with having open functionality. Lorem dolor sit amet consectetur adipisicing elit.</p>
-
-                                    <button class="button">View More</button>
-                                </div>
+                            <!-- /.card-body -->
+                            <div class="d-flex justify-content-end" style="margin-right: 3%">
+                                {!! $product->appends($_GET)->links("pagination::bootstrap-4") !!}
                             </div>
                         </div>
-                    </div>
-                    <div class="swiper-button-next swiper-navBtn"></div>
-                    <div class="swiper-button-prev swiper-navBtn"></div>
-                    <div class="swiper-pagination"></div>
-                </div>
-                <div class="d-flex justify-content-end" style="margin-right: 3%">
-{{--                    {!! $supplier->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
-                </div>
-                <div class="row clearfix">
-                    <div class="col-md-12 text-center">
-                        <a href="/admin/suppliers/add-supplier" class="btn btn-raised g-bg-cyan">Thêm nhà cung cấp</a>
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
-            {{--delete modal--}}
-            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <form action="{{ url("/admin/suppliers/delete") }}" method="post">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="id" id="id_supplier" value="">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá nhà cung cấp này?</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body" style="border: none">
-                                Một khi xoá thì bạn sẽ không thể phục hồi !
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
-                                <button type="submit" class="btn btn-danger">Đồng ý</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
         </section>
         <!-- /.content -->
+
+        <!--View Modal -->
+{{--        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--            <div class="modal-dialog" role="document">--}}
+{{--                <form action="{{ url("/admin/categories/delete") }}" method="post">--}}
+{{--                    <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+{{--                    <input type="hidden" name="id" id="id_product" value="">--}}
+{{--                    <div class="modal-content">--}}
+{{--                        <div class="modal-header">--}}
+{{--                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá danh mục này?</h5>--}}
+{{--                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                <span aria-hidden="true">&times;</span>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
+{{--                        <div class="modal-body" style="border: none">--}}
+{{--                            Một khi xoá thì bạn sẽ không thể phục hồi !--}}
+{{--                        </div>--}}
+{{--                        <div class="modal-footer">--}}
+{{--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>--}}
+{{--                            <button type="submit" class="btn btn-danger">Đồng ý</button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+
+        <!--Delete Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <form action="{{ url("/admin/products/delete") }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="id" id="id_product" value="">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá sản phẩm này?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="border: none">
+                            Một khi xoá thì bạn sẽ không thể phục hồi !
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                            <button type="submit" class="btn btn-danger">Đồng ý</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -370,44 +184,59 @@
          * Hidden alert
          */
         $(document).ready(function(){
-            $('.alert').fadeIn().delay(2000).fadeOut();
+            $('.alert-edit').fadeIn().delay(2000).fadeOut();
         });
+
         /**
-         * Confirm delete user
+         * Datatable
+         */
+        $(function () {
+            var table = $("#products").DataTable({
+                buttons: ["copy", "excel", "pdf", "print"],
+                paging: true,
+                ordering: false,
+                autoWidth: true,
+                responsive: true,
+                lengthChange: true,
+                info: true,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
+                    "zeroRecords": "Không có sản phẩm",
+                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",
+                    "search": "Tìm kiếm:",
+                    "infoEmpty": "",
+                    "paginate": {
+                        "next":       "Sau",
+                        "previous":   "Trước"
+                    },
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                }
+            })
+                .buttons()
+                .container()
+                .appendTo("#products_wrapper .col-md-6:eq(0)");
+        });
+
+        $('#myInput').on( 'keyup', function () {
+            table.search( this.value ).draw();
+        } );
+
+        /**
+         * Confirm delete category
+         * @param id
+         */
+        function confirmView(id) {
+            $("#id_product").val(id);
+            $("#viewModal").modal("show");
+        }
+
+        /**
+         * Confirm delete category
          * @param id
          */
         function confirmDelete(id) {
-            $("#id_supplier").val(id);
+            $("#id_product").val(id);
             $("#deleteModal").modal("show");
         }
-        var swiper = new Swiper(".slide-content", {
-            slidesPerView: 3,
-            spaceBetween: 25,
-            loop: true,
-            centerSlide: 'true',
-            fade: 'true',
-            grabCursor: 'true',
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-                dynamicBullets: true,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-
-            breakpoints:{
-                0: {
-                    slidesPerView: 1,
-                },
-                520: {
-                    slidesPerView: 2,
-                },
-                950: {
-                    slidesPerView: 3,
-                },
-            },
-        });
     </script>
 @endsection

@@ -92,7 +92,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Thêm sản phẩm</h4>
+                        <h4 class="m-0">Chỉnh sửa sản phẩm</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -111,8 +111,9 @@
                 </div>
             @endif
             <div class="container-fluid">
-                <form action="{{ url("admin/products/add-product") }}" enctype="multipart/form-data" method="post">
+                <form action="{{ url("admin/products/edit-product") }}" enctype="multipart/form-data" method="post">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="id" id="id_product" value="{{$product->id}}">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="header">
@@ -123,8 +124,14 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="product_name" id="product_name" class="form-control" placeholder="Tên sản phẩm *" value="{{ old("product_name") }}">
+                                                <input type="text" name="product_name" id="product_name" value="{{old("product_name", $product->product_name)}}" class="form-control" placeholder="Tên sản phẩm *">
                                             </div>
+                                            @if (session('invalid'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{ session('invalid')[0] }}
+                                                </p>
+                                                <br>
+                                            @endif
                                             @if($errors->has('product_name'))
                                                 <p style="height: 0; margin: 0; color: red">
                                                     {{$errors->first('product_name')}}
@@ -141,7 +148,7 @@
                                                 <select class="form-control" name="category_id" id="category_id">
                                                     <option value="">Danh mục *</option>
                                                     @foreach($category as $key => $data)
-                                                        <option value={{$data->id}} {{ old("category_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
+                                                        <option value={{$data->id}} {{ $product->category_id == $data->id ? "selected":"" }}>{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -159,7 +166,7 @@
                                                 <select class="form-control" name="unit_id" id="unit_id">
                                                     <option value="">Đơn vị *</option>
                                                     @foreach($unit as $key => $data)
-                                                        <option value={{$data->id}} {{ old("unit_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
+                                                        <option value={{$data->id}} {{ $product->unit_id == $data->id ? "selected":"" }}>{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -174,7 +181,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="price_unit" id="price_unit" class="form-control" placeholder="Giá/Đơn vị (VNĐ) *" value="{{ old("price_unit") }}">
+                                                <input type="text" value="{{old('price_unit', $product->price_unit)}}" name="price_unit" id="price_unit" class="form-control" placeholder="Giá/Đơn vị (VNĐ) *">
                                             </div>
                                             @if($errors->has('price_unit'))
                                                 <p style="height: 0; margin: 0; color: red">
@@ -187,7 +194,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ old("product_code") }}">
+                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ $product->product_code }}">
                                             </div>
                                             @if($errors->has('product_code'))
                                                 <p style="height: 0; margin: 0; color: red">
@@ -202,7 +209,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("instruction") }}</textarea>
+                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ $product->instruction }}</textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -213,7 +220,7 @@
                                             <div class="form-block" style="border-bottom: 0">
                                                 <input type="file" name="product_image" id="product_image" accept="image/*" style="display: none">
                                                 <label for="product_image" class="inputFileCustom">
-                                                        Chọn hình ảnh mô tả sản phẩm
+                                                    Chọn hình ảnh mô tả sản phẩm
                                                 </label>
                                                 <div id="img_preview" class="hidden">
                                                     <img id="imgPreview" src="#" alt="pic" />
@@ -234,7 +241,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Thêm mới</button>
+                                        <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Chỉnh sửa</button>
                                         <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
                                     </div>
                                 </div>
@@ -249,9 +256,12 @@
 @endsection
 @section("custom-js")
     <script>
+        var listName = {!! $listName !!};
+        var currentProduct = {!! $product !!};
         $(document).ready(function() {
             $("#product_image").change(function () {
                 const file = this.files[0];
+                console.log(file);
                 if (file) {
                     document.getElementById("img_preview").classList.remove("hidden");
                     let reader = new FileReader();
@@ -276,9 +286,16 @@
                 $("textarea[name='instruction']").val("");
             });
         });
-
         /**
+         * Check exist
          *
+         * @param name
+         * @returns {boolean}
+         */
+        const checkExistName = (name) => {
+            return listName.indexOf(name) !== -1 && currentProduct["name"] !== name;
+        }
+        /**
          *
          * @param str
          * @returns {boolean}
@@ -286,7 +303,11 @@
         const checkPrice = (str) => {
             return /^\d+$/.test(str);
         }
-
+        /**
+         *
+         * @param length
+         * @returns {string}
+         */
         const randomCode = (length) => {
             let result = '';
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

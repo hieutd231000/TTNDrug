@@ -88,7 +88,6 @@ class CategoryController extends Controller
      */
     public function edit(CategoryEditRequest $request)
     {
-        $request->validated();
         $data = $request->all();
         $category = $this->categoryRepository->find($data["id"]);
         if(empty($category)) {

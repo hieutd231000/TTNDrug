@@ -26,4 +26,19 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
         return DB::table("products")
             ->pluck("product_name");
     }
+
+    /**
+     * Get all product from products
+     *
+     * @return void
+     */
+    public function getAllItem($paginate, $orderBy)
+    {
+        return DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->join('units', 'products.unit_id', '=', 'units.id')
+            ->select('products.*', 'categories.name AS category_name', 'units.name AS unit_name')
+            ->orderBy('id', $orderBy)
+            ->paginate($paginate);
+    }
 }

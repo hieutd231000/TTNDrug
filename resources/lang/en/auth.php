@@ -27,5 +27,9 @@ return [
     'add' => [
         'failed' => "Thêm không thành công",
         'success' => "Thêm thành công"
+    ],
+    'edit' => [
+        'failed' => "Sửa thông tin thất bại",
+        'success' => "Sửa thông tin thành công"
     ]
 ];
