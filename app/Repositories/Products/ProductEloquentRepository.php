@@ -41,4 +41,20 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->orderBy('id', $orderBy)
             ->paginate($paginate);
     }
+
+    /**
+     * Get product by id
+     *
+     * @param $id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getItemById($id)
+    {
+        return DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->join('units', 'products.unit_id', '=', 'units.id')
+            ->select('products.*', 'categories.name AS category_name', 'units.name AS unit_name')
+            ->where('products.id', $id)
+            ->get();
+    }
 }

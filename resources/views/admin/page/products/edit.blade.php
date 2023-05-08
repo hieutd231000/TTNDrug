@@ -124,7 +124,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="product_name" id="product_name" value="{{old("product_name", $product->product_name)}}" class="form-control" placeholder="Tên sản phẩm *">
+                                                <input type="text" name="product_name" id="product_name" value="{{old("product_name", session('invalid') ? session('invalid')[1] : $product->product_name)}}" class="form-control" placeholder="Tên sản phẩm *">
                                             </div>
                                             @if (session('invalid'))
                                                 <p style="height: 0; margin: 0; color: red">
@@ -148,7 +148,7 @@
                                                 <select class="form-control" name="category_id" id="category_id">
                                                     <option value="">Danh mục *</option>
                                                     @foreach($category as $key => $data)
-                                                        <option value={{$data->id}} {{ $product->category_id == $data->id ? "selected":"" }}>{{$data->name}}</option>
+                                                        <option value={{$data->id}} {{ old("category_id", $product->category_id) == $data->id ? "selected":"" }}>{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -166,7 +166,7 @@
                                                 <select class="form-control" name="unit_id" id="unit_id">
                                                     <option value="">Đơn vị *</option>
                                                     @foreach($unit as $key => $data)
-                                                        <option value={{$data->id}} {{ $product->unit_id == $data->id ? "selected":"" }}>{{$data->name}}</option>
+                                                        <option value={{$data->id}} {{ old("unit_id", $product->unit_id)  == $data->id ? "selected":"" }}>{{$data->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -194,7 +194,7 @@
                                     <div class="col-sm-3">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ $product->product_code }}">
+                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ old('product_code', $product->product_code) }}">
                                             </div>
                                             @if($errors->has('product_code'))
                                                 <p style="height: 0; margin: 0; color: red">
@@ -209,7 +209,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ $product->instruction }}</textarea>
+                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old('instruction',$product->instruction) }}</textarea>
                                             </div>
                                         </div>
                                     </div>

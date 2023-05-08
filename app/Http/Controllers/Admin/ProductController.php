@@ -108,7 +108,7 @@ class ProductController extends Controller
         $listName = $this->productRepository->getName();
         if(empty($product)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
-        } else if($product->name != $request["product_name"]) {
+        } else if($product->product_name != $request["product_name"]) {
             foreach ($listName as $data) {
                 if($data == $request["product_name"]) {
                     $invalid = ["Tên sản phảm này đã được sử dụng", $data];
@@ -126,7 +126,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Delete supplier
+     * Delete product
      *
      * @param Request $request
      * @return \Illuminate\Http\RedirectResponse
@@ -144,5 +144,19 @@ class ProductController extends Controller
             Log::error($exception->getMessage());
             return redirect()->back()->with("failed", trans("auth.delete.failed"));
         }
+    }
+
+    /**
+     * Get detail product
+     *
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse
+     */
+    public function detail(Request $request) {
+        $product = $this->productRepository->getItemById($request["id"]);
+        if(empty($product)) {
+            return $this->response->error(null, 500, 'Thất bại');
+        }
+        return $this->response->success($product, 200, 'Thành công');
     }
 }

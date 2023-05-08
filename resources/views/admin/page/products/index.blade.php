@@ -84,17 +84,17 @@
                             <div class="card-body">
                                 <table id="products" class="table table-bordered table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>STT</th>
-                                        <th>Tên sản phẩm</th>
-                                        <th>Danh mục</th>
-                                        <th>Mã code</th>
-                                        <th>Hướng dẫn sử dụng</th>
-                                        <th>Xem/Sửa/Xoá</th>
-                                    </tr>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Tên sản phẩm</th>
+                                            <th>Danh mục</th>
+                                            <th>Mã code</th>
+                                            <th>Hướng dẫn sử dụng</th>
+                                            <th>Xem/Sửa/Xoá</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($product as $key => $data)
+                                        @foreach($product as $key => $data)
                                         <tr>
                                             <td>{{ $rank++ }}</td>
                                             <td>{{$data->product_name}}</td>
@@ -103,7 +103,7 @@
                                             <td>{{$data->instruction}}</td>
                                             <td>
                                                 <a data-id="1" id="viewBtn">
-                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )" data-toggle="modal" data-target="#viewModal"><i class="fas fa-eye"></i></button>
+                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
                                                 </a>
                                                 <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
                                                 <a data-id="2" id="deleteBtn">
@@ -127,30 +127,31 @@
         <!-- /.content -->
 
         <!--View Modal -->
-{{--        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
-{{--            <div class="modal-dialog" role="document">--}}
-{{--                <form action="{{ url("/admin/categories/delete") }}" method="post">--}}
-{{--                    <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
-{{--                    <input type="hidden" name="id" id="id_product" value="">--}}
-{{--                    <div class="modal-content">--}}
-{{--                        <div class="modal-header">--}}
-{{--                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá danh mục này?</h5>--}}
-{{--                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                                <span aria-hidden="true">&times;</span>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                        <div class="modal-body" style="border: none">--}}
-{{--                            Một khi xoá thì bạn sẽ không thể phục hồi !--}}
-{{--                        </div>--}}
-{{--                        <div class="modal-footer">--}}
-{{--                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>--}}
-{{--                            <button type="submit" class="btn btn-danger">Đồng ý</button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </form>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
+        <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card">
+                            <img src="" class="card-img-top" id="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h3 class="product-name" id="product-name">Card title</h3>
+                                <p class="product-code" id="product-code"></p>
+                                <p class="category" id="category"></p>
+                                <p class="unit" id="unit"></p>
+                                <p class="price-unit" id="price-unit"></p>
+                                <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--Delete Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -180,18 +181,18 @@
 
 @section("custom-js")
     <script>
+        var imgSrc;
         /**
          * Hidden alert
          */
         $(document).ready(function(){
             $('.alert-edit').fadeIn().delay(2000).fadeOut();
         });
-
         /**
          * Datatable
          */
         $(function () {
-            var table = $("#products").DataTable({
+            $("#products").DataTable({
                 buttons: ["copy", "excel", "pdf", "print"],
                 paging: true,
                 ordering: false,
@@ -226,7 +227,26 @@
          * @param id
          */
         function confirmView(id) {
-            $("#id_product").val(id);
+            $.ajax({
+                url: "/admin/products/detail",
+                type:'GET',
+                data: { id:id },
+                success: function(response) {
+                    console.log(response["data"]);
+                    if(response["code"] === 200) {
+                        document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
+                        document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
+                        document.getElementById("product-code").innerHTML = 'Mã sản phẩm: ' + response["data"][0]["product_code"];
+                        document.getElementById("category").innerHTML = 'Danh mục: ' + response["data"][0]["category_name"];
+                        document.getElementById("unit").innerHTML = 'Đơn vị: ' + response["data"][0]["unit_name"];
+                        document.getElementById("price-unit").innerHTML = 'Giá/Đơn vị: ' + response["data"][0]["price_unit"] + ' VND';
+                        // $("#categoryName").val(response["data"][0]["product_name"]);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
             $("#viewModal").modal("show");
         }
 

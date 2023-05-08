@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
             Route::post("/add-product", [\App\Http\Controllers\Admin\ProductController::class, 'store']);
             Route::get("/{id}/edit", [\App\Http\Controllers\Admin\ProductController::class, 'edit']);
             Route::post("/edit-product", [\App\Http\Controllers\Admin\ProductController::class, 'handleEdit']);
+            Route::get("/detail", [\App\Http\Controllers\Admin\ProductController::class, 'detail']);
             Route::post("/delete", [\App\Http\Controllers\Admin\ProductController::class, 'destroy']);
         });
 

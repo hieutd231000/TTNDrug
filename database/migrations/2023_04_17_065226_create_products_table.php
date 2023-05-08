@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger("category_id");
             $table->unsignedBigInteger("unit_id");
-            $table->string("name");
+            $table->string("product_name");
             $table->string("product_image")->nullable();
             $table->integer("price_unit");
             $table->text("instruction")->nullable();

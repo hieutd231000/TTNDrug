@@ -249,6 +249,12 @@
 @endsection
 @section("custom-js")
     <script>
+        /**
+         * Hidden alert
+         */
+        $(document).ready(function(){
+            $('.alert').fadeIn().delay(2000).fadeOut();
+        });
         $(document).ready(function() {
             $("#product_image").change(function () {
                 const file = this.files[0];
