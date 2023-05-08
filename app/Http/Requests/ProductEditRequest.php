@@ -35,6 +35,7 @@ class ProductEditRequest extends FormRequest
             'price_unit' => 'required|numeric|min:1000',
             'product_code' => 'required',
             'product_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'current_image' => 'required'
         ];
     }
 

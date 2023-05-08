@@ -82,6 +82,19 @@
         font-weight: 400 !important;
         font-size: 11pt;
     }
+    .cancel-icon {
+        left: 247px;
+        position: absolute;
+        top: 36px;
+        color: #817f7f;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .imgPreview {
+        object-fit: cover;
+        width: 250px;
+        height: 235px;
+    }
 </style>
 
 @extends("admin.master")
@@ -216,7 +229,9 @@
                                                         Chọn hình ảnh mô tả sản phẩm
                                                 </label>
                                                 <div id="img_preview" class="hidden">
-                                                    <img id="imgPreview" src="#" alt="pic" />
+                                                    <img id="imgPreview" class="imgPreview" src="#" alt="pic" />
+                                                    <i class="fas fa-minus-circle cancel-icon"></i>
+
                                                 </div>
                                                 @if($errors->has('product_image'))
                                                     <p style="height: 0; margin: 0; color: red">
@@ -280,6 +295,12 @@
                 $("input[name='price_unit']").val("");
                 $("input[name='product_code']").val("");
                 $("textarea[name='instruction']").val("");
+            });
+
+            $(".cancel-icon").click(function(e){
+                document.getElementById("img_preview").classList.add("hidden");
+                document.getElementById("imgPreview").src = "";
+                $("input[name='product_image']").val("");
             });
         });
 

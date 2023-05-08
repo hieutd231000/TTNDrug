@@ -117,11 +117,28 @@ class ProductController extends Controller
             }
         }
         try {
-            $this->productRepository->update($request->all(), $product->id);
-            return redirect("/admin/products")->with("success", trans("auth.edit.success"));;
+            $file = $request->file("product_image");
+            if(!$file) {
+                if($request["current_image"] == $product->product_image) {
+                    $data = $request->all();
+                    $this->productRepository->update($data, $product->id);
+                    return redirect("/admin/products")->with("success", trans("auth.edit.success"));
+                }
+            }
+            if($file->getClientOriginalExtension() != 'png' && $file->getClientOriginalExtension() != 'jpg') {
+                return redirect()->back()->with('failed', trans("auth.add.failed"));
+            }
+            $fileName = $file->getClientOriginalName();
+            //Insert to public
+            $file->move(public_path("image/products"), $fileName);
+            //Update to db
+            $data = $request->all();
+            $data["product_image"] = $fileName;
+            $this->productRepository->update($data, $product->id);
+            return redirect("/admin/products")->with("success", trans("auth.edit.success"));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return redirect("/admin/products")->with("failed", trans("auth.edit.failed"));;
+            return redirect("/admin/products")->with("failed", trans("auth.edit.failed"));
         }
     }
 

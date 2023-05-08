@@ -41,6 +41,11 @@
     .alert-edit {
         padding: .5rem 1.25rem !important;
     }
+    .card-img-top {
+        object-fit: cover;
+        width: 250px;
+        height: 235px;
+    }
 </style>
 
 @extends("admin.master")
@@ -145,6 +150,7 @@
                                 <p class="category" id="category"></p>
                                 <p class="unit" id="unit"></p>
                                 <p class="price-unit" id="price-unit"></p>
+                                <p class="instruction" id="instruction"></p>
                                 <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>
                             </div>
                         </div>
@@ -240,7 +246,9 @@
                         document.getElementById("category").innerHTML = 'Danh mục: ' + response["data"][0]["category_name"];
                         document.getElementById("unit").innerHTML = 'Đơn vị: ' + response["data"][0]["unit_name"];
                         document.getElementById("price-unit").innerHTML = 'Giá/Đơn vị: ' + response["data"][0]["price_unit"] + ' VND';
-                        // $("#categoryName").val(response["data"][0]["product_name"]);
+                        if(response["data"][0]["instruction"]) {
+                            document.getElementById("instruction").innerHTML = 'Hướng dẫn sử dụng: ' + response["data"][0]["instruction"];
+                        }
                     }
                 },
                 error: function (err) {

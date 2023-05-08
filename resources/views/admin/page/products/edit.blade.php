@@ -82,6 +82,19 @@
         font-weight: 400 !important;
         font-size: 11pt;
     }
+    .cancel-icon {
+        left: 247px;
+        position: absolute;
+        top: 36px;
+        color: #817f7f;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .imgPreview {
+        object-fit: cover;
+        width: 250px;
+        height: 235px;
+    }
 </style>
 
 @extends("admin.master")
@@ -218,13 +231,26 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block" style="border-bottom: 0">
+                                                <input type="hidden" name="current_image" id="current_image" value="{{$product->product_image}}">
                                                 <input type="file" name="product_image" id="product_image" accept="image/*" style="display: none">
                                                 <label for="product_image" class="inputFileCustom">
                                                     Chọn hình ảnh mô tả sản phẩm
                                                 </label>
-                                                <div id="img_preview" class="hidden">
-                                                    <img id="imgPreview" src="#" alt="pic" />
-                                                </div>
+                                                @if ($errors->has('current_image'))
+                                                    <div id="img_preview" class="hidden">
+                                                        <img id="imgPreview" class="imgPreview"  src="" alt="pic" />
+                                                        <i class="fas fa-minus-circle cancel-icon"></i>
+                                                    </div>
+                                                    <p style="height: 0; margin: 0; color: red">
+                                                        {{$errors->first('current_image')}}
+                                                    </p>
+                                                    <br>
+                                                @else
+                                                    <div id="img_preview">
+                                                        <img id="imgPreview" class="imgPreview"  src="{{ URL::asset('image/products').'/'.$product->product_image}}" alt="pic" />
+                                                        <i class="fas fa-minus-circle cancel-icon"></i>
+                                                    </div>
+                                                @endif
                                                 @if($errors->has('product_image'))
                                                     <p style="height: 0; margin: 0; color: red">
                                                         {{$errors->first('product_image')}}
@@ -261,9 +287,10 @@
         $(document).ready(function() {
             $("#product_image").change(function () {
                 const file = this.files[0];
-                console.log(file);
+                console.log(file['name']);
                 if (file) {
                     document.getElementById("img_preview").classList.remove("hidden");
+                    $("input[name='current_image']").val(file['name']);
                     let reader = new FileReader();
                     reader.onload = function (event) {
                         $("#imgPreview")
@@ -277,6 +304,7 @@
                 e.preventDefault();
                 document.getElementById("img_preview").classList.add("hidden");
                 document.getElementById("imgPreview").src = "";
+                $("input[name='current_image']").val("");
                 $("input[name='product_image']").val("");
                 $("input[name='product_name']").val("");
                 $("select[name='category_id']").val("");
@@ -284,6 +312,13 @@
                 $("input[name='price_unit']").val("");
                 $("input[name='product_code']").val("");
                 $("textarea[name='instruction']").val("");
+            });
+
+            $(".cancel-icon").click(function(e){
+                document.getElementById("img_preview").classList.add("hidden");
+                document.getElementById("imgPreview").src = "";
+                $("input[name='current_image']").val("");
+                $("input[name='product_image']").val("");
             });
         });
         /**
