@@ -95,7 +95,7 @@
         transition: all .2s ease-out;
     }
     .swiper-slide:hover {
-        transform: translateY(-0.8rem) scale(1.05);
+        transform: translateY(-0.8rem) scale(1.05) !important;
     }
     .card{
         border-radius: 25px;
@@ -258,12 +258,13 @@
                                                             <div class="card-content">
                                                                 <h2 class="name">{{$data->product_name}}</h2>
                                                                 <p class="description">{{$data->price_unit}}</p>
-                                                                <div style="display: flex">
-                                                                    <input type="button" id ='two' onclick="" value="-">
-                                                                    <input type="text" style="width: 30px; text-align: center" id="count" value="1">
-                                                                    <input type="button" id ='twos' onclick="" value="+">
+                                                                <div>
+                                                                    <label for="{{$data->id}}" style="font-size: 15px">SL:</label>
+{{--                                                                    <input type="button" onclick="subtractCount({{$data->id}})" value="-">--}}
+                                                                    <input type="text" style="width: 30px; text-align: center" id={{$data->id}} value="">
+{{--                                                                    <input type="button" onclick="increaseCount({{$data->id}})" value="+">--}}
                                                                 </div>
-                                                                <button class="button btn-secondary" style="margin-top: 30px">Thêm vào giỏ hàng</button>
+                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}})" style="margin-top: 30px">Thêm vào giỏ hàng</button>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -424,6 +425,7 @@
             centerSlide: 'true',
             fade: 'true',
             grabCursor: 'true',
+            a11y: false,
             pagination: {
                 el: ".swiper-pagination",
                 clickable: true,
@@ -446,5 +448,37 @@
                 },
             },
         });
+
+        const increaseCount = (id) => {
+            console.log("product_id: " + id);
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            console.log(value);
+            document.getElementById(id).value = value;
+        }
+
+        const subtractCount = (id) => {
+            // console.log(id);
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            if(value > 0) {
+                value--;
+                console.log(value);
+                document.getElementById(id).value = value;
+            }
+        }
+
+        const addCart = (id) => {
+            console.log(id);
+            console.log(document.getElementById(id).value);
+            // var value = parseInt(document.getElementById(id).value, 10);
+            // value = isNaN(value) ? 0 : value;
+            // if(value > 0) {
+            //     value--;
+            //     console.log(value);
+            //     document.getElementById(id).value = value;
+            // }
+        }
     </script>
 @endsection
