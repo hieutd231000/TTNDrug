@@ -131,7 +131,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/orders" class="nav-link">
+                    <a href="/pos" class="nav-link">
                         <i class="nav-icon fas fa-puzzle-piece"></i>
                         <p>
                             PoS

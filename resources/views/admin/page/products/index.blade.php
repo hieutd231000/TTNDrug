@@ -94,12 +94,12 @@
                                             <th>Tên sản phẩm</th>
                                             <th>Danh mục</th>
                                             <th>Mã code</th>
-                                            <th>Hướng dẫn sử dụng</th>
+                                            <th style="max-width: 280px">Hướng dẫn sử dụng</th>
                                             <th>Xem/Sửa/Xoá</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($product as $key => $data)
+                                    @foreach($product as $key => $data)
                                         <tr>
                                             <td>{{ $rank++ }}</td>
                                             <td>{{$data->product_name}}</td>

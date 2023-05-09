@@ -28,6 +28,7 @@ Route::post('/forgot-password', [\App\Http\Controllers\Admin\AuthController::cla
 Route::get('/reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'resetPasswordForm']);
 Route::post('/reset-password', [\App\Http\Controllers\Admin\AuthController::class, 'postResetPassword']);
 Route::post('/change-password', [\App\Http\Controllers\Admin\AuthController::class, 'changePassword']);
+Route::get('/pos', [\App\Http\Controllers\PosController::class, 'index']);
 
 Route::middleware('auth')->group(function () {
     Route::group(["prefix" => "admin"], function () {
