@@ -111,7 +111,7 @@
     .image-content{
         position: relative;
         row-gap: 5px;
-        padding: 25px 0;
+        padding: 0 0 10px 0;
     }
     /*.overlay{*/
     /*    position: absolute;*/
@@ -138,8 +138,8 @@
     }
     .card-image{
         position: relative;
-        height: 230px;
-        width: 230px;
+        height: 185px;
+        width: 208px;
         border-radius: 50%;
         background: #FFF;
         padding: 3px;
@@ -152,12 +152,12 @@
     /*    border: 4px solid #4070F4;*/
     /*}*/
     .name{
-        font-size: 22px;
+        font-size: 18px;
         font-weight: 600;
         color: #333;
     }
     .description{
-        font-size: 18px;
+        font-size: 16px;
         color: #707070;
         text-align: center;
     }
@@ -191,10 +191,14 @@
         font-size: 35px;
     }
     .swiper-button-next{
-        right: 0;
+        right: 0 !important;
     }
     .swiper-button-prev{
-        left: 0;
+        left: 0 !important;
+    }
+    .swiper-pagination {
+        transform: translate(-50%, 118%) !important;
+        /*transform: translateY(-50%) !important;*/
     }
     .swiper-pagination-bullet{
         background-color: #6E93f7;
@@ -244,7 +248,7 @@
                                         </div>
                                     </div>
                                     <div class="row clearfix" style="margin: 40px 0 20px 0">
-                                        <div class="slide-container swiper">
+                                        <div class="slide-container swiper" style="padding-bottom: 25px">
                                             <div class="slide-content">
                                                 <div class="card-wrapper swiper-wrapper">
                                                     @foreach($product as $key => $data)
@@ -258,17 +262,18 @@
                                                             <div class="card-content">
                                                                 <h2 class="name">{{$data->product_name}}</h2>
                                                                 <p class="description">{{$data->price_unit}}</p>
-                                                                <div>
-                                                                    <label for="{{$data->id}}" style="font-size: 15px">SL:</label>
-{{--                                                                    <input type="button" onclick="subtractCount({{$data->id}})" value="-">--}}
-                                                                    <input type="text" style="width: 30px; text-align: center" id={{$data->id}} value="">
-{{--                                                                    <input type="button" onclick="increaseCount({{$data->id}})" value="+">--}}
+                                                                <div style="display: flex">
+{{--                                                                    <label for="{{$data->id}}" style="font-size: 14px">SL:</label>--}}
+                                                                    <input type="button" onclick="subtractCount({{$data->id}})" value="-">
+                                                                    <input type="text" style="width: 30px; text-align: center" id="{{$data->id}}" value="">
+                                                                    <input type="button" onclick="increaseCount({{$data->id}})" value="+">
                                                                 </div>
-                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}})" style="margin-top: 30px">Thêm vào giỏ hàng</button>
+                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->product_code}}', '{{$data->price_unit}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
                                                             </div>
                                                         </div>
                                                     @endforeach
                                                 </div>
+
                                             </div>
                                             <div class="swiper-button-next swiper-navBtn"></div>
                                             <div class="swiper-button-prev swiper-navBtn"></div>
@@ -304,74 +309,25 @@
                                                 </div>
                                             </div>
                                             <!-- /.card-header -->
-                                            <div class="card-body table-responsive p-0" style="height: 300px;">
-                                                <table class="table table-head-fixed text-nowrap">
+                                            <div class="card-body table-responsive p-0" style="">
+                                                <table class="table table-head-fixed text-nowrap" id="cartTable">
                                                     <thead>
                                                     <tr>
-                                                        <th>ID</th>
-                                                        <th>User</th>
-                                                        <th>Date</th>
-                                                        <th>Status</th>
-                                                        <th>Reason</th>
+                                                        <th>Tên sản phẩm</th>
+                                                        <th>Mã code</th>
+                                                        <th>Số lượng</th>
+                                                        <th>Ngày hết hạn</th>
+                                                        <th>Giá</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <tr>
-                                                        <td>183</td>
-                                                        <td>John Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-success">Approved</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>219</td>
-                                                        <td>Alexander Pierce</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-warning">Pending</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>657</td>
-                                                        <td>Bob Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-primary">Approved</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>175</td>
-                                                        <td>Mike Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-danger">Denied</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>134</td>
-                                                        <td>Jim Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-success">Approved</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>494</td>
-                                                        <td>Victoria Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-warning">Pending</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>832</td>
-                                                        <td>Michael Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-primary">Approved</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>982</td>
-                                                        <td>Rocky Doe</td>
-                                                        <td>11-7-2014</td>
-                                                        <td><span class="tag tag-danger">Denied</span></td>
-                                                        <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td>982</td>
+                                                            <td>Rocky Doe</td>
+                                                            <td>11-7-2014</td>
+                                                            <td><span class="tag tag-danger">Denied</span></td>
+                                                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -419,7 +375,7 @@
 
         // Slider
         var swiper = new Swiper(".slide-content", {
-            slidesPerView: 3,
+            slidesPerView: 4,
             spaceBetween: 25,
             loop: true,
             centerSlide: 'true',
@@ -440,12 +396,15 @@
                 0: {
                     slidesPerView: 1,
                 },
-                520: {
+                316.6: {
                     slidesPerView: 2,
                 },
-                950: {
+                633.3: {
                     slidesPerView: 3,
                 },
+                950: {
+                    slidesPerView: 4,
+                }
             },
         });
 
@@ -456,10 +415,11 @@
             value++;
             console.log(value);
             document.getElementById(id).value = value;
+            console.log(document.getElementById(id).value);
         }
 
         const subtractCount = (id) => {
-            // console.log(id);
+            console.log("product_id: " + id);
             var value = parseInt(document.getElementById(id).value, 10);
             value = isNaN(value) ? 0 : value;
             if(value > 0) {
@@ -469,9 +429,33 @@
             }
         }
 
-        const addCart = (id) => {
-            console.log(id);
-            console.log(document.getElementById(id).value);
+        const addCart = (id, name, code, price) => {
+            var value = parseInt(document.getElementById(id).value, 10);
+            if(!isNaN(value) && value > 0) {
+                var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+                // Insert a row at the end of table
+                // var newRow = table.insertRow();
+                // // Insert a cell at the end of the row
+                // var newCell = newRow.insertCell();
+                // // Append a text node to the cell
+                // var newText = document.createTextNode(name);
+                // newCell.appendChild(newText);
+                // newCell.appendChild(newText);
+                // newCell.appendChild(newText);
+                // newCell.appendChild(newText);
+                // newCell.appendChild(newText);
+                var row = table.insertRow(0);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                cell1.innerHTML = name;
+                cell2.innerHTML = name;
+                cell3.innerHTML = name;
+                cell4.innerHTML = name;
+                cell5.innerHTML = code;
+            }
             // var value = parseInt(document.getElementById(id).value, 10);
             // value = isNaN(value) ? 0 : value;
             // if(value > 0) {
