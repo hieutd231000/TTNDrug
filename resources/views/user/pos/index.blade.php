@@ -268,7 +268,7 @@
                                                                     <input type="text" style="width: 30px; text-align: center" id="{{$data->id}}" value="">
                                                                     <input type="button" onclick="increaseCount({{$data->id}})" value="+">
                                                                 </div>
-                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->product_code}}', '{{$data->price_unit}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}', '{{$data->price_unit}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -314,20 +314,13 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Tên sản phẩm</th>
+                                                        <th>Danh mục</th>
                                                         <th>Mã code</th>
                                                         <th>Số lượng</th>
-                                                        <th>Ngày hết hạn</th>
                                                         <th>Giá</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>982</td>
-                                                            <td>Rocky Doe</td>
-                                                            <td>11-7-2014</td>
-                                                            <td><span class="tag tag-danger">Denied</span></td>
-                                                            <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                                        </tr>
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -429,40 +422,92 @@
             }
         }
 
-        const addCart = (id, name, code, price) => {
+        /**
+         * Handle add product to cart
+         * @type {*[]}
+         */
+        productArray = [];
+        const addToStorage = () => {
+            var storedArray = JSON.stringify(productArray);
+            localStorage.setItem("product", storedArray);
+        }
+        const addProductToTable = (name, category, code, amount,  price) => {
+            var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
+            cell1.innerHTML = name;
+            cell2.innerHTML = category;
+            cell3.innerHTML = code;
+            cell4.innerHTML = amount;
+            cell5.innerHTML = price;
+            addToStorage();
+        }
+        const addCart = (id, name, category, code, price) => {
             var value = parseInt(document.getElementById(id).value, 10);
             if(!isNaN(value) && value > 0) {
                 var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
-                // Insert a row at the end of table
-                // var newRow = table.insertRow();
-                // // Insert a cell at the end of the row
-                // var newCell = newRow.insertCell();
-                // // Append a text node to the cell
-                // var newText = document.createTextNode(name);
-                // newCell.appendChild(newText);
-                // newCell.appendChild(newText);
-                // newCell.appendChild(newText);
-                // newCell.appendChild(newText);
-                // newCell.appendChild(newText);
-                var row = table.insertRow(0);
+                var row = table.insertRow(-1);
                 var cell1 = row.insertCell(0);
                 var cell2 = row.insertCell(1);
                 var cell3 = row.insertCell(2);
                 var cell4 = row.insertCell(3);
                 var cell5 = row.insertCell(4);
+                var deleteRow = row.insertCell(5);
                 cell1.innerHTML = name;
-                cell2.innerHTML = name;
-                cell3.innerHTML = name;
-                cell4.innerHTML = name;
-                cell5.innerHTML = code;
+                cell2.innerHTML = category;
+                cell3.innerHTML = code;
+                cell4.innerHTML = document.getElementById(id).value;
+                cell5.innerHTML = (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString();
+                //Create button
+                let button = document.createElement("button");
+                button.innerText = "Xoá";
+                button.className = "btn btn-sm btn-danger";
+                deleteRow.appendChild(button);
+                //Add to product array
+                productArray.push({
+                    product_name: name,
+                    category_name: category,
+                    product_code: code,
+                    amount: document.getElementById(id).value,
+                    total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
+                })
+                addToStorage();
             }
-            // var value = parseInt(document.getElementById(id).value, 10);
-            // value = isNaN(value) ? 0 : value;
-            // if(value > 0) {
-            //     value--;
-            //     console.log(value);
-            //     document.getElementById(id).value = value;
-            // }
         }
+        const buildTable = () => {
+            var retrievedProductObject = localStorage.getItem("product");
+            var parsedObject = JSON.parse(retrievedProductObject);
+            for (i = 0; i < parsedObject.length; i++) {
+                productArray.push({
+                    product_name: parsedObject[i].product_name,
+                    category_name: parsedObject[i].category_name,
+                    product_code: parsedObject[i].product_code,
+                    amount: parsedObject[i].amount,
+                    total_price: parsedObject[i].total_price
+                });
+                addProductToTable(parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].product_code, parsedObject[i].amount, parsedObject[i].total_price);
+            }
+            let tr = document.querySelectorAll("table tbody tr");
+            Array.from(tr).forEach(function(trArray, index) {
+                let button = document.createElement("button");
+                let td = document.createElement("td");
+                button.innerText = "Xoá";
+                button.className = "btn btn-sm btn-danger";
+                button.addEventListener('click', function(event){
+                    console.log(index);
+                    document.getElementById("cartTable").deleteRow(index + 1);
+                    productArray.splice(index, 1);
+                    addToStorage();
+                    // location.reload();
+                });
+                td.append(button);
+                trArray.append(td);
+            });
+        }
+        buildTable();
     </script>
 @endsection
