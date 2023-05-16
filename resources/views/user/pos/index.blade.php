@@ -215,6 +215,25 @@
             display: none;
         }
     }
+    .container-form label {
+        display: inline-block;
+        vertical-align: top;
+        width: 30%;
+    }
+
+    .container-form input {
+        min-height: 25px;
+        display: inline-block;
+        width: 50%;
+    }
+
+    .container-form p {
+        min-height: 25px;
+        display: inline-block;
+        width: 50%;
+        font-weight: 900;
+    }
+
 </style>
 
 @extends("admin.master")
@@ -285,7 +304,7 @@
                         </div>
                     </div>
                     <div class="row clearfix">
-                        <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                             <div class="card">
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
                                     Hoá đơn
@@ -295,11 +314,9 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Danh sách sản phẩm</h3>
-
                                                 <div class="card-tools">
                                                     <div class="input-group input-group-sm" style="width: 150px;">
-                                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
+                                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Tìm kiếm">
                                                         <div class="input-group-append">
                                                             <button type="submit" class="btn btn-default">
                                                                 <i class="fas fa-search"></i>
@@ -333,19 +350,36 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
                             <div class="card">
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
                                     Thanh toán
                                 </div>
                                 <div class="body">
+                                    <div class="container-form">
+                                        <form>
+                                            <div>
+                                                <label for="total">Tổng tiền: </label>
+                                                <p>11000 VNĐ</p>
+                                                <br>
+                                            </div>
+                                            <div>
+                                                <label for="paid">Thanh toán:</label>
+                                                <input type="text" id="paid" name="paid"><br><br>
+                                            </div>
+                                            <div>
+                                                <label for="balance">Trả lại:</label>
+                                                <input type="text" id="balance" name="balance"><br><br>
+                                            </div>
+                                        </form>
+                                    </div>
                                     <div class="row clearfix">
-                                        <h3 class="product-name" id="product-name">Card title</h3>
-                                        <p class="product-code" id="product-code">Card title</p>
-                                        <p class="category" id="category">Card title</p>
-                                        <p class="unit" id="unit">Card title</p>
-                                        <p class="price-unit" id="price-unit">Card title</p>
-                                        <p class="instruction" id="instruction">Card title</p>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                            <button class="btn btn-primary" style="width: 100%">Thanh toán</button>
+                                        </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                            <button class="btn btn-primary" style="width: 100%">In hoá đơn</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -476,6 +510,7 @@
                     total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
                 })
                 addToStorage();
+                location.reload();
             }
         }
         const buildTable = () => {
@@ -502,12 +537,20 @@
                     document.getElementById("cartTable").deleteRow(index + 1);
                     productArray.splice(index, 1);
                     addToStorage();
-                    // location.reload();
+                    location.reload();
                 });
                 td.append(button);
                 trArray.append(td);
             });
         }
         buildTable();
+        const deleteAllRowTable = () => {
+            var tableHeaderRowCount = 1;
+            var table = document.getElementById('cartTable');
+            var rowCount = table.rows.length;
+            for (var i = tableHeaderRowCount; i < rowCount; i++) {
+                table.deleteRow(tableHeaderRowCount);
+            }
+        }
     </script>
 @endsection

@@ -123,7 +123,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="/orders" class="nav-link">
+                    <a href="/admin/orders" class="nav-link">
                         <i class="nav-icon fas fa-user-md"></i>
                         <p>
                             Orders

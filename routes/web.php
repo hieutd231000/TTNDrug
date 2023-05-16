@@ -68,6 +68,17 @@ Route::middleware('auth')->group(function () {
             Route::post("/edit-supplier", [\App\Http\Controllers\Admin\SupplierController::class, 'handleEdit']);
             Route::post("/delete", [\App\Http\Controllers\Admin\SupplierController::class, 'destroy']);
         });
+        Route::group(["prefix" => "inventories"], function () {
+            Route::get("/", [\App\Http\Controllers\Admin\InventoryController::class, 'index']);
+            Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
+            Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
+        });
+        Route::group(["prefix" => "orders"], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\OrderController::class, 'listOrder']);
+            Route::post('/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'addOrderForm']);
+            Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
+            Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
+        });
         Route::group(["prefix" => "products"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\ProductController::class, 'index']);
             Route::get("/add-product", [\App\Http\Controllers\Admin\ProductController::class, 'addProductForm']);
@@ -102,6 +113,5 @@ Route::middleware('auth')->group(function () {
         //        Route::post("/store", [\App\Http\Controllers\Admin\NewsController::class, 'store']);
         //    });
     });
-    Route::get('/orders', [\App\Http\Controllers\Admin\OrderController::class, 'listOrder']);
     Route::get('/user-profile', [\App\Http\Controllers\Admin\UserController::class, 'userProfile']);
 });
