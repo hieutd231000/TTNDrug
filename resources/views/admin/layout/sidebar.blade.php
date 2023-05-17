@@ -301,6 +301,12 @@
                                 <p>Thêm nhà cung cấp</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/admin/suppliers/{{0}}/detail" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Thông tin nhà cung cấp</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 {{--                <li class="nav-item">--}}

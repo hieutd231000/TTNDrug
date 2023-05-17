@@ -1,6 +1,6 @@
 <style>
     .body {
-        padding: 20px;
+        padding: 20px 10px;
     }
     .member-card {
         text-align: center;
@@ -34,22 +34,35 @@
     .margin-bottom-20 {
         margin-bottom: 20px;
     }
-    .patient-edit {
+    .supplier-edit {
+        font-size: 12px;
+        margin-left: 8px;
+    }
+    .supplier-view {
         font-size: 12px;
         margin-left: 10px;
+        cursor: pointer;
+        color: green;
     }
-    .patient-delete {
+    .supplier-view:hover {
+        color: green;
+    }
+    .supplier-delete {
         font-size: 12px;
         margin-left: 8px;
         color: red;
     }
-    .patient-delete:hover {
+    .supplier-delete:hover {
         color: red;
         cursor: pointer;
     }
     .alert {
         padding: 0.5rem 1.25rem !important;
         margin-left: 15px;
+    }
+    .add-button {
+        text-align: end;
+        margin-bottom: 20px;
     }
 </style>
 
@@ -80,6 +93,9 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
+                <div class="col-md-12 add-button">
+                    <a href="/admin/suppliers/add-supplier" class="btn btn-raised g-bg-cyan">Thêm nhà cung cấp</a>
+                </div>
                 <div class="row clearfix margin-bottom-20">
                     @foreach($supplier as $key => $data)
                         <div class="col-lg-4 col-md-6 col-sm-12">
@@ -93,10 +109,13 @@
                                         </div>
                                         <div class="col-sm-9">
                                             <h5 class="font-weight-bold">{{$data->name}}
-                                                <a class="patient-edit" href="/admin/suppliers/{{$data->id}}/edit">
+                                                <a class="supplier-view" href="/admin/suppliers/{{$data->id}}/detail">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a class="supplier-edit" href="/admin/suppliers/{{$data->id}}/edit">
                                                     <i class="fas fa-pen"></i>
                                                 </a>
-                                                <a class="patient-delete" onclick="confirmDelete({{$data->id}})">
+                                                <a class="supplier-delete" onclick="confirmDelete({{$data->id}})">
                                                     <i class="fas fa-trash"></i>
                                                 </a>
                                             </h5>
@@ -111,11 +130,6 @@
                 </div>
                 <div class="d-flex justify-content-end" style="margin-right: 3%">
                     {!! $supplier->appends($_GET)->links("pagination::bootstrap-4") !!}
-                </div>
-                <div class="row clearfix">
-                    <div class="col-md-12 text-center">
-                        <a href="/admin/suppliers/add-supplier" class="btn btn-raised g-bg-cyan">Thêm nhà cung cấp</a>
-                    </div>
                 </div>
             </div><!-- /.container-fluid -->
             {{--delete modal--}}
@@ -155,6 +169,24 @@
         $(document).ready(function(){
             $('.alert').fadeIn().delay(2000).fadeOut();
         });
+
+        function confirmView(id) {
+            $.ajax({
+                url: "/admin/suppliers/detail",
+                type:'GET',
+                data: { id:id },
+                success: function(response) {
+                    // console.log(response["data"]);
+                    // if(response["code"] === 200) {
+                    // }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            $("#viewModal").modal("show");
+        }
+
         /**
          * Confirm delete user
          * @param id

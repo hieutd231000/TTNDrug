@@ -76,6 +76,16 @@ class SupplierController extends Controller
     }
 
     /**
+     * View supplier detail informaion
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function detail(Request $request, $id) {
+        return view("admin.page.suppliers.detail");
+    }
+
+    /**
      * Handle edit user
      *
      * @param Request $request

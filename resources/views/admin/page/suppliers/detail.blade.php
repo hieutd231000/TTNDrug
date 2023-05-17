@@ -89,42 +89,42 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="card-body">
-                                <table id="products" class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Danh mục</th>
-                                            <th>Mã code</th>
-                                            <th style="max-width: 280px">Hướng dẫn sử dụng</th>
-                                            <th>Xem/Sửa/Xoá</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach($product as $key => $data)
-                                        <tr>
-                                            <td>{{ $rank++ }}</td>
-                                            <td>{{$data->product_name}}</td>
-                                            <td>{{$data->category_name}}</td>
-                                            <td>{{$data->product_code}}</td>
-                                            <td>{{$data->instruction}}</td>
-                                            <td>
-                                                <a data-id="1" id="viewBtn">
-                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
-                                                </a>
-                                                <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <a data-id="2" id="deleteBtn">
-                                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                </table>
+{{--                                <table id="products" class="table table-bordered table-striped">--}}
+{{--                                    <thead>--}}
+{{--                                    <tr>--}}
+{{--                                        <th>STT</th>--}}
+{{--                                        <th>Tên sản phẩm</th>--}}
+{{--                                        <th>Danh mục</th>--}}
+{{--                                        <th>Mã code</th>--}}
+{{--                                        <th style="max-width: 280px">Hướng dẫn sử dụng</th>--}}
+{{--                                        <th>Xem/Sửa/Xoá</th>--}}
+{{--                                    </tr>--}}
+{{--                                    </thead>--}}
+{{--                                    <tbody>--}}
+{{--                                    @foreach($product as $key => $data)--}}
+{{--                                        <tr>--}}
+{{--                                            <td>{{ $rank++ }}</td>--}}
+{{--                                            <td>{{$data->product_name}}</td>--}}
+{{--                                            <td>{{$data->category_name}}</td>--}}
+{{--                                            <td>{{$data->product_code}}</td>--}}
+{{--                                            <td>{{$data->instruction}}</td>--}}
+{{--                                            <td>--}}
+{{--                                                <a data-id="1" id="viewBtn">--}}
+{{--                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>--}}
+{{--                                                </a>--}}
+{{--                                                <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>--}}
+{{--                                                <a data-id="2" id="deleteBtn">--}}
+{{--                                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>--}}
+{{--                                                </a>--}}
+{{--                                            </td>--}}
+{{--                                        </tr>--}}
+{{--                                    @endforeach--}}
+{{--                                    </tbody>--}}
+{{--                                </table>--}}
                             </div>
                             <!-- /.card-body -->
                             <div class="d-flex justify-content-end" style="margin-right: 3%">
-                                {!! $product->appends($_GET)->links("pagination::bootstrap-4") !!}
+{{--                                {!! $product->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
                             </div>
                         </div>
                     </div>
@@ -188,85 +188,85 @@
 @endsection
 
 @section("custom-js")
-    <script>
-        var imgSrc;
-        /**
-         * Hidden alert
-         */
-        $(document).ready(function(){
-            $('.alert-edit').fadeIn().delay(2000).fadeOut();
-        });
-        /**
-         * Datatable
-         */
-        $(function () {
-            $("#products").DataTable({
-                buttons: ["copy", "excel", "pdf", "print"],
-                paging: true,
-                ordering: false,
-                autoWidth: true,
-                responsive: true,
-                lengthChange: true,
-                info: true,
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-                    "zeroRecords": "Không có sản phẩm",
-                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",
-                    "search": "Tìm kiếm:",
-                    "infoEmpty": "",
-                    "paginate": {
-                        "next":       "Sau",
-                        "previous":   "Trước"
-                    },
-                    "infoFiltered": "(filtered from _MAX_ total records)"
-                }
-            })
-                .buttons()
-                .container()
-                .appendTo("#products_wrapper .col-md-6:eq(0)");
-        });
+{{--    <script>--}}
+{{--        var imgSrc;--}}
+{{--        /**--}}
+{{--         * Hidden alert--}}
+{{--         */--}}
+{{--        $(document).ready(function(){--}}
+{{--            $('.alert-edit').fadeIn().delay(2000).fadeOut();--}}
+{{--        });--}}
+{{--        /**--}}
+{{--         * Datatable--}}
+{{--         */--}}
+{{--        $(function () {--}}
+{{--            $("#products").DataTable({--}}
+{{--                buttons: ["copy", "excel", "pdf", "print"],--}}
+{{--                paging: true,--}}
+{{--                ordering: false,--}}
+{{--                autoWidth: true,--}}
+{{--                responsive: true,--}}
+{{--                lengthChange: true,--}}
+{{--                info: true,--}}
+{{--                "language": {--}}
+{{--                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",--}}
+{{--                    "zeroRecords": "Không có sản phẩm",--}}
+{{--                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",--}}
+{{--                    "search": "Tìm kiếm:",--}}
+{{--                    "infoEmpty": "",--}}
+{{--                    "paginate": {--}}
+{{--                        "next":       "Sau",--}}
+{{--                        "previous":   "Trước"--}}
+{{--                    },--}}
+{{--                    "infoFiltered": "(filtered from _MAX_ total records)"--}}
+{{--                }--}}
+{{--            })--}}
+{{--                .buttons()--}}
+{{--                .container()--}}
+{{--                .appendTo("#products_wrapper .col-md-6:eq(0)");--}}
+{{--        });--}}
 
-        $('#myInput').on( 'keyup', function () {
-            table.search( this.value ).draw();
-        } );
+{{--        $('#myInput').on( 'keyup', function () {--}}
+{{--            table.search( this.value ).draw();--}}
+{{--        } );--}}
 
-        /**
-         * Confirm delete category
-         * @param id
-         */
-        function confirmView(id) {
-            $.ajax({
-                url: "/admin/products/detail",
-                type:'GET',
-                data: { id:id },
-                success: function(response) {
-                    console.log(response["data"]);
-                    if(response["code"] === 200) {
-                        document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
-                        document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
-                        document.getElementById("product-code").innerHTML = 'Mã sản phẩm: ' + response["data"][0]["product_code"];
-                        document.getElementById("category").innerHTML = 'Danh mục: ' + response["data"][0]["category_name"];
-                        document.getElementById("unit").innerHTML = 'Đơn vị: ' + response["data"][0]["unit_name"];
-                        document.getElementById("price-unit").innerHTML = 'Giá/Đơn vị: ' + response["data"][0]["price_unit"] + ' VND';
-                        if(response["data"][0]["instruction"]) {
-                            document.getElementById("instruction").innerHTML = 'Hướng dẫn sử dụng: ' + response["data"][0]["instruction"];
-                        }
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-            $("#viewModal").modal("show");
-        }
+{{--        /**--}}
+{{--         * Confirm delete category--}}
+{{--         * @param id--}}
+{{--         */--}}
+{{--        function confirmView(id) {--}}
+{{--            $.ajax({--}}
+{{--                url: "/admin/products/detail",--}}
+{{--                type:'GET',--}}
+{{--                data: { id:id },--}}
+{{--                success: function(response) {--}}
+{{--                    console.log(response["data"]);--}}
+{{--                    if(response["code"] === 200) {--}}
+{{--                        document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];--}}
+{{--                        document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];--}}
+{{--                        document.getElementById("product-code").innerHTML = 'Mã sản phẩm: ' + response["data"][0]["product_code"];--}}
+{{--                        document.getElementById("category").innerHTML = 'Danh mục: ' + response["data"][0]["category_name"];--}}
+{{--                        document.getElementById("unit").innerHTML = 'Đơn vị: ' + response["data"][0]["unit_name"];--}}
+{{--                        document.getElementById("price-unit").innerHTML = 'Giá/Đơn vị: ' + response["data"][0]["price_unit"] + ' VND';--}}
+{{--                        if(response["data"][0]["instruction"]) {--}}
+{{--                            document.getElementById("instruction").innerHTML = 'Hướng dẫn sử dụng: ' + response["data"][0]["instruction"];--}}
+{{--                        }--}}
+{{--                    }--}}
+{{--                },--}}
+{{--                error: function (err) {--}}
+{{--                    console.log(err);--}}
+{{--                }--}}
+{{--            });--}}
+{{--            $("#viewModal").modal("show");--}}
+{{--        }--}}
 
-        /**
-         * Confirm delete category
-         * @param id
-         */
-        function confirmDelete(id) {
-            $("#id_product").val(id);
-            $("#deleteModal").modal("show");
-        }
-    </script>
+{{--        /**--}}
+{{--         * Confirm delete category--}}
+{{--         * @param id--}}
+{{--         */--}}
+{{--        function confirmDelete(id) {--}}
+{{--            $("#id_product").val(id);--}}
+{{--            $("#deleteModal").modal("show");--}}
+{{--        }--}}
+{{--    </script>--}}
 @endsection

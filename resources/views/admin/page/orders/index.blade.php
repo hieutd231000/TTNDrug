@@ -34,6 +34,10 @@
     .active {
         border-color: #dee2e6 #dee2e6 #dee2e6 !important;
     }
+    .text-bg-light {
+        color: #000 !important;
+        background-color: #e9e9e9 !important;
+    }
 </style>
 
 @extends("admin.master")
@@ -195,106 +199,140 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
-                                    <div class="header">
-                                        <h5>Thông tin orddsadsadaser</h5>
+                                    <div class="card-header">
+                                        <h5>Danh sách đơn hàng chờ xác nhận</h5>
                                     </div>
-                                    <div class="body">
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <select class="form-control" name="product_id" id="product_id">
-                                                            <option value="">Sản phẩm *</option>
-                                                            @foreach($listProduct as $key => $data)
-                                                                <option value={{$data->id}} {{ old("product_id") == $data->id ? "selected":"" }}>{{$data->product_name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    @if($errors->has('product_id'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('product_id')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
+                                    <div class="card-body">
+                                        <div class="card text-center text-bg-light" style="margin-bottom: 40px">
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Tên sản phẩm</th>
+                                                            <th scope="col">Tên nhà cung cấp</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">SĐT</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Tổng giá</th>
+                                                            <th scope="col">Ngày đặt hàng</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">
+                                                Xác nhận đơn hàng
                                             </div>
                                         </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Số lượng" value="{{ old("quantity") }}">
-                                                    </div>
-                                                    @if($errors->has('quantity'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('quantity')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
+                                        <div class="card text-center text-bg-light" style="margin-bottom: 40px">
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Tên sản phẩm</th>
+                                                            <th scope="col">Tên nhà cung cấp</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">SĐT</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Tổng giá</th>
+                                                            <th scope="col">Ngày đặt hàng</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <select class="form-control" name="supplier_id" id="supplier_id">
-                                                            <option value="">Nhà cung cấp *</option>
-                                                            @foreach($listSupplier as $key => $data)
-                                                                <option value={{$data->id}} {{ old("supplier_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                    @if($errors->has('supplier_id'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('supplier_id')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" class="form-control" name="pickupDate" placeholder="Ngày lấy hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
-                                                    </div>
-                                                    @if($errors->has('pickupDate'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('pickupDate')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" class="form-control" name="expriedDate" placeholder="Ngày hết hạn *" id="reservationdate1"  data-target="#reservationdate1" data-toggle="datetimepicker"/>
-                                                    </div>
-                                                    @if($errors->has('expriedDate'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('expriedDate')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
+                                            <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">
+                                                Xác nhận đơn hàng
                                             </div>
                                         </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <textarea name="detail" id="detail" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("detail") }}</textarea>
-                                                    </div>
-                                                </div>
+                                        <div class="card text-center text-bg-light" style="margin-bottom: 40px">
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Tên sản phẩm</th>
+                                                            <th scope="col">Tên nhà cung cấp</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">SĐT</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Tổng giá</th>
+                                                            <th scope="col">Ngày đặt hàng</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">
+                                                Xác nhận đơn hàng
                                             </div>
                                         </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div id="help-block-submit" class="margin-bottom-10" style="color: green">
-                                                </div>
+                                        <div class="card text-center text-bg-light" style="margin-bottom: 40px">
+                                            <div class="card-body">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">ID</th>
+                                                            <th scope="col">Tên sản phẩm</th>
+                                                            <th scope="col">Tên nhà cung cấp</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">SĐT</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Tổng giá</th>
+                                                            <th scope="col">Ngày đặt hàng</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                            <td>@mdo</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
-                                            <div class="col-sm-12">
-                                                <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
-                                                <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
+                                            <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">
+                                                Xác nhận đơn hàng
                                             </div>
                                         </div>
                                     </div>

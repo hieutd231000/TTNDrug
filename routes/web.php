@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
             Route::get("/add-supplier", [\App\Http\Controllers\Admin\SupplierController::class, 'addSupplierForm']);
             Route::post("/add-supplier", [\App\Http\Controllers\Admin\SupplierController::class, 'store']);
             Route::get("/{id}/edit", [\App\Http\Controllers\Admin\SupplierController::class, 'edit']);
+            Route::get("/{id}/detail", [\App\Http\Controllers\Admin\SupplierController::class, 'detail']);
             Route::post("/edit-supplier", [\App\Http\Controllers\Admin\SupplierController::class, 'handleEdit']);
             Route::post("/delete", [\App\Http\Controllers\Admin\SupplierController::class, 'destroy']);
         });
