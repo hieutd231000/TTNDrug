@@ -82,7 +82,16 @@ class SupplierController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function detail(Request $request, $id) {
-        return view("admin.page.suppliers.detail");
+        $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
+        if($id) {
+            $supplier = $this->supplierRepository->find($id);
+            if(empty($supplier)) {
+                return redirect()->back()->with("failed", trans("auth.empty"));
+            }
+            $totalProduct = $this->supplierRepository->countProduct($id);
+            return view("admin.page.suppliers.detail", ["supplier" => $listSupplier, "supplierDetail" => $supplier, "totalProduct" => $totalProduct]);
+        }
+        return view("admin.page.suppliers.detail", ["supplier" => $listSupplier]);
     }
 
     /**
@@ -123,6 +132,26 @@ class SupplierController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->back()->with("failed", trans("auth.delete.failed"));
+        }
+    }
+
+    /**
+     * Get all supplier's product
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function getAllProduct(Request $request) {
+        $supplier = $this->supplierRepository->find($request["id"]);
+        if(empty($supplier)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $product = $this->supplierRepository->getAllProductBySupplierId($supplier->id);
+            return $this->response->success($product, 200, 'Lấy danh sách sản phẩm thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Thông tin của bạn không chính xác');
         }
     }
 }

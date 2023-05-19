@@ -222,7 +222,6 @@
                                                                     người dùng
                                                                 </p>
                                                             @endif
-
                                                         </div>
                                                     </div>
                                                 </div>

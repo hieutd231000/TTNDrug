@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
             Route::get("/{id}/detail", [\App\Http\Controllers\Admin\SupplierController::class, 'detail']);
             Route::post("/edit-supplier", [\App\Http\Controllers\Admin\SupplierController::class, 'handleEdit']);
             Route::post("/delete", [\App\Http\Controllers\Admin\SupplierController::class, 'destroy']);
+            Route::get("/get-product", [\App\Http\Controllers\Admin\SupplierController::class, 'getAllProduct']);
         });
         Route::group(["prefix" => "inventories"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\InventoryController::class, 'index']);

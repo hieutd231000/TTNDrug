@@ -170,22 +170,22 @@
             $('.alert').fadeIn().delay(2000).fadeOut();
         });
 
-        function confirmView(id) {
-            $.ajax({
-                url: "/admin/suppliers/detail",
-                type:'GET',
-                data: { id:id },
-                success: function(response) {
-                    // console.log(response["data"]);
-                    // if(response["code"] === 200) {
-                    // }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-            $("#viewModal").modal("show");
-        }
+        // function confirmView(id) {
+        //     $.ajax({
+        //         url: "/admin/suppliers/detail",
+        //         type:'GET',
+        //         data: { id:id },
+        //         success: function(response) {
+        //             // console.log(response["data"]);
+        //             // if(response["code"] === 200) {
+        //             // }
+        //         },
+        //         error: function (err) {
+        //             console.log(err);
+        //         }
+        //     });
+        //     $("#viewModal").modal("show");
+        // }
 
         /**
          * Confirm delete user
