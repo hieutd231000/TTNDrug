@@ -55,6 +55,11 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             $product = DB::table("products")
                 ->where("id", $listProductId[$i]->product_id)
                 ->get();
+            $categoryName = DB::table("categories")
+                ->select('categories.name AS category_name')
+                ->where("id", $product[0]->category_id)
+                ->get();
+            $product[0]->category_name = $categoryName[0]->category_name;
             array_push($myArray, $product);
         }
         return $myArray;

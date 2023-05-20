@@ -133,11 +133,10 @@
                                 </div>
                                 <div class="row">
                                     <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Số lượng sản phẩm:</p>
-                                    <p class="col-sm-10">{{$totalProduct}}
-                                        <a class="product-detail" onclick="viewAllProduct({{$supplierDetail->id}})">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-                                    </p>
+                                    <p id="totalProduct" style="margin-left: 4px">{{$totalProduct}}</p>
+                                    <a class="product-detail" style="margin: 4px 0px 0px 10px" onclick="viewAllProduct()">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
                                 </div>
                                 @if ($supplierDetail->introduce)
                                     <div class="row">
@@ -149,16 +148,89 @@
                         </div>
                     </div>
                 @endisset
+
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 hidden listProductBySupplier">
+                    <div class="card">
+                        <div class="header">
+                            <h5>Danh sách sản phẩm</h5>
+                            <div style="text-align: end">
+                                <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm sản phẩm</button>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding-top: 0px !important;">
+                            <table id="listProductTable" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>STT</th>
+                                    <th>Tên sản phẩm</th>
+                                    <th>Danh mục</th>
+                                    <th>Mã code</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($listProduct as $key => $data)
+                                    <tr>
+                                        <td>{{$rank ++}}</td>
+                                        <td>{{$data[0]->product_name}}</td>
+                                        <td>{{$data[0]->category_name}}</td>
+                                        <td>{{$data[0]->product_code}}</td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+{{--                        <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+{{--                            {!! $listProduct[0]->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+{{--                        </div>--}}
+                    </div>
+                </div>
+
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
 
+        <!--Add Modal -->
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success hidden" id="notification">
+                        </div>
+                        <form>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
+                            <div class="form-group">
+                                <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
+                                    <option value="null">Chọn sản phẩm</option>
+                                    @foreach($listAllProduct as $key => $data)
+                                        <option value={{$data->id}}>{{$data->product_name}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="help-block" style="color: red">
+                                </div>
+                            </div>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                <button type="submit" class="btn btn-primary handleSubmit">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!--View Modal -->
         <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Danh sách sản phẩm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -221,22 +293,88 @@
          * Confirm delete category
          * @param id
          */
-        function viewAllProduct(id) {
-            $.ajax({
-                url: "/admin/suppliers/get-product",
-                type:'GET',
-                data: { id:id },
-                success: function(response) {
-                    console.log(response["data"]);
-                    if(response["code"] === 200) {
-                        console.log(response["data"]);
+        function viewAllProduct() {
+            if(document.querySelector(".listProductBySupplier").classList.contains("hidden")) {
+                document.querySelector(".listProductBySupplier").classList.remove("hidden")
+            } else {
+                document.querySelector(".listProductBySupplier").classList.add("hidden")
+            }
+        }
+
+        /**
+         * Handle add new category
+         */
+        $(document).ready(function() {
+            $(".handleSubmit").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var product_id = $('#product_selected').find(":selected").val();
+                var supplier_id = $("input[name='supplier_id']").val();
+                var blockErr = document.getElementById("help-block");
+                var listProduct = {!! $listProductId !!};
+                // console.log(listProduct[0]["product_id"]);
+                // console.log(listProduct.length);
+                if(product_id !== "null") {
+                    for(var i=0; i<listProduct.length; i++) {
+                        // if(product_id == listProduct[i]["product_id"]) {
+                        //     blockErr.innerHTML = "Sản phẩm này đã có trong danh sách";
+                        //     break;
+                        // }
+                        if(i === listProduct.length - 1) {
+                            blockErr.innerHTML = "";
+                            $.ajax({
+                                url: "/admin/suppliers/add-product",
+                                type:'POST',
+                                data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
+                                success: function(response) {
+                                    console.log(response["data"]);
+                                    addProductToTable(response["data"][0], response["data"][1], response["data"][2])
+                                },
+                                error: function (err) {
+                                    console.log(err);
+                                }
+                            });
+                            $("#addModal").modal("hide");
+                        }
                     }
-                },
-                error: function (err) {
-                    console.log(err);
+                } else {
+                    blockErr.innerHTML = "Không được để trống trường này";
                 }
             });
-            $("#viewModal").modal("show");
+        });
+
+        const addProductToTable = (name, category, code) => {
+            var table = document.getElementById("listProductTable").getElementsByTagName('tbody')[0];
+            var totalProduct = document.getElementById("totalProduct").textContent;
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            // var deleteRow = row.insertCell(5);
+            var currenTotal = (Number(totalProduct) + 1).toString()
+            document.getElementById("totalProduct").textContent = currenTotal;
+            cell1.innerHTML = currenTotal;
+            cell2.innerHTML = name;
+            cell3.innerHTML = category;
+            cell4.innerHTML = code;
+            // cell5.innerHTML = (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString();
+            //Create button
+            // let button = document.createElement("button");
+            // button.innerText = "Xoá";
+            // button.className = "btn btn-sm btn-danger";
+            // deleteRow.appendChild(button);
+            //Add to product array
+            // productArray.push({
+            //     product_name: name,
+            //     category_name: category,
+            //     product_code: code,
+            //     amount: document.getElementById(id).value,
+            //     total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
+            // })
+            // addToStorage();
+            // location.reload();
         }
+
     </script>
 @endsection

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Repositories\Products\ProductRepositoryInterface;
+use App\Repositories\SupplierProducts\SupplierProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -14,12 +16,15 @@ class SupplierController extends Controller
      * @var
      */
     protected $supplierRepository;
+    protected $productRepository;
+    protected $supplierProductRepository;
     protected $response;
 
-
-    public function __construct(SuppierRepositoryInterface $supplierRepository, ResponseHelper $response)
+    public function __construct(SupplierProductRepositoryInterface $supplierProductRepository ,SuppierRepositoryInterface $supplierRepository, ProductRepositoryInterface $productRepository,ResponseHelper $response)
     {
         $this->supplierRepository = $supplierRepository;
+        $this->productRepository = $productRepository;
+        $this->supplierProductRepository = $supplierProductRepository;
         $this->response = $response;
     }
 
@@ -89,7 +94,11 @@ class SupplierController extends Controller
                 return redirect()->back()->with("failed", trans("auth.empty"));
             }
             $totalProduct = $this->supplierRepository->countProduct($id);
-            return view("admin.page.suppliers.detail", ["supplier" => $listSupplier, "supplierDetail" => $supplier, "totalProduct" => $totalProduct]);
+            $listProductBySupplerId = $this->supplierRepository->getAllProductBySupplierId($id);
+            $listAllProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
+            $listProductId = $this->supplierProductRepository->listAllProductBySupplierId($id);
+            $rank = 1;
+            return view("admin.page.suppliers.detail", ["listProductId" => $listProductId , "supplier" => $listSupplier, "rank" => $rank, "supplierDetail" => $supplier, "totalProduct" => $totalProduct, "listProduct" => $listProductBySupplerId, "listAllProduct" => $listAllProduct]);
         }
         return view("admin.page.suppliers.detail", ["supplier" => $listSupplier]);
     }
@@ -152,6 +161,18 @@ class SupplierController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Thông tin của bạn không chính xác');
+        }
+    }
+
+    public function addSupplierProduct(Request $request) {
+        try {
+            $data = $request->all();
+            $newProductDetail = $this->supplierProductRepository->getProductDetail($request["product_id"]);
+            $this->supplierProductRepository->create($data);
+            return $this->response->success($newProductDetail, 200, 'Thêm sản phẩm thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Thêm sản phẩm thất bại');
         }
     }
 }

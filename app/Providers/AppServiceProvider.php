@@ -8,6 +8,8 @@ use App\Repositories\Infos\InfoEloquentRepository;
 use App\Repositories\Infos\InfoRepositoryInterface;
 use App\Repositories\Products\ProductEloquentRepository;
 use App\Repositories\Products\ProductRepositoryInterface;
+use App\Repositories\SupplierProducts\SupplierProductEloquentRepository;
+use App\Repositories\SupplierProducts\SupplierProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use App\Repositories\Suppliers\SupplierEloquentRepository;
 use App\Repositories\Units\UnitEloquentRepository;
@@ -53,6 +55,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductRepositoryInterface::class,
             ProductEloquentRepository::class
+        );
+
+        $this->app->bind(
+            SupplierProductRepositoryInterface::class,
+            SupplierProductEloquentRepository::class
         );
     }
 
