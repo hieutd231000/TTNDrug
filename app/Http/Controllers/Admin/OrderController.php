@@ -32,7 +32,8 @@ class OrderController extends Controller
         $listProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
         $listProductNameBySupplierName = $this->supplierRepository->getAllProductNameBySupplierName();
-        return view("admin.page.orders.index", ['listProduct' => $listProduct, 'listSupplier' => $listSupplier, 'proNamebysupName' => $listProductNameBySupplierName]);
+        $listSupplierName = $this->supplierRepository->getName();
+        return view("admin.page.orders.index", ['listProduct' => $listProduct, 'listSupplier' => $listSupplier, 'proNamebysupName' => $listProductNameBySupplierName, 'listSupplierName' => $listSupplierName]);
     }
 
     public function addOrderForm(Request $request) {

@@ -97,16 +97,12 @@
                                                     <div class="form-block">
                                                         <select class="form-control" name="supplier[]" id="supplier_id" style="margin-bottom: 17px">
                                                             <option value="Nha cung cap">Nhà cung cấp *</option>
-                                                            <option value="Tran Duc Hieu">Boots</option>
                                                             @foreach($listSupplier as $key => $data)
                                                                 <option value="{{$data->name}}">{{$data->name}}</option>
                                                             @endforeach
                                                         </select>
                                                         <select class="form-control attribute" name="product[]" id="product_id">
                                                             <option value="">Sản phẩm</option>
-                                                            {{--                                                            @foreach($listProduct as $key => $data)--}}
-                                                            {{--                                                                <option value={{$data->id}} {{ old("product_id") == $data->id ? "selected":"" }}>{{$data->product_name}}</option>--}}
-                                                            {{--                                                            @endforeach--}}
                                                         </select>
                                                     </div>
 {{--                                                    @if($errors->has('supplier_id'))--}}
@@ -119,7 +115,7 @@
                                             </div>
                                         </div>
                                         <div class="row clearfix">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <div class="form-block">
                                                         <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Số lượng" value="{{ old("quantity") }}">
@@ -132,20 +128,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" name="total_price" id="total_price" class="form-control" placeholder="Tổng tiền" value="{{ old("quantity") }}">
-                                                    </div>
-                                                    @if($errors->has('total_price'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('total_price')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6">
                                                 <div class="form-group">
                                                     <div class="form-block">
                                                         <input type="text" class="form-control" name="pickupDate" placeholder="Ngày đặt hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
@@ -461,15 +444,17 @@
         });
 
         var proNamebysupName = {!! $proNamebysupName !!};
+        var listSupplierName = {!! $listSupplierName !!};
         var attribute = {
-            'Nha cung cap': ['Sản phẩm'],
-            'Tran Duc Hieu': ['standard'],
+            'Nha cung cap': ['Sản phẩm']
             // 'trous': ['male', 'female'],
             // 'shirt': ['blue', 'red', 'green', 'brown', 'yellow'],
             // 'hoodie': ['blue', 'red'],
         }
-        var att = [];
         $(document).ready(function(){
+            addSupplierName();
+            getAllProductNameBySupplierName();
+            console.log(attribute);
             $('select[name*="[]"]').each(function(){
                 $('select[name*="[]"]').change(function () {
                     var $attribute = $(this).next('.attribute');
@@ -480,13 +465,16 @@
                     $attribute.html(html)
                 });
             });
-            getAllProductNameBySupplierName();
         });
         const getAllProductNameBySupplierName = () => {
-            console.log(attribute);
-            // for(var i=0; i<proNamebysupName.length; i++) {
-            //     console.log(proNamebysupName[i]["supplier_name"]);
-            // }
+            for(var i=0; i<proNamebysupName.length; i++) {
+                attribute[proNamebysupName[i]["supplier_name"]].push(proNamebysupName[i]["product_name"]);
+            }
+        }
+        const addSupplierName = () => {
+            for(var i=0; i<listSupplierName.length; i++) {
+                attribute[listSupplierName[i]] = [];
+            }
         }
     </script>
 @endsection

@@ -17,9 +17,7 @@ class Orders extends Model
         'supplier_id',
         'detail',
         'amount',
-        'receipt_date',
-        'expire_date',
-        'total_price'
+        'order_date'
     ];
 
     protected $primaryKey = "id";
