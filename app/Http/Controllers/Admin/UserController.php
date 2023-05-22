@@ -79,10 +79,10 @@ class UserController extends Controller
                     Log::error($exception->getMessage());
                 }
             }
-            return $this->response->success($data, 200, 'Thêm người dùng thành công');
+            return $this->response->success($data, 200, 'Thêm nhân viên thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Thêm người dùng thất bại');
+            return $this->response->error(null, 500, 'Thêm nhân viên thất bại');
         }
     }
 
@@ -156,10 +156,10 @@ class UserController extends Controller
                     Log::error($exception->getMessage());
                 }
             }
-            return $this->response->success($data, 200, 'Chỉnh sửa thông tin người dùng thành công');
+            return $this->response->success($data, 200, 'Chỉnh sửa thông tin nhân viên thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Chỉnh sửa thông tin người dùng thất bại');
+            return $this->response->error(null, 500, 'Chỉnh sửa thông tin nhân viên thất bại');
         }
     }
 

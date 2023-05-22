@@ -84,19 +84,17 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row clearfix">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <form>
-                            <div class="select">
-                                <select id="standard-select" style="height: 38px; width: 300px">
-                                    <option value="null">Chọn nhà cung cấp</option>
-                                    @foreach($supplier as $key => $data)
-                                        <option value={{$data->id}}>{{$data->name}}</option>
-                                    @endforeach
-                                </select>
-                                <span class="focus"></span>
-                                <input class="btn btn-primary handleSearch" type="submit" value="Chọn" style="margin-bottom: 5px">
-                            </div>
-                        </form>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 10px">
+                        <div class="select">
+                            <select id="standard-select" style="height: 38px; width: 300px; padding-left: 5px">
+                                <option value="null">Chọn nhà cung cấp</option>
+                                @foreach($supplier as $key => $data)
+                                    <option value={{$data->id}}>{{$data->name}}</option>
+                                @endforeach
+                            </select>
+                            <span class="focus"></span>
+                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
+                        </div>
                     </div><!-- /.col -->
                 </div>
                 @if (session('failed'))
@@ -148,83 +146,86 @@
                         </div>
                     </div>
                 @endisset
-
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 hidden listProductBySupplier">
-                    <div class="card">
-                        <div class="header">
-                            <h5>Danh sách sản phẩm</h5>
-                            <div style="text-align: end">
-                                <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm sản phẩm</button>
+                @isset ($listProduct)
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 hidden listProductBySupplier">
+                        <div class="card">
+                            <div class="header">
+                                <h5>Danh sách sản phẩm</h5>
+                                <div style="text-align: end">
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm sản phẩm</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body" style="padding-top: 0px !important;">
-                            <table id="listProductTable" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Danh mục</th>
-                                    <th>Mã code</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($listProduct as $key => $data)
+                            <div class="card-body" style="padding-top: 0px !important;">
+                                <table id="listProductTable" class="table table-bordered table-striped">
+                                    <thead>
                                     <tr>
-                                        <td>{{$rank ++}}</td>
-                                        <td>{{$data[0]->product_name}}</td>
-                                        <td>{{$data[0]->category_name}}</td>
-                                        <td>{{$data[0]->product_code}}</td>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Mã code</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($listProduct as $key => $data)
+                                        <tr>
+                                            <td>{{$rank ++}}</td>
+                                            <td>{{$data[0]->product_name}}</td>
+                                            <td>{{$data[0]->category_name}}</td>
+                                            <td>{{$data[0]->product_code}}</td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                            {{--                        <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+                            {{--                            {!! $listProduct[0]->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+                            {{--                        </div>--}}
                         </div>
-                        <!-- /.card-body -->
-{{--                        <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
-{{--                            {!! $listProduct[0]->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
-{{--                        </div>--}}
                     </div>
-                </div>
+                @endisset
 
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
 
         <!--Add Modal -->
-        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="alert alert-success hidden" id="notification">
+        @isset($supplierDetail)
+            <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
                         </div>
-                        <form>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
-                            <div class="form-group">
-                                <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
-                                    <option value="null">Chọn sản phẩm</option>
-                                    @foreach($listAllProduct as $key => $data)
-                                        <option value={{$data->id}}>{{$data->product_name}}</option>
-                                    @endforeach
-                                </select>
-                                <div id="help-block" style="color: red">
+                        <div class="modal-body">
+                            <div class="alert alert-success hidden" id="notification">
+                            </div>
+                            <form>
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
+                                <div class="form-group">
+                                    <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
+                                        <option value="null">Chọn sản phẩm</option>
+                                        @foreach($listAllProduct as $key => $data)
+                                            <option value={{$data->id}}>{{$data->product_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <div id="help-block" style="color: red">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="float-right">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
-                                <button type="submit" class="btn btn-primary handleSubmit">Lưu</button>
-                            </div>
-                        </form>
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                    <button type="submit" class="btn btn-primary handleSubmit">Lưu</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endisset
         <!--View Modal -->
         <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -284,7 +285,7 @@
         var imgSrc;
         /**
          * Hidden alert
-         */
+        //  */
         $(document).ready(function(){
             $('.alert-edit').fadeIn().delay(2000).fadeOut();
         });
@@ -302,7 +303,7 @@
         }
 
         /**
-         * Handle add new category
+         * Handle add new supplier product
          */
         $(document).ready(function() {
             $(".handleSubmit").click(function(e){
@@ -342,7 +343,6 @@
                 }
             });
         });
-
         const addProductToTable = (name, category, code) => {
             var table = document.getElementById("listProductTable").getElementsByTagName('tbody')[0];
             var totalProduct = document.getElementById("totalProduct").textContent;
@@ -352,6 +352,7 @@
             var cell3 = row.insertCell(2);
             var cell4 = row.insertCell(3);
             // var deleteRow = row.insertCell(5);
+
             var currenTotal = (Number(totalProduct) + 1).toString()
             document.getElementById("totalProduct").textContent = currenTotal;
             cell1.innerHTML = currenTotal;
@@ -374,6 +375,15 @@
             // })
             // addToStorage();
             // location.reload();
+        }
+
+        const handleSearch = () => {
+            var product_search = $('#standard-select').find(":selected").val();
+            if(product_search === "null") {
+                window.location.href = "/admin/suppliers/0/detail";
+            } else {
+                window.location.href = "/admin/suppliers/" + product_search + "/detail";
+            }
         }
 
     </script>

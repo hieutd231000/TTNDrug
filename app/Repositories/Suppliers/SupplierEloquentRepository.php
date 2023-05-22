@@ -28,6 +28,17 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
     }
 
     /**
+     * Get name
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public function getName()
+    {
+        return DB::table("suppliers")
+            ->pluck("name");
+    }
+
+    /**
      * Count all product by supplier_id
      *
      * @param supplier_id $
@@ -63,5 +74,13 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             array_push($myArray, $product);
         }
         return $myArray;
+    }
+
+    public function getAllProductNameBySupplierName() {
+        return DB::table("suppliers")
+            ->join("supplier_products", "suppliers.id", "=", "supplier_products.supplier_id")
+            ->join("products", "products.id", "=", "supplier_products.product_id")
+            ->select("suppliers.name AS supplier_name", "products.product_name")
+            ->get();
     }
 }

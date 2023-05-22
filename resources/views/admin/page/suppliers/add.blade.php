@@ -161,6 +161,7 @@
 @section("custom-js")
     <script>
         var listEmail = {!! $listEmail !!};
+        var listName = {!! $listName !!};
         var name, phone, address, introduce, email;
         var blockErrName = document.getElementById("help-block-name");
         var blockErrPhone = document.getElementById("help-block-phone");
@@ -180,6 +181,8 @@
                 // Check validate
                 if(!name) {
                     blockErrName.innerHTML = "Không được để trống";
+                } else if(checkExistName(name)) {
+                    blockErrName.innerHTML = "Name đã tồn tại";
                 } else {
                     blockErrName.innerHTML = "";
                 }
@@ -262,6 +265,16 @@
         const checkExistEmail = (email) => {
             console.log(listEmail);
             return listEmail.indexOf(email) !== -1;
+        }
+
+        /**
+         *
+         * @param name
+         * @returns {boolean}
+         */
+        const checkExistName = (name) => {
+            console.log(listName);
+            return listName.indexOf(name) !== -1;
         }
 
         /**

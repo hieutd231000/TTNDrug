@@ -47,9 +47,9 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-{{--                    <div class="col-sm-6">--}}
-{{--                        <h4 class="m-0">Danh sách order</h4>--}}
-{{--                    </div><!-- /.col -->--}}
+                    <div class="col-sm-6">
+                        <h4 class="m-0">Danh sách order</h4>
+                    </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
@@ -95,24 +95,31 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group">
                                                     <div class="form-block">
-                                                        <select class="form-control" name="product_id" id="product_id">
-                                                            <option value="">Sản phẩm *</option>
-                                                            @foreach($listProduct as $key => $data)
-                                                                <option value={{$data->id}} {{ old("product_id") == $data->id ? "selected":"" }}>{{$data->product_name}}</option>
+                                                        <select class="form-control" name="supplier[]" id="supplier_id" style="margin-bottom: 17px">
+                                                            <option value="Nha cung cap">Nhà cung cấp *</option>
+                                                            <option value="Tran Duc Hieu">Boots</option>
+                                                            @foreach($listSupplier as $key => $data)
+                                                                <option value="{{$data->name}}">{{$data->name}}</option>
                                                             @endforeach
                                                         </select>
+                                                        <select class="form-control attribute" name="product[]" id="product_id">
+                                                            <option value="">Sản phẩm</option>
+                                                            {{--                                                            @foreach($listProduct as $key => $data)--}}
+                                                            {{--                                                                <option value={{$data->id}} {{ old("product_id") == $data->id ? "selected":"" }}>{{$data->product_name}}</option>--}}
+                                                            {{--                                                            @endforeach--}}
+                                                        </select>
                                                     </div>
-                                                    @if($errors->has('product_id'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('product_id')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
+{{--                                                    @if($errors->has('supplier_id'))--}}
+{{--                                                        <p style="height: 0; margin: 0; color: red">--}}
+{{--                                                            {{$errors->first('supplier_id')}}--}}
+{{--                                                        </p>--}}
+{{--                                                        <br>--}}
+{{--                                                    @endif--}}
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="row clearfix">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <div class="form-block">
                                                         <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Số lượng" value="{{ old("quantity") }}">
@@ -125,45 +132,27 @@
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <div class="form-block">
-                                                        <select class="form-control" name="supplier_id" id="supplier_id">
-                                                            <option value="">Nhà cung cấp *</option>
-                                                            @foreach($listSupplier as $key => $data)
-                                                                <option value={{$data->id}} {{ old("supplier_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
-                                                            @endforeach
-                                                        </select>
+                                                        <input type="text" name="total_price" id="total_price" class="form-control" placeholder="Tổng tiền" value="{{ old("quantity") }}">
                                                     </div>
-                                                    @if($errors->has('supplier_id'))
+                                                    @if($errors->has('total_price'))
                                                         <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('supplier_id')}}
+                                                            {{$errors->first('total_price')}}
                                                         </p>
                                                         <br>
                                                     @endif
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="form-group">
                                                     <div class="form-block">
-                                                        <input type="text" class="form-control" name="pickupDate" placeholder="Ngày lấy hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
+                                                        <input type="text" class="form-control" name="pickupDate" placeholder="Ngày đặt hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
                                                     </div>
                                                     @if($errors->has('pickupDate'))
                                                         <p style="height: 0; margin: 0; color: red">
                                                             {{$errors->first('pickupDate')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" class="form-control" name="expriedDate" placeholder="Ngày hết hạn *" id="reservationdate1"  data-target="#reservationdate1" data-toggle="datetimepicker"/>
-                                                    </div>
-                                                    @if($errors->has('expriedDate'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('expriedDate')}}
                                                         </p>
                                                         <br>
                                                     @endif
@@ -470,5 +459,34 @@
         $('#reservationdate1').datetimepicker({
             format: 'L'
         });
+
+        var proNamebysupName = {!! $proNamebysupName !!};
+        var attribute = {
+            'Nha cung cap': ['Sản phẩm'],
+            'Tran Duc Hieu': ['standard'],
+            // 'trous': ['male', 'female'],
+            // 'shirt': ['blue', 'red', 'green', 'brown', 'yellow'],
+            // 'hoodie': ['blue', 'red'],
+        }
+        var att = [];
+        $(document).ready(function(){
+            $('select[name*="[]"]').each(function(){
+                $('select[name*="[]"]').change(function () {
+                    var $attribute = $(this).next('.attribute');
+                    var product = $(this).val(), lcns = attribute[product] || [];
+                    var html = $.map(lcns, function(lcn){
+                        return '<option value="' + lcn + '">' + lcn + '</option>'
+                    }).join('');
+                    $attribute.html(html)
+                });
+            });
+            getAllProductNameBySupplierName();
+        });
+        const getAllProductNameBySupplierName = () => {
+            console.log(attribute);
+            // for(var i=0; i<proNamebysupName.length; i++) {
+            //     console.log(proNamebysupName[i]["supplier_name"]);
+            // }
+        }
     </script>
 @endsection

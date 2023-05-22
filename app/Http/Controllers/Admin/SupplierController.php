@@ -47,7 +47,8 @@ class SupplierController extends Controller
     public function addSupplierForm(Request $request)
     {
         $listEmail = $this->supplierRepository->getEmail();
-        return view("admin.page.suppliers.add", ['listEmail' => $listEmail]);
+        $listName = $this->supplierRepository->getName();
+        return view("admin.page.suppliers.add", ['listEmail' => $listEmail, 'listName' => $listName]);
     }
 
     /**
@@ -88,6 +89,8 @@ class SupplierController extends Controller
      */
     public function detail(Request $request, $id) {
         $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
+        $listProductId = $this->supplierProductRepository->listAllProductBySupplierId($id);
+        $listAllProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         if($id) {
             $supplier = $this->supplierRepository->find($id);
             if(empty($supplier)) {
@@ -95,12 +98,10 @@ class SupplierController extends Controller
             }
             $totalProduct = $this->supplierRepository->countProduct($id);
             $listProductBySupplerId = $this->supplierRepository->getAllProductBySupplierId($id);
-            $listAllProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
-            $listProductId = $this->supplierProductRepository->listAllProductBySupplierId($id);
             $rank = 1;
             return view("admin.page.suppliers.detail", ["listProductId" => $listProductId , "supplier" => $listSupplier, "rank" => $rank, "supplierDetail" => $supplier, "totalProduct" => $totalProduct, "listProduct" => $listProductBySupplerId, "listAllProduct" => $listAllProduct]);
         }
-        return view("admin.page.suppliers.detail", ["supplier" => $listSupplier]);
+        return view("admin.page.suppliers.detail", ["supplier" => $listSupplier, "listProductId" => $listProductId, "listAllProduct" => $listAllProduct]);
     }
 
     /**

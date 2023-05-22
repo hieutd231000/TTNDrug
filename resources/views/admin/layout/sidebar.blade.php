@@ -261,7 +261,7 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-plus"></i>
                         <p>
-                            Người dùng
+                            Nhân viên
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -269,13 +269,13 @@
                         <li class="nav-item">
                             <a href="/admin/users" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách người dùng</p>
+                                <p>Danh sách nhân viên</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="/admin/users/add-user" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm người dùng</p>
+                                <p>Thêm nhân viên</p>
                             </a>
                         </li>
                     </ul>

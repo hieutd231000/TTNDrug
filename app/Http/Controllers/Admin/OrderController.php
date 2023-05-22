@@ -31,7 +31,8 @@ class OrderController extends Controller
     public function listOrder(Request $request) {
         $listProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
-        return view("admin.page.orders.index", ['listProduct' => $listProduct, 'listSupplier' => $listSupplier]);
+        $listProductNameBySupplierName = $this->supplierRepository->getAllProductNameBySupplierName();
+        return view("admin.page.orders.index", ['listProduct' => $listProduct, 'listSupplier' => $listSupplier, 'proNamebysupName' => $listProductNameBySupplierName]);
     }
 
     public function addOrderForm(Request $request) {
