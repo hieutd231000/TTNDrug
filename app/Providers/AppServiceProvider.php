@@ -6,6 +6,8 @@ use App\Repositories\Categories\CategoryEloquentRepository;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Repositories\Infos\InfoEloquentRepository;
 use App\Repositories\Infos\InfoRepositoryInterface;
+use App\Repositories\Orders\OrderEloquentRepository;
+use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\Products\ProductEloquentRepository;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\SupplierProducts\SupplierProductEloquentRepository;
@@ -60,6 +62,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             SupplierProductRepositoryInterface::class,
             SupplierProductEloquentRepository::class
+        );
+
+        $this->app->bind(
+            OrderRepositoryInterface::class,
+            OrderEloquentRepository::class
         );
     }
 

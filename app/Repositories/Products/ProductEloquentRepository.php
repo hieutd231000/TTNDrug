@@ -57,4 +57,15 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->where('products.id', $id)
             ->get();
     }
+
+    /**
+     * @param $productName
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function nameToId($productName) {
+        $product = DB::table('products')
+            ->where("product_name", $productName)
+            ->first();
+        return $product->id;
+    }
 }

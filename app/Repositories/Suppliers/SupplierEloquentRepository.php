@@ -76,11 +76,25 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
         return $myArray;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getAllProductNameBySupplierName() {
         return DB::table("suppliers")
             ->join("supplier_products", "suppliers.id", "=", "supplier_products.supplier_id")
             ->join("products", "products.id", "=", "supplier_products.product_id")
             ->select("suppliers.name AS supplier_name", "products.product_name")
             ->get();
+    }
+
+    /**
+     * @param $productName
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function nameToId($supplierName) {
+        $supplier = DB::table('suppliers')
+            ->where("name", $supplierName)
+            ->first();
+        return $supplier->id;
     }
 }

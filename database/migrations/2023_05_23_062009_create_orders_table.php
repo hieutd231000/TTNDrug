@@ -19,7 +19,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger("supplier_id");
             $table->integer("amount");
             $table->text("detail")->nullable();
-            $table->timestamp('order_date')->nullable();
+            $table->string('order_date')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();
         });
