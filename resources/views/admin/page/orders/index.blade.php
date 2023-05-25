@@ -451,5 +451,8 @@
                 }
             });
         }
+        const tinderStorm = (id) => {
+            console.log("fds");
+        }
     </script>
 @endsection
