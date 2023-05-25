@@ -33,11 +33,21 @@ class OrderController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function listOrder(Request $request) {
+        //List Order
         $listProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
         $listProductNameBySupplierName = $this->supplierRepository->getAllProductNameBySupplierName();
         $listSupplierName = $this->supplierRepository->getName();
-        return view("admin.page.orders.index", ['listProduct' => $listProduct, 'listSupplier' => $listSupplier, 'proNamebysupName' => $listProductNameBySupplierName, 'listSupplierName' => $listSupplierName]);
+        //List Order Verify
+        $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
+        return view("admin.page.orders.index", [
+            'listProduct' => $listProduct,
+            'listSupplier' => $listSupplier,
+            'proNamebysupName' => $listProductNameBySupplierName,
+            'listSupplierName' => $listSupplierName,
+            'listOrderUnverified' => $listOrderUnverified,
+            'rank' => 1
+        ]);
     }
 
     /**
@@ -55,6 +65,20 @@ class OrderController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Tạo đơn hàng thất bại');
+        }
+    }
+
+    public function verifyOrder(Request $request) {
+        $order = $this->orderRepository->find($request["id"]);
+        if(empty($order)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $this->orderRepository->verifyOrder($order->id);
+            return $this->response->success(null, 200, 'Xác nhận đơn hàng thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Xác nhận đơn hàng thất bại');
         }
     }
 }

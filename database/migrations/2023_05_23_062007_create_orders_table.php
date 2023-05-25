@@ -19,8 +19,8 @@ class CreateOrdersTable extends Migration
             $table->unsignedBigInteger("supplier_id");
             $table->integer("amount");
             $table->text("detail")->nullable();
-            $table->string('order_date')->nullable();
-            $table->tinyInteger('status')->nullable();
+            $table->string('order_date');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
@@ -33,5 +33,9 @@ class CreateOrdersTable extends Migration
     public function down()
     {
         Schema::dropIfExists('orders');
+    }
+
+    public function getDown() {
+
     }
 }

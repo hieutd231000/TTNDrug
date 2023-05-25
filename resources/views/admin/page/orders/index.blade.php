@@ -93,6 +93,10 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="header">
+                                        <div class="col-sm-12">
+                                            <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 8px">
+                                            </div>
+                                        </div>
                                         <h5>Thông tin đơn hàng</h5>
                                     </div>
                                     <div class="body">
@@ -147,10 +151,6 @@
                                         </div>
                                         <div class="row clearfix">
                                             <div class="col-sm-12">
-                                                <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 8px">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12">
                                                 <button type="button" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
                                                 <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
                                             </div>
@@ -161,46 +161,51 @@
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane padding-20" id="verifyOrder">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h5>Danh sách đơn hàng chờ xác nhận</h5>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="card text-center text-bg-light" style="margin-bottom: 40px">
-                                            <div class="card-body">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">ID</th>
-                                                            <th scope="col">Tên sản phẩm</th>
-                                                            <th scope="col">Tên nhà cung cấp</th>
-                                                            <th scope="col">Email</th>
-                                                            <th scope="col">SĐT</th>
-                                                            <th scope="col">Số lượng</th>
-                                                            <th scope="col">Tổng giá</th>
-                                                            <th scope="col">Ngày đặt hàng</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                            <td>@mdo</td>
-                                                            <td>@mdo</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                    @foreach($listOrderUnverified as $data)
+                                        <form>
+                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <div class="card-body" style="padding-bottom: 0px">
+                                                <div class="card text-center text-bg-light">
+                                                    <div class="card-body">
+                                                        <table class="table">
+                                                            <thead>
+                                                            <tr>
+                                                                <th scope="col">STT</th>
+                                                                <th scope="col">Tên sản phẩm</th>
+                                                                <th scope="col">Tên nhà cung cấp</th>
+                                                                <th scope="col">Email</th>
+                                                                <th scope="col">SĐT</th>
+                                                                <th scope="col">Số lượng</th>
+                                                                <th scope="col">Tổng giá</th>
+                                                                <th scope="col">Ngày đặt hàng</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            <tr>
+                                                                <td>{{$rank++}}</td>
+                                                                <td>{{$data->product_name}}</td>
+                                                                <td>{{$data->supplier_name}}</td>
+                                                                <td>{{$data->supplier_email}}</td>
+                                                                <td>{{$data->supplier_phone}}</td>
+                                                                <td>{{$data->amount}}</td>
+                                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>
+                                                                <td>{{$data->order_date}}</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="card-footer btn btn-primary" onclick="verifyOrder({{$data->id}})" style="background-color: #007bff !important;">
+                                                        Xác nhận đơn hàng
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">
-                                                Xác nhận đơn hàng
-                                            </div>
-                                        </div>
-                                    </div>
+                                        </form>
+                                    @endforeach
                                 </div>
                             </div>
                     </div>
@@ -399,7 +404,7 @@
                             alertDiv.innerHTML += response["message"];
                             setTimeout(function(){
                                 location.reload();
-                            }, 300);
+                            }, 2000);
                         },
                         error: function (err) {
                             console.log(err);
@@ -429,9 +434,22 @@
                 attribute[listSupplierName[i]] = [];
             }
         }
-
         const checkNumber = (num) => {
             return /^\d+$/.test(num);
+        }
+        const verifyOrder = (id) => {
+            var _token = $("input[name='_token']").val();
+            $.ajax({
+                url: "/admin/orders/verify-order",
+                type:'POST',
+                data: {_token:_token, id:id, status:1},
+                success: function(response) {
+
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
         }
     </script>
 @endsection
