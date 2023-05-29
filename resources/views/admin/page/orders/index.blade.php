@@ -161,165 +161,94 @@
                         </form>
                     </div>
                     <div role="tabpanel" class="tab-pane padding-20" id="verifyOrder">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h5>Danh sách đơn hàng chờ xác nhận</h5>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Đơn hàng chờ xác nhận</h5>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="alert alert-success hidden" id="confirmation" style="display: inline-block; padding: 8px; margin-top: 15px">
                                     </div>
-                                    @foreach($listOrderUnverified as $data)
-                                        <form>
-                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                            <div class="card-body" style="padding-bottom: 0px">
-                                                <div class="card text-center text-bg-light">
-                                                    <div class="card-body">
-                                                        <table class="table">
-                                                            <thead>
-                                                            <tr>
-                                                                <th scope="col">STT</th>
-                                                                <th scope="col">Tên sản phẩm</th>
-                                                                <th scope="col">Tên nhà cung cấp</th>
-                                                                <th scope="col">Email</th>
-                                                                <th scope="col">SĐT</th>
-                                                                <th scope="col">Số lượng</th>
-                                                                <th scope="col">Tổng giá</th>
-                                                                <th scope="col">Ngày đặt hàng</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            <tr>
-                                                                <td>{{$rank++}}</td>
-                                                                <td>{{$data->product_name}}</td>
-                                                                <td>{{$data->supplier_name}}</td>
-                                                                <td>{{$data->supplier_email}}</td>
-                                                                <td>{{$data->supplier_phone}}</td>
-                                                                <td>{{$data->amount}}</td>
-                                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>
-                                                                <td>{{$data->order_date}}</td>
-                                                            </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                    <div class="card-footer btn btn-primary" onclick="verifyOrder({{$data->id}})" style="background-color: #007bff !important;">
-                                                        Xác nhận đơn hàng
-                                                    </div>
+                                </div>
+                                @foreach($listOrderUnverified as $data)
+                                    <form>
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <div class="card-body" style="padding-bottom: 0px">
+                                            <div class="card text-center text-bg-light">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">STT</th>
+                                                            <th scope="col">Tên sản phẩm</th>
+                                                            <th scope="col">Tên nhà cung cấp</th>
+                                                            <th scope="col">Email</th>
+                                                            <th scope="col">SĐT</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col">Tổng giá</th>
+                                                            <th scope="col">Ngày đặt hàng</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>{{$rank++}}</td>
+                                                            <td>{{$data->product_name}}</td>
+                                                            <td>{{$data->supplier_name}}</td>
+                                                            <td>{{$data->supplier_email}}</td>
+                                                            <td>{{$data->supplier_phone}}</td>
+                                                            <td>{{$data->amount}}</td>
+                                                            <td>{{$data->amount * $data->price_unit}} VNĐ</td>
+                                                            <td>{{$data->order_date}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="card-footer btn btn-primary" onclick="verifyOrder({{$data->id}})" style="background-color: #007bff !important;">
+                                                    Xác nhận đơn hàng
                                                 </div>
                                             </div>
-                                        </form>
-                                    @endforeach
-                                </div>
+                                        </div>
+                                    </form>
+                                @endforeach
                             </div>
+                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane padding-20" id="listOrder">
-                        <form action="{{ url("admin/orders/add-product") }}" enctype="multipart/form-data" method="post">
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="card">
-                                    <div class="header">
-                                        <h5>Thông tin ordedsr</h5>
-                                    </div>
-                                    <div class="body">
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-{{--                                                        <select class="form-control" name="product_id" id="product_id">--}}
-{{--                                                            <option value="">Sản phẩm *</option>--}}
-{{--                                                            @foreach($listProduct as $key => $data)--}}
-{{--                                                                <option value={{$data->id}} {{ old("product_id") == $data->id ? "selected":"" }}>{{$data->product_name}}</option>--}}
-{{--                                                            @endforeach--}}
-{{--                                                        </select>--}}
-                                                    </div>
-{{--                                                    @if($errors->has('product_id'))--}}
-{{--                                                        <p style="height: 0; margin: 0; color: red">--}}
-{{--                                                            {{$errors->first('product_id')}}--}}
-{{--                                                        </p>--}}
-{{--                                                        <br>--}}
-{{--                                                    @endif--}}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Số lượng" value="{{ old("quantity") }}">
-                                                    </div>
-                                                    @if($errors->has('quantity'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('quantity')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-{{--                                                    <div class="form-block">--}}
-{{--                                                        <select class="form-control" name="supplier_id" id="supplier_id">--}}
-{{--                                                            <option value="">Nhà cung cấp *</option>--}}
-{{--                                                            @foreach($listSupplier as $key => $data)--}}
-{{--                                                                <option value={{$data->id}} {{ old("supplier_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>--}}
-{{--                                                            @endforeach--}}
-{{--                                                        </select>--}}
-{{--                                                    </div>--}}
-{{--                                                    @if($errors->has('supplier_id'))--}}
-{{--                                                        <p style="height: 0; margin: 0; color: red">--}}
-{{--                                                            {{$errors->first('supplier_id')}}--}}
-{{--                                                        </p>--}}
-{{--                                                        <br>--}}
-{{--                                                    @endif--}}
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" class="form-control" name="pickupDate" placeholder="Ngày lấy hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
-                                                    </div>
-                                                    @if($errors->has('pickupDate'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('pickupDate')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-3">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" class="form-control" name="expriedDate" placeholder="Ngày hết hạn *" id="reservationdate1"  data-target="#reservationdate1" data-toggle="datetimepicker"/>
-                                                    </div>
-                                                    @if($errors->has('expriedDate'))
-                                                        <p style="height: 0; margin: 0; color: red">
-                                                            {{$errors->first('expriedDate')}}
-                                                        </p>
-                                                        <br>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <textarea name="detail" id="detail" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("detail") }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div id="help-block-submit" class="margin-bottom-10" style="color: green">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-12">
-                                                <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
-                                                <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Danh sách đơn hàng</h5>
+                                </div>
+                                <div class="col-sm-12" style="padding: 15px">
+                                    <table id="listOrderTable" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Tên sản phẩm</th>
+                                            <th scope="col">Tên nhà cung cấp</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">SĐT</th>
+                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Tổng giá</th>
+                                            <th scope="col">Ngày đặt hàng</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {{--                                    --}}{{--                                    @foreach($category as $key => $data)--}}
+                                        {{--                                    <tr>--}}
+                                        {{--                                        <td>fdgd</td>--}}
+                                        {{--                                        <td>gfdgdf</td>--}}
+                                        {{--                                        <td style="width: 50%;">gfdgdf</td>--}}
+                                        {{--                                        <td>--}}
+                                        {{--                                            gfdgfd--}}
+                                        {{--                                        </td>--}}
+                                        {{--                                    </tr>--}}
+                                        {{--                                    --}}{{--                                    @endforeach--}}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
 
@@ -338,6 +267,36 @@
         });
         $('#reservationdate1').datetimepicker({
             format: 'L'
+        });
+
+        /**
+         * Datatable
+         */
+        $(function () {
+            $("#listOrderTable").DataTable({
+                paging: false,
+                ordering: false,
+                autoWidth: false,
+                responsive: false,
+                lengthChange: false,
+                info: false,
+                searching: false,
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ đơn hàng trên một trang",
+                    "zeroRecords": "Không có đơn hàng",
+                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",
+                    "search": "Tìm kiếm:",
+                    "infoEmpty": "",
+                    "paginate": {
+                        "next":       "Sau",
+                        "previous":   "Trước"
+                    },
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                }
+            })
+                .buttons()
+                .container()
+                .appendTo("#listOrderTable_wrapper .col-md-6:eq(0)");
         });
 
         var proNamebysupName = {!! $proNamebysupName !!};
@@ -444,15 +403,17 @@
                 type:'POST',
                 data: {_token:_token, id:id, status:1},
                 success: function(response) {
-
+                    var alertDiv = document.getElementById("confirmation");
+                    alertDiv.classList.remove("hidden");
+                    alertDiv.innerHTML += response["message"];
+                    setTimeout(function(){
+                        location.reload();
+                    }, 1000);
                 },
                 error: function (err) {
                     console.log(err);
                 }
             });
-        }
-        const tinderStorm = (id) => {
-            console.log("fds");
         }
     </script>
 @endsection
