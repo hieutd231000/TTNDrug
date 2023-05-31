@@ -30,6 +30,18 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
     }
 
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllOrder()
+    {
+        return DB::table("orders")
+            ->join("products", "products.id", "=", "orders.product_id")
+            ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
+            ->select("products.product_name", "products.price_unit", "suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
+            ->get();
+    }
+
+    /**
      * @param $id
      * @return int
      */

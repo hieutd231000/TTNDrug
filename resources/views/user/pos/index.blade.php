@@ -510,7 +510,7 @@
                     total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
                 })
                 addToStorage();
-                location.reload();
+                // location.reload();
             }
         }
         const buildTable = () => {

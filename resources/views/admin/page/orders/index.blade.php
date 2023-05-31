@@ -231,19 +231,31 @@
                                             <th scope="col">Số lượng</th>
                                             <th scope="col">Tổng giá</th>
                                             <th scope="col">Ngày đặt hàng</th>
+                                            <th scope="col">Trạng thái</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {{--                                    --}}{{--                                    @foreach($category as $key => $data)--}}
-                                        {{--                                    <tr>--}}
-                                        {{--                                        <td>fdgd</td>--}}
-                                        {{--                                        <td>gfdgdf</td>--}}
-                                        {{--                                        <td style="width: 50%;">gfdgdf</td>--}}
-                                        {{--                                        <td>--}}
-                                        {{--                                            gfdgfd--}}
-                                        {{--                                        </td>--}}
-                                        {{--                                    </tr>--}}
-                                        {{--                                    --}}{{--                                    @endforeach--}}
+                                        @foreach($listAllOrder as $key => $data)
+                                            <tr>
+                                                <td>{{$rankOrder ++}}</td>
+                                                <td>{{$data -> product_name}}</td>
+                                                <td>{{$data -> supplier_name}}</td>
+                                                <td>{{$data -> supplier_email}}</td>
+                                                <td>{{$data -> supplier_phone}}</td>
+                                                <td>{{$data -> amount}}</td>
+                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>
+                                                <td>{{$data->order_date}}</td>
+                                                <td>
+                                                    @if($data -> status === 0)
+                                                        <button class="btn btn-sm btn-danger">Chưa xác nhận</button>
+                                                    @elseif($data -> status === 1)
+                                                        <button class="btn btn-sm btn-primary">Đã xác nhận</button>
+                                                    @elseif($data -> status === 2)
+                                                        <button class="btn btn-sm btn-success">Đã nhận hàng</button>
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -363,7 +375,7 @@
                             alertDiv.innerHTML += response["message"];
                             setTimeout(function(){
                                 location.reload();
-                            }, 2000);
+                            }, 600);
                         },
                         error: function (err) {
                             console.log(err);
@@ -408,7 +420,7 @@
                     alertDiv.innerHTML += response["message"];
                     setTimeout(function(){
                         location.reload();
-                    }, 1000);
+                    }, 600);
                 },
                 error: function (err) {
                     console.log(err);

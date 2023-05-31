@@ -164,6 +164,36 @@ class UserController extends Controller
     }
 
     /**
+     * Handle edit profile info
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|void
+     */
+    public function handleEditInfo(Request $request) {
+        $user = $this->userRepository->find($request["id"]);
+        if(empty($user)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $fullname = explode(" ", $request["name"]);
+            $data["email"] = $request["email"];
+            $data["firstname"] = $fullname[0];
+            $data["lastname"] = "";
+            for($i=1; $i<count($fullname); $i++) {
+                $data["lastname"] = $data["lastname"] . $fullname[$i];
+                if($i != count($fullname) - 1) {
+                    $data["lastname"] = $data["lastname"] . " ";
+                }
+            }
+            $userUpdate = $this->userRepository->update($data, $user->id);
+            return $this->response->success($userUpdate, 200, 'Chỉnh sửa thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Chỉnh sửa thất bại');
+        }
+    }
+
+    /**
      * View profile user
      *
      * @param Request $request

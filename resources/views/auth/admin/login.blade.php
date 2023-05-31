@@ -142,8 +142,8 @@
                             @endif
                         </div>
                         <div class="mb-3">
-                            <input type="checkbox" id="remember_me" name="remember_me">
-                            <label for="remember_me">Ghi nhớ cho lần đăng nhập tiếp theo</label>
+{{--                            <input type="checkbox" id="remember_me" name="remember_me">--}}
+{{--                            <label for="remember_me">Ghi nhớ cho lần đăng nhập tiếp theo</label>--}}
                             <div class="text-center mb-1">
                                 <button type="submit" class="btn btn-sign-in">Đăng nhập</button>
 {{--                                <a href="/signup" class="btn btn-sign-up">Đăng ký</a>--}}

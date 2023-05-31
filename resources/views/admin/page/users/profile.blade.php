@@ -108,6 +108,9 @@
     .margin-top-40 {
         margin-top: 40px;
     }
+    .hidden {
+        display: none !important;
+    }
     .margin-bottom-10 {
         margin-bottom: 10px;
     }
@@ -215,11 +218,11 @@
                                                             <p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Quyền:</p>
                                                             @if (auth()->user()->role === 0)
                                                                 <p class="col-sm-10">
-                                                                    admin
+                                                                    Admin
                                                                 </p>
                                                             @elseif (auth()->user()->role === 1)
                                                                 <p class="col-sm-10">
-                                                                    người dùng
+                                                                    User
                                                                 </p>
                                                             @endif
                                                         </div>
@@ -236,18 +239,26 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form method="POST" enctype="multipart/form-data" action="http://127.0.0.1:8001/admin/profile/1">
-                                                                    <input type="hidden" name="_token" value="lqCt0M8FqtOsDmgfVOws7YfZkFQGNH61JPLqECtm">											<div class="row form-row">
+                                                                <form>
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
+                                                                    <div class="row form-row">
+                                                                        <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 9px !important;">
+                                                                        </div>
                                                                         <div class="col-12">
                                                                             <div class="form-group">
                                                                                 <label>Họ và tên</label>
                                                                                 <input class="form-control" name="name" type="text" value="{{auth()->user()->firstname}} {{auth()->user()->lastname}}" placeholder="Họ tên">
+                                                                                <div id="help-block-name" style="color: red">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <div class="form-group">
                                                                                 <label>Email</label>
                                                                                 <input class="form-control" name="email" type="text" value="{{auth()->user()->email}}" placeholder="Email">
+                                                                                <div id="help-block-email" style="color: red">
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12">
@@ -256,9 +267,8 @@
                                                                                 <input type="file" value="" class="form-control" name="avatar">
                                                                             </div>
                                                                         </div>
-
                                                                     </div>
-                                                                    <button type="submit" class="btn btn-primary btn-block">Lưu thay đổi</button>
+                                                                    <button type="submit" class="btn btn-primary btn-block handleChangeInfo">Lưu thay đổi</button>
                                                                 </form>
                                                             </div>
                                                         </div>
@@ -267,7 +277,7 @@
                                                 <!-- /Edit Details Modal -->
                                             </div>
                                             <div class="col-sm-12">
-                                                <button data-toggle="modal" href="#edit_personal_details" class="btn btn-success btn-sm">Chỉnh sửa</button>
+                                                <button data-toggle="modal" href="#edit_personal_details" class="btn btn-success btn-sm">Chỉnh sửa thông tin</button>
                                             </div>
                                         </div>
                                     </div>
@@ -320,6 +330,12 @@
 @endsection
 @section("custom-js")
     <script>
+        /**
+         * Hidden alert
+         */
+        // $(document).ready(function(){
+        //     $('.alert').fadeIn().delay(2000).fadeOut();
+        // });
         var currentPass, newPass, confirmPass;
         var blockErrCurrentPass = document.getElementById("help-block-currentPass");
         var blockErrNewPass = document.getElementById("help-block-newPass");
@@ -327,6 +343,36 @@
         var blockErrSubmit = document.getElementById("help-block-submit");
 
         $(document).ready(function() {
+            $(".handleChangeInfo").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var name = $("input[name='name']").val();
+                var id = $("input[name='user_id']").val();
+                var email = $("input[name='email']").val();
+                var blockErrName = document.getElementById("help-block-name");
+                var blockErrEmail = document.getElementById("help-block-email");
+                $.ajax({
+                    url: "/admin/users/edit-info",
+                    type:'POST',
+                    data: {_token:_token, name:name, email:email, id:id},
+                    success: function(response) {
+                        blockErrName.innerHTML = "";
+                        blockErrEmail.innerHTML = "";
+                        var alertDiv = document.getElementById("notification");
+                        alertDiv.classList.remove("hidden");
+                        alertDiv.innerHTML += response["message"];
+                        setTimeout(function(){
+                            location.reload();
+                        }, 400);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                        // console.log(err["responseJSON"]["errors"]["name"][0]);
+                        // blockErr.innerHTML = err["responseJSON"]["errors"]["name"][0];
+                    }
+                });
+
+            });
             $(".handleSubmit").click(function(e){
                 e.preventDefault();
                 currentPass = $("input[name='currentPassword']").val();

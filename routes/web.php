@@ -59,6 +59,7 @@ Route::middleware('auth')->group(function () {
             Route::post("/delete", [\App\Http\Controllers\Admin\UserController::class, 'destroy']);
             Route::get("/{id}/edit", [\App\Http\Controllers\Admin\UserController::class, 'edit']);
             Route::post("/edit-user", [\App\Http\Controllers\Admin\UserController::class, 'handleEdit']);
+            Route::post("/edit-info", [\App\Http\Controllers\Admin\UserController::class, 'handleEditInfo']);
         });
         Route::group(["prefix" => "suppliers"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\SupplierController::class, 'index']);
