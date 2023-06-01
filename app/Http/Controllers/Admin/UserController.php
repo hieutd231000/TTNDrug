@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\Infos\InfoRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -200,6 +201,8 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function userProfile(Request $request) {
-        return view("admin.page.users.profile");
+        $listEmail = $this->userRepository->getEmail();
+        $currentEmail = Auth::user()->email;
+        return view("admin.page.users.profile", ['listEmail' => $listEmail, 'currentEmail' => $currentEmail]);
     }
 }

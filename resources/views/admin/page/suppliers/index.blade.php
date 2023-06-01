@@ -102,25 +102,46 @@
                             <div class="card">
                                 <div class="body">
                                     <div class="row">
-                                        <div class="col-sm-3">
-                                            <a href="" class="">
-                                                <img src="http://via.placeholder.com/130x130" alt="user" class="img-thumbnail">
-                                            </a>
+{{--                                        <div class="col-sm-3">--}}
+{{--                                            <a href="" class="">--}}
+{{--                                                <img src="http://via.placeholder.com/130x130" alt="user" class="img-thumbnail">--}}
+{{--                                            </a>--}}
+{{--                                        </div>--}}
+                                        <div class="col-sm-1">
                                         </div>
-                                        <div class="col-sm-9">
+                                        <div class="col-sm-11">
                                             <h5 class="font-weight-bold">{{$data->name}}
-                                                <a class="supplier-view" href="/admin/suppliers/{{$data->id}}/detail">
-                                                    <i class="fas fa-eye"></i>
-                                                </a>
-                                                <a class="supplier-edit" href="/admin/suppliers/{{$data->id}}/edit">
-                                                    <i class="fas fa-pen"></i>
-                                                </a>
-                                                <a class="supplier-delete" onclick="confirmDelete({{$data->id}})">
-                                                    <i class="fas fa-trash"></i>
-                                                </a>
+{{--                                                <a class="supplier-view" href="/admin/suppliers/{{$data->id}}/detail">--}}
+{{--                                                    <i class="fas fa-eye"></i>--}}
+{{--                                                </a>--}}
+{{--                                                <a class="supplier-edit" href="/admin/suppliers/{{$data->id}}/edit">--}}
+{{--                                                    <i class="fas fa-pen"></i>--}}
+{{--                                                </a>--}}
+{{--                                                <a class="supplier-delete" onclick="confirmDelete({{$data->id}})">--}}
+{{--                                                    <i class="fas fa-trash"></i>--}}
+{{--                                                </a>--}}
                                             </h5>
-                                            <div>{{$data->address}}</div>
-                                            <p>{{$data->phone}}</p>
+                                            <div>
+                                                <i class="fad fab fas fa fa-search-location" style="margin-right: 5px"></i>
+                                                {{$data->address}}
+                                            </div>
+                                            <div>
+                                                <i class="fad fab fas fa fa-phone" style="margin-right: 5px"></i>
+                                                {{$data->phone}}
+                                            </div>
+                                            <div class="row clearfix" style="margin-top: 12px">
+                                                <button class="btn btn-sm btn-secondary" style="margin-right: 6px">
+                                                    <a href="/admin/suppliers/{{$data->id}}/detail" style="color: white">
+                                                        Chi tiết
+                                                    </a>
+                                                </button>
+                                                <button class="btn btn-sm btn-primary" style="margin-right: 6px">
+                                                    <a href="/admin/suppliers/{{$data->id}}/edit" style="color: white">
+                                                        Chỉnh sửa
+                                                    </a>
+                                                </button>
+                                                <button class="btn btn-sm btn-danger" onclick="confirmDelete({{$data->id}})">Xoá bỏ</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -169,23 +190,6 @@
         $(document).ready(function(){
             $('.alert').fadeIn().delay(2000).fadeOut();
         });
-
-        // function confirmView(id) {
-        //     $.ajax({
-        //         url: "/admin/suppliers/detail",
-        //         type:'GET',
-        //         data: { id:id },
-        //         success: function(response) {
-        //             // console.log(response["data"]);
-        //             // if(response["code"] === 200) {
-        //             // }
-        //         },
-        //         error: function (err) {
-        //             console.log(err);
-        //         }
-        //     });
-        //     $("#viewModal").modal("show");
-        // }
 
         /**
          * Confirm delete user

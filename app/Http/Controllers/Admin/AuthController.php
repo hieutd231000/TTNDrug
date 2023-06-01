@@ -232,8 +232,26 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return void
+     */
     public function changePassword(Request $request) {
-        dd($request->all());
+        $user = $this->userRepository->find($request["id"]);
+        if(empty($user)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        if(!Hash::check($request->currentPass, auth()->user()->password)){
+            return $this->response->error(null, 500, 'Mật khẩu không khớp');
+        } else {
+            $data['password'] = Hash::make($request->newPass);
+            try {
+                $userUpdate = $this->userRepository->update($data, $user->id);
+                return $this->response->success($userUpdate, 200, 'Thay đổi mật khẩu thành công');
+            } catch (\Exception $exception) {
+                Log::error($exception->getMessage());
+            }
+        }
     }
 
     /**

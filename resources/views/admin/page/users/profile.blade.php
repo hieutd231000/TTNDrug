@@ -3,6 +3,12 @@
         padding: 50px 0px;
         text-align: center;
     }
+    .red {
+        color: red;
+    }
+    .green {
+        color: green;
+    }
     .profile-image>img {
         border-radius: 50%;
     }
@@ -218,11 +224,11 @@
                                                             <p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Quyền:</p>
                                                             @if (auth()->user()->role === 0)
                                                                 <p class="col-sm-10">
-                                                                    Admin
+                                                                    Quản trị
                                                                 </p>
                                                             @elseif (auth()->user()->role === 1)
                                                                 <p class="col-sm-10">
-                                                                    User
+                                                                    Người dùng
                                                                 </p>
                                                             @endif
                                                         </div>
@@ -263,8 +269,13 @@
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <div class="form-group">
-                                                                                <label>Avatar</label>
-                                                                                <input type="file" value="" class="form-control" name="avatar">
+                                                                                <label>Quyền</label>
+{{--                                                                            <input type="file" value="" class="form-control" name="avatar">--}}
+                                                                                @if (auth()->user()->role == 0)
+                                                                                    <input type="text" value="Quản trị" class="form-control" name="avatar" readonly>
+                                                                                @elseif (auth()->user()->role == 1)
+                                                                                    <input type="text" value="Người dùng" class="form-control" name="avatar" readonly>
+                                                                                @endif
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -284,6 +295,7 @@
                                     <div role="tabpanel" class="tab-pane padding-20" id="password">
                                         <form>
                                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                            <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
                                             <h4>Đổi mật khẩu</h4>
                                             <div class="row clearfix">
                                                 <div class="col-md-12">
@@ -308,7 +320,7 @@
                                                         <div id="help-block-confirmPass" class="margin-bottom-10" style="color: red">
                                                         </div>
                                                     </div>
-                                                    <div id="help-block-submit" class="margin-bottom-10" style="color: green">
+                                                    <div id="help-block-submit" class="margin-bottom-10">
                                                     </div>
                                                     <div class="">
                                                         <button type="submit" class="btn btn-success btn-sm handleSubmit">Lưu thay đổi</button>
@@ -336,6 +348,8 @@
         // $(document).ready(function(){
         //     $('.alert').fadeIn().delay(2000).fadeOut();
         // });
+        var listEmail = {!! $listEmail !!};
+        var currentEmail = $("input[name='email']").val();
         var currentPass, newPass, confirmPass;
         var blockErrCurrentPass = document.getElementById("help-block-currentPass");
         var blockErrNewPass = document.getElementById("help-block-newPass");
@@ -351,33 +365,50 @@
                 var email = $("input[name='email']").val();
                 var blockErrName = document.getElementById("help-block-name");
                 var blockErrEmail = document.getElementById("help-block-email");
-                $.ajax({
-                    url: "/admin/users/edit-info",
-                    type:'POST',
-                    data: {_token:_token, name:name, email:email, id:id},
-                    success: function(response) {
-                        blockErrName.innerHTML = "";
-                        blockErrEmail.innerHTML = "";
-                        var alertDiv = document.getElementById("notification");
-                        alertDiv.classList.remove("hidden");
-                        alertDiv.innerHTML += response["message"];
-                        setTimeout(function(){
-                            location.reload();
-                        }, 400);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                        // console.log(err["responseJSON"]["errors"]["name"][0]);
-                        // blockErr.innerHTML = err["responseJSON"]["errors"]["name"][0];
-                    }
-                });
-
+                // Check validate
+                if(!email) {
+                    blockErrEmail.innerHTML = "Không được để trống";
+                } else if(!validateEmail(email)) {
+                    blockErrEmail.innerHTML = "Email không hợp lệ";
+                } else if(checkExistEmail(email)) {
+                    blockErrEmail.innerHTML = "Email đã tồn tại";
+                } else {
+                    blockErrEmail.innerHTML = "";
+                }
+                if(!name) {
+                    blockErrName.innerHTML = "Không được để trống";
+                } else {
+                    blockErrName.innerHTML = "";
+                }
+                if(!blockErrEmail.innerHTML && !blockErrName.innerHTML) {
+                    $.ajax({
+                        url: "/admin/users/edit-info",
+                        type: 'POST',
+                        data: {_token: _token, name: name, email: email, id: id},
+                        success: function (response) {
+                            blockErrName.innerHTML = "";
+                            blockErrEmail.innerHTML = "";
+                            var alertDiv = document.getElementById("notification");
+                            alertDiv.classList.remove("hidden");
+                            alertDiv.innerHTML += response["message"];
+                            setTimeout(function () {
+                                location.reload();
+                            }, 400);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            // console.log(err["responseJSON"]["errors"]["name"][0]);
+                            // blockErr.innerHTML = err["responseJSON"]["errors"]["name"][0];
+                        }
+                    });
+                }
             });
             $(".handleSubmit").click(function(e){
                 e.preventDefault();
                 currentPass = $("input[name='currentPassword']").val();
                 newPass = $("input[name='newPassword']").val();
                 confirmPass = $("input[name='confirmPassword']").val();
+                var id = $("input[name='user_id']").val();
                 // Check validate
                 if(!currentPass) {
                     blockErrCurrentPass.innerHTML = "Không được để trống";
@@ -405,15 +436,28 @@
                     $.ajax({
                         url: "/change-password",
                         type:'POST',
-                        data: {_token:_token, currentPass:currentPass, newPass:newPass, confirmPass:confirmPass},
+                        data: {_token:_token, currentPass:currentPass, newPass:newPass, confirmPass:confirmPass, id:id},
                         success: function(response) {
-                            // blockErrSubmit.innerHTML = response["message"];
-                            // setTimeout(function(){
-                            //     window.location.href = '/admin/suppliers';
-                            // }, 700);
+                            var alertDiv = document.getElementById("help-block-submit");
+                            alertDiv.classList.remove("red");
+                            alertDiv.classList.add("green");
+                            blockErrSubmit.innerHTML = response["message"];
+                            $("input[name='currentPassword']").val("");
+                            $("input[name='newPassword']").val("");
+                            $("input[name='confirmPassword']").val("");
+                            $('#help-block-submit').fadeIn().delay(2000).fadeOut();
                         },
                         error: function (err) {
                             console.log(err);
+                            console.log(err["responseJSON"]["message"]);
+                            var alertDiv = document.getElementById("help-block-submit");
+                            alertDiv.classList.remove("green");
+                            alertDiv.classList.add("red");
+                            blockErrSubmit.innerHTML = err["responseJSON"]["message"];
+                            $("input[name='currentPassword']").val("");
+                            $("input[name='newPassword']").val("");
+                            $("input[name='confirmPassword']").val("");
+                            $('#help-block-submit').fadeIn().delay(2000).fadeOut();
                         }
                     });
                 }
@@ -426,8 +470,32 @@
                 blockErrCurrentPass.innerHTML = "";
                 blockErrNewPass.innerHTML = "";
                 blockErrConfirmPass.innerHTML = "";
+                blockErrSubmit.innerHTML = "";
             });
         });
+
+        /**
+         * Validate email
+         *
+         * @param email
+         * @returns {*}
+         */
+        const validateEmail = (email) => {
+            return email.match(
+                /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+        };
+
+        /**
+         * Check exist
+         *
+         * @param email
+         * @returns {boolean}
+         */
+        const checkExistEmail = (email) => {
+            console.log(listEmail);
+            return listEmail.indexOf(email) !== -1 && currentEmail !== email;
+        }
     </script>
 @endsection
 

@@ -87,13 +87,13 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 10px">
                         <div class="select">
                             <select id="standard-select" style="height: 38px; width: 300px; padding-left: 5px">
-                                <option value="null">Chọn nhà cung cấp</option>
+                                <option value="null" disabled selected>Chọn nhà cung cấp</option>
                                 @foreach($supplier as $key => $data)
                                     <option value={{$data->id}}>{{$data->name}}</option>
                                 @endforeach
                             </select>
                             <span class="focus"></span>
-                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
+                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Tìm kiếm" style="margin-bottom: 5px">
                         </div>
                     </div><!-- /.col -->
                 </div>
@@ -166,14 +166,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($listProduct as $key => $data)
+                                    @if($totalProduct == 0)
                                         <tr>
-                                            <td>{{$rank ++}}</td>
-                                            <td>{{$data[0]->product_name}}</td>
-                                            <td>{{$data[0]->category_name}}</td>
-                                            <td>{{$data[0]->product_code}}</td>
+                                            <td colspan="4" style="text-align: center">Không có sản phẩm</td>
                                         </tr>
-                                    @endforeach
+                                    @else
+                                        @foreach($listProduct as $key => $data)
+                                            <tr>
+                                                <td>{{$rank ++}}</td>
+                                                <td>{{$data[0]->product_name}}</td>
+                                                <td>{{$data[0]->category_name}}</td>
+                                                <td>{{$data[0]->product_code}}</td>
+                                            </tr>
+                                        @endforeach
+                                    @endif
                                     </tbody>
                                 </table>
                             </div>
