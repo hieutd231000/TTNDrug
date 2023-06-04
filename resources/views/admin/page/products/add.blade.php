@@ -265,7 +265,6 @@
                                                 <div id="img_preview" class="hidden">
                                                     <img id="imgPreview" class="imgPreview" src="#" alt="pic" />
                                                     <i class="fas fa-minus-circle cancel-icon"></i>
-
                                                 </div>
                                                 @if($errors->has('product_image'))
                                                     <p style="height: 0; margin: 0; color: red">

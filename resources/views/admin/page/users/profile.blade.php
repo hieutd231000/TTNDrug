@@ -3,13 +3,16 @@
         padding: 50px 0px;
         text-align: center;
     }
+    .profile-current-image {
+        padding: 10px 0px;
+    }
     .red {
         color: red;
     }
     .green {
         color: green;
     }
-    .profile-image>img {
+    img {
         border-radius: 50%;
     }
     .profile-body {
@@ -201,6 +204,9 @@
                                         <a href="#infor" class="nav-link active" data-toggle="tab">Thông tin</a>
                                     </li>
                                     <li class="nav-item">
+                                        <a href="#avatar" class="nav-link" data-toggle="tab">Avatar</a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="#password" class="nav-link" data-toggle="tab">Đổi mật khẩu</a>
                                     </li>
                                 </ul>
@@ -291,6 +297,68 @@
                                                 <button data-toggle="modal" href="#edit_personal_details" class="btn btn-success btn-sm">Chỉnh sửa thông tin</button>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane padding-20" id="avatar">
+                                        <h4>Avatar cá nhân</h4>
+                                        <div class="row clearfix">
+                                            <div class="col-md-12">
+                                                <div class="profile-current-image">
+                                                    <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                                                </div>
+                                                <!-- Edit Avatar Modal -->
+                                                <div class="modal fade" id="edit_avatar" role="dialog" style="display: none;" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">Thay đổi avatar</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form>
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                                    <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
+                                                                    <div class="row form-row">
+                                                                        <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 9px !important;">
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <input type="file" value="" class="form-control" name="avatar">
+                                                                                <div id="help-block-avatar" style="color: red">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-primary btn-block handleChangeAvatar">Lưu thay đổi</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /Edit Avatar Modal -->
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <button data-toggle="modal" href="#edit_avatar" class="btn btn-success btn-sm">Chỉnh sửa avatar</button>
+                                            </div>
+                                        </div>
+{{--                                        <form>--}}
+{{--                                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+{{--                                            <input type="hidden" name="user_id" value="{{auth()->user()->id}}">--}}
+{{--                                            <div class="row clearfix">--}}
+{{--                                                <div class="col-md-12">--}}
+{{--                                                    <div class="profile-current-image">--}}
+{{--                                                        <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">--}}
+{{--                                                    </div>--}}
+{{--                                                    <div id="help-block-submit" class="margin-bottom-10">--}}
+{{--                                                    </div>--}}
+{{--                                                    <div class="">--}}
+{{--                                                        <button type="submit" class="btn btn-success btn-sm handleSubmit">Chỉnh sửa avatar</button>--}}
+{{--                                                        <button type="submit" class="btn btn-secondary btn-sm handleCancel">Huỷ bỏ</button>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </form>--}}
                                     </div>
                                     <div role="tabpanel" class="tab-pane padding-20" id="password">
                                         <form>
