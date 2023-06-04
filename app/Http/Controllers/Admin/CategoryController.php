@@ -72,8 +72,13 @@ class CategoryController extends Controller
             return redirect()->back()->with("failed", trans("auth.empty"));
         }
         try {
-            $this->categoryRepository->delete($category->id);
-            return redirect()->back()->with("success", trans("auth.delete.success"));
+            $productNum = $this->categoryRepository->checkProductByCategoryId($category->id);
+            if($productNum == 0) {
+                $this->categoryRepository->delete($category->id);
+                return redirect()->back()->with("success", trans("auth.delete.success"));
+            } else {
+                return redirect()->back()->with("failed", "Bạn không thể xoá vì tồn tại sản phẩm chứa danh mục này");
+            }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return redirect()->back()->with("failed", trans("auth.delete.failed"));

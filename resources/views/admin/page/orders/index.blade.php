@@ -197,7 +197,7 @@
                                                             <td>{{$data->supplier_email}}</td>
                                                             <td>{{$data->supplier_phone}}</td>
                                                             <td>{{$data->amount}}</td>
-                                                            <td>{{$data->amount * $data->price_unit}} VNĐ</td>
+{{--                                                            <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
                                                             <td>{{$data->order_date}}</td>
                                                         </tr>
                                                         </tbody>
@@ -243,7 +243,7 @@
                                                 <td>{{$data -> supplier_email}}</td>
                                                 <td>{{$data -> supplier_phone}}</td>
                                                 <td>{{$data -> amount}}</td>
-                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>
+{{--                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
                                                 <td>{{$data->order_date}}</td>
                                                 <td>
                                                     @if($data -> status === 0)

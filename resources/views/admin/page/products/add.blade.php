@@ -148,7 +148,7 @@
                                     </div>
                                 </div>
                                 <div class="row clearfix">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-block">
                                                 <select class="form-control" name="category_id" id="category_id">
@@ -166,38 +166,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <select class="form-control" name="unit_id" id="unit_id">
-                                                    <option value="">Đơn vị *</option>
-                                                    @foreach($unit as $key => $data)
-                                                        <option value={{$data->id}} {{ old("unit_id") == $data->id ? "selected":"" }}>{{$data->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            @if($errors->has('unit_id'))
-                                                <p style="height: 0; margin: 0; color: red">
-                                                    {{$errors->first('unit_id')}}
-                                                </p>
-                                                <br>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <div class="form-group">
-                                            <div class="form-block">
-                                                <input type="text" name="price_unit" id="price_unit" class="form-control" placeholder="Giá/Đơn vị (VNĐ) *" value="{{ old("price_unit") }}">
-                                            </div>
-                                            @if($errors->has('price_unit'))
-                                                <p style="height: 0; margin: 0; color: red">
-                                                    {{$errors->first('price_unit')}}
-                                                </p>
-                                                <br>
-                                            @endif
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-block">
                                                 <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ old("product_code") }}">
@@ -205,6 +174,71 @@
                                             @if($errors->has('product_code'))
                                                 <p style="height: 0; margin: 0; color: red">
                                                     {{$errors->first('product_code')}}
+                                                </p>
+                                                <br>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <select class="form-control" name="route_of_use" id="route_of_use">
+                                                    <option value="">Đường dùng *</option>
+                                                    <option value="Tiêm" @if (old('route_of_use') == "Tiêm") {{ 'selected' }} @endif>Tiêm</option>
+                                                    <option value="Đường hô hấp" @if (old('route_of_use') == "Đường hô hấp") {{ 'selected' }} @endif>Đường hô hấp</option>
+                                                    <option value="Uống" @if (old('route_of_use') == "Uống") {{ 'selected' }} @endif>Uống</option>
+                                                    <option value="Đặt trực tràng" @if (old('route_of_use') == "Đặt trực tràng") {{ 'selected' }} @endif>Đặt trực tràng</option>
+                                                    <option value="Dùng ngoài" @if (old('route_of_use') == "Dùng ngoài") {{ 'selected' }} @endif>Dùng ngoài</option>
+                                                    <option value="Tiêm truyền" @if (old('route_of_use') == "Tiêm truyền") {{ 'selected' }} @endif>Tiêm truyền</option>
+                                                    <option value="Nhỏ mắt" @if (old('route_of_use') == "Nhỏ mắt") {{ 'selected' }} @endif>Nhỏ mắt</option>
+                                                    <option value="Đặt dưới lưỡi" @if (old('route_of_use') == "Đặt dưới lưỡi") {{ 'selected' }} @endif>Đặt dưới lưỡi</option>
+                                                    <option value="Đường hô hấp" @if (old('route_of_use') == "Đường hô hấp") {{ 'selected' }} @endif>Đường hô hấp</option>
+                                                </select>
+                                            </div>
+                                            @if($errors->has('route_of_use'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('route_of_use')}}
+                                                </p>
+                                                <br>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <select class="form-control" name="dosage" id="dosage">
+                                                    <option value="">Dạng bào chế *</option>
+                                                    <option value="Dung dịch" @if (old('dosage') == "Dung dịch") {{ 'selected' }} @endif>Dung dịch</option>
+                                                    <option value="Khí hóa lỏng" @if (old('dosage') == "Khí hóa lỏng") {{ 'selected' }} @endif>Khí hóa lỏng</option>
+                                                    <option value="Viên" @if (old('dosage') == "Viên") {{ 'selected' }} @endif>Viên</option>
+                                                    <option value="Viên nén" @if (old('dosage') == "Viên nén") {{ 'selected' }} @endif>Viên nén</option>
+                                                    <option value="Viên đạn" @if (old('dosage') == "Viên đạn") {{ 'selected' }} @endif>Viên đạn</option>
+                                                    <option value="Bột pha dung dịch" @if (old('dosage') == "Bột pha dung dịch") {{ 'selected' }} @endif>Bột pha dung dịch</option>
+                                                    <option value="Bột pha tiêm" @if (old('dosage') == "Bột pha tiêm") {{ 'selected' }} @endif>Bột pha tiêm</option>
+                                                    <option value="Ống thụt" @if (old('dosage') == "Ống thụt") {{ 'selected' }} @endif>Ống thụt</option>
+                                                    <option value="Miếng dán" @if (old('dosage') == "Miếng dán") {{ 'selected' }} @endif>Miếng dán</option>
+                                                    <option value="Siro" @if (old('dosage') == "Siro") {{ 'selected' }} @endif>Siro</option>
+                                                    <option value="Hỗn dịch" @if (old('dosage') == "Hỗn dịch") {{ 'selected' }} @endif>Hỗn dịch</option>
+                                                </select>
+                                            </div>
+                                            @if($errors->has('dosage'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('dosage')}}
+                                                </p>
+                                                <br>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <div class="form-block">
+                                                <input type="text" name="content" id="content" class="form-control" placeholder="Hàm lượng/Nồng độ *" value="{{ old("content") }}">
+                                            </div>
+                                            @if($errors->has('content'))
+                                                <p style="height: 0; margin: 0; color: red">
+                                                    {{$errors->first('content')}}
                                                 </p>
                                                 <br>
                                             @endif
@@ -291,9 +325,10 @@
                 $("input[name='product_image']").val("");
                 $("input[name='product_name']").val("");
                 $("select[name='category_id']").val("");
-                $("select[name='unit_id']").val("");
-                $("input[name='price_unit']").val("");
+                $("select[name='dosage']").val("");
+                $("select[name='route_of_use']").val("");
                 $("input[name='product_code']").val("");
+                $("input[name='content']").val("");
                 $("textarea[name='instruction']").val("");
             });
 

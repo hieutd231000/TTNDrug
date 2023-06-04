@@ -44,13 +44,13 @@ Route::middleware('auth')->group(function () {
             Route::post("/edit", [\App\Http\Controllers\Admin\CategoryController::class, 'edit']);
         });
 
-        Route::group(["prefix" => "units"], function () {
-            Route::get("/", [\App\Http\Controllers\Admin\UnitController::class, 'index']);
-            Route::post("/add", [\App\Http\Controllers\Admin\UnitController::class, 'store']);
-            Route::post("/delete", [\App\Http\Controllers\Admin\UnitController::class, 'destroy']);
-            Route::get("/info", [\App\Http\Controllers\Admin\UnitController::class, 'detail']);
-            Route::post("/edit", [\App\Http\Controllers\Admin\UnitController::class, 'edit']);
-        });
+//        Route::group(["prefix" => "units"], function () {
+//            Route::get("/", [\App\Http\Controllers\Admin\UnitController::class, 'index']);
+//            Route::post("/add", [\App\Http\Controllers\Admin\UnitController::class, 'store']);
+//            Route::post("/delete", [\App\Http\Controllers\Admin\UnitController::class, 'destroy']);
+//            Route::get("/info", [\App\Http\Controllers\Admin\UnitController::class, 'detail']);
+//            Route::post("/edit", [\App\Http\Controllers\Admin\UnitController::class, 'edit']);
+//        });
 
         Route::group(["prefix" => "users"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\UserController::class, 'index']);

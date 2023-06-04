@@ -14,8 +14,6 @@ use App\Repositories\SupplierProducts\SupplierProductEloquentRepository;
 use App\Repositories\SupplierProducts\SupplierProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use App\Repositories\Suppliers\SupplierEloquentRepository;
-use App\Repositories\Units\UnitEloquentRepository;
-use App\Repositories\Units\UnitRepositoryInterface;
 use App\Repositories\Users\UserEloquentRepository;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -39,10 +37,10 @@ class AppServiceProvider extends ServiceProvider
             CategoryEloquentRepository::class
         );
 
-        $this->app->bind(
-            UnitRepositoryInterface::class,
-            UnitEloquentRepository::class
-        );
+//        $this->app->bind(
+//            UnitRepositoryInterface::class,
+//            UnitEloquentRepository::class
+//        );
 
         $this->app->bind(
             InfoRepositoryInterface::class,

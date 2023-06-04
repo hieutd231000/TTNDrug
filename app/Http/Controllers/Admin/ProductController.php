@@ -8,7 +8,7 @@ use App\Http\Requests\ProductEditRequest;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
-use App\Repositories\Units\UnitRepositoryInterface;
+//use App\Repositories\Units\UnitRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -19,14 +19,12 @@ class ProductController extends Controller
      */
     protected $productRepository;
     protected $categoryRepository;
-    protected $unitRepository;
     protected $response;
 
-    public function __construct(CategoryRepositoryInterface $categoryRepository, UnitRepositoryInterface $unitRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
+    public function __construct(CategoryRepositoryInterface $categoryRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
-        $this->unitRepository = $unitRepository;
         $this->response = $response;
     }
 
@@ -38,9 +36,8 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
-        $product = $this->productRepository->getAllItem(config("const.paginate"), "DESC");
-        $rank = $product->firstItem();
-        return view("admin.page.products.index", ['rank' => $rank , 'product' => $product]);
+        $product = $this->productRepository->getAllItem("DESC");
+        return view("admin.page.products.index", ['rank' => 1 , 'product' => $product]);
     }
 
     /**
@@ -51,8 +48,7 @@ class ProductController extends Controller
     {
         $listName = $this->productRepository->getName();
         $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
-        $unit = $this->unitRepository->getAll(config("const.paginate"), "DESC");
-        return view("admin.page.products.add", ['listName' => $listName, 'category' => $category, 'unit' => $unit]);
+        return view("admin.page.products.add", ['listName' => $listName, 'category' => $category]);
     }
 
     /**
@@ -92,9 +88,9 @@ class ProductController extends Controller
     public function edit(Request $request, $id) {
         $product = $this->productRepository->find($id);
         $listName = $this->productRepository->getName();
+        $listProductCode = $this->productRepository->getProductCode();
         $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
-        $unit = $this->unitRepository->getAll(config("const.paginate"), "DESC");
-        return view("admin.page.products.edit", ["product" => $product, 'listName' => $listName, 'category' => $category, 'unit' => $unit]);
+        return view("admin.page.products.edit", ["product" => $product, 'listName' => $listName, 'listProductCode' => $listProductCode, 'category' => $category]);
     }
 
     /**
@@ -106,8 +102,41 @@ class ProductController extends Controller
     public function handleEdit(ProductEditRequest $request) {
         $product = $this->productRepository->find($request["id"]);
         $listName = $this->productRepository->getName();
+        $listProductCode = $this->productRepository->getProductCode();
         if(empty($product)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        if($product->product_name != $request["product_name"] && $product->product_code != $request["product_code"]) {
+            $invalid = [];
+            $invalidCode = [];
+            foreach ($listName as $data) {
+                if($data == $request["product_name"]) {
+                    $invalid = ["Tên sản phảm này đã được sử dụng", $data];
+                }
+            }
+            foreach ($listProductCode as $data) {
+                if($data == $request["product_code"]) {
+                    $invalidCode = ["Mã sản phảm này đã được sử dụng", $data];
+                }
+            }
+            if($invalid && $invalidCode) {
+                return redirect()->back()
+                    ->with("invalidCode", $invalidCode)
+                    ->with("invalid", $invalid);
+            } else if($invalid) {
+                return redirect()->back()
+                    ->with("invalid", $invalid);
+            } else if($invalidCode) {
+                return redirect()->back()
+                    ->with("invalidCode", $invalidCode);
+            }
+        } else if($product->product_code != $request["product_code"]) {
+            foreach ($listProductCode as $data) {
+                if($data == $request["product_code"]) {
+                    $invalidCode = ["Mã sản phảm này đã được sử dụng", $data];
+                    return redirect()->back()->with("invalidCode", $invalidCode);
+                }
+            }
         } else if($product->product_name != $request["product_name"]) {
             foreach ($listName as $data) {
                 if($data == $request["product_name"]) {
@@ -116,6 +145,7 @@ class ProductController extends Controller
                 }
             }
         }
+
         try {
             $file = $request->file("product_image");
             if(!$file) {

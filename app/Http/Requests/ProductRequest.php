@@ -26,9 +26,10 @@ class ProductRequest extends FormRequest
         return [
             'product_name' => 'required|unique:products|max:64',
             'category_id' => 'required',
-            'unit_id' => 'required',
-            'price_unit' => 'required|numeric|min:1000',
-            'product_code' => 'required',
+            'dosage' => 'required',
+            'route_of_use' => 'required',
+            'content' => 'required',
+            'product_code' => 'required|unique:products',
             'product_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
         ];
     }
@@ -40,9 +41,8 @@ class ProductRequest extends FormRequest
     {
         return [
             'required' => 'Không được để trống',
-            'unique' => 'Tên sản phẩm này đã được sử dụng',
-            'numeric' => 'Không đúng định dạng',
-            'min' => 'Giá/đơn vị phải lớn hơn 1000 VNĐ'
+            'product_name.unique' => 'Tên sản phẩm này đã được sử dụng',
+            'product_code.unique' => 'Mã sản phẩm này đã được sử dụng',
         ];
     }
 }

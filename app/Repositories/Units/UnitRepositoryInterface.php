@@ -1,8 +1,8 @@
 <?php
-
-namespace App\Repositories\Units;
-
-interface UnitRepositoryInterface
-{
-
-}
+//
+//namespace App\Repositories\Units;
+//
+//interface UnitRepositoryInterface
+//{
+//
+//}

@@ -31,8 +31,9 @@ class ProductEditRequest extends FormRequest
 //                Rule::unique('products')->ignore($this->request->get('id'))
             ],
             'category_id' => 'required',
-            'unit_id' => 'required',
-            'price_unit' => 'required|numeric|min:1000',
+            'dosage' => 'required',
+            'route_of_use' => 'required',
+            'content' => 'required',
             'product_code' => 'required',
             'product_image' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'current_image' => 'required'

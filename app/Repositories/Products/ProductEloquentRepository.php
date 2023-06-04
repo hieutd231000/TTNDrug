@@ -28,18 +28,26 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
     }
 
     /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getProductCode()
+    {
+        return DB::table("products")
+            ->pluck("product_code");
+    }
+
+    /**
      * Get all product from products
      *
      * @return void
      */
-    public function getAllItem($paginate, $orderBy)
+    public function getAllItem($orderBy)
     {
         return DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->join('units', 'products.unit_id', '=', 'units.id')
-            ->select('products.*', 'categories.name AS category_name', 'units.name AS unit_name')
+            ->select('products.*', 'categories.name AS category_name')
             ->orderBy('id', $orderBy)
-            ->paginate($paginate);
+            ->get();
     }
 
     /**
@@ -52,8 +60,7 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
     {
         return DB::table('products')
             ->join('categories', 'products.category_id', '=', 'categories.id')
-            ->join('units', 'products.unit_id', '=', 'units.id')
-            ->select('products.*', 'categories.name AS category_name', 'units.name AS unit_name')
+            ->select('products.*', 'categories.name AS category_name')
             ->where('products.id', $id)
             ->get();
     }

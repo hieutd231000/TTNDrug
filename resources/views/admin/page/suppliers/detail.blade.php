@@ -249,8 +249,8 @@
                                 <h3 class="product-name" id="product-name">Card title</h3>
                                 <p class="product-code" id="product-code"></p>
                                 <p class="category" id="category"></p>
-                                <p class="unit" id="unit"></p>
-                                <p class="price-unit" id="price-unit"></p>
+{{--                                <p class="unit" id="unit"></p>--}}
+{{--                                <p class="price-unit" id="price-unit"></p>--}}
                                 <p class="instruction" id="instruction"></p>
                                 <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>
                             </div>

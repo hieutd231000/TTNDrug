@@ -95,9 +95,10 @@
                                             <th>STT</th>
                                             <th>Tên sản phẩm</th>
                                             <th>Danh mục</th>
-                                            <th>Mã code</th>
-                                            <th style="max-width: 280px">Hướng dẫn sử dụng</th>
-                                            <th>Xem/Sửa/Xoá</th>
+                                            <th>Đường dùng</th>
+                                            <th>Dạng bào chế</th>
+                                            <th>Hàm lượng</th>
+                                            <th style="width: 105px">Xem/Sửa/Xoá</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -106,8 +107,9 @@
                                             <td>{{ $rank++ }}</td>
                                             <td>{{$data->product_name}}</td>
                                             <td>{{$data->category_name}}</td>
-                                            <td>{{$data->product_code}}</td>
-                                            <td>{{$data->instruction}}</td>
+                                            <td>{{$data->route_of_use}}</td>
+                                            <td>{{$data->dosage}}</td>
+                                            <td>{{$data->content}}</td>
                                             <td>
                                                 <a data-id="1" id="viewBtn">
                                                     <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
@@ -123,9 +125,9 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            <div class="d-flex justify-content-end" style="margin-right: 3%">
-                                {!! $product->appends($_GET)->links("pagination::bootstrap-4") !!}
-                            </div>
+{{--                            <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+{{--                                {!! $product->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -147,11 +149,12 @@
                         <div class="card">
                             <img src="" class="card-img-top" id="card-img-top" alt="...">
                             <div class="card-body">
-                                <h3 class="product-name" id="product-name">Card title</h3>
+                                <h3 class="product-name" id="product-name" style="margin-bottom: 20px">Card title</h3>
                                 <p class="product-code" id="product-code"></p>
                                 <p class="category" id="category"></p>
-                                <p class="unit" id="unit"></p>
-                                <p class="price-unit" id="price-unit"></p>
+                                <p class="route_of_use" id="route_of_use"></p>
+                                <p class="dosage" id="dosage"></p>
+                                <p class="content" id="content"></p>
                                 <p class="instruction" id="instruction"></p>
                                 <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>
                             </div>
@@ -211,7 +214,7 @@
                 "language": {
                     "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
                     "zeroRecords": "Không có sản phẩm",
-                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",
+                    "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {
@@ -244,12 +247,15 @@
                     if(response["code"] === 200) {
                         document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
                         document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
-                        document.getElementById("product-code").innerHTML = 'Mã sản phẩm: ' + response["data"][0]["product_code"];
-                        document.getElementById("category").innerHTML = 'Danh mục: ' + response["data"][0]["category_name"];
-                        document.getElementById("unit").innerHTML = 'Đơn vị: ' + response["data"][0]["unit_name"];
-                        document.getElementById("price-unit").innerHTML = 'Giá/Đơn vị: ' + response["data"][0]["price_unit"] + ' VND';
+                        document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã sản phẩm: </i></span>" + response["data"][0]["product_code"];
+                        document.getElementById("category").innerHTML = "<span class='text-muted'><i>Danh mục: </i></span>" + response["data"][0]["category_name"];
+                        document.getElementById("route_of_use").innerHTML = "<span class='text-muted'><i>Đường dùng: </i></span>" + response["data"][0]["route_of_use"];
+                        document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];
+                        document.getElementById("content").innerHTML = "<span class='text-muted'><i>Hàm lượng: </i></span>" + response["data"][0]["content"];
                         if(response["data"][0]["instruction"]) {
-                            document.getElementById("instruction").innerHTML = 'Hướng dẫn sử dụng: ' + response["data"][0]["instruction"];
+                            document.getElementById("instruction").innerHTML = "<span style='color: red'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];
+                        } else {
+                            document.getElementById("instruction").innerHTML = "";
                         }
                     }
                 },

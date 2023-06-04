@@ -280,14 +280,14 @@
                                                             </div>
                                                             <div class="card-content">
                                                                 <h2 class="name">{{$data->product_name}}</h2>
-                                                                <p class="description">{{$data->price_unit}}</p>
+{{--                                                                <p class="description">{{$data->price_unit}}</p>--}}
                                                                 <div style="display: flex">
 {{--                                                                    <label for="{{$data->id}}" style="font-size: 14px">SL:</label>--}}
                                                                     <input type="button" onclick="subtractCount({{$data->id}})" value="-">
                                                                     <input type="text" style="width: 30px; text-align: center" id="{{$data->id}}" value="">
                                                                     <input type="button" onclick="increaseCount({{$data->id}})" value="+">
                                                                 </div>
-                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}', '{{$data->price_unit}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
                                                             </div>
                                                         </div>
                                                     @endforeach

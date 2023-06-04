@@ -16,11 +16,11 @@ class Products extends Model
         'category_id',
         'product_name',
         'product_image',
-        'unit_id',
-        'price_unit',
+        'content',
+        'dosage',
+        'route_of_use',
         'product_code',
         'instruction',
-        'expire_date'
     ];
 
     protected $primaryKey = "id";
@@ -32,14 +32,5 @@ class Products extends Model
      */
     public function category() {
         return $this->belongsTo(Categories::class, "category_id", "id");
-    }
-
-    /**
-     * Relation with unit model;
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function unit() {
-        return $this->belongsTo(Units::class, "unit_id", "id");
     }
 }

@@ -218,14 +218,14 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/admin/units" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>
-                                    Đơn vị
-                                </p>
-                            </a>
-                        </li>
+{{--                        <li class="nav-item">--}}
+{{--                            <a href="/admin/units" class="nav-link">--}}
+{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
+{{--                                <p>--}}
+{{--                                    Đơn vị--}}
+{{--                                </p>--}}
+{{--                            </a>--}}
+{{--                        </li>--}}
                     </ul>
                 </li>
                 <li class="nav-item">
