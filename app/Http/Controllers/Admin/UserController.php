@@ -178,6 +178,8 @@ class UserController extends Controller
         try {
             $fullname = explode(" ", $request["name"]);
             $data["email"] = $request["email"];
+            $data["gender"] = $request["gender"];
+            $data["phone"] = $request["phone"];
             $data["firstname"] = $fullname[0];
             $data["lastname"] = "";
             for($i=1; $i<count($fullname); $i++) {
@@ -191,6 +193,39 @@ class UserController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Chỉnh sửa thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return void
+     */
+    public function handleUpdateAvatar(Request $request) {
+        $user = $this->userRepository->find($request["user_id"]);
+        if(empty($user)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        $file = $request->file("avatar_image");
+        if(!$file) {
+            return redirect("/user-profile")->with("success", trans("auth.update.avatar.success"));
+        }
+        if($file->getClientOriginalExtension() != 'png' && $file->getClientOriginalExtension() != 'jpg') {
+            return redirect()->back()->with('failed', trans("auth.update.avatar.failed"));
+        }
+        try {
+            if($file) {
+                $fileName = $file->getClientOriginalName();
+                //Insert to public
+                $file->move(public_path("image/avatars"), $fileName);
+                //Update db
+                $data["avatar"] = $fileName;
+                $this->userRepository->update($data, $user->id);
+            }
+            return redirect("/user-profile")->with("success", trans("auth.update.avatar.success"));
+
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->back()->with("failed", trans("auth.update.avatar.failed"));
         }
     }
 

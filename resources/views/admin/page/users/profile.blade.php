@@ -1,6 +1,6 @@
 <style>
     .profile-image {
-        padding: 50px 0px;
+        padding: 75px 0px;
         text-align: center;
     }
     .profile-current-image {
@@ -11,6 +11,34 @@
     }
     .green {
         color: green;
+    }
+    .inputFileCustom {
+        color: black;
+        display: inline-block;
+        background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+        border: 1px solid #999;
+        border-radius: 3px;
+        padding: 5px 8px;
+        outline: none;
+        white-space: nowrap;
+        -webkit-user-select: none;
+        cursor: pointer;
+        text-shadow: 1px 1px #fff;
+        font-weight: 400 !important;
+        font-size: 11pt;
+    }
+    .cancel-icon {
+        left: 150px;
+        position: absolute;
+        top: 40px;
+        color: #817f7f;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    .imgPreview {
+        object-fit: cover;
+        width: 150px;
+        height: 150px;
     }
     img {
         border-radius: 50%;
@@ -183,7 +211,11 @@
                         <div class="profile-box">
                             <div class="profile-body">
                                 <div class="profile-image">
-                                    <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                                    @if(!auth()->user()->avatar)
+                                        <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                                    @else
+                                        <img style="width: 120px; height: 120px" src="{{ URL::asset('image/avatars' . '/'. auth()->user()->avatar)}}">
+                                    @endif
                                     @if (auth()->user()->gender == 0)
                                         <h4 class="text-white font-weight-bold mb-0">Mr.{{auth()->user()->lastname}}</h4>
                                     @elseif (auth()->user()->gender == 1)
@@ -212,6 +244,15 @@
                                 </ul>
                                 {{--tab-content--}}
                                 <div class="tab-content">
+                                    @if (session('failed'))
+                                        <div class="alert alert-edit alert-danger" style="display: inline; padding: 7px">
+                                            {{ session('failed') }}
+                                        </div>
+                                    @elseif(session('success'))
+                                        <div class="alert alert-edit alert-primary" style="display: inline; padding: 7px">
+                                            {{ session('success') }}
+                                        </div>
+                                    @endif
                                     <div role="tabpanel" class="tab-pane padding-20 in active" id="infor">
                                         <h4>Thông tin cá nhân</h4>
                                         <div class="row clearfix">
@@ -225,6 +266,26 @@
                                                         <div class="row">
                                                             <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Email:</p>
                                                             <p class="col-sm-10">{{auth()->user()->email}}</p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">SĐT:</p>
+                                                            <p class="col-sm-10">{{auth()->user()->phone}}</p>
+                                                        </div>
+                                                        <div class="row">
+                                                            <p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Giới tính:</p>
+                                                            @if (auth()->user()->gender === 0)
+                                                                <p class="col-sm-10">
+                                                                    Nam
+                                                                </p>
+                                                            @elseif (auth()->user()->gender === 1)
+                                                                <p class="col-sm-10">
+                                                                   Nữ
+                                                                </p>
+                                                            @elseif (auth()->user()->gender === 2)
+                                                                <p class="col-sm-10">
+                                                                    Khác
+                                                                </p>
+                                                            @endif
                                                         </div>
                                                         <div class="row">
                                                             <p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Quyền:</p>
@@ -275,13 +336,21 @@
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <div class="form-group">
-                                                                                <label>Quyền</label>
-{{--                                                                            <input type="file" value="" class="form-control" name="avatar">--}}
-                                                                                @if (auth()->user()->role == 0)
-                                                                                    <input type="text" value="Quản trị" class="form-control" name="avatar" readonly>
-                                                                                @elseif (auth()->user()->role == 1)
-                                                                                    <input type="text" value="Người dùng" class="form-control" name="avatar" readonly>
-                                                                                @endif
+                                                                                <label>SĐT</label>
+                                                                                <input class="form-control" name="phone" type="text" value="{{auth()->user()->phone}}" placeholder="Phone">
+                                                                                <div id="help-block-phone" style="color: red">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <div class="form-group">
+                                                                                <label>Giới tính</label>
+                                                                                <select class="form-control" name="gender">
+                                                                                    <option value="" disabled>Giới tính *</option>
+                                                                                    <option value="0" {{ auth()->user()->gender == 0 ? 'selected' : '' }}>Nam</option>
+                                                                                    <option value="1" {{ auth()->user()->gender == 1 ? 'selected' : '' }}>Nữ</option>
+                                                                                    <option value="2" {{ auth()->user()->gender == 2 ? 'selected' : '' }}>Khác</option>
+                                                                                </select>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -303,7 +372,11 @@
                                         <div class="row clearfix">
                                             <div class="col-md-12">
                                                 <div class="profile-current-image">
-                                                    <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                                                    @if(!auth()->user()->avatar)
+                                                        <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                                                    @else
+                                                        <img style="width: 120px; height: 120px" src="{{ URL::asset('image/avatars' . '/'. auth()->user()->avatar)}}">
+                                                    @endif
                                                 </div>
                                                 <!-- Edit Avatar Modal -->
                                                 <div class="modal fade" id="edit_avatar" role="dialog" style="display: none;" aria-hidden="true">
@@ -316,15 +389,20 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body">
-                                                                <form>
+                                                                <form action="{{ url("admin/users/update-avatar") }}" enctype="multipart/form-data" method="post">
                                                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                                                     <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
                                                                     <div class="row form-row">
-                                                                        <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 9px !important;">
-                                                                        </div>
                                                                         <div class="col-12">
                                                                             <div class="form-group">
-                                                                                <input type="file" value="" class="form-control" name="avatar">
+                                                                                <input type="file" name="avatar_image" id="avatar_image" accept="image/*" style="display: none">
+                                                                                <label for="avatar_image" class="inputFileCustom">
+                                                                                    Chọn hình ảnh của bạn
+                                                                                </label>
+                                                                                <div id="img_preview" class="hidden">
+                                                                                    <img id="imgPreview" class="imgPreview" src="#" alt="pic" />
+                                                                                    <i class="fas fa-minus-circle cancel-icon"></i>
+                                                                                </div>
                                                                                 <div id="help-block-avatar" style="color: red">
                                                                                 </div>
                                                                             </div>
@@ -413,9 +491,9 @@
         /**
          * Hidden alert
          */
-        // $(document).ready(function(){
-        //     $('.alert').fadeIn().delay(2000).fadeOut();
-        // });
+        $(document).ready(function(){
+            $('.alert').fadeIn().delay(1400).fadeOut();
+        });
         var listEmail = {!! $listEmail !!};
         var currentEmail = $("input[name='email']").val();
         var currentPass, newPass, confirmPass;
@@ -425,15 +503,47 @@
         var blockErrSubmit = document.getElementById("help-block-submit");
 
         $(document).ready(function() {
+            /**
+             * Avatar
+             */
+            $("#avatar_image").change(function () {
+                const file = this.files[0];
+                if (file) {
+                    document.getElementById("img_preview").classList.remove("hidden");
+                    let reader = new FileReader();
+                    reader.onload = function (event) {
+                        $("#imgPreview")
+                            .attr("src", event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            $(".cancel-icon").click(function(e){
+                document.getElementById("img_preview").classList.add("hidden");
+                document.getElementById("imgPreview").src = "";
+                $("input[name='avatar_image']").val("");
+            });
+
             $(".handleChangeInfo").click(function(e){
                 e.preventDefault();
                 var _token = $("input[name='_token']").val();
                 var name = $("input[name='name']").val();
                 var id = $("input[name='user_id']").val();
                 var email = $("input[name='email']").val();
+                var phone = $("input[name='phone']").val();
+                var gender = $("select[name='gender']").val();
                 var blockErrName = document.getElementById("help-block-name");
                 var blockErrEmail = document.getElementById("help-block-email");
+                var blockErrPhone = document.getElementById("help-block-phone");
                 // Check validate
+                if(!phone) {
+                    blockErrPhone.innerHTML = "Không được để trống";
+                } else if(!checkPhone(phone) || phone.length < 10) {
+                    blockErrPhone.innerHTML = "Phone không hợp lệ";
+                } else {
+                    blockErrPhone.innerHTML = "";
+                }
                 if(!email) {
                     blockErrEmail.innerHTML = "Không được để trống";
                 } else if(!validateEmail(email)) {
@@ -448,14 +558,15 @@
                 } else {
                     blockErrName.innerHTML = "";
                 }
-                if(!blockErrEmail.innerHTML && !blockErrName.innerHTML) {
+                if(!blockErrEmail.innerHTML && !blockErrName.innerHTML && !blockErrPhone.innerHTML) {
                     $.ajax({
                         url: "/admin/users/edit-info",
                         type: 'POST',
-                        data: {_token: _token, name: name, email: email, id: id},
+                        data: {_token: _token, name: name, email: email, id: id, phone:phone, gender:gender},
                         success: function (response) {
                             blockErrName.innerHTML = "";
                             blockErrEmail.innerHTML = "";
+                            blockErrPhone.innerHTML = "";
                             var alertDiv = document.getElementById("notification");
                             alertDiv.classList.remove("hidden");
                             alertDiv.innerHTML += response["message"];
@@ -563,6 +674,16 @@
         const checkExistEmail = (email) => {
             console.log(listEmail);
             return listEmail.indexOf(email) !== -1 && currentEmail !== email;
+        }
+
+        /**
+         *
+         *
+         * @param str
+         * @returns {boolean}
+         */
+        const checkPhone = (str) => {
+            return /^\d+$/.test(str);
         }
     </script>
 @endsection

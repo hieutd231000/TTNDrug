@@ -31,5 +31,11 @@ return [
     'edit' => [
         'failed' => "Sửa thông tin thất bại",
         'success' => "Sửa thông tin thành công"
+    ],
+    'update' => [
+        'avatar' => [
+            'success' => "Cập nhật avatar thành công",
+            'failed' => "Cập nhật avatar thất bại"
+        ]
     ]
 ];

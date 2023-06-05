@@ -72,7 +72,11 @@
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel mt-3 pb-3 d-flex border-0">
             <div class="image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                @if(!auth()->user()->avatar)
+                    <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">
+                @else
+                    <img style="width: 66px; height: 66px; border-radius: 50% !important" src="{{ URL::asset('image/avatars' . '/'. auth()->user()->avatar)}}">
+                @endif
             </div>
             <div class="info">
                 <span class="info-welcome">Xin chào</span>

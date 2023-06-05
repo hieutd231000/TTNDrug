@@ -88,7 +88,11 @@
                                 <div class="body">
                                     <div class="member-card verified">
                                         <div class="thumb-xl member-thumb">
-                                            <img src="http://via.placeholder.com/130x130" class="img-thumbnail rounded-circle" alt="profile-image">
+                                            @if(!$data->avatar)
+                                                <img src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg" class="img-thumbnail rounded-circle" alt="profile-image">
+                                            @else
+                                                <img class="img-thumbnail rounded-circle" alt="profile-image" style="width: 120px; height: 120px" src="{{ URL::asset('image/avatars' . '/'. auth()->user()->avatar)}}">
+                                            @endif
                                         </div>
                                         <div class="">
                                             <h4 class="m-t-20 m-b-0">{{$data->firstname}} {{$data->lastname}}</h4>
