@@ -23,8 +23,7 @@ class PosController extends Controller
         $this->response = $response;
     }
     public function index(Request $request) {
-        $product = $this->productRepository->getAllItem(config("const.paginate"), "DESC");
-        $rank = $product->firstItem();
-        return view("user.pos.index", ['rank' => $rank , 'product' => $product]);
+        $product = $this->productRepository->getAllItem("DESC");
+        return view("user.pos.index", ['rank' => 1 , 'product' => $product]);
     }
 }

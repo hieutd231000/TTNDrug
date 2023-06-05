@@ -41,6 +41,9 @@
     .hidden {
         display: none;
     }
+    .inline {
+        display: inline;
+    }
     .alert-edit {
         padding: .5rem 1.25rem !important;
     }
@@ -93,20 +96,13 @@
                                 @endforeach
                             </select>
                             <span class="focus"></span>
-                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Tìm kiếm" style="margin-bottom: 5px">
+                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
+                            <div id="help-block-supplier" style="color: red">
+                            </div>
                         </div>
                     </div><!-- /.col -->
                 </div>
-                @if (session('failed'))
-                    <div class="alert alert-edit alert-danger" style="display: inline">
-                        {{ session('failed') }}
-                    </div>
-                @elseif(session('success'))
-                    <div class="alert alert-edit alert-success" style="display: inline">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                @isset ($supplierDetail)
+            @isset ($supplierDetail)
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-top: 20px">
                         <div class="card">
                             <div class="header">
@@ -147,7 +143,7 @@
                     </div>
                 @endisset
                 @isset ($listProduct)
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 hidden listProductBySupplier">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 listProductBySupplier">
                         <div class="card">
                             <div class="header">
                                 <h5>Danh sách sản phẩm</h5>
@@ -207,19 +203,19 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <div class="alert alert-success hidden" id="notification">
-                            </div>
                             <form>
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
                                 <div class="form-group">
                                     <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
-                                        <option value="null">Chọn sản phẩm</option>
+                                        <option value="" disabled selected>Chọn sản phẩm</option>
                                         @foreach($listAllProduct as $key => $data)
                                             <option value={{$data->id}}>{{$data->product_name}}</option>
                                         @endforeach
                                     </select>
-                                    <div id="help-block" style="color: red">
+                                    <div id="help-block-product" style="color: red">
+                                    </div>
+                                    <div id="help-block-success" style="color: green">
                                     </div>
                                 </div>
                                 <div class="float-right">
@@ -311,41 +307,45 @@
         /**
          * Handle add new supplier product
          */
+        var listProduct = {!! $listProductId !!};
         $(document).ready(function() {
             $(".handleSubmit").click(function(e){
                 e.preventDefault();
                 var _token = $("input[name='_token']").val();
                 var product_id = $('#product_selected').find(":selected").val();
                 var supplier_id = $("input[name='supplier_id']").val();
-                var blockErr = document.getElementById("help-block");
-                var listProduct = {!! $listProductId !!};
-                // console.log(listProduct[0]["product_id"]);
-                // console.log(listProduct.length);
-                if(product_id !== "null") {
-                    for(var i=0; i<listProduct.length; i++) {
-                        // if(product_id == listProduct[i]["product_id"]) {
-                        //     blockErr.innerHTML = "Sản phẩm này đã có trong danh sách";
-                        //     break;
-                        // }
-                        if(i === listProduct.length - 1) {
-                            blockErr.innerHTML = "";
-                            $.ajax({
-                                url: "/admin/suppliers/add-product",
-                                type:'POST',
-                                data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
-                                success: function(response) {
-                                    console.log(response["data"]);
-                                    addProductToTable(response["data"][0], response["data"][1], response["data"][2])
-                                },
-                                error: function (err) {
-                                    console.log(err);
-                                }
-                            });
-                            $("#addModal").modal("hide");
-                        }
-                    }
+                var blockErrProduct = document.getElementById("help-block-product");
+                var blockSuccess = document.getElementById("help-block-success");
+                blockSuccess.innerHTML = "";
+                // Check validate
+                if(!product_id) {
+                    blockErrProduct.innerHTML = "Mời bạn chọn sản phẩm";
+                } else if(!checkExistProduct(product_id)) {
+                    blockErrProduct.innerHTML = "Sản phẩm này đã có trong danh sách";
                 } else {
-                    blockErr.innerHTML = "Không được để trống trường này";
+                    blockErrProduct.innerHTML = "";
+                }
+                if(!blockErrProduct.innerHTML) {
+                    $.ajax({
+                        url: "/admin/suppliers/add-product",
+                        type:'POST',
+                        data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
+                        success: function(response) {
+                            blockErrProduct.innerHTML = "";
+                            blockSuccess.innerHTML = "Thêm sản phẩm thành công";
+                            console.log(response["data"]);
+                            // addProductToTable(response["data"][0], response["data"][1], response["data"][2]);
+                            setTimeout(function(){
+                                location.reload();
+                            }, 600);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                    setTimeout(function(){
+                        $("#addModal").modal("hide");
+                    }, 400);
                 }
             });
         });
@@ -383,11 +383,23 @@
             // location.reload();
         }
 
+        const checkExistProduct = (product_id) => {
+            for (let i = 0; i < listProduct.length; i++) {
+                if(parseInt(product_id) === listProduct[i]["product_id"]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        /**
+         * Handle when chose supplier
+         */
         const handleSearch = () => {
             var product_search = $('#standard-select').find(":selected").val();
             if(product_search === "null") {
-                window.location.href = "/admin/suppliers/0/detail";
+                document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
             } else {
+                document.getElementById("help-block-supplier").innerHTML = "";
                 window.location.href = "/admin/suppliers/" + product_search + "/detail";
             }
         }

@@ -85,80 +85,95 @@
             </div>
             <div class="container-fluid">
                 <div class="tab-content">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: end">
-                    </div>
                     <div role="tabpanel" class="tab-pane padding-20 in active" id="order">
-                        <form>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                <div class="card">
-                                    <div class="header">
-                                        <div class="col-sm-12">
-                                            <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 8px">
-                                            </div>
-                                        </div>
-                                        <h5>Thông tin đơn hàng</h5>
-                                    </div>
-                                    <div class="body">
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <select class="form-control" name="supplier[]" id="supplier_id" style="margin-bottom: 2px">
-                                                            <option value="Nha cung cap" disabled selected>Nhà cung cấp *</option>
-                                                            @foreach($listSupplier as $key => $data)
-                                                                <option value="{{$data->name}}">{{$data->name}}</option>
-                                                            @endforeach
-                                                        </select>
-
-                                                        <select class="form-control attribute" name="product[]" id="product_id" style="margin-top: 15px">
-                                                            <option value="" disabled selected>Chọn sản phẩm *</option>
-                                                        </select>
-                                                        <div id="help-block-product" style="color: red; margin-left: 16px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Số lượng *" value="{{ old("quantity") }}">
-                                                    </div>
-                                                    <div id="help-block-quantity" style="color: red; margin-left: 16px">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <input type="text" class="form-control" name="order_date" placeholder="Ngày đặt hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
-                                                    </div>
-                                                    <div id="help-block-order_date" style="color: red; margin-left: 16px">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <div class="form-group">
-                                                    <div class="form-block">
-                                                        <textarea name="introduce" id="introduce" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("detail") }}</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-sm-12">
-                                                <button type="button" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
-                                                <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
-                                            </div>
-                                        </div>
-                                    </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 15px">
+                            <div class="select">
+                                <form style="margin-bottom: 0px">
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                    <select id="supplier-select" name="supplier-select" style="height: 40px; width: 300px; padding-left: 5px">
+                                        <option value="null" disabled selected>Chọn nhà cung cấp</option>
+                                        @foreach($listSupplier as $key => $data)
+                                            <option value={{$data->id}}>{{$data->name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <span class="focus"></span>
+                                    <button class="btn btn-primary handleChoseSupplier" type="submit">Chọn</button>
+                                </form>
+                                <div id="help-block-supplier" style="color: red">
                                 </div>
                             </div>
-                        </form>
+                        </div>
+{{--                        <form>--}}
+{{--                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+{{--                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">--}}
+{{--                                <div class="card">--}}
+{{--                                    <div class="header">--}}
+{{--                                        <div class="col-sm-12">--}}
+{{--                                            <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 8px">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <h5>Thông tin đơn hàng</h5>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="body">--}}
+{{--                                        <div class="row clearfix">--}}
+{{--                                            <div class="col-sm-12">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <div class="form-block">--}}
+{{--                                                        <select class="form-control" name="supplier[]" id="supplier_id" style="margin-bottom: 2px">--}}
+{{--                                                            <option value="Nha cung cap" disabled selected>Nhà cung cấp *</option>--}}
+{{--                                                            @foreach($listSupplier as $key => $data)--}}
+{{--                                                                <option value="{{$data->name}}">{{$data->name}}</option>--}}
+{{--                                                            @endforeach--}}
+{{--                                                        </select>--}}
+
+{{--                                                        <select class="form-control attribute" name="product[]" id="product_id" style="margin-top: 15px">--}}
+{{--                                                            <option value="" disabled selected>Chọn sản phẩm *</option>--}}
+{{--                                                        </select>--}}
+{{--                                                        <div id="help-block-product" style="color: red; margin-left: 16px">--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="row clearfix">--}}
+{{--                                            <div class="col-sm-6">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <div class="form-block">--}}
+{{--                                                        <input type="text" name="quantity" id="quantity" class="form-control" placeholder="Số lượng *" value="{{ old("quantity") }}">--}}
+{{--                                                    </div>--}}
+{{--                                                    <div id="help-block-quantity" style="color: red; margin-left: 16px">--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="col-sm-6">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <div class="form-block">--}}
+{{--                                                        <input type="text" class="form-control" name="order_date" placeholder="Ngày đặt hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>--}}
+{{--                                                    </div>--}}
+{{--                                                    <div id="help-block-order_date" style="color: red; margin-left: 16px">--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="row clearfix">--}}
+{{--                                            <div class="col-sm-12">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <div class="form-block">--}}
+{{--                                                        <textarea name="introduce" id="introduce" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("detail") }}</textarea>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="row clearfix">--}}
+{{--                                            <div class="col-sm-12">--}}
+{{--                                                <button type="button" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>--}}
+{{--                                                <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </form>--}}
                     </div>
                     <div role="tabpanel" class="tab-pane padding-20" id="verifyOrder">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -321,6 +336,36 @@
         var blockErrIntroduce = document.getElementById("help-block-introduce");
         // var blockErrSubmit = document.getElementById("help-block-submit");
         $(document).ready(function(){
+            /**
+             * Handle when chose supplier
+             */
+            $(".handleChoseSupplier").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var supplier_id = $("select[name='supplier-select']").val();
+                var blockErrSupplier = document.getElementById("help-block-supplier");
+                // Check validate
+                if(!supplier_id) {
+                    blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
+                } else {
+                    blockErrSupplier.innerHTML = "";
+                }
+                if(!blockErrSupplier.innerHTML) {
+                    $.ajax({
+                        url: "/admin/suppliers/get-product",
+                        type: 'GET',
+                        data: {_token: _token, id: supplier_id},
+                        success: function (response) {
+                            blockErrSupplier.innerHTML = "";
+                            console.log(response);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            });
+
             addSupplierName();
             getAllProductNameBySupplierName();
             console.log(attribute);
@@ -427,5 +472,6 @@
                 }
             });
         }
+
     </script>
 @endsection
