@@ -88,7 +88,7 @@ class SupplierController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function detail(Request $request, $id) {
-        $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
+        $listSupplier = $this->supplierRepository->listAll();
         $listProductId = $this->supplierProductRepository->listAllProductBySupplierId($id);
         $listAllProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         if($id) {

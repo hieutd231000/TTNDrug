@@ -98,7 +98,7 @@
                                             <th>Đường dùng</th>
                                             <th>Dạng bào chế</th>
                                             <th>Hàm lượng</th>
-                                            <th style="width: 105px">Xem/Sửa/Xoá</th>
+                                            <th style="width: 140px">Xem/Sửa/Xoá</th>
                                         </tr>
                                     </thead>
                                     <tbody>

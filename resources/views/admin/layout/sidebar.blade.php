@@ -136,7 +136,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/orders" class="nav-link">
+                            <a href="/admin/orders/{{0}}/product" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Đặt hàng</p>
                             </a>

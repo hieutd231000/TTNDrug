@@ -32,9 +32,18 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function index(Request $request) {
+    public function index(Request $request, $id) {
         //List Order
-        $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
+        $listSupplier = $this->supplierRepository->listAll();
+        if($id) {
+            $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
+            $supplierDetail = $this->supplierRepository->find($id);
+            return view("admin.page.orders.index", [
+                'listSupplier' => $listSupplier,
+                'supplierDetail' => $supplierDetail,
+                'listProductBySupplierId' => $listProductBySupplierId
+            ]);
+        }
         return view("admin.page.orders.index", [
             'listSupplier' => $listSupplier,
         ]);

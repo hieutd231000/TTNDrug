@@ -22,6 +22,7 @@
         background: linear-gradient(60deg, #09b9ac, #7dd1c1);
         color: #fff !important;
     }
+
     .card .header {
         padding: 20px 20px 0px 20px;
     }
@@ -40,6 +41,101 @@
     }
     .hidden {
         display: none !important;
+    }
+    .slide-container{
+        max-width: 1120px;
+        width: 100%;
+        padding: 40px 0;
+    }
+    .slide-content{
+        margin: 0 40px;
+        overflow: hidden;
+        border-radius: 25px;
+    }
+    .swiper-slide {
+        transition: all .2s ease-out;
+    }
+    .swiper-slide:hover {
+        transform: translateY(-0.8rem) scale(1.05) !important;
+    }
+    .card{
+        border-radius: 25px;
+        background-color: #FFF;
+    }
+    .image-content,
+    .card-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 14px;
+    }
+    .image-content{
+        position: relative;
+        row-gap: 5px;
+        padding: 0 0 10px 0;
+    }
+    .overlay::before,
+    .overlay::after{
+        content: '';
+        position: absolute;
+        right: 0;
+        bottom: -40px;
+        height: 40px;
+        width: 40px;
+        background-color: #4070F4;
+    }
+    .overlay::after{
+        border-radius: 0 25px 0 0;
+        background-color: #FFF;
+    }
+    .card-image{
+        position: relative;
+        height: 185px;
+        width: 208px;
+        border-radius: 50%;
+        background: #FFF;
+        padding: 3px;
+    }
+    .swiper-navBtn{
+        color: #6E93f7;
+        transition: color 0.3s ease;
+    }
+    .swiper-navBtn:hover{
+        color: #4070F4;
+    }
+    .swiper-navBtn::before,
+    .swiper-navBtn::after{
+        font-size: 35px;
+    }
+    .swiper-button-next{
+        right: 0 !important;
+    }
+    .swiper-button-prev{
+        left: 0 !important;
+    }
+    .swiper-pagination {
+        transform: translate(-50%, 118%) !important;
+        /*transform: translateY(-50%) !important;*/
+    }
+    .name{
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+    }
+    .swiper-pagination-bullet{
+        background-color: #6E93f7;
+        opacity: 1;
+    }
+    .swiper-pagination-bullet-active{
+        background-color: #4070F4;
+    }
+    @media screen and (max-width: 768px) {
+        .slide-content{
+            margin: 0 10px;
+        }
+        .swiper-navBtn{
+            display: none;
+        }
     }
 </style>
 
@@ -72,7 +168,7 @@
                 <div class="row clearfix">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 10px">
                         <div class="select">
-                            <select id="standard-select" style="height: 38px; width: 300px; padding-left: 5px">
+                            <select id="standard-select" style="height: 38px; width: 400px; padding-left: 5px">
                                 <option value="null" disabled selected>Chọn nhà cung cấp</option>
                                 @if(isset($supplierDetail))
                                     @foreach($listSupplier as $key => $data)
@@ -91,6 +187,64 @@
                         </div>
                     </div>
                 </div>
+                @isset ($listProductBySupplierId)
+                    @if (count($listProductBySupplierId))
+                        <div class="row clearfix" style="margin-top: 10px">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                <div class="card">
+                                    <div class="card-header bg-light font-weight-bold" style="color: black!important;">
+                                        Chọn sản phẩm
+                                    </div>
+                                    <div class="body">
+                                        <div class="row clearfix">
+                                            <div class="col-sm-12">
+                                                <form class="form-inline">
+                                                    <input class="form-control" type="search" style="width: 90%" placeholder="Nhập" aria-label="Search">
+                                                    <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div class="row clearfix" style="margin: 40px 0 20px 0">
+                                            <div class="slide-container swiper" style="padding-bottom: 25px">
+                                                <div class="slide-content">
+                                                    <div class="card-wrapper swiper-wrapper">
+                                                        @foreach($listProductBySupplierId as $key => $data)
+                                                            <div class="card swiper-slide">
+                                                                <div class="image-content">
+                                                                    <span class="overlay"></span>
+                                                                    <div class="card-image">
+                                                                        <img id="card-img" class="card-img"  src="{{ URL::asset('image/products').'/'.$data[0]->product_image}}" alt="pic" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="card-content">
+                                                                    <h2 class="name">{{$data[0]->product_name}}</h2>
+                                                                    <input type="text" name="price" placeholder="Nhập giá:" style="width: 65%; margin-bottom: 10px">
+                                                                    <div style="display: flex">
+    {{--                                                                    <label for="{{$data[0]->id}}" style="font-size: 14px">SL:</label>--}}
+                                                                        <input type="button" onclick="subtractCount({{$data[0]->id}})" value="-">
+                                                                        <input type="text" style="width: 30px; text-align: center" id="{{$data[0]->id}}" value="">
+                                                                        <input type="button" onclick="increaseCount({{$data[0]->id}})" value="+">
+                                                                    </div>
+    {{--                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>--}}
+                                                                </div>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+
+                                                </div>
+                                                <div class="swiper-button-next swiper-navBtn"></div>
+                                                <div class="swiper-button-prev swiper-navBtn"></div>
+                                                <div class="swiper-pagination"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <p style="color:red;">Nhà cung cấp này không có sản phẩm</p>
+                    @endif
+                @endisset
 {{--                        <form>--}}
 {{--                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
 {{--                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">--}}
@@ -178,6 +332,41 @@
         //     format: 'L'
         // });
 
+        // Slider
+        var swiper = new Swiper(".slide-content", {
+            slidesPerView: 4,
+            spaceBetween: 25,
+            loop: true,
+            centerSlide: 'true',
+            fade: 'true',
+            grabCursor: 'true',
+            a11y: false,
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+                dynamicBullets: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+
+            breakpoints:{
+                0: {
+                    slidesPerView: 1,
+                },
+                316.6: {
+                    slidesPerView: 2,
+                },
+                633.3: {
+                    slidesPerView: 3,
+                },
+                950: {
+                    slidesPerView: 4,
+                }
+            },
+        });
+
         // var supplier, product, quantity, introduce, order_date;
         // var blockErrProduct = document.getElementById("help-block-product");
         // var blockErrQuantity = document.getElementById("help-block-quantity");
@@ -215,6 +404,28 @@
             //     // }
             // });
         });
+
+        const increaseCount = (id) => {
+            console.log("product_id: " + id);
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            console.log(value);
+            document.getElementById(id).value = value;
+            console.log(document.getElementById(id).value);
+        }
+
+        const subtractCount = (id) => {
+            console.log("product_id: " + id);
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            if(value > 0) {
+                value--;
+                console.log(value);
+                document.getElementById(id).value = value;
+            }
+        }
+
         const checkNumber = (num) => {
             return /^\d+$/.test(num);
         }
@@ -227,7 +438,7 @@
                 document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
             } else {
                 document.getElementById("help-block-supplier").innerHTML = "";
-                window.location.href = "/admin/suppliers/" + supplier_search + "/detail";
+                window.location.href = "/admin/orders/" + supplier_search + "/product";
             }
         }
     </script>
