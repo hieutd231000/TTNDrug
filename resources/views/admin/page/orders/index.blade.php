@@ -85,7 +85,7 @@
                                 @endif
                             </select>
                             <span class="focus"></span>
-                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
+                            <input class="btn btn-primary" onclick="handleChose()" type="button" value="Chọn" style="margin-bottom: 5px">
                             <div id="help-block-supplier" style="color: red">
                             </div>
                         </div>
@@ -171,42 +171,12 @@
 @section("custom-js")
     <script>
         //Date picker
-        $('#reservationdate').datetimepicker({
-            format: 'L'
-        });
-        $('#reservationdate1').datetimepicker({
-            format: 'L'
-        });
-
-        /**
-         * Datatable
-         */
-        $(function () {
-            $("#listOrderTable").DataTable({
-                paging: false,
-                ordering: false,
-                autoWidth: false,
-                responsive: false,
-                lengthChange: false,
-                info: false,
-                searching: false,
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ đơn hàng trên một trang",
-                    "zeroRecords": "Không có đơn hàng",
-                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",
-                    "search": "Tìm kiếm:",
-                    "infoEmpty": "",
-                    "paginate": {
-                        "next":       "Sau",
-                        "previous":   "Trước"
-                    },
-                    "infoFiltered": "(filtered from _MAX_ total records)"
-                }
-            })
-                .buttons()
-                .container()
-                .appendTo("#listOrderTable_wrapper .col-md-6:eq(0)");
-        });
+        // $('#reservationdate').datetimepicker({
+        //     format: 'L'
+        // });
+        // $('#reservationdate1').datetimepicker({
+        //     format: 'L'
+        // });
 
         // var supplier, product, quantity, introduce, order_date;
         // var blockErrProduct = document.getElementById("help-block-product");
@@ -218,139 +188,47 @@
             /**
              * Handle when chose supplier
              */
-            $(".handleChoseSupplier").click(function(e){
-                e.preventDefault();
-                // var _token = $("input[name='_token']").val();
-                // var supplier_id = $("select[name='supplier-select']").val();
-                // var blockErrSupplier = document.getElementById("help-block-supplier");
-                // // Check validate
-                // if(!supplier_id) {
-                //     blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
-                // } else {
-                //     blockErrSupplier.innerHTML = "";
-                // }
-                // if(!blockErrSupplier.innerHTML) {
-                //     $.ajax({
-                //         url: "/admin/suppliers/get-product",
-                //         type: 'GET',
-                //         data: {_token: _token, id: supplier_id},
-                //         success: function (response) {
-                //             blockErrSupplier.innerHTML = "";
-                //             console.log(response);
-                //         },
-                //         error: function (err) {
-                //             console.log(err);
-                //         }
-                //     });
-                // }
-            });
-
-            // addSupplierName();
-            // getAllProductNameBySupplierName();
-            // console.log(attribute);
-            // $('select[name*="[]"]').each(function(){
-            //     $('select[name*="[]"]').change(function () {
-            //         var $attribute = $(this).next('.attribute');
-            //         var product = $(this).val(), lcns = attribute[product] || [];
-            //         var html = $.map(lcns, function(lcn){
-            //             return '<option value="' + lcn + '">' + lcn + '</option>'
-            //         }).join('');
-            //         $attribute.html(html)
-            //     });
-            // });
-            //Handle add new orders
-            // $(".handleSubmit").click(function(e){
+            // $(".handleChoseSupplier").click(function(e){
             //     e.preventDefault();
-            //     supplier = $("select[name='supplier[]']").val();
-            //     product = $("select[name='product[]']").val();
-            //     quantity = $("input[name='quantity']").val();
-            //     order_date = $("input[name='order_date']").val();
-            //     introduce = $("textarea[name='introduce']").val();
+            //     // var _token = $("input[name='_token']").val();
+            //     // var supplier_id = $("select[name='supplier-select']").val();
+            //     // var blockErrSupplier = document.getElementById("help-block-supplier");
             //     // // Check validate
-            //     if(!product) {
-            //         blockErrProduct.innerHTML = "Vui lòng chọn sản phẩm";
-            //     } else {
-            //         blockErrProduct.innerHTML = "";
-            //     }
-            //     if(!quantity) {
-            //         blockErrQuantity.innerHTML = "Không được để trống";
-            //     } else if(!checkNumber(quantity)) {
-            //         blockErrQuantity.innerHTML = "Thông tin bạn nhập không hợp lệ";
-            //     } else {
-            //         blockErrQuantity.innerHTML = "";
-            //     }
-            //     if(!order_date) {
-            //         blockErrOrderDate.innerHTML = "Không được để trống";
-            //     } else {
-            //         blockErrOrderDate.innerHTML = "";
-            //     }
-            //     // //Thành công
-            //     if(!blockErrProduct.innerHTML && !blockErrQuantity.innerHTML && !blockErrOrderDate.innerHTML) {
-            //         var _token = $("input[name='_token']").val();
-            //         $.ajax({
-            //             url: "/admin/orders/add-order",
-            //             type:'POST',
-            //             data: {_token:_token, supplier:supplier, product:product,
-            //                 amount:quantity , order_date:order_date, detail :introduce
-            //             },
-            //             success: function(response) {
-            //                 var alertDiv = document.getElementById("notification");
-            //                 alertDiv.classList.remove("hidden");
-            //                 alertDiv.innerHTML += response["message"];
-            //                 setTimeout(function(){
-            //                     location.reload();
-            //                 }, 600);
-            //             },
-            //             error: function (err) {
-            //                 console.log(err);
-            //             }
-            //         });
-            //     }
-            // });
-            // $(".handleCancel").click(function(e){
-            //     e.preventDefault();
-            //     $('#supplier_id option:first-child').attr("selected", "selected");
-            //     $("input[name='quantity']").val("");
-            //     $("input[name='order_date']").val("");
-            //     $("textarea[name='introduce']").val("");
-            //     blockErrProduct.innerHTML = "";
-            //     blockErrQuantity.innerHTML = "";
-            //     blockErrOrderDate.innerHTML = "";
-            //     blockErrIntroduce.innerHTML = "";
+            //     // if(!supplier_id) {
+            //     //     blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
+            //     // } else {
+            //     //     blockErrSupplier.innerHTML = "";
+            //     // }
+            //     // if(!blockErrSupplier.innerHTML) {
+            //     //     $.ajax({
+            //     //         url: "/admin/suppliers/get-product",
+            //     //         type: 'GET',
+            //     //         data: {_token: _token, id: supplier_id},
+            //     //         success: function (response) {
+            //     //             blockErrSupplier.innerHTML = "";
+            //     //             console.log(response);
+            //     //         },
+            //     //         error: function (err) {
+            //     //             console.log(err);
+            //     //         }
+            //     //     });
+            //     // }
             // });
         });
-        // const getAllProductNameBySupplierName = () => {
-        //     for(var i=0; i<proNamebysupName.length; i++) {
-        //         attribute[proNamebysupName[i]["supplier_name"]].push(proNamebysupName[i]["product_name"]);
-        //     }
-        // }
-        // const addSupplierName = () => {
-        //     for(var i=0; i<listSupplierName.length; i++) {
-        //         attribute[listSupplierName[i]] = [];
-        //     }
-        // }
         const checkNumber = (num) => {
             return /^\d+$/.test(num);
         }
-        const verifyOrder = (id) => {
-            var _token = $("input[name='_token']").val();
-            $.ajax({
-                url: "/admin/orders/verify-order",
-                type:'POST',
-                data: {_token:_token, id:id, status:1},
-                success: function(response) {
-                    var alertDiv = document.getElementById("confirmation");
-                    alertDiv.classList.remove("hidden");
-                    alertDiv.innerHTML += response["message"];
-                    setTimeout(function(){
-                        location.reload();
-                    }, 600);
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
+        /**
+         * Handle when chose supplier
+         */
+        const handleChose = () => {
+            var supplier_search = $('#standard-select').find(":selected").val();
+            if(supplier_search === "null") {
+                document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
+            } else {
+                document.getElementById("help-block-supplier").innerHTML = "";
+                window.location.href = "/admin/suppliers/" + supplier_search + "/detail";
+            }
         }
-
     </script>
 @endsection

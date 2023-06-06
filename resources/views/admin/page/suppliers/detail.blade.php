@@ -455,12 +455,12 @@
          * Handle when chose supplier
          */
         const handleSearch = () => {
-            var product_search = $('#standard-select').find(":selected").val();
-            if(product_search === "null") {
+            var supplier_search = $('#standard-select').find(":selected").val();
+            if(supplier_search === "null") {
                 document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
             } else {
                 document.getElementById("help-block-supplier").innerHTML = "";
-                window.location.href = "/admin/suppliers/" + product_search + "/detail";
+                window.location.href = "/admin/suppliers/" + supplier_search + "/detail";
             }
         }
         /**
