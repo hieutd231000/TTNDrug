@@ -176,4 +176,25 @@ class SupplierController extends Controller
             return $this->response->error(null, 500, 'Thêm sản phẩm thất bại');
         }
     }
+
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function deleteSupplierProduct(Request $request) {
+        $supplier = $this->supplierRepository->find($request["supplier_id"]);
+        if(empty($supplier)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $products_id = $request["product_id"];
+            for($i=0; $i < count($products_id); $i++) {
+                $this->supplierProductRepository->deleteProductBySupplierID($products_id[$i], $supplier->id);
+            }
+            return $this->response->success($products_id, 200, 'Xoá sản phẩm thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Xoá sản phẩm thất bại');
+        }
+    }
 }

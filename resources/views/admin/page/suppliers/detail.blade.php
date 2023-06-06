@@ -149,6 +149,9 @@
                                 <h5>Danh sách sản phẩm</h5>
                                 <div style="text-align: end">
                                     <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm sản phẩm</button>
+                                    @if($totalProduct)
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá sản phẩm</button>
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body" style="padding-top: 0px !important;">
@@ -258,25 +261,36 @@
         <!--Delete Modal -->
         <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="{{ url("/admin/products/delete") }}" method="post">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="id" id="id_product" value="">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá sản phẩm này?</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body" style="border: none">
-                            Một khi xoá thì bạn sẽ không thể phục hồi !
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
-                            <button type="submit" class="btn btn-danger">Đồng ý</button>
-                        </div>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                </form>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
+                            <div class="form-group">
+                                <select data-placeholder="Lựa chọn sản phẩm bạn muốn xoá..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_delete">
+                                    <option value=""></option>
+                                    @foreach($listProduct as $key => $data)
+                                        <option value="{{$data[0]->id}}">{{$data[0]->product_name}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="help-block-delete-product" style="color: red">
+                                </div>
+                                <div id="help-block-success-delete" style="color: red">
+                                </div>
+                            </div>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                <button type="submit" class="btn btn-danger handleDelete">Xoá</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -348,6 +362,44 @@
                     }, 400);
                 }
             });
+
+            $(".handleDelete").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var product_id = $("select[name='product_delete']").val();
+                var supplier_id = $("input[name='supplier_id']").val();
+                var blockErrProductDelete = document.getElementById("help-block-delete-product");
+                var blockSuccessDelete = document.getElementById("help-block-success-delete");
+                blockSuccessDelete.innerHTML = "";
+                console.log(product_id);
+                // Check validate
+                if(!product_id) {
+                    blockErrProductDelete.innerHTML = "Mời bạn chọn sản phẩm";
+                } else {
+                    blockErrProductDelete.innerHTML = "";
+                }
+                if(!blockErrProductDelete.innerHTML) {
+                    $.ajax({
+                        url: "/admin/suppliers/delete-product",
+                        type:'POST',
+                        data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
+                        success: function(response) {
+                            blockErrProductDelete.innerHTML = "";
+                            blockSuccessDelete.innerHTML = "Xoá sản phẩm thành công";
+                            setTimeout(function(){
+                                location.reload();
+                            }, 600);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                    setTimeout(function(){
+                        $("#addModal").modal("hide");
+                    }, 400);
+                }
+            });
+
         });
         const addProductToTable = (name, category, code) => {
             var table = document.getElementById("listProductTable").getElementsByTagName('tbody')[0];
@@ -403,6 +455,12 @@
                 window.location.href = "/admin/suppliers/" + product_search + "/detail";
             }
         }
-
+        $(".chosen-select").chosen({
+            width: "100%",
+        })
+        $(".chosen-choices").css('font-size','14px');
+        $(".search-choice").css('font-size','16px');
+        $(".chosen-results").css('font-size','16px');
     </script>
+
 @endsection

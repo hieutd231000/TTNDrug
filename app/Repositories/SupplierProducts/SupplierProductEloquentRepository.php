@@ -46,4 +46,16 @@ class SupplierProductEloquentRepository extends EloquentRepository implements Su
             ->where("supplier_id", $supplier_id)
             ->get();
     }
+
+    /**
+     * @param $product_id
+     * @param $supplier_id
+     * @return int
+     */
+    public function deleteProductBySupplierID($product_id, $supplier_id) {
+        return DB::table("supplier_products")
+            ->where("product_id", $product_id)
+            ->where("supplier_id", $supplier_id)
+            ->delete();
+    }
 }
