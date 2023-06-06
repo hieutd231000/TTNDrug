@@ -127,13 +127,29 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="/admin/orders" class="nav-link">
+                    <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-md"></i>
                         <p>
                             Orders
+                            <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/admin/orders" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Đặt hàng</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/admin/list-orders" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Danh sách đơn hàng</p>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
+
                 <li class="nav-item">
                     <a href="/pos" class="nav-link">
                         <i class="nav-icon fas fa-puzzle-piece"></i>

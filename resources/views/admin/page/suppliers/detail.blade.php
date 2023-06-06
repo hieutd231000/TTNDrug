@@ -91,9 +91,15 @@
                         <div class="select">
                             <select id="standard-select" style="height: 38px; width: 300px; padding-left: 5px">
                                 <option value="null" disabled selected>Chọn nhà cung cấp</option>
-                                @foreach($supplier as $key => $data)
-                                    <option value={{$data->id}}>{{$data->name}}</option>
-                                @endforeach
+                                @if(isset($supplierDetail))
+                                    @foreach($supplier as $key => $data)
+                                        <option value={{$data->id}} {{ $supplierDetail->id == $data->id ? 'selected' : '' }}>{{$data->name}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach($supplier as $key => $data)
+                                        <option value={{$data->id}}>{{$data->name}}</option>
+                                    @endforeach
+                                @endif
                             </select>
                             <span class="focus"></span>
                             <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
@@ -102,7 +108,7 @@
                         </div>
                     </div><!-- /.col -->
                 </div>
-            @isset ($supplierDetail)
+                @isset ($supplierDetail)
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-top: 20px">
                         <div class="card">
                             <div class="header">
@@ -259,40 +265,42 @@
             </div>
         </div>
         <!--Delete Modal -->
-        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
-                            <div class="form-group">
-                                <select data-placeholder="Lựa chọn sản phẩm bạn muốn xoá..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_delete">
-                                    <option value=""></option>
-                                    @foreach($listProduct as $key => $data)
-                                        <option value="{{$data[0]->id}}">{{$data[0]->product_name}}</option>
-                                    @endforeach
-                                </select>
-                                <div id="help-block-delete-product" style="color: red">
+        @isset($supplierDetail)
+            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
+                                <div class="form-group">
+                                    <select data-placeholder="Lựa chọn sản phẩm bạn muốn xoá..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_delete">
+                                        <option value=""></option>
+                                        @foreach($listProduct as $key => $data)
+                                            <option value="{{$data[0]->id}}">{{$data[0]->product_name}}</option>
+                                        @endforeach
+                                    </select>
+                                    <div id="help-block-delete-product" style="color: red">
+                                    </div>
+                                    <div id="help-block-success-delete" style="color: red">
+                                    </div>
                                 </div>
-                                <div id="help-block-success-delete" style="color: red">
+                                <div class="float-right">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                    <button type="submit" class="btn btn-danger handleDelete">Xoá</button>
                                 </div>
-                            </div>
-                            <div class="float-right">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
-                                <button type="submit" class="btn btn-danger handleDelete">Xoá</button>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endisset
     </div>
 @endsection
 
@@ -455,6 +463,9 @@
                 window.location.href = "/admin/suppliers/" + product_search + "/detail";
             }
         }
+        /**
+         * Chosen jquery
+         */
         $(".chosen-select").chosen({
             width: "100%",
         })

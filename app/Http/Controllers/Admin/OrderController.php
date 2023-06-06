@@ -32,6 +32,18 @@ class OrderController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
+    public function index(Request $request) {
+        //List Order
+        $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
+        return view("admin.page.orders.index", [
+            'listSupplier' => $listSupplier,
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function listOrder(Request $request) {
         //List Order
         $listProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
@@ -41,7 +53,7 @@ class OrderController extends Controller
         //List Order Verify
         $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
         $listAllOrder = $this->orderRepository->getAllOrder();
-        return view("admin.page.orders.index", [
+        return view("admin.page.orders.list_order", [
             'listProduct' => $listProduct,
             'listSupplier' => $listSupplier,
             'proNamebysupName' => $listProductNameBySupplierName,

@@ -51,7 +51,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Danh sách order</h4>
+                        <h4 class="m-0">Đặt hàng</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -68,41 +68,29 @@
         <!-- /.content-header -->
         <!-- Main content -->
         <section class="content">
-            <div class="container-fluid" style="margin-bottom: 25px">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item">
-                            <a href="#order" class="nav-link active" data-toggle="tab">Đặt hàng</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#verifyOrder" class="nav-link" data-toggle="tab">Xác nhận đơn hàng</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#listOrder" class="nav-link" data-toggle="tab">Danh sách đơn hàng</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
             <div class="container-fluid">
-                <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane padding-20 in active" id="order">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 15px">
-                            <div class="select">
-                                <form style="margin-bottom: 0px">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                    <select id="supplier-select" name="supplier-select" style="height: 40px; width: 300px; padding-left: 5px">
-                                        <option value="null" disabled selected>Chọn nhà cung cấp</option>
-                                        @foreach($listSupplier as $key => $data)
-                                            <option value={{$data->id}}>{{$data->name}}</option>
-                                        @endforeach
-                                    </select>
-                                    <span class="focus"></span>
-                                    <button class="btn btn-primary handleChoseSupplier" type="submit">Chọn</button>
-                                </form>
-                                <div id="help-block-supplier" style="color: red">
-                                </div>
+                <div class="row clearfix">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 10px">
+                        <div class="select">
+                            <select id="standard-select" style="height: 38px; width: 300px; padding-left: 5px">
+                                <option value="null" disabled selected>Chọn nhà cung cấp</option>
+                                @if(isset($supplierDetail))
+                                    @foreach($listSupplier as $key => $data)
+                                        <option value={{$data->id}} {{ $supplierDetail->id == $data->id ? 'selected' : '' }}>{{$data->name}}</option>
+                                    @endforeach
+                                @else
+                                    @foreach($listSupplier as $key => $data)
+                                        <option value={{$data->id}}>{{$data->name}}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <span class="focus"></span>
+                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
+                            <div id="help-block-supplier" style="color: red">
                             </div>
                         </div>
+                    </div>
+                </div>
 {{--                        <form>--}}
 {{--                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
 {{--                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">--}}
@@ -174,112 +162,6 @@
 {{--                                </div>--}}
 {{--                            </div>--}}
 {{--                        </form>--}}
-                    </div>
-                    <div role="tabpanel" class="tab-pane padding-20" id="verifyOrder">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Đơn hàng chờ xác nhận</h5>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="alert alert-success hidden" id="confirmation" style="display: inline-block; padding: 8px; margin-top: 15px">
-                                    </div>
-                                </div>
-                                @foreach($listOrderUnverified as $data)
-                                    <form>
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="card-body" style="padding-bottom: 0px">
-                                            <div class="card text-center text-bg-light">
-                                                <div class="card-body">
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">STT</th>
-                                                            <th scope="col">Tên sản phẩm</th>
-                                                            <th scope="col">Tên nhà cung cấp</th>
-                                                            <th scope="col">Email</th>
-                                                            <th scope="col">SĐT</th>
-                                                            <th scope="col">Số lượng</th>
-                                                            <th scope="col">Tổng giá</th>
-                                                            <th scope="col">Ngày đặt hàng</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>{{$rank++}}</td>
-                                                            <td>{{$data->product_name}}</td>
-                                                            <td>{{$data->supplier_name}}</td>
-                                                            <td>{{$data->supplier_email}}</td>
-                                                            <td>{{$data->supplier_phone}}</td>
-                                                            <td>{{$data->amount}}</td>
-{{--                                                            <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
-                                                            <td>{{$data->order_date}}</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="card-footer btn btn-primary" onclick="verifyOrder({{$data->id}})" style="background-color: #007bff !important;">
-                                                    Xác nhận đơn hàng
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                @endforeach
-                            </div>
-                        </div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane padding-20" id="listOrder">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5>Danh sách đơn hàng</h5>
-                                </div>
-                                <div class="col-sm-12" style="padding: 15px">
-                                    <table id="listOrderTable" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">STT</th>
-                                            <th scope="col">Tên sản phẩm</th>
-                                            <th scope="col">Tên nhà cung cấp</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">SĐT</th>
-                                            <th scope="col">Số lượng</th>
-                                            <th scope="col">Tổng giá</th>
-                                            <th scope="col">Ngày đặt hàng</th>
-                                            <th scope="col">Trạng thái</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($listAllOrder as $key => $data)
-                                            <tr>
-                                                <td>{{$rankOrder ++}}</td>
-                                                <td>{{$data -> product_name}}</td>
-                                                <td>{{$data -> supplier_name}}</td>
-                                                <td>{{$data -> supplier_email}}</td>
-                                                <td>{{$data -> supplier_phone}}</td>
-                                                <td>{{$data -> amount}}</td>
-{{--                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
-                                                <td>{{$data->order_date}}</td>
-                                                <td>
-                                                    @if($data -> status === 0)
-                                                        <button class="btn btn-sm btn-danger">Chưa xác nhận</button>
-                                                    @elseif($data -> status === 1)
-                                                        <button class="btn btn-sm btn-primary">Đã xác nhận</button>
-                                                    @elseif($data -> status === 2)
-                                                        <button class="btn btn-sm btn-success">Đã nhận hàng</button>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{--Thêm order--}}
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
@@ -326,14 +208,11 @@
                 .appendTo("#listOrderTable_wrapper .col-md-6:eq(0)");
         });
 
-        var proNamebysupName = {!! $proNamebysupName !!};
-        var listSupplierName = {!! $listSupplierName !!};
-        var attribute = {}
-        var supplier, product, quantity, introduce, order_date;
-        var blockErrProduct = document.getElementById("help-block-product");
-        var blockErrQuantity = document.getElementById("help-block-quantity");
-        var blockErrOrderDate = document.getElementById("help-block-order_date");
-        var blockErrIntroduce = document.getElementById("help-block-introduce");
+        // var supplier, product, quantity, introduce, order_date;
+        // var blockErrProduct = document.getElementById("help-block-product");
+        // var blockErrQuantity = document.getElementById("help-block-quantity");
+        // var blockErrOrderDate = document.getElementById("help-block-order_date");
+        // var blockErrIntroduce = document.getElementById("help-block-introduce");
         // var blockErrSubmit = document.getElementById("help-block-submit");
         $(document).ready(function(){
             /**
@@ -341,115 +220,115 @@
              */
             $(".handleChoseSupplier").click(function(e){
                 e.preventDefault();
-                var _token = $("input[name='_token']").val();
-                var supplier_id = $("select[name='supplier-select']").val();
-                var blockErrSupplier = document.getElementById("help-block-supplier");
-                // Check validate
-                if(!supplier_id) {
-                    blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
-                } else {
-                    blockErrSupplier.innerHTML = "";
-                }
-                if(!blockErrSupplier.innerHTML) {
-                    $.ajax({
-                        url: "/admin/suppliers/get-product",
-                        type: 'GET',
-                        data: {_token: _token, id: supplier_id},
-                        success: function (response) {
-                            blockErrSupplier.innerHTML = "";
-                            console.log(response);
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                }
+                // var _token = $("input[name='_token']").val();
+                // var supplier_id = $("select[name='supplier-select']").val();
+                // var blockErrSupplier = document.getElementById("help-block-supplier");
+                // // Check validate
+                // if(!supplier_id) {
+                //     blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
+                // } else {
+                //     blockErrSupplier.innerHTML = "";
+                // }
+                // if(!blockErrSupplier.innerHTML) {
+                //     $.ajax({
+                //         url: "/admin/suppliers/get-product",
+                //         type: 'GET',
+                //         data: {_token: _token, id: supplier_id},
+                //         success: function (response) {
+                //             blockErrSupplier.innerHTML = "";
+                //             console.log(response);
+                //         },
+                //         error: function (err) {
+                //             console.log(err);
+                //         }
+                //     });
+                // }
             });
 
-            addSupplierName();
-            getAllProductNameBySupplierName();
-            console.log(attribute);
-            $('select[name*="[]"]').each(function(){
-                $('select[name*="[]"]').change(function () {
-                    var $attribute = $(this).next('.attribute');
-                    var product = $(this).val(), lcns = attribute[product] || [];
-                    var html = $.map(lcns, function(lcn){
-                        return '<option value="' + lcn + '">' + lcn + '</option>'
-                    }).join('');
-                    $attribute.html(html)
-                });
-            });
+            // addSupplierName();
+            // getAllProductNameBySupplierName();
+            // console.log(attribute);
+            // $('select[name*="[]"]').each(function(){
+            //     $('select[name*="[]"]').change(function () {
+            //         var $attribute = $(this).next('.attribute');
+            //         var product = $(this).val(), lcns = attribute[product] || [];
+            //         var html = $.map(lcns, function(lcn){
+            //             return '<option value="' + lcn + '">' + lcn + '</option>'
+            //         }).join('');
+            //         $attribute.html(html)
+            //     });
+            // });
             //Handle add new orders
-            $(".handleSubmit").click(function(e){
-                e.preventDefault();
-                supplier = $("select[name='supplier[]']").val();
-                product = $("select[name='product[]']").val();
-                quantity = $("input[name='quantity']").val();
-                order_date = $("input[name='order_date']").val();
-                introduce = $("textarea[name='introduce']").val();
-                // // Check validate
-                if(!product) {
-                    blockErrProduct.innerHTML = "Vui lòng chọn sản phẩm";
-                } else {
-                    blockErrProduct.innerHTML = "";
-                }
-                if(!quantity) {
-                    blockErrQuantity.innerHTML = "Không được để trống";
-                } else if(!checkNumber(quantity)) {
-                    blockErrQuantity.innerHTML = "Thông tin bạn nhập không hợp lệ";
-                } else {
-                    blockErrQuantity.innerHTML = "";
-                }
-                if(!order_date) {
-                    blockErrOrderDate.innerHTML = "Không được để trống";
-                } else {
-                    blockErrOrderDate.innerHTML = "";
-                }
-                // //Thành công
-                if(!blockErrProduct.innerHTML && !blockErrQuantity.innerHTML && !blockErrOrderDate.innerHTML) {
-                    var _token = $("input[name='_token']").val();
-                    $.ajax({
-                        url: "/admin/orders/add-order",
-                        type:'POST',
-                        data: {_token:_token, supplier:supplier, product:product,
-                            amount:quantity , order_date:order_date, detail :introduce
-                        },
-                        success: function(response) {
-                            var alertDiv = document.getElementById("notification");
-                            alertDiv.classList.remove("hidden");
-                            alertDiv.innerHTML += response["message"];
-                            setTimeout(function(){
-                                location.reload();
-                            }, 600);
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                }
-            });
-            $(".handleCancel").click(function(e){
-                e.preventDefault();
-                $('#supplier_id option:first-child').attr("selected", "selected");
-                $("input[name='quantity']").val("");
-                $("input[name='order_date']").val("");
-                $("textarea[name='introduce']").val("");
-                blockErrProduct.innerHTML = "";
-                blockErrQuantity.innerHTML = "";
-                blockErrOrderDate.innerHTML = "";
-                blockErrIntroduce.innerHTML = "";
-            });
+            // $(".handleSubmit").click(function(e){
+            //     e.preventDefault();
+            //     supplier = $("select[name='supplier[]']").val();
+            //     product = $("select[name='product[]']").val();
+            //     quantity = $("input[name='quantity']").val();
+            //     order_date = $("input[name='order_date']").val();
+            //     introduce = $("textarea[name='introduce']").val();
+            //     // // Check validate
+            //     if(!product) {
+            //         blockErrProduct.innerHTML = "Vui lòng chọn sản phẩm";
+            //     } else {
+            //         blockErrProduct.innerHTML = "";
+            //     }
+            //     if(!quantity) {
+            //         blockErrQuantity.innerHTML = "Không được để trống";
+            //     } else if(!checkNumber(quantity)) {
+            //         blockErrQuantity.innerHTML = "Thông tin bạn nhập không hợp lệ";
+            //     } else {
+            //         blockErrQuantity.innerHTML = "";
+            //     }
+            //     if(!order_date) {
+            //         blockErrOrderDate.innerHTML = "Không được để trống";
+            //     } else {
+            //         blockErrOrderDate.innerHTML = "";
+            //     }
+            //     // //Thành công
+            //     if(!blockErrProduct.innerHTML && !blockErrQuantity.innerHTML && !blockErrOrderDate.innerHTML) {
+            //         var _token = $("input[name='_token']").val();
+            //         $.ajax({
+            //             url: "/admin/orders/add-order",
+            //             type:'POST',
+            //             data: {_token:_token, supplier:supplier, product:product,
+            //                 amount:quantity , order_date:order_date, detail :introduce
+            //             },
+            //             success: function(response) {
+            //                 var alertDiv = document.getElementById("notification");
+            //                 alertDiv.classList.remove("hidden");
+            //                 alertDiv.innerHTML += response["message"];
+            //                 setTimeout(function(){
+            //                     location.reload();
+            //                 }, 600);
+            //             },
+            //             error: function (err) {
+            //                 console.log(err);
+            //             }
+            //         });
+            //     }
+            // });
+            // $(".handleCancel").click(function(e){
+            //     e.preventDefault();
+            //     $('#supplier_id option:first-child').attr("selected", "selected");
+            //     $("input[name='quantity']").val("");
+            //     $("input[name='order_date']").val("");
+            //     $("textarea[name='introduce']").val("");
+            //     blockErrProduct.innerHTML = "";
+            //     blockErrQuantity.innerHTML = "";
+            //     blockErrOrderDate.innerHTML = "";
+            //     blockErrIntroduce.innerHTML = "";
+            // });
         });
-        const getAllProductNameBySupplierName = () => {
-            for(var i=0; i<proNamebysupName.length; i++) {
-                attribute[proNamebysupName[i]["supplier_name"]].push(proNamebysupName[i]["product_name"]);
-            }
-        }
-        const addSupplierName = () => {
-            for(var i=0; i<listSupplierName.length; i++) {
-                attribute[listSupplierName[i]] = [];
-            }
-        }
+        // const getAllProductNameBySupplierName = () => {
+        //     for(var i=0; i<proNamebysupName.length; i++) {
+        //         attribute[proNamebysupName[i]["supplier_name"]].push(proNamebysupName[i]["product_name"]);
+        //     }
+        // }
+        // const addSupplierName = () => {
+        //     for(var i=0; i<listSupplierName.length; i++) {
+        //         attribute[listSupplierName[i]] = [];
+        //     }
+        // }
         const checkNumber = (num) => {
             return /^\d+$/.test(num);
         }
