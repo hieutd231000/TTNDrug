@@ -58,6 +58,9 @@
     .swiper-slide:hover {
         transform: translateY(-0.8rem) scale(1.05) !important;
     }
+    .btn-padding {
+        padding: 0px 8px !important;
+    }
     .card{
         border-radius: 25px;
         background-color: #FFF;
@@ -218,19 +221,18 @@
                                                                 </div>
                                                                 <div class="card-content">
                                                                     <h2 class="name">{{$data[0]->product_name}}</h2>
-                                                                    <input type="text" name="price" placeholder="Nhập giá:" style="width: 65%; margin-bottom: 10px">
+                                                                    <input type="text" name="price" id="{{$data[0]->product_code}}" placeholder="Nhập giá (VNĐ)" style="width: 60%; margin-bottom: 5px; font-size: 14px">
                                                                     <div style="display: flex">
-    {{--                                                                    <label for="{{$data[0]->id}}" style="font-size: 14px">SL:</label>--}}
-                                                                        <input type="button" onclick="subtractCount({{$data[0]->id}})" value="-">
-                                                                        <input type="text" style="width: 30px; text-align: center" id="{{$data[0]->id}}" value="">
-                                                                        <input type="button" onclick="increaseCount({{$data[0]->id}})" value="+">
+{{--                                                                        <input type="button" onclick="subtractCount({{$key}})" value="-">--}}
+                                                                        <input type="text" style="width: 40px; text-align: center; font-size: 14px" id="{{$data[0]->id}}" placeholder="SL:">
+{{--                                                                        <input type="button" onclick="increaseCount({{$key}})" value="+">--}}
                                                                     </div>
-    {{--                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>--}}
+                                                                    <button class="btn btn-secondary" onclick="addNewProduct({{$data[0]->id}}, '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
+                                                                    <p id="{{$data[0]->product_name}}" style="color: red"></p>
                                                                 </div>
                                                             </div>
                                                         @endforeach
                                                     </div>
-
                                                 </div>
                                                 <div class="swiper-button-next swiper-navBtn"></div>
                                                 <div class="swiper-button-prev swiper-navBtn"></div>
@@ -241,11 +243,80 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row clearfix">
+                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                                <div class="card">
+                                    <div class="card-header bg-light font-weight-bold" style="color: black!important;">
+                                        Danh sách sản phẩm
+                                    </div>
+                                    <div class="body">
+                                        <div class="row clearfix" style="margin: 10px 0 20px 0">
+                                            <div class="card">
+                                                <div class="card-body table-responsive p-0" style="">
+                                                    <table class="table table-head-fixed text-nowrap" id="cartTable">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 170px">Tên sản phẩm</th>
+                                                                <th style="width: 170px">Danh mục</th>
+                                                                <th style="width: 100px">Số lượng</th>
+                                                                <th style="width: 100px">Đơn giá</th>
+                                                                <th>Tổng giá</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="productTable">
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /.card-body -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-muted">
+                                        <button class="btn btn-primary" onClick="confirmListProduct()" style="width: 100%">Xác nhận</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
+                                <div class="card">
+                                    <div class="card-header bg-light font-weight-bold" style="color: black!important;">
+                                        Thanh toán
+                                    </div>
+                                    <div class="body">
+                                        <div class="container-form">
+                                            <form>
+                                                <div>
+                                                    <label for="total">Tổng tiền: </label>
+                                                    <p>11000 VNĐ</p>
+                                                    <br>
+                                                </div>
+                                                <div>
+                                                    <label for="paid">Thanh toán:</label>
+                                                    <input type="text" id="paid" name="paid"><br><br>
+                                                </div>
+                                                <div>
+                                                    <label for="balance">Trả lại:</label>
+                                                    <input type="text" id="balance" name="balance"><br><br>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="row clearfix">
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                <button class="btn btn-primary" style="width: 100%">Thanh toán</button>
+                                            </div>
+                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                                <button class="btn btn-primary" style="width: 100%">In hoá đơn</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @else
                         <p style="color:red;">Nhà cung cấp này không có sản phẩm</p>
                     @endif
                 @endisset
-{{--                        <form>--}}
+                {{--                        <form>--}}
 {{--                            <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
 {{--                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">--}}
 {{--                                <div class="card">--}}
@@ -367,6 +438,7 @@
             },
         });
 
+        var supplierDetail = {!! $supplierDetail !!};
         // var supplier, product, quantity, introduce, order_date;
         // var blockErrProduct = document.getElementById("help-block-product");
         // var blockErrQuantity = document.getElementById("help-block-quantity");
@@ -374,55 +446,128 @@
         // var blockErrIntroduce = document.getElementById("help-block-introduce");
         // var blockErrSubmit = document.getElementById("help-block-submit");
         $(document).ready(function(){
-            /**
-             * Handle when chose supplier
-             */
-            // $(".handleChoseSupplier").click(function(e){
-            //     e.preventDefault();
-            //     // var _token = $("input[name='_token']").val();
-            //     // var supplier_id = $("select[name='supplier-select']").val();
-            //     // var blockErrSupplier = document.getElementById("help-block-supplier");
-            //     // // Check validate
-            //     // if(!supplier_id) {
-            //     //     blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
-            //     // } else {
-            //     //     blockErrSupplier.innerHTML = "";
-            //     // }
-            //     // if(!blockErrSupplier.innerHTML) {
-            //     //     $.ajax({
-            //     //         url: "/admin/suppliers/get-product",
-            //     //         type: 'GET',
-            //     //         data: {_token: _token, id: supplier_id},
-            //     //         success: function (response) {
-            //     //             blockErrSupplier.innerHTML = "";
-            //     //             console.log(response);
-            //     //         },
-            //     //         error: function (err) {
-            //     //             console.log(err);
-            //     //         }
-            //     //     });
-            //     // }
-            // });
+            buildTableReload(supplierDetail["id"]);
         });
 
-        const increaseCount = (id) => {
-            console.log("product_id: " + id);
-            var value = parseInt(document.getElementById(id).value, 10);
-            value = isNaN(value) ? 0 : value;
-            value++;
-            console.log(value);
-            document.getElementById(id).value = value;
-            console.log(document.getElementById(id).value);
+        /**
+         * Handle add product to cart
+         * @type {*[]}
+         */
+        productArray = [];
+        const buildStorage = (supplier_id) => {
+            let storedArray = JSON.stringify(productArray);
+            let storageSupplierOrder = "supplier" + "_" + supplier_id;
+            localStorage.setItem(storageSupplierOrder, storedArray);
         }
-
-        const subtractCount = (id) => {
-            console.log("product_id: " + id);
-            var value = parseInt(document.getElementById(id).value, 10);
-            value = isNaN(value) ? 0 : value;
-            if(value > 0) {
-                value--;
+        const buildTableReload = (supplier_id) => {
+            $("#productTable").empty();
+            let storageSupplierOrder = "supplier" + "_" + supplier_id;
+            let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
+            let parsedObject = JSON.parse(retrievedProductObject);
+            for (let i = 0; i < parsedObject.length; i++) {
+                productArray.push({
+                    product_id: parsedObject[i].id,
+                    product_name: parsedObject[i].product_name,
+                    category_name: parsedObject[i].category_name,
+                    amount: parsedObject[i].amount,
+                    price: parsedObject[i].price,
+                    total_price: parsedObject[i].total_price
+                });
+                addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
+            }
+        }
+        const buildTable = (supplier_id) => {
+            $("#productTable").empty();
+            let storageSupplierOrder = "supplier" + "_" + supplier_id;
+            let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
+            let parsedObject = JSON.parse(retrievedProductObject);
+            for (let i = 0; i < parsedObject.length; i++) {
+                addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
+            }
+        }
+        const addProductToTable = (index, supplier_id, name, category, amount, price, totalPrice) => {
+            let table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+            let row = table.insertRow(-1);
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            let cell4 = row.insertCell(3);
+            let cell5 = row.insertCell(4);
+            var deleteRow = row.insertCell(5);
+            cell1.innerHTML = name;
+            cell2.innerHTML = category;
+            cell3.innerHTML = amount;
+            cell4.innerHTML = price + " VNĐ";
+            cell5.innerHTML = totalPrice + "<span> VNĐ</span>";
+            //Create button
+            let button = document.createElement("button");
+            button.innerText = "Xoá";
+            button.className = "btn btn-sm btn-danger btn-padding";
+            deleteRow.appendChild(button);
+            button.addEventListener('click', function(event){
+                console.log(event);
+                document.getElementById("cartTable").deleteRow(index + 1);
+                productArray.splice(index, 1);
+                buildStorage(supplier_id);
+                buildTable(supplier_id);
+            });
+        }
+        const addNewProduct = (id, supplier_id, name, category, code) => {
+            if(!document.getElementById(id).value || !document.getElementById(code).value) {
+                document.getElementById(name).innerHTML = "Không được bỏ trống !";
+            } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
+                document.getElementById(name).innerHTML = "Nhập lại !";
+            } else {
+                document.getElementById(name).innerHTML = "";
+            }
+            if(!document.getElementById(name).innerHTML) {
+                let value = parseInt(document.getElementById(id).value, 10);
+                let price = parseInt(document.getElementById(id).value, 10);
                 console.log(value);
-                document.getElementById(id).value = value;
+                if(!isNaN(value) && value > 0 && !isNaN(price) && price > 0) {
+                    //Add to product array
+                    productArray.push({
+                        product_id: id,
+                        product_name: name,
+                        category_name: category,
+                        amount: document.getElementById(id).value,
+                        price: document.getElementById(code).value,
+                        total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString()
+                    })
+                    console.log(productArray);
+                    document.getElementById(id).value = "";
+                    document.getElementById(code).value = "";
+                    buildStorage(supplier_id);
+                    buildTable(supplier_id);
+                    // var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+                    // var row = table.insertRow(-1);
+                    // var cell1 = row.insertCell(0);
+                    // var cell2 = row.insertCell(1);
+                    // var cell3 = row.insertCell(2);
+                    // var cell4 = row.insertCell(3);
+                    // var cell5 = row.insertCell(4);
+                    // // var deleteRow = row.insertCell(5);
+                    // cell1.innerHTML = name;
+                    // cell2.innerHTML = category;
+                    // cell3.innerHTML = document.getElementById(id).value;
+                    // cell4.innerHTML = document.getElementById(code).value + " VNĐ";
+                    // cell5.innerHTML = (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString() + " VNĐ";
+                    // // //Create button
+                    // // let button = document.createElement("button");
+                    // // button.innerText = "Xoá";
+                    // // button.className = "btn btn-sm btn-danger";
+                    // // deleteRow.appendChild(button);
+                    // // //Add to product array
+                    // // productArray.push({
+                    // //     product_name: name,
+                    // //     category_name: category,
+                    // //     product_code: code,
+                    // //     amount: document.getElementById(id).value,
+                    // //     total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
+                    // // })
+                    // // addToStorage();
+                    // // location.reload();
+                }
             }
         }
 
@@ -433,13 +578,21 @@
          * Handle when chose supplier
          */
         const handleChose = () => {
-            var supplier_search = $('#standard-select').find(":selected").val();
+            let supplier_search = $('#standard-select').find(":selected").val();
             if(supplier_search === "null") {
                 document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
             } else {
                 document.getElementById("help-block-supplier").innerHTML = "";
                 window.location.href = "/admin/orders/" + supplier_search + "/product";
             }
+        }
+
+        /**
+         * Confirmation order
+         */
+        const confirmListProduct = () => {
+            let supplier_search = $('#standard-select').find(":selected").val();
+            window.location.href = "/admin/orders/" + supplier_search + "/product/confirm";
         }
     </script>
 @endsection

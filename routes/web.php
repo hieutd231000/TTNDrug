@@ -81,6 +81,7 @@ Route::middleware('auth')->group(function () {
         });
         Route::group(["prefix" => "orders"], function () {
             Route::get('/{id}/product', [\App\Http\Controllers\Admin\OrderController::class, 'index']);
+            Route::get('/{id}/product/confirm', [\App\Http\Controllers\Admin\OrderController::class, 'confirmOrder']);
             Route::post('/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'store']);
             Route::post('/verify-order', [\App\Http\Controllers\Admin\OrderController::class, 'verifyOrder']);
             Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);

@@ -50,6 +50,24 @@ class OrderController extends Controller
     }
 
     /**
+     * Confirm order
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|void
+     */
+    public function confirmOrder(Request $request, $id) {
+        $listSupplier = $this->supplierRepository->listAll();
+        $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
+        $supplierDetail = $this->supplierRepository->find($id);
+        return view("admin.page.orders.confirm", [
+            'listSupplier' => $listSupplier,
+            'supplierDetail' => $supplierDetail,
+            'listProductBySupplierId' => $listProductBySupplierId
+        ]);
+    }
+
+    /**
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
