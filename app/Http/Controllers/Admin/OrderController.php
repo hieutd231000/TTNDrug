@@ -41,11 +41,13 @@ class OrderController extends Controller
             return view("admin.page.orders.index", [
                 'listSupplier' => $listSupplier,
                 'supplierDetail' => $supplierDetail,
-                'listProductBySupplierId' => $listProductBySupplierId
+                'supplierDetailId' => $id,
+                'listProductBySupplierId' => $listProductBySupplierId,
             ]);
         }
         return view("admin.page.orders.index", [
             'listSupplier' => $listSupplier,
+            'supplierDetailId' => 0
         ]);
     }
 
