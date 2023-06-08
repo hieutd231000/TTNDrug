@@ -92,46 +92,46 @@
                                     <div class="alert alert-success hidden" id="confirmation" style="display: inline-block; padding: 8px; margin-top: 15px">
                                     </div>
                                 </div>
-                                @foreach($listOrderUnverified as $data)
-                                    <form>
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="card-body" style="padding-bottom: 0px">
-                                            <div class="card text-center text-bg-light">
-                                                <div class="card-body">
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">STT</th>
-                                                            <th scope="col">Tên sản phẩm</th>
-                                                            <th scope="col">Tên nhà cung cấp</th>
-                                                            <th scope="col">Email</th>
-                                                            <th scope="col">SĐT</th>
-                                                            <th scope="col">Số lượng</th>
-                                                            <th scope="col">Tổng giá</th>
-                                                            <th scope="col">Ngày đặt hàng</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>{{$rank++}}</td>
-                                                            <td>{{$data->product_name}}</td>
-                                                            <td>{{$data->supplier_name}}</td>
-                                                            <td>{{$data->supplier_email}}</td>
-                                                            <td>{{$data->supplier_phone}}</td>
-                                                            <td>{{$data->amount}}</td>
-                                                            {{--                                                            <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
-                                                            <td>{{$data->order_date}}</td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="card-footer btn btn-primary" onclick="verifyOrder({{$data->id}})" style="background-color: #007bff !important;">
-                                                    Xác nhận đơn hàng
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                @endforeach
+{{--                                @foreach($listOrderUnverified as $data)--}}
+{{--                                    <form>--}}
+{{--                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+{{--                                        <div class="card-body" style="padding-bottom: 0px">--}}
+{{--                                            <div class="card text-center text-bg-light">--}}
+{{--                                                <div class="card-body">--}}
+{{--                                                    <table class="table">--}}
+{{--                                                        <thead>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <th scope="col">STT</th>--}}
+{{--                                                            <th scope="col">Tên sản phẩm</th>--}}
+{{--                                                            <th scope="col">Tên nhà cung cấp</th>--}}
+{{--                                                            <th scope="col">Email</th>--}}
+{{--                                                            <th scope="col">SĐT</th>--}}
+{{--                                                            <th scope="col">Số lượng</th>--}}
+{{--                                                            <th scope="col">Tổng giá</th>--}}
+{{--                                                            <th scope="col">Ngày đặt hàng</th>--}}
+{{--                                                        </tr>--}}
+{{--                                                        </thead>--}}
+{{--                                                        <tbody>--}}
+{{--                                                        <tr>--}}
+{{--                                                            <td>{{$rank++}}</td>--}}
+{{--                                                            <td>{{$data->product_name}}</td>--}}
+{{--                                                            <td>{{$data->supplier_name}}</td>--}}
+{{--                                                            <td>{{$data->supplier_email}}</td>--}}
+{{--                                                            <td>{{$data->supplier_phone}}</td>--}}
+{{--                                                            <td>{{$data->amount}}</td>--}}
+{{--                                                            --}}{{--                                                            <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
+{{--                                                            <td>{{$data->order_date}}</td>--}}
+{{--                                                        </tr>--}}
+{{--                                                        </tbody>--}}
+{{--                                                    </table>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="card-footer btn btn-primary" onclick="verifyOrder({{$data->id}})" style="background-color: #007bff !important;">--}}
+{{--                                                    Xác nhận đơn hàng--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </form>--}}
+{{--                                @endforeach--}}
                             </div>
                         </div>
                     </div>
@@ -160,15 +160,15 @@
                                         @foreach($listAllOrder as $key => $data)
                                             <tr>
                                                 <td>{{$rankOrder ++}}</td>
-                                                <td>{{$data -> product_name}}</td>
+{{--                                                <td>{{$data -> product_name}}</td>--}}
                                                 <td>{{$data -> supplier_name}}</td>
                                                 <td>{{$data -> supplier_email}}</td>
                                                 <td>{{$data -> supplier_phone}}</td>
-                                                <td>{{$data -> amount}}</td>
-                                                {{--                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
-                                                <td>{{$data->order_date}}</td>
+{{--                                                <td>{{$data -> amount}}</td>--}}
+{{--                                                <td>{{$data->amount * $data->price_unit}} VNĐ</td>--}}
+                                                <td>{{$data->order_time}}</td>
                                                 <td>
-                                                    @if($data -> status === 0)
+                                                    @if($data -> status  === 0)
                                                         <button class="btn btn-sm btn-danger">Chưa xác nhận</button>
                                                     @elseif($data -> status === 1)
                                                         <button class="btn btn-sm btn-primary">Đã xác nhận</button>

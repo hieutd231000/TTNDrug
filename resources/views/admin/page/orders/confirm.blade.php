@@ -45,7 +45,7 @@
     #success_tic .page-body{
         max-width:300px;
         background-color:#FFFFFF;
-        margin:10% auto;
+        margin: 9% auto;
     }
     #success_tic .page-body .head{
         text-align:center;
@@ -278,8 +278,7 @@
             <div id="success_tic" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
-                    <div class="modal-content">
-                        <a class="close" href="#" data-dismiss="modal">&times;</a>
+                    <div class="modal-content" style="position: absolute; top: 80px; right: -45px">
                         <div class="page-body">
                             <div class="head">
                                 <h4 style="margin-bottom: 15px">Tạo đơn hàng thành công</h4>
@@ -316,12 +315,13 @@
         var productArray = [];
         var total_price = 0;
         var supplierDetail = {!! $supplierDetail !!};
+        var listOrderCode = {!! $listOrderCode !!};
         var order_code, order_time, detail;
         var blockErrOrderCode= document.getElementById("help-block-order_code");
         var blockErrOrderTime= document.getElementById("help-block-order_time");
         var blockErrSubmit = document.getElementById("help-block-submit");
         $(document).ready(function(){
-            $("#success_tic").modal("show");
+            $("#success_tic").modal("hide");
             getListProduct(supplierDetail["id"]);
             //Handle add new orders
             $(".handleSubmit").click(function(e){
@@ -333,6 +333,8 @@
                 // // Check validate
                 if(!order_code) {
                     blockErrOrderCode.innerHTML = "Không được bỏ trống";
+                } else if(checkOrderCode(order_code)) {
+                    blockErrOrderCode.innerHTML = "Mã đơn hàng đã được sử dụng";
                 } else {
                     blockErrOrderCode.innerHTML = "";
                 }
@@ -352,13 +354,15 @@
                         },
                         success: function(response) {
                             $("#success_tic").modal("show");
-                            // $("input[name='order_code']").val("");
-                            // $("input[name='order_time']").val("");
-                            // $("textarea[name='detail']").val("");
-                            // blockErrOrderCode.innerHTML = "";
-                            // blockErrOrderTime.innerHTML = "";
-                            // localStorage.removeItemStorage(supplierDetail["id"]);
-                            // window.location.href = "/admin/orders/0/product";
+                            $("input[name='order_code']").val("");
+                            $("input[name='order_time']").val("");
+                            $("textarea[name='detail']").val("");
+                            blockErrOrderCode.innerHTML = "";
+                            blockErrOrderTime.innerHTML = "";
+                            removeItemStorage(supplierDetail["id"]);
+                            setTimeout(function(){
+                                window.location.href = "/admin/orders/0/product";
+                            }, 1200);
                         },
                         error: function (err) {
                             console.log(err);
@@ -396,6 +400,9 @@
         }
         const checkNumber = (num) => {
             return /^\d+$/.test(num);
+        }
+        const checkOrderCode = (code) => {
+            return listOrderCode.indexOf(code) !== -1;
         }
     </script>
 @endsection

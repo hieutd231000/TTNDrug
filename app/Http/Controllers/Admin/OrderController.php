@@ -62,13 +62,11 @@ class OrderController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|void
      */
     public function confirmOrder(Request $request, $id) {
-        $listSupplier = $this->supplierRepository->listAll();
-        $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
+        $listOrderCode = $this->orderRepository->getAllOrderCode($id);
         $supplierDetail = $this->supplierRepository->find($id);
         return view("admin.page.orders.confirm", [
-            'listSupplier' => $listSupplier,
             'supplierDetail' => $supplierDetail,
-            'listProductBySupplierId' => $listProductBySupplierId
+            'listOrderCode' => $listOrderCode
         ]);
     }
 
@@ -80,17 +78,17 @@ class OrderController extends Controller
         //List Order
         $listProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
-        $listProductNameBySupplierName = $this->supplierRepository->getAllProductNameBySupplierName();
-        $listSupplierName = $this->supplierRepository->getName();
+//        $listProductNameBySupplierName = $this->supplierRepository->getAllProductNameBySupplierName();
+//        $listSupplierName = $this->supplierRepository->getName();
         //List Order Verify
-        $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
+//        $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
         $listAllOrder = $this->orderRepository->getAllOrder();
         return view("admin.page.orders.list_order", [
             'listProduct' => $listProduct,
             'listSupplier' => $listSupplier,
-            'proNamebysupName' => $listProductNameBySupplierName,
-            'listSupplierName' => $listSupplierName,
-            'listOrderUnverified' => $listOrderUnverified,
+//            'proNamebysupName' => $listProductNameBySupplierName,
+//            'listSupplierName' => $listSupplierName,
+//            'listOrderUnverified' => $listOrderUnverified,
             'listAllOrder' => $listAllOrder,
             'rank' => 1,
             'rankOrder' => 1
