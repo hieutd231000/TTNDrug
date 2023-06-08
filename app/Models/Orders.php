@@ -13,11 +13,12 @@ class Orders extends Model
      * @var string[]
      */
     protected $fillable = [
-        'product_id',
+        'order_code',
+        'price_order',
         'supplier_id',
         'detail',
-        'amount',
-        'order_date'
+        'status',
+        'order_time'
     ];
 
     protected $primaryKey = "id";

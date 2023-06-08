@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
@@ -18,13 +19,15 @@ class OrderController extends Controller
     protected $productRepository;
     protected $supplierRepository;
     protected $orderRepository;
+    protected $orderProductRepository;
     protected $response;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
+    public function __construct(OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->supplierRepository = $suppierRepository;
         $this->orderRepository = $orderRepository;
+        $this->orderProductRepository = $orderProductRepository;
         $this->response = $response;
     }
 
@@ -99,13 +102,20 @@ class OrderController extends Controller
      * @return \App\Helpers\JsonResponse
      */
     public function store(Request $request) {
-        $data = $request->only(['amount', 'detail', 'order_date']);
-        $data["product_id"] = $this->productRepository->nameToId($request["product"]);
-        $data["supplier_id"] = $this->supplierRepository->nameToId($request["supplier"]);
-        $data["status"] = 0;
+        $orderData = $request->except(['listProduct']);
+        $orderData["status"] = 0;
+        $orderProductData = $request->only(['listProduct']);
         try {
-            $this->orderRepository->create($data);
-            return $this->response->success($data, 200, 'Tạo đơn hàng thành công');
+            $newOrder = $this->orderRepository->create($orderData);
+            if($newOrder->id) {
+                foreach ($orderProductData["listProduct"] as $orderData) {
+                    $orderData["product_id"] = $this->productRepository->nameToId($orderData["product_name"]);
+                    $orderData["order_id"] = $newOrder->id;
+                    unset($orderData["product_name"]);
+                    $this->orderProductRepository->create($orderData);
+                }
+            }
+            return $this->response->success(null, 200, 'Tạo đơn hàng thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Tạo đơn hàng thất bại');
