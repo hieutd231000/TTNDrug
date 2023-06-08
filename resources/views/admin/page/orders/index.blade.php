@@ -244,23 +244,23 @@
                             </div>
                         </div>
                         <div class="row clearfix">
-                            <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="card-header bg-light font-weight-bold" style="color: black!important;">
                                         Danh sách sản phẩm
                                     </div>
                                     <div class="body">
-                                        <div class="row clearfix" style="margin: 10px 0 20px 0">
+                                        <div class="row clearfix" style="margin: 10px 0 0 0">
                                             <div class="card">
                                                 <div class="card-body table-responsive p-0" style="">
                                                     <table class="table table-head-fixed text-nowrap" id="cartTable">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width: 170px">Tên sản phẩm</th>
-                                                                <th style="width: 170px">Danh mục</th>
-                                                                <th style="width: 100px">Số lượng</th>
-                                                                <th style="width: 100px">Đơn giá</th>
-                                                                <th>Tổng giá</th>
+                                                                <th style="width: 200px">Tên sản phẩm</th>
+                                                                <th style="width: 250px">Danh mục</th>
+                                                                <th style="width: 130px">Số lượng</th>
+                                                                <th style="width: 150px">Đơn giá</th>
+                                                                <th style="width: 200px">Tổng giá</th>
                                                                 <th></th>
                                                             </tr>
                                                         </thead>
@@ -268,49 +268,58 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
+                                                <div class="card-footer" id="total_price" style="color: #0006ff">
+                                                    Tổng tiền: 0 VNĐ
+                                                </div>
                                                 <!-- /.card-body -->
+                                            </div>
+                                            <div class="row clearfix">
+                                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                                    <div id="help-block-confirm" style="color: red">
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer text-muted">
+                                    <div class="card-footer text-muted" style="padding-top: 0px">
                                         <button class="btn btn-primary" onClick="confirmListProduct()" style="width: 100%">Xác nhận</button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
-                                <div class="card">
-                                    <div class="card-header bg-light font-weight-bold" style="color: black!important;">
-                                        Thanh toán
-                                    </div>
-                                    <div class="body">
-                                        <div class="container-form">
-                                            <form>
-                                                <div>
-                                                    <label for="total">Tổng tiền: </label>
-                                                    <p>11000 VNĐ</p>
-                                                    <br>
-                                                </div>
-                                                <div>
-                                                    <label for="paid">Thanh toán:</label>
-                                                    <input type="text" id="paid" name="paid"><br><br>
-                                                </div>
-                                                <div>
-                                                    <label for="balance">Trả lại:</label>
-                                                    <input type="text" id="balance" name="balance"><br><br>
-                                                </div>
-                                            </form>
-                                        </div>
-                                        <div class="row clearfix">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <button class="btn btn-primary" style="width: 100%">Thanh toán</button>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <button class="btn btn-primary" style="width: 100%">In hoá đơn</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">--}}
+{{--                                <div class="card">--}}
+{{--                                    <div class="card-header bg-light font-weight-bold" style="color: black!important;">--}}
+{{--                                        Thanh toán--}}
+{{--                                    </div>--}}
+{{--                                    <div class="body">--}}
+{{--                                        <div class="container-form">--}}
+{{--                                            <form>--}}
+{{--                                                <div>--}}
+{{--                                                    <label for="total">Tổng tiền: </label>--}}
+{{--                                                    <p>11000 VNĐ</p>--}}
+{{--                                                    <br>--}}
+{{--                                                </div>--}}
+{{--                                                <div>--}}
+{{--                                                    <label for="paid">Thanh toán:</label>--}}
+{{--                                                    <input type="text" id="paid" name="paid"><br><br>--}}
+{{--                                                </div>--}}
+{{--                                                <div>--}}
+{{--                                                    <label for="balance">Trả lại:</label>--}}
+{{--                                                    <input type="text" id="balance" name="balance"><br><br>--}}
+{{--                                                </div>--}}
+{{--                                            </form>--}}
+{{--                                        </div>--}}
+{{--                                        <div class="row clearfix">--}}
+{{--                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">--}}
+{{--                                                <button class="btn btn-primary" style="width: 100%">Thanh toán</button>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">--}}
+{{--                                                <button class="btn btn-primary" style="width: 100%">In hoá đơn</button>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                     @else
                         <p style="color:red;">Nhà cung cấp này không có sản phẩm</p>
@@ -384,6 +393,7 @@
          * @type {*[]}
          */
         productArray = [];
+        var total_price = 0;
         const buildStorage = (supplier_id) => {
             let storedArray = JSON.stringify(productArray);
             let storageSupplierOrder = "supplier" + "_" + supplier_id;
@@ -391,6 +401,7 @@
         }
         const buildTableReload = (supplier_id) => {
             $("#productTable").empty();
+            total_price = 0;
             let storageSupplierOrder = "supplier" + "_" + supplier_id;
             let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
             let parsedObject = JSON.parse(retrievedProductObject);
@@ -403,17 +414,22 @@
                     price: parsedObject[i].price,
                     total_price: parsedObject[i].total_price
                 });
+                total_price += parseInt(parsedObject[i].total_price, 10);
                 addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
             }
+            document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
         }
         const buildTable = (supplier_id) => {
             $("#productTable").empty();
+            total_price = 0;
             let storageSupplierOrder = "supplier" + "_" + supplier_id;
             let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
             let parsedObject = JSON.parse(retrievedProductObject);
             for (let i = 0; i < parsedObject.length; i++) {
+                total_price += parseInt(parsedObject[i].total_price, 10);
                 addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
             }
+            document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
         }
         const addProductToTable = (index, supplier_id, name, category, amount, price, totalPrice) => {
             let table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
@@ -464,6 +480,8 @@
                         price: document.getElementById(code).value,
                         total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString()
                     })
+                    total_price +=  parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10);
+                    document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
                     console.log(productArray);
                     document.getElementById(id).value = "";
                     document.getElementById(code).value = "";
@@ -522,7 +540,13 @@
          */
         const confirmListProduct = () => {
             let supplier_search = $('#standard-select').find(":selected").val();
-            window.location.href = "/admin/orders/" + supplier_search + "/product/confirm";
+            var blockErrConfirm = document.getElementById("help-block-confirm");
+            if(productArray.length === 0) {
+                blockErrConfirm.innerHTML = "Vui lòng chọn sản phẩm"
+            } else {
+                blockErrConfirm.innerHTML = ""
+                window.location.href = "/admin/orders/" + supplier_search + "/product/confirm";
+            }
         }
     </script>
 @endsection
