@@ -75,4 +75,13 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->first();
         return $product->id;
     }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllProductCode()
+    {
+        return DB::table("products")
+            ->pluck("product_code");
+    }
 }

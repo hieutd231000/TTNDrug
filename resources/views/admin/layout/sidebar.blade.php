@@ -231,6 +231,12 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="/admin/products/price-product" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Giá sản phẩm</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="/admin/categories" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>

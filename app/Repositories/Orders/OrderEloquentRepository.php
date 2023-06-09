@@ -21,12 +21,20 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
      */
     public function getOrderUnVerify()
     {
-        return DB::table("orders")
-            ->join("products", "products.id", "=", "orders.product_id")
+        $listOrdersUnVerify = DB::table("orders")
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
-            ->select("products.product_name", "suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
+            ->select("suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
             ->where("orders.status", 0)
             ->get();
+        foreach ($listOrdersUnVerify as $listOrderUnVerify) {
+            $listOrderProducts = DB::table("order_products")
+                ->join("products", "products.id", "=", "order_products.product_id")
+                ->select("products.product_name", "order_products.*")
+                ->where("order_products.order_id", $listOrderUnVerify->id)
+                ->get();
+            $listOrderUnVerify->list_product =  $listOrderProducts;
+        }
+        return $listOrdersUnVerify;
     }
 
     /**

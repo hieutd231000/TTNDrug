@@ -81,14 +81,14 @@ class OrderController extends Controller
 //        $listProductNameBySupplierName = $this->supplierRepository->getAllProductNameBySupplierName();
 //        $listSupplierName = $this->supplierRepository->getName();
         //List Order Verify
-//        $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
+        $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
         $listAllOrder = $this->orderRepository->getAllOrder();
         return view("admin.page.orders.list_order", [
             'listProduct' => $listProduct,
             'listSupplier' => $listSupplier,
 //            'proNamebysupName' => $listProductNameBySupplierName,
 //            'listSupplierName' => $listSupplierName,
-//            'listOrderUnverified' => $listOrderUnverified,
+            'listOrderUnverified' => $listOrderUnverified,
             'listAllOrder' => $listAllOrder,
             'rank' => 1,
             'rankOrder' => 1

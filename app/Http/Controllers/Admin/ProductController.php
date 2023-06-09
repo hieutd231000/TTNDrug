@@ -52,6 +52,16 @@ class ProductController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function priceProductIndex(Request $request)
+    {
+        $listProductCode = $this->productRepository->getAllProductCode();
+        return view("admin.page.products.price", ['listProductCode' => $listProductCode]);
+    }
+
+    /**
      * Store new product
      *
      * @param Request $request

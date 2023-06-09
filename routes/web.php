@@ -97,6 +97,7 @@ Route::middleware('auth')->group(function () {
         Route::group(["prefix" => "products"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\ProductController::class, 'index']);
             Route::get("/add-product", [\App\Http\Controllers\Admin\ProductController::class, 'addProductForm']);
+            Route::get("/price-product", [\App\Http\Controllers\Admin\ProductController::class, 'priceProductIndex']);
             Route::post("/add-product", [\App\Http\Controllers\Admin\ProductController::class, 'store']);
             Route::get("/{id}/edit", [\App\Http\Controllers\Admin\ProductController::class, 'edit']);
             Route::post("/edit-product", [\App\Http\Controllers\Admin\ProductController::class, 'handleEdit']);
