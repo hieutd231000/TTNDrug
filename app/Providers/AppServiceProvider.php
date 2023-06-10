@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\Categories\CategoryEloquentRepository;
 use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\ExportPrices\ExportPricesEloquentRepository;
+use App\Repositories\ExportPrices\ExportPricesRepositoryInterface;
 use App\Repositories\Infos\InfoEloquentRepository;
 use App\Repositories\Infos\InfoRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
@@ -72,6 +74,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderProductRepositoryInterface::class,
             OrderProductEloquentRepository::class
+        );
+
+        $this->app->bind(
+            ExportPricesRepositoryInterface::class,
+            ExportPricesEloquentRepository::class
         );
     }
 

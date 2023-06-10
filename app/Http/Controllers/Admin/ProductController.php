@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductEditRequest;
 use App\Http\Requests\ProductRequest;
 use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\ExportPrices\ExportPricesRepositoryInterface;
+use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 //use App\Repositories\Units\UnitRepositoryInterface;
 use Illuminate\Http\Request;
@@ -18,13 +20,17 @@ class ProductController extends Controller
      * @var
      */
     protected $productRepository;
+    protected $orderProductRepository;
+    protected $exportPriceRepository;
     protected $categoryRepository;
     protected $response;
 
-    public function __construct(CategoryRepositoryInterface $categoryRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
+    public function __construct(ExportPricesRepositoryInterface $exportPriceRepository, OrderProductRepositoryInterface $orderProductRepository, CategoryRepositoryInterface $categoryRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
+        $this->orderProductRepository = $orderProductRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->exportPriceRepository = $exportPriceRepository;
         $this->response = $response;
     }
 
@@ -55,10 +61,53 @@ class ProductController extends Controller
      * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function priceProductIndex(Request $request)
+    public function priceProductIndex(Request $request, $id)
     {
         $listProductCode = $this->productRepository->getAllProductCode();
+        if($id) {
+            //Gia san pham
+            $productDetail = $this->productRepository->find($id);
+            $importPriceProductUpdated = $this->orderProductRepository->getImportPriceProductUpdated($id);
+            if($importPriceProductUpdated) {
+                $dateTimeOrder = explode(" ", $importPriceProductUpdated->order_time);
+                $importPriceProductUpdated->order_time = $dateTimeOrder[1] . " " . $dateTimeOrder[0];
+            }
+            $exportPriceProductUpdated = $this->orderProductRepository->getExportPriceProductUpdated($id);
+            // Bang gia nhap
+//            $listImportPriceProduct = $this->orderProductRepository->getImportPriceProduct($id);
+            // Bang gia ban
+            $listExportPriceProduct = $this->exportPriceRepository->getExportPriceProduct($id);
+            return view("admin.page.products.price", ['listExportPriceProduct' => $listExportPriceProduct, 'listProductCode' => $listProductCode, 'exportPriceProductUpdated' => $exportPriceProductUpdated, 'productDetail' => $productDetail, 'importPriceProductUpdated' => $importPriceProductUpdated]);
+        }
         return view("admin.page.products.price", ['listProductCode' => $listProductCode]);
+    }
+
+    public function updatePrice(Request $request) {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date('H:i:s d/m/Y', time());
+        try {
+            $data = $request->all();
+            $data["price_update_time"] = $date;
+            $this->exportPriceRepository->create($data);
+            return $this->response->success($data, 200, 'Cập nhật giá sản phẩm thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Cập nhật giá sản phẩm thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse
+     */
+    public function getProductIdByProductCode(Request $request) {
+        try {
+            $product = $this->productRepository->productByProductCode($request["product_code"]);
+            return $this->response->success($product->id, 200, 'Xác nhận đơn hàng thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Xác nhận đơn hàng thất bại');
+        }
     }
 
     /**

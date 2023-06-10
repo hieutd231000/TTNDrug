@@ -4,6 +4,7 @@ namespace App\Repositories\Products;
 
 use App\Models\Products;
 use App\Repositories\Eloquent\EloquentRepository;
+use http\Env\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductEloquentRepository extends EloquentRepository implements ProductRepositoryInterface
@@ -83,5 +84,16 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
     {
         return DB::table("products")
             ->pluck("product_code");
+    }
+
+    /**
+     * @param $productCode
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function productByProductCode($productCode)
+    {
+        return DB::table("products")
+            ->where("product_code", $productCode)
+            ->first();
     }
 }
