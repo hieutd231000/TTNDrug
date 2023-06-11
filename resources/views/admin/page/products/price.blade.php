@@ -191,24 +191,39 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Danh sách đơn hàng</h5>
+                                        <h5>Lịch sử giá nhập sản phẩm</h5>
                                     </div>
                                     <div class="col-sm-12" style="padding: 15px">
                                         <table id="listOrderTable" class="table table-bordered table-striped">
                                             <thead>
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col" style="width: 95px;">Mã đơn hàng</th>
-                                                <th scope="col" style="width: 140px;">Tên nhà cung cấp</th>
-                                                <th scope="col" style="width: 100px;">Sản phẩm</th>
-                                                <th scope="col" style="width: 65px;">Đơn giá</th>
-                                                <th scope="col" style="width: 70px;">Số lượng</th>
-                                                <th scope="col">Tổng giá</th>
-                                                <th scope="col">Ngày đặt hàng</th>
-                                                <th scope="col">Trạng thái</th>
+                                                <th scope="col">Tên sản phẩm</th>
+                                                <th scope="col">Mã sản phẩm</th>
+                                                <th scope="col">Danh mục</th>
+                                                <th scope="col">Số lượng</th>
+                                                <th scope="col">Giá</th>
+                                                <th scope="col">Ngày nhập hàng</th>
                                             </tr>
                                             </thead>
                                             <tbody>
+                                                @if(!count($listImportPriceProduct))
+                                                    <tr>
+                                                        <td colspan="7" style="text-align: center">Không có đơn giá</td>
+                                                    </tr>
+                                                @else
+                                                    @foreach($listImportPriceProduct as $key => $importPriceProduct)
+                                                        <tr>
+                                                            <td>{{$key + 1}}</td>
+                                                            <td>{{$importPriceProduct->product_name}}</td>
+                                                            <td>{{$importPriceProduct->product_code}}</td>
+                                                            <td>{{$importPriceProduct->category_name}}</td>
+                                                            <td>{{$importPriceProduct->amount}}</td>
+                                                            <td>{{$importPriceProduct->price_amount}} VNĐ</td>
+                                                            <td>{{$importPriceProduct->order_time}}</td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

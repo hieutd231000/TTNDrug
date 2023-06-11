@@ -270,7 +270,7 @@
                                         <div class="slide-container swiper" style="padding-bottom: 25px">
                                             <div class="slide-content">
                                                 <div class="card-wrapper swiper-wrapper">
-                                                    @foreach($product as $key => $data)
+                                                    @foreach($products as $key => $data)
                                                         <div class="card swiper-slide">
                                                             <div class="image-content">
                                                                 <span class="overlay"></span>
@@ -280,14 +280,15 @@
                                                             </div>
                                                             <div class="card-content">
                                                                 <h2 class="name">{{$data->product_name}}</h2>
-{{--                                                                <p class="description">{{$data->price_unit}}</p>--}}
-                                                                <div style="display: flex">
-{{--                                                                    <label for="{{$data->id}}" style="font-size: 14px">SL:</label>--}}
-                                                                    <input type="button" onclick="subtractCount({{$data->id}})" value="-">
-                                                                    <input type="text" style="width: 30px; text-align: center" id="{{$data->id}}" value="">
-                                                                    <input type="button" onclick="increaseCount({{$data->id}})" value="+">
-                                                                </div>
-                                                                <button class="button btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                @if($data->current_price)
+                                                                    <p style="margin-bottom: 8px">Giá: 11000 VNĐ</p>
+                                                                    <div style="display: flex">
+                                                                        <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->id}}" placeholder="Nhập SL">
+                                                                    </div>
+                                                                    <button class="btn btn-secondary" onclick="addNewProduct({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                @else
+                                                                    <p style="margin-bottom: 8px">Chưa cập nhật</p>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -314,32 +315,40 @@
                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Danh sách sản phẩm</h3>
-                                                <div class="card-tools">
-                                                    <div class="input-group input-group-sm" style="width: 150px;">
-                                                        <input type="text" name="table_search" class="form-control float-right" placeholder="Tìm kiếm">
-                                                        <div class="input-group-append">
-                                                            <button type="submit" class="btn btn-default">
-                                                                <i class="fas fa-search"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
                                             </div>
                                             <!-- /.card-header -->
                                             <div class="card-body table-responsive p-0" style="">
                                                 <table class="table table-head-fixed text-nowrap" id="cartTable">
                                                     <thead>
                                                     <tr>
-                                                        <th>Tên sản phẩm</th>
-                                                        <th>Danh mục</th>
-                                                        <th>Mã code</th>
-                                                        <th>Số lượng</th>
-                                                        <th>Giá</th>
+                                                        <th style="width: 200px">Tên sản phẩm</th>
+                                                        <th style="width: 250px">Danh mục</th>
+                                                        <th style="width: 130px">Số lượng</th>
+                                                        <th style="width: 150px">Đơn giá</th>
+                                                        <th style="width: 200px">Tổng giá</th>
+                                                        <th></th>
                                                     </tr>
                                                     </thead>
-                                                    <tbody>
+                                                    <tbody id="productTable">
                                                     </tbody>
                                                 </table>
+
+{{--                                                <table class="table table-head-fixed text-nowrap" id="cartTable">--}}
+{{--                                                    <thead>--}}
+{{--                                                    <tr>--}}
+{{--                                                        <th>Tên sản phẩm</th>--}}
+{{--                                                        <th>Danh mục</th>--}}
+{{--                                                        <th>Mã code</th>--}}
+{{--                                                        <th>Số lượng</th>--}}
+{{--                                                        <th>Giá</th>--}}
+{{--                                                    </tr>--}}
+{{--                                                    </thead>--}}
+{{--                                                    <tbody>--}}
+{{--                                                    </tbody>--}}
+{{--                                                </table>--}}
+                                            </div>
+                                            <div class="card-footer" id="total_price" style="color: #0006ff">
+                                                Tổng tiền: 0 VNĐ
                                             </div>
                                             <!-- /.card-body -->
                                         </div>
@@ -461,6 +470,71 @@
          * @type {*[]}
          */
         productArray = [];
+        // const addNewProduct = (id, supplier_id, name, category, code) => {
+        //     if(!document.getElementById(id).value || !document.getElementById(code).value) {
+        //         document.getElementById(name).innerHTML = "Không được bỏ trống !";
+        //     } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
+        //         document.getElementById(name).innerHTML = "Nhập lại !";
+        //     } else {
+        //         document.getElementById(name).innerHTML = "";
+        //     }
+        //     if(!document.getElementById(name).innerHTML) {
+        //         let value = parseInt(document.getElementById(id).value, 10);
+        //         let price = parseInt(document.getElementById(id).value, 10);
+        //         console.log(value);
+        //         if(!isNaN(value) && value > 0 && !isNaN(price) && price > 0) {
+        //             //Add to product array
+        //             productArray.push({
+        //                 product_id: id,
+        //                 product_name: name,
+        //                 category_name: category,
+        //                 amount: document.getElementById(id).value,
+        //                 price: document.getElementById(code).value,
+        //                 total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString()
+        //             })
+        //             total_price +=  parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10);
+        //             document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
+        //             console.log(productArray);
+        //             document.getElementById(id).value = "";
+        //             document.getElementById(code).value = "";
+        //             buildStorage(supplier_id);
+        //             buildTable(supplier_id);
+        //             // var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+        //             // var row = table.insertRow(-1);
+        //             // var cell1 = row.insertCell(0);
+        //             // var cell2 = row.insertCell(1);
+        //             // var cell3 = row.insertCell(2);
+        //             // var cell4 = row.insertCell(3);
+        //             // var cell5 = row.insertCell(4);
+        //             // // var deleteRow = row.insertCell(5);
+        //             // cell1.innerHTML = name;
+        //             // cell2.innerHTML = category;
+        //             // cell3.innerHTML = document.getElementById(id).value;
+        //             // cell4.innerHTML = document.getElementById(code).value + " VNĐ";
+        //             // cell5.innerHTML = (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString() + " VNĐ";
+        //             // // //Create button
+        //             // // let button = document.createElement("button");
+        //             // // button.innerText = "Xoá";
+        //             // // button.className = "btn btn-sm btn-danger";
+        //             // // deleteRow.appendChild(button);
+        //             // // //Add to product array
+        //             // // productArray.push({
+        //             // //     product_name: name,
+        //             // //     category_name: category,
+        //             // //     product_code: code,
+        //             // //     amount: document.getElementById(id).value,
+        //             // //     total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
+        //             // // })
+        //             // // addToStorage();
+        //             // // location.reload();
+        //         }
+        //     }
+        // }
+
+        // const checkNumber = (num) => {
+        //     return /^\d+$/.test(num);
+        // }
+
         const addToStorage = () => {
             var storedArray = JSON.stringify(productArray);
             localStorage.setItem("product", storedArray);

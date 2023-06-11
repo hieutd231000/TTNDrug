@@ -41,4 +41,22 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
             ->orderBy("id", "DESC")
             ->first();
     }
+
+    /**
+     * Get import price product
+     *
+     * @param $product_id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getImportPriceProduct($product_id)
+    {
+        return DB::table("order_products")
+            ->join("products", "products.id", "=", "order_products.product_id")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->join("orders", "orders.id", "=", "order_products.order_id")
+            ->select("products.product_name", "categories.name as category_name" ,"products.product_code", "order_products.*", "orders.order_time")
+            ->where("product_id", $product_id)
+            ->orderBy("order_products.id", "DESC")
+            ->get();
+    }
 }
