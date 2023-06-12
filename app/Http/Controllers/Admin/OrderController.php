@@ -6,6 +6,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderRepositoryInterface;
+use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use Illuminate\Http\Request;
@@ -20,14 +21,16 @@ class OrderController extends Controller
     protected $supplierRepository;
     protected $orderRepository;
     protected $orderProductRepository;
+    protected $productionBatchRepository;
     protected $response;
 
-    public function __construct(OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
+    public function __construct(ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->supplierRepository = $suppierRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
+        $this->productionBatchRepository = $productionBatchRepository;
         $this->response = $response;
     }
 
@@ -131,6 +134,73 @@ class OrderController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Xác nhận đơn hàng thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function productionBatchIndex(Request $request) {
+        $listProductionBatch = $this->productionBatchRepository->getAll(config("const.paginate"), "DESC");
+        foreach ($listProductionBatch as $productionBatch) {
+            $productionBatch["product_name"] = $this->productRepository->idToName($productionBatch["product_id"]);
+        }
+        $listAllProduct = $this->productRepository->listAll();
+        $listProductionBatchName = $this->productionBatchRepository->getAllProductionBatchName();
+        return view("admin.page.orders.production_batch", ["listProductionBatchName" => $listProductionBatchName, "listProductionBatch" => $listProductionBatch, "listAllProduct" => $listAllProduct]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse
+     */
+    public function productionBatchIndexStore(Request $request) {
+        try {
+            $data = $request->all();
+            $this->productionBatchRepository->create($data);
+            return $this->response->success($data, 200, 'Thêm lô sản xuất thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Thêm lô sản xuất thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function productionBatchIndexDestroy(Request $request) {
+        $data = $request->all();
+        $productionBatch = $this->productionBatchRepository->find($data["id"]);
+        if(empty($productionBatch)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $this->productionBatchRepository->delete($productionBatch->id);
+            return redirect()->back()->with("success", trans("auth.delete.success"));
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return redirect()->back()->with("failed", trans("auth.delete.failed"));
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse
+     */
+    public function productionBatchIndexEdit(Request $request) {
+        $data = $request->all();
+        $productionBatch = $this->productionBatchRepository->find($data["id"]);
+        if(empty($productionBatch)) {
+            return $this->response->notFound('Không tìm thấy lô sản xuất');
+        }
+        try {
+            $this->productionBatchRepository->update($data, $data["id"]);
+            return $this->response->success($data, 200, 'Sửa thông tin lô sản xuất thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Sửa thông tin lô sản xuất thất bại');
         }
     }
 }

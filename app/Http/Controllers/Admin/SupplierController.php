@@ -90,7 +90,7 @@ class SupplierController extends Controller
     public function detail(Request $request, $id) {
         $listSupplier = $this->supplierRepository->listAll();
         $listProductId = $this->supplierProductRepository->listAllProductBySupplierId($id);
-        $listAllProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
+        $listAllProduct = $this->productRepository->listAll();
         if($id) {
             $supplier = $this->supplierRepository->find($id);
             if(empty($supplier)) {

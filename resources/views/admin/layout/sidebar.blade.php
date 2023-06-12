@@ -147,6 +147,12 @@
                                 <p>Danh sách đơn hàng</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="/admin/production-batch" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Lô sản xuất</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
 

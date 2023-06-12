@@ -78,6 +78,19 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
     }
 
     /**
+     * @param $productId
+     * @return mixed
+     */
+    public function idToName($productId) {
+        $product = DB::table('products')
+            ->where("id", $productId)
+            ->first();
+        if($product)
+            return $product->product_name;
+        else return null;
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function getAllProductCode()

@@ -12,6 +12,8 @@ use App\Repositories\OrderProducts\OrderProductEloquentRepository;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderEloquentRepository;
 use App\Repositories\Orders\OrderRepositoryInterface;
+use App\Repositories\ProductionBatches\ProductionBatchEloquentRepository;
+use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductEloquentRepository;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\SupplierProducts\SupplierProductEloquentRepository;
@@ -79,6 +81,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ExportPricesRepositoryInterface::class,
             ExportPricesEloquentRepository::class
+        );
+
+        $this->app->bind(
+            ProductionBatchRepositoryInterface::class,
+            ProductionBatchEloquentRepository::class
         );
     }
 

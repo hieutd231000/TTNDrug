@@ -34,7 +34,12 @@ Route::middleware('auth')->group(function () {
     Route::group(["prefix" => "admin"], function () {
         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard']);
 
-        Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index']);
+        Route::group(["prefix" => "production-batch"], function () {
+            Route::get("/", [\App\Http\Controllers\Admin\OrderController::class, 'productionBatchIndex']);
+            Route::post("/add", [\App\Http\Controllers\Admin\OrderController::class, 'productionBatchIndexStore']);
+            Route::post("/delete", [\App\Http\Controllers\Admin\OrderController::class, 'productionBatchIndexDestroy']);
+            Route::post("/edit", [\App\Http\Controllers\Admin\OrderController::class, 'productionBatchIndexEdit']);
+        });
 
         Route::group(["prefix" => "categories"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\CategoryController::class, 'index']);
