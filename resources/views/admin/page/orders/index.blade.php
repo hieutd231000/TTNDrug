@@ -221,13 +221,19 @@
                                                                 </div>
                                                                 <div class="card-content">
                                                                     <h2 class="name">{{$data[0]->product_name}}</h2>
+                                                                    <select name="production_batch_selected" id="{{$data[0]->production_batch_id}}" style="width: 60%; margin-top: 8px; height: 30px; margin-bottom: 6px;">
+                                                                        <option value="" disabled selected>Lô sản xuất</option>
+                                                                        @foreach($data[0]->production_batch as $key_production_batch => $data_production_batch)
+                                                                            <option value={{$data_production_batch->production_batch_name}}>{{$data_production_batch->production_batch_name}}</option>
+                                                                        @endforeach
+                                                                    </select>
                                                                     <input type="text" name="price" id="{{$data[0]->product_code}}" placeholder="Nhập giá (VNĐ)" style="width: 60%; margin-bottom: 5px; font-size: 14px">
                                                                     <div style="display: flex">
 {{--                                                                        <input type="button" onclick="subtractCount({{$key}})" value="-">--}}
                                                                         <input type="text" style="width: 40px; text-align: center; font-size: 14px" id="{{$data[0]->id}}" placeholder="SL:">
 {{--                                                                        <input type="button" onclick="increaseCount({{$key}})" value="+">--}}
                                                                     </div>
-                                                                    <button class="btn btn-secondary" onclick="addNewProduct({{$data[0]->id}}, '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
+                                                                    <button class="btn btn-secondary" onclick="addNewProduct({{$data[0]->id}}, '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
                                                                     <p id="{{$data[0]->product_name}}" style="color: red"></p>
                                                                 </div>
                                                             </div>
@@ -258,6 +264,7 @@
                                                             <tr>
                                                                 <th style="width: 200px">Tên sản phẩm</th>
                                                                 <th style="width: 250px">Danh mục</th>
+                                                                <th style="width: 180px">Lô sản xuất</th>
                                                                 <th style="width: 130px">Số lượng</th>
                                                                 <th style="width: 150px">Đơn giá</th>
                                                                 <th style="width: 200px">Tổng giá</th>
@@ -412,10 +419,11 @@
                     category_name: parsedObject[i].category_name,
                     amount: parsedObject[i].amount,
                     price: parsedObject[i].price,
+                    production_batch_name: parsedObject[i].production_batch_name,
                     total_price: parsedObject[i].total_price
                 });
                 total_price += parseInt(parsedObject[i].total_price, 10);
-                addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
+                addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].production_batch_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
             }
             document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
         }
@@ -427,11 +435,11 @@
             let parsedObject = JSON.parse(retrievedProductObject);
             for (let i = 0; i < parsedObject.length; i++) {
                 total_price += parseInt(parsedObject[i].total_price, 10);
-                addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
+                addProductToTable(i, supplier_id, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].production_batch_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
             }
             document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
         }
-        const addProductToTable = (index, supplier_id, name, category, amount, price, totalPrice) => {
+        const addProductToTable = (index, supplier_id, name, category, production_batch_name, amount, price, totalPrice) => {
             let table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
             let row = table.insertRow(-1);
             let cell1 = row.insertCell(0);
@@ -439,12 +447,14 @@
             let cell3 = row.insertCell(2);
             let cell4 = row.insertCell(3);
             let cell5 = row.insertCell(4);
-            var deleteRow = row.insertCell(5);
+            let cell6 = row.insertCell(5);
+            var deleteRow = row.insertCell(6);
             cell1.innerHTML = name;
             cell2.innerHTML = category;
-            cell3.innerHTML = amount;
-            cell4.innerHTML = price + " VNĐ";
-            cell5.innerHTML = totalPrice + "<span> VNĐ</span>";
+            cell3.innerHTML = production_batch_name;
+            cell4.innerHTML = amount;
+            cell5.innerHTML = price + " VNĐ";
+            cell6.innerHTML = totalPrice + "<span> VNĐ</span>";
             //Create button
             let button = document.createElement("button");
             button.innerText = "Xoá";
@@ -458,8 +468,8 @@
                 buildTable(supplier_id);
             });
         }
-        const addNewProduct = (id, supplier_id, name, category, code) => {
-            if(!document.getElementById(id).value || !document.getElementById(code).value) {
+        const addNewProduct = (id, supplier_id, name, category, code, production_batch_id) => {
+            if(!document.getElementById(id).value || !document.getElementById(code).value || !document.getElementById(production_batch_id).value) {
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
             } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
                 document.getElementById(name).innerHTML = "Nhập lại !";
@@ -478,6 +488,7 @@
                         category_name: category,
                         amount: document.getElementById(id).value,
                         price: document.getElementById(code).value,
+                        production_batch_name: document.getElementById(production_batch_id).value,
                         total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString()
                     })
                     total_price +=  parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10);
@@ -485,6 +496,7 @@
                     console.log(productArray);
                     document.getElementById(id).value = "";
                     document.getElementById(code).value = "";
+                    document.getElementById(production_batch_id).value = "";
                     buildStorage(supplier_id);
                     buildTable(supplier_id);
                     // var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];

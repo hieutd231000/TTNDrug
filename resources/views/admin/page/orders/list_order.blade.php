@@ -105,6 +105,7 @@
                                                             <th scope="col" style="width: 150px">Tên nhà cung cấp</th>
                                                             <th scope="col">SĐT</th>
                                                             <th scope="col">Danh sách sản phẩm</th>
+                                                            <th scope="col">Lô sản xuất</th>
                                                             <th scope="col">Đơn giá</th>
                                                             <th scope="col">Số lượng</th>
                                                             <th scope="col">Tổng giá</th>
@@ -119,6 +120,11 @@
                                                             <td>
                                                                 @foreach($data->list_product as $products)
                                                                     <p style="margin-bottom: 10px !important;">{{$products->product_name}}</p>
+                                                                @endforeach
+                                                            </td>
+                                                            <td>
+                                                                @foreach($data->list_product as $products)
+                                                                    <p style="margin-bottom: 10px !important;">{{$products->production_batch_name}}</p>
                                                                 @endforeach
                                                             </td>
                                                             <td>
@@ -161,6 +167,7 @@
                                             <th scope="col" style="width: 95px;">Mã đơn hàng</th>
                                             <th scope="col" style="width: 140px;">Tên nhà cung cấp</th>
                                             <th scope="col" style="width: 100px;">Sản phẩm</th>
+                                            <th scope="col" style="width: 100px;">Lô sản xuất</th>
                                             <th scope="col" style="width: 65px;">Đơn giá</th>
                                             <th scope="col" style="width: 70px;">Số lượng</th>
                                             <th scope="col">Tổng giá</th>
@@ -177,6 +184,11 @@
                                                 <td>
                                                     @foreach($data->list_product as $products)
                                                         <p style="margin-bottom: 10px !important;">{{$products->product_name}}</p>
+                                                    @endforeach
+                                                </td>
+                                                <td>
+                                                    @foreach($data->list_product as $products)
+                                                        <p style="margin-bottom: 10px !important;">{{$products->production_batch_name}}</p>
                                                     @endforeach
                                                 </td>
                                                 <td>

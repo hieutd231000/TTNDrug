@@ -21,4 +21,14 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
         return DB::table("production_batches")
             ->pluck("production_batch_name");
     }
+
+    /**
+     * @param $product_id
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllProductionBatchByProductId($product_id) {
+        return DB::table("production_batches")
+            ->where("product_id", $product_id)
+            ->get();
+    }
 }

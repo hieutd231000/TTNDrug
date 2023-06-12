@@ -59,4 +59,15 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
             ->orderBy("order_products.id", "DESC")
             ->get();
     }
+
+    /**
+     * @param $productionBatchName
+     * @return mixed
+     */
+    public function nameToId($productionBatchName) {
+        $product = DB::table('production_batches')
+            ->where("production_batch_name", $productionBatchName)
+            ->first();
+        return $product->id;
+    }
 }

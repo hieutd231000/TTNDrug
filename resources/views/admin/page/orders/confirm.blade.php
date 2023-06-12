@@ -389,7 +389,8 @@
                     product_name: parsedObject[i].product_name,
                     amount: parsedObject[i].amount,
                     price_amount: parsedObject[i].price,
-                    total_price: parsedObject[i].total_price
+                    total_price: parsedObject[i].total_price,
+                    production_batch_name: parsedObject[i].production_batch_name
                 });
                 total_price += parseInt(parsedObject[i].total_price, 10);
             }

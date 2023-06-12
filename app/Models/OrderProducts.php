@@ -16,6 +16,7 @@ class OrderProducts extends Model
         'order_id',
         'product_id',
         'price_amount',
+        'production_batch_id',
         'amount',
         'total_price',
     ];

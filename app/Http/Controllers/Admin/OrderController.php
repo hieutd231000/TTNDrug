@@ -43,6 +43,10 @@ class OrderController extends Controller
         $listSupplier = $this->supplierRepository->listAll();
         if($id) {
             $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
+            foreach ($listProductBySupplierId as $productBySupplierId) {
+                $productBySupplierId[0]->production_batch_id = "production_batch_" . $productBySupplierId[0]->id;
+                $productBySupplierId[0]->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($productBySupplierId[0]->id);
+            }
             $supplierDetail = $this->supplierRepository->find($id);
             return view("admin.page.orders.index", [
                 'listSupplier' => $listSupplier,
@@ -111,6 +115,7 @@ class OrderController extends Controller
             if($newOrder->id) {
                 foreach ($orderProductData["listProduct"] as $orderData) {
                     $orderData["product_id"] = $this->productRepository->nameToId($orderData["product_name"]);
+                    $orderData["production_batch_id"] = $this->orderProductRepository->nameToId($orderData["production_batch_name"]);
                     $orderData["order_id"] = $newOrder->id;
                     unset($orderData["product_name"]);
                     $this->orderProductRepository->create($orderData);

@@ -29,7 +29,8 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         foreach ($listOrdersUnVerify as $listOrderUnVerify) {
             $listOrderProducts = DB::table("order_products")
                 ->join("products", "products.id", "=", "order_products.product_id")
-                ->select("products.product_name", "order_products.*")
+                ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
+                ->select("products.product_name", "production_batches.production_batch_name", "order_products.*")
                 ->where("order_products.order_id", $listOrderUnVerify->id)
                 ->get();
             $listOrderUnVerify->list_product =  $listOrderProducts;
@@ -49,7 +50,8 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         foreach ($listOrders as $listOrder) {
             $listOrderProducts = DB::table("order_products")
                 ->join("products", "products.id", "=", "order_products.product_id")
-                ->select("products.product_name", "order_products.*")
+                ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
+                ->select("products.product_name", "production_batches.production_batch_name",  "order_products.*")
                 ->where("order_products.order_id", $listOrder->id)
                 ->get();
             $listOrder->list_product =  $listOrderProducts;
