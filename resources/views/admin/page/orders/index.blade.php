@@ -468,7 +468,7 @@
             }
             if(!document.getElementById(name).innerHTML) {
                 let value = parseInt(document.getElementById(id).value, 10);
-                let price = parseInt(document.getElementById(id).value, 10);
+                let price = parseInt(document.getElementById(code).value, 10);
                 console.log(value);
                 if(!isNaN(value) && value > 0 && !isNaN(price) && price > 0) {
                     //Add to product array

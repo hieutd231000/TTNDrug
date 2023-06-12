@@ -47,9 +47,6 @@
         border: none !important;
         padding-left: 0 !important;
     }
-    .btn-padding {
-        padding: 0px 8px !important;
-    }
     .no-resize {
         resize: none;
     }
@@ -284,12 +281,11 @@
                                                             <div class="card-content">
                                                                 <h2 class="name">{{$data->product_name}}</h2>
                                                                 @if($data->current_price)
-                                                                    <p style="margin-bottom: 8px">Giá: {{$data->current_price}} VNĐ</p>
+                                                                    <p style="margin-bottom: 8px">Giá: 11000 VNĐ</p>
                                                                     <div style="display: flex">
                                                                         <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->id}}" placeholder="Nhập SL">
                                                                     </div>
-                                                                    <button class="btn btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
-                                                                    <p id="{{$data->product_name}}" style="color: red"></p>
+                                                                    <button class="btn btn-secondary" onclick="addNewProduct({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
                                                                 @else
                                                                     <p style="margin-bottom: 8px">Chưa cập nhật</p>
                                                                 @endif
@@ -336,6 +332,20 @@
                                                     <tbody id="productTable">
                                                     </tbody>
                                                 </table>
+
+                                                {{--                                                <table class="table table-head-fixed text-nowrap" id="cartTable">--}}
+                                                {{--                                                    <thead>--}}
+                                                {{--                                                    <tr>--}}
+                                                {{--                                                        <th>Tên sản phẩm</th>--}}
+                                                {{--                                                        <th>Danh mục</th>--}}
+                                                {{--                                                        <th>Mã code</th>--}}
+                                                {{--                                                        <th>Số lượng</th>--}}
+                                                {{--                                                        <th>Giá</th>--}}
+                                                {{--                                                    </tr>--}}
+                                                {{--                                                    </thead>--}}
+                                                {{--                                                    <tbody>--}}
+                                                {{--                                                    </tbody>--}}
+                                                {{--                                                </table>--}}
                                             </div>
                                             <div class="card-footer" id="total_price" style="color: #0006ff">
                                                 Tổng tiền: 0 VNĐ
@@ -345,7 +355,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    <button class="btn btn-primary handleConfirmCard" style="width: 100%">Xác nhận</button>
+                                    <button class="btn btn-primary" style="width: 100%">Thanh toán</button>
                                 </div>
                             </div>
                         </div>
@@ -355,32 +365,31 @@
                                     Thanh toán
                                 </div>
                                 <div class="body">
-                                    <form>
-                                        <div class="container-form">
-                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                                <div class="row">
-                                                    <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Tổng tiền: </p>
-                                                    <p class="col-sm-7" id="confirm_price">0 VNĐ</p>
-                                                </div>
-                                                <div class="row">
-                                                    <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Thanh toán:</p>
-                                                    <input type="text" style="height: 10px !important;"  id="paidCart" name="paidCart">
-                                                </div>
-                                                <div class="row">
-                                                    <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Trả lại:</p>
-                                                    <p class="col-sm-7" id="return_price"></p>
-                                                </div>
+                                    <div class="container-form">
+                                        <form>
+                                            <div>
+                                                <label for="total">Tổng tiền: </label>
+                                                <p>11000 VNĐ</p>
+                                                <br>
                                             </div>
+                                            <div>
+                                                <label for="paid">Thanh toán:</label>
+                                                <input type="text" id="paid" name="paid"><br><br>
+                                            </div>
+                                            <div>
+                                                <label for="balance">Trả lại:</label>
+                                                <input type="text" id="balance" name="balance"><br><br>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                            <button class="btn btn-primary" style="width: 100%">Thanh toán</button>
                                         </div>
-                                        <div class="row clearfix">
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <button class="btn btn-primary handlePaid" id="paidCardBtn" disabled style="width: 100%">Thanh toán</button>
-                                            </div>
-                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                                <button class="btn btn-primary" id="returnCardBtn" disabled style="width: 100%">In hoá đơn</button>
-                                            </div>
+                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                            <button class="btn btn-primary" style="width: 100%">In hoá đơn</button>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -397,26 +406,10 @@
          * Handle function
          */
         $(document).ready(function() {
-            buildTableReload();
 
-            $(".handleConfirmCard").click(function (e) {
-                document.getElementById("confirm_price").innerHTML = total_price + " VNĐ";
-                if(parseInt(document.getElementById("confirm_price").innerHTML)) {
-                    document.getElementById("paidCardBtn").disabled = false;
-                    document.getElementById("returnCardBtn").disabled = false;
-                } else {
-                    document.getElementById("paidCardBtn").disabled = true;
-                    document.getElementById("returnCardBtn").disabled = true;
-                }
-            });
-
-            $(".handlePaid").click(function (e) {
-                e.preventDefault();
-                let moneyPay = $("input[name='paidCart']").val();
-                document.getElementById("return_price").innerHTML = total_price - parseInt(moneyPay) + "VNĐ";
-            });
         });
 
+        // Slider
         var swiper = new Swiper(".slide-content", {
             slidesPerView: 4,
             spaceBetween: 25,
@@ -450,112 +443,181 @@
                 }
             },
         });
+
+        const increaseCount = (id) => {
+            console.log("product_id: " + id);
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            console.log(value);
+            document.getElementById(id).value = value;
+            console.log(document.getElementById(id).value);
+        }
+
+        const subtractCount = (id) => {
+            console.log("product_id: " + id);
+            var value = parseInt(document.getElementById(id).value, 10);
+            value = isNaN(value) ? 0 : value;
+            if(value > 0) {
+                value--;
+                console.log(value);
+                document.getElementById(id).value = value;
+            }
+        }
+
         /**
          * Handle add product to cart
          * @type {*[]}
          */
-        cartArray = [];
-        var total_price = 0;
-        const buildStorage = () => {
-            let storedArray = JSON.stringify(cartArray);
-            let storageSupplierOrder = "cartStorage";
-            localStorage.setItem(storageSupplierOrder, storedArray);
+        productArray = [];
+        // const addNewProduct = (id, supplier_id, name, category, code) => {
+        //     if(!document.getElementById(id).value || !document.getElementById(code).value) {
+        //         document.getElementById(name).innerHTML = "Không được bỏ trống !";
+        //     } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
+        //         document.getElementById(name).innerHTML = "Nhập lại !";
+        //     } else {
+        //         document.getElementById(name).innerHTML = "";
+        //     }
+        //     if(!document.getElementById(name).innerHTML) {
+        //         let value = parseInt(document.getElementById(id).value, 10);
+        //         let price = parseInt(document.getElementById(id).value, 10);
+        //         console.log(value);
+        //         if(!isNaN(value) && value > 0 && !isNaN(price) && price > 0) {
+        //             //Add to product array
+        //             productArray.push({
+        //                 product_id: id,
+        //                 product_name: name,
+        //                 category_name: category,
+        //                 amount: document.getElementById(id).value,
+        //                 price: document.getElementById(code).value,
+        //                 total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString()
+        //             })
+        //             total_price +=  parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10);
+        //             document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
+        //             console.log(productArray);
+        //             document.getElementById(id).value = "";
+        //             document.getElementById(code).value = "";
+        //             buildStorage(supplier_id);
+        //             buildTable(supplier_id);
+        //             // var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+        //             // var row = table.insertRow(-1);
+        //             // var cell1 = row.insertCell(0);
+        //             // var cell2 = row.insertCell(1);
+        //             // var cell3 = row.insertCell(2);
+        //             // var cell4 = row.insertCell(3);
+        //             // var cell5 = row.insertCell(4);
+        //             // // var deleteRow = row.insertCell(5);
+        //             // cell1.innerHTML = name;
+        //             // cell2.innerHTML = category;
+        //             // cell3.innerHTML = document.getElementById(id).value;
+        //             // cell4.innerHTML = document.getElementById(code).value + " VNĐ";
+        //             // cell5.innerHTML = (parseInt(document.getElementById(id).value, 10) * parseInt(document.getElementById(code).value, 10)).toString() + " VNĐ";
+        //             // // //Create button
+        //             // // let button = document.createElement("button");
+        //             // // button.innerText = "Xoá";
+        //             // // button.className = "btn btn-sm btn-danger";
+        //             // // deleteRow.appendChild(button);
+        //             // // //Add to product array
+        //             // // productArray.push({
+        //             // //     product_name: name,
+        //             // //     category_name: category,
+        //             // //     product_code: code,
+        //             // //     amount: document.getElementById(id).value,
+        //             // //     total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
+        //             // // })
+        //             // // addToStorage();
+        //             // // location.reload();
+        //         }
+        //     }
+        // }
+
+        // const checkNumber = (num) => {
+        //     return /^\d+$/.test(num);
+        // }
+
+        const addToStorage = () => {
+            var storedArray = JSON.stringify(productArray);
+            localStorage.setItem("product", storedArray);
         }
-        const buildTableReload = () => {
-            $("#productTable").empty();
-            total_price = 0;
-            let storageSupplierOrder = "cartStorage";
-            let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
-            let parsedObject = JSON.parse(retrievedProductObject);
-            for (let i = 0; i < parsedObject.length; i++) {
-                cartArray.push({
-                    product_id: parsedObject[i].id,
-                    product_name: parsedObject[i].product_name,
-                    category_name: parsedObject[i].category_name,
-                    amount: parsedObject[i].amount,
-                    price: parsedObject[i].price,
-                    total_price: parsedObject[i].total_price
-                });
-                total_price += parseInt(parsedObject[i].total_price, 10);
-                addProductToTable(i, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
-            }
-            document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
-        }
-        const buildTable = () => {
-            $("#productTable").empty();
-            total_price = 0;
-            let storageSupplierOrder = "cartStorage";
-            let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
-            let parsedObject = JSON.parse(retrievedProductObject);
-            for (let i = 0; i < parsedObject.length; i++) {
-                total_price += parseInt(parsedObject[i].total_price, 10);
-                addProductToTable(i, parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].amount, parsedObject[i].price, parsedObject[i].total_price);
-            }
-            document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
-        }
-        const addProductToTable = (index, name, category, amount, price, totalPrice) => {
-            let table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
-            let row = table.insertRow(-1);
-            let cell1 = row.insertCell(0);
-            let cell2 = row.insertCell(1);
-            let cell3 = row.insertCell(2);
-            let cell4 = row.insertCell(3);
-            let cell5 = row.insertCell(4);
-            var deleteRow = row.insertCell(5);
+        const addProductToTable = (name, category, code, amount,  price) => {
+            var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+            var cell5 = row.insertCell(4);
             cell1.innerHTML = name;
             cell2.innerHTML = category;
-            cell3.innerHTML = amount;
-            cell4.innerHTML = price + " VNĐ";
-            cell5.innerHTML = totalPrice + "<span> VNĐ</span>";
-            //Create button
-            let button = document.createElement("button");
-            button.innerText = "Xoá";
-            button.className = "btn btn-sm btn-danger btn-padding";
-            deleteRow.appendChild(button);
-            button.addEventListener('click', function(event){
-                console.log(event);
-                document.getElementById("cartTable").deleteRow(index + 1);
-                cartArray.splice(index, 1);
-                buildStorage();
-                buildTable();
+            cell3.innerHTML = code;
+            cell4.innerHTML = amount;
+            cell5.innerHTML = price;
+            addToStorage();
+        }
+        const addCart = (id, name, category, code, price) => {
+            var value = parseInt(document.getElementById(id).value, 10);
+            if(!isNaN(value) && value > 0) {
+                var table = document.getElementById("cartTable").getElementsByTagName('tbody')[0];
+                var row = table.insertRow(-1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var deleteRow = row.insertCell(5);
+                cell1.innerHTML = name;
+                cell2.innerHTML = category;
+                cell3.innerHTML = code;
+                cell4.innerHTML = document.getElementById(id).value;
+                cell5.innerHTML = (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString();
+                //Create button
+                let button = document.createElement("button");
+                button.innerText = "Xoá";
+                button.className = "btn btn-sm btn-danger";
+                deleteRow.appendChild(button);
+                //Add to product array
+                productArray.push({
+                    product_name: name,
+                    category_name: category,
+                    product_code: code,
+                    amount: document.getElementById(id).value,
+                    total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(price, 10)).toString()
+                })
+                addToStorage();
+                // location.reload();
+            }
+        }
+        const buildTable = () => {
+            var retrievedProductObject = localStorage.getItem("product");
+            var parsedObject = JSON.parse(retrievedProductObject);
+            for (i = 0; i < parsedObject.length; i++) {
+                productArray.push({
+                    product_name: parsedObject[i].product_name,
+                    category_name: parsedObject[i].category_name,
+                    product_code: parsedObject[i].product_code,
+                    amount: parsedObject[i].amount,
+                    total_price: parsedObject[i].total_price
+                });
+                addProductToTable(parsedObject[i].product_name, parsedObject[i].category_name, parsedObject[i].product_code, parsedObject[i].amount, parsedObject[i].total_price);
+            }
+            let tr = document.querySelectorAll("table tbody tr");
+            Array.from(tr).forEach(function(trArray, index) {
+                let button = document.createElement("button");
+                let td = document.createElement("td");
+                button.innerText = "Xoá";
+                button.className = "btn btn-sm btn-danger";
+                button.addEventListener('click', function(event){
+                    console.log(index);
+                    document.getElementById("cartTable").deleteRow(index + 1);
+                    productArray.splice(index, 1);
+                    addToStorage();
+                    location.reload();
+                });
+                td.append(button);
+                trArray.append(td);
             });
         }
-
-        const addCart = (id, name, category, current_price) => {
-            if(!document.getElementById(id).value) {
-                document.getElementById(name).innerHTML = "Không được bỏ trống !";
-            } else if(!checkNumber(document.getElementById(id).value)) {
-                document.getElementById(name).innerHTML = "Nhập lại !";
-            } else {
-                document.getElementById(name).innerHTML = "";
-            }
-            if(!document.getElementById(name).innerHTML) {
-                let value = parseInt(document.getElementById(id).value, 10);
-                console.log(value);
-                if(!isNaN(value) && value > 0) {
-                    //Add to product array
-                    cartArray.push({
-                        product_id: id,
-                        product_name: name,
-                        category_name: category,
-                        amount: document.getElementById(id).value,
-                        price: current_price,
-                        total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(current_price)).toString()
-                    })
-                    total_price +=  parseInt(document.getElementById(id).value, 10) * parseInt(current_price);
-                    document.getElementById("total_price").innerHTML = "Tổng tiền: " + total_price + " VNĐ";
-                    console.log(cartArray);
-                    document.getElementById(id).value = "";
-                    buildStorage();
-                    buildTable();
-                }
-            }
-        }
-
-        const checkNumber = (num) => {
-            return /^\d+$/.test(num);
-        }
-
+        buildTable();
         const deleteAllRowTable = () => {
             var tableHeaderRowCount = 1;
             var table = document.getElementById('cartTable');
