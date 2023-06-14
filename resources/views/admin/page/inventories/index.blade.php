@@ -56,12 +56,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <h3>Sản phẩm</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/products">Danh sách sản phẩm</a></li>
-                        </ol>
+                        <h3>Kho hàng</h3>
+{{--                        <ol class="breadcrumb">--}}
+{{--                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>--}}
+{{--                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>--}}
+{{--                            <li class="breadcrumb-item"><a href="/admin/products">Danh sách sản phẩm</a></li>--}}
+{{--                        </ol>--}}
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -71,11 +71,6 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row clearfix">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <a href="/admin/products/add-product" class="btn btn-raised g-bg-cyan float-right mt-2">Thêm sản phẩm</a>
-                    </div><!-- /.col -->
-                </div>
                 @if (session('failed'))
                     <div class="alert alert-edit alert-danger" style="display: inline">
                         {{ session('failed') }}
@@ -91,43 +86,38 @@
                             <div class="card-body">
                                 <table id="products" style="width: 100% !important;" class="table table-bordered table-striped">
                                     <thead>
-                                        <tr>
-                                            <th>STT</th>
-                                            <th>Tên sản phẩm</th>
-                                            <th>Danh mục</th>
-                                            <th>Đường dùng</th>
-                                            <th>Dạng bào chế</th>
-                                            <th>Hàm lượng</th>
-                                            <th style="width: 140px">Xem/Sửa/Xoá</th>
-                                        </tr>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Lô sản xuất</th>
+                                        <th>Tên nhà cung cấp</th>
+                                        <th>Đơn giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Ngày hết hạn</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($product as $key => $data)
+                                    @foreach($listProductInventory as $key => $data)
                                         <tr>
-                                            <td>{{ $rank++ }}</td>
+                                            <td>{{++$key}}</td>
                                             <td>{{$data->product_name}}</td>
                                             <td>{{$data->category_name}}</td>
-                                            <td>{{$data->route_of_use}}</td>
-                                            <td>{{$data->dosage}}</td>
-                                            <td>{{$data->content}}</td>
-                                            <td>
-                                                <a data-id="1" id="viewBtn">
-                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
-                                                </a>
-                                                <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <a data-id="2" id="deleteBtn">
-                                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
-                                                </a>
-                                            </td>
+                                            <td>{{$data->order_code}}</td>
+                                            <td>{{$data->production_batch_name}}</td>
+                                            <td>{{$data->supplier_name}}</td>
+                                            <td>{{$data->price}}</td>
+                                            <td>{{$data->amount}}</td>
+                                            <td>{{$data->order_time}}</td>
+                                            <td>{{$data->expired_time}}</td>
                                         </tr>
                                     @endforeach
+
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.card-body -->
-{{--                            <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
-{{--                                {!! $product->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
-{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -206,7 +196,7 @@
             $("#products").DataTable({
                 buttons: ["copy", "excel", "pdf", "print"],
                 paging: true,
-                ordering: false,
+                ordering: true,
                 autoWidth: true,
                 responsive: true,
                 lengthChange: true,
@@ -237,42 +227,42 @@
          * Confirm delete category
          * @param id
          */
-        function confirmView(id) {
-            $.ajax({
-                url: "/admin/products/detail",
-                type:'GET',
-                data: { id:id },
-                success: function(response) {
-                    console.log(response["data"]);
-                    if(response["code"] === 200) {
-                        document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
-                        document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
-                        document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã sản phẩm: </i></span>" + response["data"][0]["product_code"];
-                        document.getElementById("category").innerHTML = "<span class='text-muted'><i>Danh mục: </i></span>" + response["data"][0]["category_name"];
-                        document.getElementById("route_of_use").innerHTML = "<span class='text-muted'><i>Đường dùng: </i></span>" + response["data"][0]["route_of_use"];
-                        document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];
-                        document.getElementById("content").innerHTML = "<span class='text-muted'><i>Hàm lượng: </i></span>" + response["data"][0]["content"];
-                        if(response["data"][0]["instruction"]) {
-                            document.getElementById("instruction").innerHTML = "<span style='color: red'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];
-                        } else {
-                            document.getElementById("instruction").innerHTML = "";
-                        }
-                    }
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            });
-            $("#viewModal").modal("show");
-        }
+        {{--function confirmView(id) {--}}
+        {{--    $.ajax({--}}
+        {{--        url: "/admin/products/detail",--}}
+        {{--        type:'GET',--}}
+        {{--        data: { id:id },--}}
+        {{--        success: function(response) {--}}
+        {{--            console.log(response["data"]);--}}
+        {{--            if(response["code"] === 200) {--}}
+        {{--                document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];--}}
+        {{--                document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];--}}
+        {{--                document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã sản phẩm: </i></span>" + response["data"][0]["product_code"];--}}
+        {{--                document.getElementById("category").innerHTML = "<span class='text-muted'><i>Danh mục: </i></span>" + response["data"][0]["category_name"];--}}
+        {{--                document.getElementById("route_of_use").innerHTML = "<span class='text-muted'><i>Đường dùng: </i></span>" + response["data"][0]["route_of_use"];--}}
+        {{--                document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];--}}
+        {{--                document.getElementById("content").innerHTML = "<span class='text-muted'><i>Hàm lượng: </i></span>" + response["data"][0]["content"];--}}
+        {{--                if(response["data"][0]["instruction"]) {--}}
+        {{--                    document.getElementById("instruction").innerHTML = "<span style='color: red'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];--}}
+        {{--                } else {--}}
+        {{--                    document.getElementById("instruction").innerHTML = "";--}}
+        {{--                }--}}
+        {{--            }--}}
+        {{--        },--}}
+        {{--        error: function (err) {--}}
+        {{--            console.log(err);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--    $("#viewModal").modal("show");--}}
+        {{--}--}}
 
-        /**
-         * Confirm delete category
-         * @param id
-         */
-        function confirmDelete(id) {
-            $("#id_product").val(id);
-            $("#deleteModal").modal("show");
-        }
+        {{--/**--}}
+        {{-- * Confirm delete category--}}
+        {{-- * @param id--}}
+        {{-- */--}}
+        {{--function confirmDelete(id) {--}}
+        {{--    $("#id_product").val(id);--}}
+        {{--    $("#deleteModal").modal("show");--}}
+        {{--}--}}
     </script>
 @endsection

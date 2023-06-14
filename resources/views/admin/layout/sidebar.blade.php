@@ -270,19 +270,19 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="/admin/doctors/doctor-calendar" class="nav-link">
+                            <a href="/admin/inventories" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Danh sách sản phẩm</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/appointments/add-appointment" class="nav-link">
+                            <a href="/admin/inventories/out-of-stock" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Sản phẩm hết hàng</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="/admin/appointments/add-appointment" class="nav-link">
+                            <a href="/admin/inventories/list-expired" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
                                 <p>Sản phẩm hết hạn</p>
                             </a>

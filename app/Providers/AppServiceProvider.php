@@ -8,6 +8,8 @@ use App\Repositories\ExportPrices\ExportPricesEloquentRepository;
 use App\Repositories\ExportPrices\ExportPricesRepositoryInterface;
 use App\Repositories\Infos\InfoEloquentRepository;
 use App\Repositories\Infos\InfoRepositoryInterface;
+use App\Repositories\Inventories\InventoryEloquentRepository;
+use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderEloquentRepository;

@@ -172,7 +172,7 @@
                                             <th scope="col" style="width: 70px;">Số lượng</th>
                                             <th scope="col">Tổng giá</th>
                                             <th scope="col">Ngày đặt hàng</th>
-                                            <th scope="col">Trạng thái</th>
+                                            <th scope="col" style="width: 90px">Trạng thái</th>
                                         </tr>
                                         </thead>
                                         <tbody>

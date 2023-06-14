@@ -109,4 +109,40 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->where("product_code", $productCode)
             ->first();
     }
+
+    public function getListProductInInventory()
+    {
+        $listOrders = DB::table("orders")
+            ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
+            ->join("order_products", "order_products.order_id", "=", "orders.id")
+            ->join("products", "products.id", "=", "order_products.product_id")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
+            ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
+                        "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
+            ->orderBy("products.id", "ASC")
+            ->get();
+        return $listOrders;
+    }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getListExpiredProductInventory()
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date('d/m/Y H:i:s', time());
+        $listOrders = DB::table("orders")
+            ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
+            ->join("order_products", "order_products.order_id", "=", "orders.id")
+            ->join("products", "products.id", "=", "order_products.product_id")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
+            ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
+                "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
+            ->where("production_batches.expired_time", "<=", $date)
+            ->orderBy("products.id", "ASC")
+            ->get();
+        return $listOrders;
+    }
 }
