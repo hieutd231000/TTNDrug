@@ -145,4 +145,47 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->get();
         return $listOrders;
     }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getListNextExpiredProductInventory()
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date('d/m/Y H:i:s', time());
+        $dates = explode(" ", $date);
+        $days = explode("/", $dates[0]);
+        if($days[1] != "12") {
+            if($days[1] == "09" || $days[1] == "10" || $days[1] == "11")
+                $days[1] =(string)((int)$days[1] + 1);
+            else
+                $days[1] = "0".((string)((int)$days[1] + 1));
+        } else {
+            $days[1] = "01";
+            $days[2] = (string)((int)$days[2] + 1);
+        }
+        $nextDate = $days[0] . "/" . $days[1] . "/". $days[2] . " " . $dates[1];
+        $listOrders = DB::table("orders")
+            ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
+            ->join("order_products", "order_products.order_id", "=", "orders.id")
+            ->join("products", "products.id", "=", "order_products.product_id")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
+            ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
+                "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
+//            ->where("production_batches.expired_time", "<=", $nextDate)
+            ->where("production_batches.expired_time", ">=", $date)
+            ->orderBy("products.id", "ASC")
+            ->get();
+        return $listOrders;
+    }
+
+    public function getListOutOfStock()
+    {
+        $listOutOfStock = DB::table("products")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->select("categories.name as category_name", "products.*")
+            ->get();
+        return $listOutOfStock;
+    }
 }

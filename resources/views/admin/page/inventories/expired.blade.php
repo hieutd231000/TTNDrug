@@ -129,9 +129,9 @@
                                                         </tbody>
                                                     </table>
                                                 </div>
-                                                <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">
-                                                    Gửi yêu cầu
-                                                </div>
+{{--                                                <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">--}}
+{{--                                                    Gửi yêu cầu--}}
+{{--                                                </div>--}}
                                             </div>
                                         </div>
                                     </form>
@@ -145,64 +145,52 @@
                                 <div class="card-header">
                                     <h5>Sản phẩm sắp hết hạn</h5>
                                 </div>
-                                <div class="col-sm-12" style="padding: 15px">
-                                    <table id="listOrderTable" class="table table-bordered table-striped">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">STT</th>
-                                            <th scope="col" style="width: 95px;">Mã đơn hàng</th>
-                                            <th scope="col" style="width: 140px;">Tên nhà cung cấp</th>
-                                            <th scope="col" style="width: 100px;">Sản phẩm</th>
-                                            <th scope="col" style="width: 100px;">Lô sản xuất</th>
-                                            <th scope="col" style="width: 65px;">Đơn giá</th>
-                                            <th scope="col" style="width: 70px;">Số lượng</th>
-                                            <th scope="col">Tổng giá</th>
-                                            <th scope="col">Ngày đặt hàng</th>
-                                            <th scope="col" style="width: 90px">Trạng thái</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-{{--                                        @foreach($listAllOrder as $key => $data)--}}
-{{--                                            <tr>--}}
-{{--                                                <td>{{$rankOrder ++}}</td>--}}
-{{--                                                <td>{{$data->order_code}}</td>--}}
-{{--                                                <td>{{$data->supplier_name}}</td>--}}
-{{--                                                <td>--}}
-{{--                                                    @foreach($data->list_product as $products)--}}
-{{--                                                        <p style="margin-bottom: 10px !important;">{{$products->product_name}}</p>--}}
-{{--                                                    @endforeach--}}
-{{--                                                </td>--}}
-{{--                                                <td>--}}
-{{--                                                    @foreach($data->list_product as $products)--}}
-{{--                                                        <p style="margin-bottom: 10px !important;">{{$products->production_batch_name}}</p>--}}
-{{--                                                    @endforeach--}}
-{{--                                                </td>--}}
-{{--                                                <td>--}}
-{{--                                                    @foreach($data->list_product as $products)--}}
-{{--                                                        <p style="margin-bottom: 10px !important;">{{$products->price_amount}} </p>--}}
-{{--                                                    @endforeach--}}
-{{--                                                </td>--}}
-{{--                                                <td>--}}
-{{--                                                    @foreach($data->list_product as $products)--}}
-{{--                                                        <p style="margin-bottom: 10px !important;">{{$products->amount}}</p>--}}
-{{--                                                    @endforeach--}}
-{{--                                                </td>--}}
-{{--                                                <td>{{$data->price_order}} VNĐ</td>--}}
-{{--                                                <td>{{$data->order_time}}</td>--}}
-{{--                                                <td>--}}
-{{--                                                    @if($data -> status  === 0)--}}
-{{--                                                        <button class="btn btn-sm btn-danger" disabled style="opacity: 1 !important;">Chưa xác nhận</button>--}}
-{{--                                                    @elseif($data -> status === 1)--}}
-{{--                                                        <button class="btn btn-sm btn-primary" disabled style="opacity: 1 !important;">Đã xác nhận</button>--}}
-{{--                                                    @elseif($data -> status === 2)--}}
-{{--                                                        <button class="btn btn-sm btn-success" disabled style="opacity: 1 !important;">Đã nhận hàng</button>--}}
-{{--                                                    @endif--}}
-{{--                                                </td>--}}
-{{--                                            </tr>--}}
-{{--                                        @endforeach--}}
-                                        </tbody>
-                                    </table>
+                                <div class="col-sm-12">
+                                    <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
+                                    </div>
                                 </div>
+                                @foreach($listNextExpiredProduct as $key => $data)
+                                    <form>
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                        <div class="card-body" style="padding-bottom: 0px">
+                                            <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
+                                                <div class="card-body">
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th scope="col">STT</th>
+                                                            <th scope="col" style="width: 130px">Tên sản phẩm</th>
+                                                            <th scope="col">Danh mục</th>
+                                                            <th scope="col">Lô sản xuất</th>
+                                                            <th scope="col">Tên nhà cung cấp</th>
+                                                            <th scope="col">Đơn giá</th>
+                                                            <th scope="col">Số lượng</th>
+                                                            <th scope="col" style="width: 110px">Ngày đặt hàng</th>
+                                                            <th scope="col" style="width: 110px">Ngày hết hạn</th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr>
+                                                            <td>{{++$key}}</td>
+                                                            <td>{{$data->product_name}}</td>
+                                                            <td>{{$data->category_name}}</td>
+                                                            <td>{{$data->production_batch_name}}</td>
+                                                            <td>{{$data->supplier_name}}</td>
+                                                            <td>{{$data->price}}</td>
+                                                            <td>{{$data->amount}}</td>
+                                                            <td>{{$data->order_time}}</td>
+                                                            <td>{{$data->expired_time}}</td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                {{--                                                <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">--}}
+                                                {{--                                                    Gửi yêu cầu--}}
+                                                {{--                                                </div>--}}
+                                            </div>
+                                        </div>
+                                    </form>
+                                @endforeach
                             </div>
                         </div>
                     </div>

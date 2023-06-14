@@ -30,11 +30,13 @@ class InventoryController extends Controller
     }
 
     public function listOutOfStock(Request $request) {
-
+        $listOutOfStock = $this->productRepository->getListOutOfStock();
+        return view("admin.page.inventories.outofstock", ["listOutOfStock" => $listOutOfStock]);
     }
 
     public function listExpiredProduct(Request $request) {
         $listExpiredProduct = $this->productRepository->getListExpiredProductInventory();
-        return view("admin.page.inventories.expired", ["listExpiredProduct" => $listExpiredProduct]);
+        $listNextExpiredProduct = $this->productRepository->getListNextExpiredProductInventory();
+        return view("admin.page.inventories.expired", ["listExpiredProduct" => $listExpiredProduct, "listNextExpiredProduct" => $listNextExpiredProduct]);
     }
 }
