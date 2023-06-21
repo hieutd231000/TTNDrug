@@ -161,6 +161,7 @@
 @section("custom-js")
     <script>
         var listEmail = {!! $listEmail !!};
+        var listName = {!! $listName !!};
         var currentSupplier = {!! $supplier !!};
         var name, phone, address, introduce, email;
         var blockErrName = document.getElementById("help-block-name");
@@ -181,6 +182,8 @@
                 // Check validate
                 if(!name) {
                     blockErrName.innerHTML = "Không được để trống";
+                } else if(checkExistName(name)) {
+                    blockErrName.innerHTML = "Name đã tồn tại";
                 } else {
                     blockErrName.innerHTML = "";
                 }
@@ -218,7 +221,7 @@
                             blockErrSubmit.innerHTML = response["message"];
                             setTimeout(function(){
                                 window.location.href = '/admin/suppliers';
-                            }, 700);
+                            }, 400);
                         },
                         error: function (err) {
                             console.log(err);
@@ -264,6 +267,15 @@
             return listEmail.indexOf(email) !== -1 && currentSupplier["email"] !== email;
         }
 
+        /**
+         *
+         * @param name
+         * @returns {boolean}
+         */
+        const checkExistName = (name) => {
+            console.log(listName);
+            return listName.indexOf(name) !== -1 && currentSupplier["name"] !== name;
+        }
         /**
          *
          *

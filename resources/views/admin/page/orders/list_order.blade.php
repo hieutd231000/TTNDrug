@@ -314,7 +314,7 @@
                     alertDiv.innerHTML += response["message"];
                     setTimeout(function(){
                         location.reload();
-                    }, 600);
+                    }, 400);
                 },
                 error: function (err) {
                     console.log(err);

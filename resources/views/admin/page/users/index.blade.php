@@ -154,7 +154,7 @@
          * Hidden alert
          */
         $(document).ready(function(){
-            $('.alert').fadeIn().delay(2000).fadeOut();
+            $('.alert').fadeIn().delay(1000).fadeOut();
         });
         /**
          * Confirm delete user

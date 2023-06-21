@@ -228,7 +228,7 @@
                                     </div>
                                 </div>
                                 <div class="float-right">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                    <button type="button" class="btn btn-secondary handleCancel">Huỷ bỏ</button>
                                     <button type="submit" class="btn btn-primary handleSubmit">Lưu</button>
                                 </div>
                             </form>
@@ -370,7 +370,12 @@
                     }, 400);
                 }
             });
-
+            $(".handleCancel").click(function(e){
+                e.preventDefault();
+                document.getElementById("help-block-product").innerHTML = "";
+                $('#product_selected').val("");
+                $("#addModal").modal("hide");
+            })
             $(".handleDelete").click(function(e){
                 e.preventDefault();
                 var _token = $("input[name='_token']").val();
@@ -403,7 +408,7 @@
                         }
                     });
                     setTimeout(function(){
-                        $("#addModal").modal("hide");
+                        $("#deleteModal").modal("hide");
                     }, 400);
                 }
             });

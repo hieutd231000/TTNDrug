@@ -212,6 +212,7 @@
                 lengthChange: true,
                 info: true,
                 "language": {
+                    // url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json',
                     "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
                     "zeroRecords": "Không có sản phẩm",
                     "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",

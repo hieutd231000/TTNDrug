@@ -220,7 +220,7 @@
                             blockErrSubmit.innerHTML = response["message"];
                             setTimeout(function(){
                                 window.location.href = '/admin/suppliers';
-                            }, 700);
+                            }, 400);
                         },
                         error: function (err) {
                             console.log(err);

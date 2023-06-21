@@ -101,7 +101,11 @@
                                             <tr>
                                                 <td>{{ $rank++ }}</td>
                                                 <td>{{$data->name}}</td>
-                                                <td style="width: 50%;">{{$data->description}}</td>
+                                                @if(!$data->description)
+                                                    <td style="width: 50%;">Không có mô tả</td>
+                                                @else
+                                                    <td style="width: 50%;">{{$data->description}}</td>
+                                                @endif
                                                 <td>
                                                     <a data-id="1" id="editBtn">
                                                         <button class="btn btn-primary" onclick="editForm({{ $data->id }}, '{{ $data->name }}', '{{ $data->description }}')" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>

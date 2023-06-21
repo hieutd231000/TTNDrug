@@ -312,7 +312,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item" style="margin-bottom: 20px">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-truck"></i>
                         <p>
@@ -378,14 +378,14 @@
 {{--                        </p>--}}
 {{--                    </a>--}}
 {{--                </li>--}}
-                <li class="nav-item">
-                    <a href="#" id="dksada" class="nav-link">
-                        <i class="nav-icon fas fa-ellipsis-h"></i>
-                        <p>
-                            Setting
-                        </p>
-                    </a>
-                </li>
+{{--                <li class="nav-item">--}}
+{{--                    <a href="#" id="dksada" class="nav-link">--}}
+{{--                        <i class="nav-icon fas fa-ellipsis-h"></i>--}}
+{{--                        <p>--}}
+{{--                            Setting--}}
+{{--                        </p>--}}
+{{--                    </a>--}}
+{{--                </li>--}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

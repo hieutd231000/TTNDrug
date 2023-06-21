@@ -78,7 +78,8 @@ class SupplierController extends Controller
     public function edit(Request $request, $id) {
         $supplier = $this->supplierRepository->find($id);
         $listEmail = $this->supplierRepository->getEmail();
-        return view("admin.page.suppliers.edit", ["supplier" => $supplier, 'listEmail' => $listEmail]);
+        $listName = $this->supplierRepository->getName();
+        return view("admin.page.suppliers.edit", ["supplier" => $supplier, 'listEmail' => $listEmail, 'listName' => $listName]);
     }
 
     /**
