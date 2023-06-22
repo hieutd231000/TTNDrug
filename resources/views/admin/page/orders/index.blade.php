@@ -202,7 +202,7 @@
                                         <div class="row clearfix">
                                             <div class="col-sm-12">
                                                 <form class="form-inline">
-                                                    <input class="form-control" type="search" style="width: 90%" placeholder="Nhập" aria-label="Search">
+                                                    <input class="form-control" type="search" style="width: 90%" placeholder="Nhập tên sản phẩm" aria-label="Search">
                                                     <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>
                                                 </form>
                                             </div>
@@ -213,6 +213,7 @@
                                                     <div class="card-wrapper swiper-wrapper">
                                                         @foreach($listProductBySupplierId as $key => $data)
                                                             <div class="card swiper-slide">
+{{--                                                            <div class="card">--}}
                                                                 <div class="image-content">
                                                                     <span class="overlay"></span>
                                                                     <div class="card-image">
@@ -350,9 +351,9 @@
 
         // Slider
         let swiper = new Swiper(".slide-content", {
-            slidesPerView: 4,
+            slidesPerView: 'auto',
             spaceBetween: 25,
-            loop: true,
+            // loop: true,
             centerSlide: 'true',
             fade: 'true',
             grabCursor: 'true',
@@ -368,18 +369,20 @@
             },
 
             breakpoints:{
-                0: {
+                // when window width is <= 499px
+                333: {
                     slidesPerView: 1,
+                    spaceBetweenSlides: 30
                 },
-                316.6: {
+                // when window width is <= 999px
+                666: {
                     slidesPerView: 2,
+                    spaceBetweenSlides: 40
                 },
-                633.3: {
+                999: {
                     slidesPerView: 3,
+                    spaceBetweenSlides: 40
                 },
-                950: {
-                    slidesPerView: 4,
-                }
             },
         });
         var supplierDetailId = {!! $supplierDetailId !!};
@@ -472,7 +475,7 @@
             if(!document.getElementById(id).value || !document.getElementById(code).value || !document.getElementById(production_batch_id).value) {
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
             } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
-                document.getElementById(name).innerHTML = "Nhập lại !";
+                document.getElementById(name).innerHTML = "Không hợp lệ !";
             } else {
                 document.getElementById(name).innerHTML = "";
             }

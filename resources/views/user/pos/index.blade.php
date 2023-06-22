@@ -314,8 +314,8 @@
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
                                     Hoá đơn
                                 </div>
-                                <div class="body">
-                                    <div class="row clearfix" style="margin: 10px 0 20px 0">
+                                <div class="body" style="padding-bottom: 0px">
+                                    <div class="row clearfix" style="margin: 10px 0 0 0">
                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Danh sách sản phẩm</h3>
@@ -364,13 +364,14 @@
                                                 </div>
                                                 <div class="row">
                                                     <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Thanh toán:</p>
-                                                    <input type="text" style="height: 10px !important;"  id="paidCart" name="paidCart">
+                                                    <input type="text" style="height: 10px !important;"  id="paidCart" name="paidCart" disabled autocomplete="off">
                                                 </div>
                                                 <div class="row">
-                                                    <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Trả lại:</p>
-                                                    <p class="col-sm-7" id="return_price"></p>
+                                                    <p class="col-sm-5 text-sm-right mb-0 mb-sm-3" style="margin-bottom: 7px !important;">Trả lại:</p>
+                                                    <p class="col-sm-7" id="return_price" style="margin-bottom: 7px !important;"></p>
                                                 </div>
                                             </div>
+                                            <p class="col-sm-12" id="validatePaid" style="color: red; width: 100%"></p>
                                         </div>
                                         <div class="row clearfix">
                                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
@@ -389,6 +390,25 @@
             </div><!-- /.container-fluid -->
         </section>
         <!-- /.content -->
+        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn thanh toán giỏ hàng này?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" style="border: none">
+                        Một khi thanh toán thì bạn sẽ không thể phục hồi !
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                        <button type="submit" class="btn btn-danger">Đồng ý</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @section("custom-js")
@@ -404,23 +424,39 @@
                 if(parseInt(document.getElementById("confirm_price").innerHTML)) {
                     document.getElementById("paidCardBtn").disabled = false;
                     document.getElementById("returnCardBtn").disabled = false;
+                    document.getElementById("paidCart").disabled = false;
                 } else {
                     document.getElementById("paidCardBtn").disabled = true;
                     document.getElementById("returnCardBtn").disabled = true;
+                    document.getElementById("paidCart").disabled = true;
+                }
+            });
+
+            document.getElementsByName("paidCart")[0].addEventListener('keyup', function(){
+                if(this.value) {
+                    document.getElementById("return_price").innerHTML = - total_price + parseInt(this.value) + "VNĐ";
+                } else {
+                    document.getElementById("return_price").innerHTML = "";
                 }
             });
 
             $(".handlePaid").click(function (e) {
                 e.preventDefault();
                 let moneyPay = $("input[name='paidCart']").val();
-                document.getElementById("return_price").innerHTML = total_price - parseInt(moneyPay) + "VNĐ";
+                if(!moneyPay) {
+                    document.getElementById("validatePaid").innerHTML = "Nhập số tiền thanh toán !";
+                } else {
+                    document.getElementById("validatePaid").innerHTML = "";
+                    $("#confirmModal").modal("show");
+                    // document.getElementById("return_price").innerHTML = total_price - parseInt(moneyPay) + "VNĐ";
+                }
             });
         });
 
-        var swiper = new Swiper(".slide-content", {
-            slidesPerView: 4,
+        let swiper = new Swiper(".slide-content", {
+            slidesPerView: 'auto',
             spaceBetween: 25,
-            loop: true,
+            // loop: true,
             centerSlide: 'true',
             fade: 'true',
             grabCursor: 'true',
@@ -436,20 +472,23 @@
             },
 
             breakpoints:{
-                0: {
+                // when window width is <= 499px
+                333: {
                     slidesPerView: 1,
+                    spaceBetweenSlides: 30
                 },
-                316.6: {
+                // when window width is <= 999px
+                666: {
                     slidesPerView: 2,
+                    spaceBetweenSlides: 40
                 },
-                633.3: {
+                999: {
                     slidesPerView: 3,
+                    spaceBetweenSlides: 40
                 },
-                950: {
-                    slidesPerView: 4,
-                }
             },
         });
+
         /**
          * Handle add product to cart
          * @type {*[]}
