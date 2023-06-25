@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\ResponseHelper;
 use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
+use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -16,13 +17,15 @@ class PosController extends Controller
     protected $productRepository;
     protected $orderProductRepository;
     protected $categoryRepository;
+    protected $productionBatchRepository;
     protected $response;
 
-    public function __construct(CategoryRepositoryInterface $categoryRepository, OrderProductEloquentRepository $orderProductRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
+    public function __construct(ProductionBatchRepositoryInterface $productionBatchRepository, CategoryRepositoryInterface $categoryRepository, OrderProductEloquentRepository $orderProductRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
         $this->orderProductRepository = $orderProductRepository;
+        $this->productionBatchRepository = $productionBatchRepository;
         $this->response = $response;
     }
     public function index(Request $request) {
@@ -34,7 +37,14 @@ class PosController extends Controller
             } else {
                 $product->current_price = null;
             }
+            $product->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($product->id);
+//            foreach ($product->production_batch as $production_batch) {
+//                $production_batch->amount = intval($this->productionBatchRepository->getAmountByProductionBatchId($production_batch->id)) ;
+//            }
         }
-        return view("user.pos.index", ['rank' => 1 , 'products' => $products]);
+        $productionBatchAmount = $this->productionBatchRepository->getAmountByProductionBatchId();
+//        dd($productionBatchAmount);
+//        dd($products);
+        return view("user.pos.index", ['rank' => 1 , 'products' => $products, 'productionBatchAmount' => $productionBatchAmount]);
     }
 }

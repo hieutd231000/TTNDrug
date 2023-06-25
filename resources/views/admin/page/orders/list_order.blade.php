@@ -205,9 +205,9 @@
                                                 <td>{{$data->order_time}}</td>
                                                 <td>
                                                     @if($data -> status  === 0)
-                                                        <button class="btn btn-sm btn-danger" disabled style="opacity: 1 !important;">Chưa xác nhận</button>
+                                                        <button class="btn btn-sm btn-danger " disabled style="opacity: 1 !important;">Chưa xác nhận</button>
                                                     @elseif($data -> status === 1)
-                                                        <button class="btn btn-sm btn-primary" disabled style="opacity: 1 !important;">Đã xác nhận</button>
+                                                        <button class="btn btn-sm btn-primary" onclick="changeStatusOrder( {{ $data->id }} )">Đã xác nhận</button>
                                                     @elseif($data -> status === 2)
                                                         <button class="btn btn-sm btn-success" disabled style="opacity: 1 !important;">Đã nhận hàng</button>
                                                     @endif
@@ -221,10 +221,32 @@
                         </div>
                     </div>
                 </div>
-
-                {{--Thêm order--}}
             </div><!-- /.container-fluid -->
         </section>
+
+        <div class="modal fade" id="changeStatusModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form>
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="order_id" value="">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Thay đổi trạng thái đơn hàng</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="border: none">
+                            Lựa chọn trạng thái đơn hàng bạn muốn thay đổi
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger unConfirmOrder">Chưa xác nhận</button>
+                            <button type="submit" class="btn btn-success receivedOrder">Đã nhận hàng</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
         <!-- /.content -->
     </div>
 @endsection
@@ -261,43 +283,65 @@
                 .appendTo("#listOrderTable_wrapper .col-md-6:eq(0)");
         });
 
-        // var supplier, product, quantity, introduce, order_date;
-        // var blockErrProduct = document.getElementById("help-block-product");
-        // var blockErrQuantity = document.getElementById("help-block-quantity");
-        // var blockErrOrderDate = document.getElementById("help-block-order_date");
-        // var blockErrIntroduce = document.getElementById("help-block-introduce");
-        // var blockErrSubmit = document.getElementById("help-block-submit");
         $(document).ready(function(){
-            /**
-             * Handle when chose supplier
-             */
-            $(".handleChoseSupplier").click(function(e){
+            $(".unConfirmOrder").click(function(e){
                 e.preventDefault();
-                // var _token = $("input[name='_token']").val();
-                // var supplier_id = $("select[name='supplier-select']").val();
-                // var blockErrSupplier = document.getElementById("help-block-supplier");
-                // // Check validate
-                // if(!supplier_id) {
-                //     blockErrSupplier.innerHTML = "Mời bạn chọn nhà cung cấp";
-                // } else {
-                //     blockErrSupplier.innerHTML = "";
-                // }
-                // if(!blockErrSupplier.innerHTML) {
-                //     $.ajax({
-                //         url: "/admin/suppliers/get-product",
-                //         type: 'GET',
-                //         data: {_token: _token, id: supplier_id},
-                //         success: function (response) {
-                //             blockErrSupplier.innerHTML = "";
-                //             console.log(response);
-                //         },
-                //         error: function (err) {
-                //             console.log(err);
-                //         }
-                //     });
-                // }
+                var _token = $("input[name='_token']").val();
+                var id = $("input[name='order_id']").val();
+                $.ajax({
+                    url: "/admin/orders/un-confirm-order",
+                    type:'POST',
+                    data: {_token:_token, id:id},
+                    success: function(response) {
+                        setTimeout(function(){
+                            location.reload();
+                        }, 300);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
             });
+
+            $(".receivedOrder").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var id = $("input[name='order_id']").val();
+                $.ajax({
+                    url: "/admin/orders/received-order",
+                    type:'POST',
+                    data: {_token:_token, id:id},
+                    success: function(response) {
+                        setTimeout(function(){
+                            location.reload();
+                        }, 300);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            });
+
         });
+
+        const changeStatusOrder = (id) => {
+            $("input[name='order_id']").val(id);
+            $("#changeStatusModal").modal("show");
+            // e.preventDefault();
+            // var _token = $("input[name='_token']").val();
+            // var id = $("input[name='order_id']").val();
+            // $.ajax({
+            //     url: "/admin/orders/change-status-order",
+            //     type: 'POST',
+            //     data: {_token: _token, id: id},
+            //     success: function (response) {
+            //         // console.log(response);
+            //     },
+            //     error: function (err) {
+            //         console.log(err);
+            //     }
+            // });
+        }
 
         const checkNumber = (num) => {
             return /^\d+$/.test(num);

@@ -89,6 +89,8 @@ Route::middleware('auth')->group(function () {
             Route::get('/{id}/product/confirm', [\App\Http\Controllers\Admin\OrderController::class, 'confirmOrder']);
             Route::post('/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'store']);
             Route::post('/verify-order', [\App\Http\Controllers\Admin\OrderController::class, 'verifyOrder']);
+            Route::post('/un-confirm-order', [\App\Http\Controllers\Admin\OrderController::class, 'unConfirmOrder']);
+            Route::post('/received-order', [\App\Http\Controllers\Admin\OrderController::class, 'receivedOrder']);
             Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
             Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
         });

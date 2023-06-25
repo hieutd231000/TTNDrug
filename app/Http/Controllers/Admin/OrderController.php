@@ -128,6 +128,10 @@ class OrderController extends Controller
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
     public function verifyOrder(Request $request) {
         $order = $this->orderRepository->find($request["id"]);
         if(empty($order)) {
@@ -144,12 +148,48 @@ class OrderController extends Controller
 
     /**
      * @param Request $request
+     * @return void
+     */
+    public function unConfirmOrder(Request $request) {
+        $order = $this->orderRepository->find($request["id"]);
+        if(empty($order)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $this->orderRepository->unConfirmOrder($order->id);
+            return $this->response->success(null, 200, 'Huỷ xác nhận đơn hàng thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Huỷ xác nhận đơn hàng thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
+     */
+    public function receivedOrder(Request $request) {
+        $order = $this->orderRepository->find($request["id"]);
+        if(empty($order)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
+        try {
+            $this->orderRepository->receivedOrder($order->id);
+            return $this->response->success(null, 200, 'Nhận đơn hàng thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Nhận đơn hàng thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function productionBatchIndex(Request $request) {
-        $listProductionBatch = $this->productionBatchRepository->getAll(config("const.paginate"), "DESC");
+        $listProductionBatch = $this->productionBatchRepository->getAllOrderByExpriedDate();
         foreach ($listProductionBatch as $productionBatch) {
-            $productionBatch["product_name"] = $this->productRepository->idToName($productionBatch["product_id"]);
+            $productionBatch->status = $this->productionBatchRepository->statusProductionBatch($productionBatch->expired_time);
         }
         $listAllProduct = $this->productRepository->listAll();
         $listProductionBatchName = $this->productionBatchRepository->getAllProductionBatchName();

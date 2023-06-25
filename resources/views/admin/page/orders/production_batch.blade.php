@@ -83,6 +83,7 @@
                                         <th>Tên lô sản xuất</th>
                                         <th>Sản phẩm</th>
                                         <th>Ngày hết hạn</th>
+                                        <th>Trạng thái</th>
                                         <th>Sửa/Xoá</th>
                                     </tr>
                                     </thead>
@@ -93,12 +94,21 @@
                                             <td>{{ $data->production_batch_name }}</td>
                                             <td>{{ $data->product_name }}</td>
                                             <td>{{ $data->expired_time }}</td>
-                                            <td>
-                                                <a data-id="1" id="editBtn">
-                                                    <button class="btn btn-primary" onclick="editForm({{ $data->id }}, '{{ $data->production_batch_name }}', '{{ $data->product_id }}' , '{{ $data->expired_time }}')" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                            @if($data->status)
+                                                <td>
+                                                    <button class="btn btn-primary " disabled style="opacity: 1 !important; width: 80%">Còn hạn</button>
+                                                </td>
+                                            @else
+                                                <td>
+                                                    <button class="btn btn-danger" disabled style="opacity: 1 !important; width: 80%">Hết hạn</button>
+                                                </td>
+                                            @endif
+                                            <td style="font-size: 20px">
+                                                <a data-id="1" id="editBtn" style="color: blue; margin-right: 5px; margin-left: 7px">
+                                                    <i class="fas fa-edit" onclick="editForm({{ $data->id }}, '{{ $data->production_batch_name }}', '{{ $data->product_id }}' , '{{ $data->expired_time }}')" data-toggle="modal" data-target="#editModal"></i>
                                                 </a>
-                                                <a data-id="1" id="deleteBtn">
-                                                    <button class="btn btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
+                                                <a data-id="1" id="deleteBtn" style="color: red">
+                                                    <i class="fas fa-trash" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"></i></button>
                                                 </a>
                                             </td>
                                         </tr>
@@ -107,9 +117,9 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-{{--                            <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
-{{--                                {!! $category->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
-{{--                            </div>--}}
+                            <div class="d-flex justify-content-end" style="margin-right: 3%">
+                                {!! $listProductionBatch->appends($_GET)->links("pagination::bootstrap-4") !!}
+                            </div>
                         </div>
                     </div>
                 </div>

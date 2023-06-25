@@ -120,6 +120,7 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
             ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
                         "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
+            ->where("orders.status", 2)
             ->orderBy("products.id", "ASC")
             ->get();
         return $listOrders;

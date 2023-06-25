@@ -25,6 +25,7 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
             ->select("suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
             ->where("orders.status", 0)
+            ->orderBy("orders.id", "DESC")
             ->get();
         foreach ($listOrdersUnVerify as $listOrderUnVerify) {
             $listOrderProducts = DB::table("order_products")
@@ -46,6 +47,7 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         $listOrders = DB::table("orders")
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
             ->select("suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
+            ->orderBy("orders.id", "DESC")
             ->get();
         foreach ($listOrders as $listOrder) {
             $listOrderProducts = DB::table("order_products")
@@ -75,5 +77,25 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         return DB::table("orders")
             ->where('id', $id)
             ->update(['status' => 1]);
+    }
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function unConfirmOrder($id) {
+        return DB::table("orders")
+            ->where('id', $id)
+            ->update(['status' => 0]);
+    }
+
+    /**
+     * @param $id
+     * @return int
+     */
+    public function receivedOrder($id) {
+        return DB::table("orders")
+            ->where('id', $id)
+            ->update(['status' => 2]);
     }
 }
