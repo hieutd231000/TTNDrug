@@ -225,7 +225,11 @@
                                                                     <select name="production_batch_selected" id="{{$data[0]->production_batch_id}}" style="width: 60%; margin-top: 8px; height: 30px; margin-bottom: 6px;">
                                                                         <option value="" disabled selected>Lô sản xuất</option>
                                                                         @foreach($data[0]->production_batch as $key_production_batch => $data_production_batch)
-                                                                            <option value={{$data_production_batch->production_batch_name}}>{{$data_production_batch->production_batch_name}}</option>
+                                                                            @if($data_production_batch->expired_status)
+                                                                                <option value={{$data_production_batch->production_batch_name}}>{{$data_production_batch->production_batch_name}}</option>
+                                                                            @else
+                                                                                <option value={{$data_production_batch->production_batch_name}} disabled>{{$data_production_batch->production_batch_name}}</option>
+                                                                            @endif
                                                                         @endforeach
                                                                     </select>
                                                                     <input type="text" name="price" id="{{$data[0]->product_code}}" placeholder="Nhập giá (VNĐ)" style="width: 60%; margin-bottom: 5px; font-size: 14px">
@@ -235,7 +239,7 @@
 {{--                                                                        <input type="button" onclick="increaseCount({{$key}})" value="+">--}}
                                                                     </div>
                                                                     <button class="btn btn-secondary" onclick="addNewProduct({{$data[0]->id}}, '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
-                                                                    <p id="{{$data[0]->product_name}}" style="color: red"></p>
+                                                                    <p id="{{$data[0]->product_name}}" style="color: red; height: 40px"></p>
                                                                 </div>
                                                             </div>
                                                         @endforeach
@@ -476,6 +480,8 @@
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
             } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
                 document.getElementById(name).innerHTML = "Không hợp lệ !";
+            } else if(!checkProductionBatchName(document.getElementById(production_batch_id).value, supplier_id)) {
+                document.getElementById(name).innerHTML = "Lô sản phẩm đã tồn tại !";
             } else {
                 document.getElementById(name).innerHTML = "";
             }
@@ -537,6 +543,21 @@
         const checkNumber = (num) => {
             return /^\d+$/.test(num);
         }
+
+        const checkProductionBatchName = (name, supplier_id) => {
+            let storageSupplierOrder = "supplier" + "_" + supplier_id;
+            if (localStorage.getItem(storageSupplierOrder) !== null) {
+                let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
+                let parsedObject = JSON.parse(retrievedProductObject);
+                for (let i = 0; i < parsedObject.length; i++) {
+                    if(parsedObject[i].production_batch_name === name)
+                        return 0;
+                }
+                return 1;
+            }
+            return 1;
+        }
+
         /**
          * Handle when chose supplier
          */

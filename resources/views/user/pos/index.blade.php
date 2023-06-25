@@ -430,7 +430,11 @@
 {{--                                                                    <input type="hidden" name="product_code" value="{{$data->product_code}}">--}}
                                                                     <option value="" disabled selected>Lô sản xuất</option>
                                                                     @foreach($data->production_batch as $key_production_batch => $data_production_batch)
-                                                                        <option value={{$data_production_batch->id}}>{{$data_production_batch->production_batch_name}}</option>
+                                                                        @if($data_production_batch->expired_status)
+                                                                            <option value={{$data_production_batch->id}}>{{$data_production_batch->production_batch_name}}</option>
+                                                                        @else
+                                                                            <option value={{$data_production_batch->id}} disabled>{{$data_production_batch->production_batch_name}}</option>
+                                                                        @endif
                                                                     @endforeach
                                                                 </select>
 {{--                                                                <p style="margin-bottom: 0px; color: blue"></p>--}}
@@ -554,7 +558,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
-                        <button type="submit" class="btn btn-danger" onclick="handlePayOrderSuccess()">Đồng ý</button>
+                        <button type="button" class="btn btn-danger" onclick="handlePayOrderSuccess()">Đồng ý</button>
                     </div>
                 </div>
             </div>
@@ -679,7 +683,7 @@
             total_price_order = 0;
             setTimeout(function(){
                 window.location.reload();
-            }, 800);
+            }, 1000);
         };
 
         /**

@@ -121,7 +121,7 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
                         "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
             ->where("orders.status", 2)
-            ->orderBy("products.id", "ASC")
+            ->orderBy("orders.order_time", "DESC")
             ->get();
         return $listOrders;
     }
@@ -142,7 +142,8 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
                 "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
             ->where("production_batches.expired_time", "<=", $date)
-            ->orderBy("products.id", "ASC")
+            ->where("orders.status", 2)
+            ->orderBy("production_batches.expired_time", "DESC")
             ->get();
         return $listOrders;
     }
@@ -176,7 +177,8 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
                 "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
 //            ->where("production_batches.expired_time", "<=", $nextDate)
             ->where("production_batches.expired_time", ">=", $date)
-            ->orderBy("products.id", "ASC")
+            ->where("orders.status", 2)
+            ->orderBy("production_batches.expired_time", "DESC")
             ->get();
         return $listOrders;
     }

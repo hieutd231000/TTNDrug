@@ -38,9 +38,9 @@ class PosController extends Controller
                 $product->current_price = null;
             }
             $product->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($product->id);
-//            foreach ($product->production_batch as $production_batch) {
-//                $production_batch->amount = intval($this->productionBatchRepository->getAmountByProductionBatchId($production_batch->id)) ;
-//            }
+            foreach ($product->production_batch as $production_batch) {
+                $production_batch->expired_status = $this->productionBatchRepository->statusProductionBatch($production_batch->expired_time);
+            }
         }
         $productionBatchAmount = $this->productionBatchRepository->getAmountByProductionBatchId();
 //        dd($productionBatchAmount);

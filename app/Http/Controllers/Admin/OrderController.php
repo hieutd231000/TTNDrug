@@ -46,6 +46,9 @@ class OrderController extends Controller
             foreach ($listProductBySupplierId as $productBySupplierId) {
                 $productBySupplierId[0]->production_batch_id = "production_batch_" . $productBySupplierId[0]->id;
                 $productBySupplierId[0]->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($productBySupplierId[0]->id);
+                foreach ($productBySupplierId[0]->production_batch as $production_batch) {
+                    $production_batch->expired_status = $this->productionBatchRepository->statusProductionBatch($production_batch->expired_time);
+                }
             }
             $supplierDetail = $this->supplierRepository->find($id);
             return view("admin.page.orders.index", [

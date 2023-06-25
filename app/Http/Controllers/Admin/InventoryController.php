@@ -18,14 +18,23 @@ class InventoryController extends Controller
      * @var
      */
     protected $productRepository;
+    protected $productionBatchRepository;
 
-    public function __construct(ProductRepositoryInterface $productRepository)
+    public function __construct(ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
+        $this->productionBatchRepository = $productionBatchRepository;
     }
 
     public function index(Request $request) {
         $listProduct = $this->productRepository->getListProductInInventory();
+        foreach ($listProduct as $product) {
+            $product->expired_status = $this->productionBatchRepository->statusProductionBatch($product->expired_time);
+            if((int)$product->amount < 10) {
+                $product->out_of_status = 0;
+            } else
+                $product->out_of_status = 1;
+        }
         return view("admin.page.inventories.index", ["listProductInventory" => $listProduct]);
     }
 
