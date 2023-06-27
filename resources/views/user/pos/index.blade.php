@@ -268,8 +268,14 @@
         width: 150px;
         height: 150px;
         border-radius: 50%;
-        background: #1ab394;
+        /*background: #1ab394;*/
         position: absolute;
+    }
+    .checkmark-circle .background-success {
+        background: #1ab394;
+    }
+    .checkmark-circle .background-failed {
+        background: red;
     }
     #success_tic .checkmark-circle .checkmark {
         border-radius: 5px;
@@ -546,21 +552,24 @@
         <!-- /.content -->
         <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn thanh toán giỏ hàng này?</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                <form>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn thanh toán giỏ hàng này?</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" style="border: none">
+                            Một khi thanh toán thì bạn sẽ không thể phục hồi !
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                            <button type="button" class="btn btn-danger" onclick="handlePayOrderSuccess()">Đồng ý</button>
+                        </div>
                     </div>
-                    <div class="modal-body" style="border: none">
-                        Một khi thanh toán thì bạn sẽ không thể phục hồi !
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
-                        <button type="button" class="btn btn-danger" onclick="handlePayOrderSuccess()">Đồng ý</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
         {{--Success Modal--}}
@@ -570,7 +579,7 @@
                 <div class="modal-content" style="position: absolute; top: 80px; right: -45px">
                     <div class="page-body">
                         <div class="head">
-                            <h3 style="margin-bottom: 15px">Thanh toán đơn hàng thành công</h3>
+                            <h3 id="notification" style="margin-bottom: 15px"></h3>
                         </div>
                         <h1 style="text-align:center;">
                             <div class="checkmark-circle">
@@ -678,12 +687,34 @@
         };
         const handlePayOrderSuccess = () => {
             $("#confirmModal").modal("hide");
-            $("#success_tic").modal("show");
-            removeItemStorage();
-            total_price_order = 0;
-            setTimeout(function(){
-                window.location.reload();
-            }, 1000);
+            var _token = $("input[name='_token']").val();
+            let storageSupplierOrder = "cartStorage";
+            let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
+            let listProductObject = JSON.parse(retrievedProductObject);
+            $.ajax({
+                url: "/admin/inventories/ordered-success",
+                type:'POST',
+                data: {_token:_token, listProductObject: listProductObject},
+                success: function(response) {
+                    document.getElementById("notification").innerHTML = response["message"];
+                    document.getElementsByClassName("background")[0].classList.remove("background-failed");
+                    document.getElementsByClassName("background")[0].classList.add("background-success");
+                    $("#success_tic").modal("show");
+                    removeItemStorage();
+                    total_price_order = 0;
+                    setTimeout(function(){
+                        window.location.reload();
+                    }, 1000);
+                },
+                error: function (err) {
+                    document.getElementById("notification").innerHTML = err["responseJSON"]["message"];
+                    document.getElementsByClassName("background")[0].classList.remove("background-success");
+                    document.getElementsByClassName("background")[0].classList.add("background-failed");
+                    $("#success_tic").modal("show");
+                    console.log(err);
+                }
+            });
+
         };
 
         /**
@@ -764,7 +795,9 @@
             if(!document.getElementById(id).value || !document.getElementById(code).value) {
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
             } else if(!checkNumber(document.getElementById(id).value)) {
-                document.getElementById(name).innerHTML = "Nhập lại !";
+                document.getElementById(name).innerHTML = "Sai định dạng !";
+            } else if(parseInt(document.getElementById(id).value) === 0) {
+                document.getElementById(name).innerHTML = "Số lượng phải lớn hơn 0 !";
             } else if(!checkProductionBatchName(getProductionBatchNameById(document.getElementById(code).value))) {
                 document.getElementById(name).innerHTML = "Lô sản phẩm đã tồn tại !";
             } else if(!checkProductionBatchAmount(document.getElementById(code).value, document.getElementById(id).value)) {

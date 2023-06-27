@@ -65,9 +65,11 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
      */
     public function getAmountByProductionBatchId() {
         return DB::table("order_products")
+            ->join("orders", "orders.id", "=", "order_products.order_id")
             ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
             ->select("production_batches.production_batch_name", "order_products.production_batch_id", "order_products.product_id", DB::raw('SUM(order_products.amount) AS total_amount'))
             ->groupBy("order_products.production_batch_id", "order_products.product_id", "production_batches.production_batch_name")
+            ->where("orders.status", 2)
             ->get();
     }
 }

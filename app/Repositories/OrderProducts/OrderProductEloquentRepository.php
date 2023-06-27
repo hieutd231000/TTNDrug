@@ -70,4 +70,32 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
             ->first();
         return $product->id;
     }
+
+    public function orderedSuccess($product_name, $production_batch_name, $amount) {
+        $total = intval($amount);
+        $listProductInventory = DB::table('order_products')
+            ->select("order_products.*")
+            ->join("orders", "orders.id", "=" ,"order_products.order_id")
+            ->join("products", "products.id", "=" ,"order_products.product_id")
+            ->join("production_batches", "production_batches.id", "=" ,"order_products.production_batch_id")
+            ->where("orders.status", 2)
+            ->where("products.product_name", $product_name)
+            ->where("production_batches.production_batch_name", $production_batch_name)
+            ->orderBy("orders.order_time", "ASC")
+            ->get();
+        foreach ($listProductInventory as $product) {
+//            dd(intval($product->amount));
+            if(intval($product->amount) >= $total) {
+                DB::table('order_products')
+                    ->where('id', $product->id)
+                    ->update(['amount' => intval($product->amount) - $total]);
+                break;
+            } else {
+                $total = $total - intval($product->amount);
+                DB::table('order_products')
+                    ->where('id', $product->id)
+                    ->update(['amount' => '0']);
+            }
+        }
+    }
 }

@@ -90,14 +90,14 @@
                                         <th>STT</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Danh mục</th>
-                                        <th>Mã đơn hàng</th>
+                                        <th>Đơn hàng</th>
                                         <th>Lô sản xuất</th>
-                                        <th>Tên nhà cung cấp</th>
+                                        <th>Nhà cung cấp</th>
                                         <th>Đơn giá</th>
                                         <th>Số lượng</th>
                                         <th>Ngày đặt hàng</th>
                                         <th>Ngày hết hạn</th>
-                                        <th>Tình trạng</th>
+{{--                                        <th>Tình trạng</th>--}}
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -113,10 +113,10 @@
                                             <td>{{$data->amount}}</td>
                                             <td>{{$data->order_time}}</td>
                                             <td>{{$data->expired_time}}</td>
-                                            @if(!$data->expired_status)
-                                                <td>
-                                                    <button class="btn btn-danger" disabled style="opacity: 1 !important">Hết hạn</button>
-                                                </td>
+{{--                                            @if(!$data->expired_status)--}}
+{{--                                                <td>--}}
+{{--                                                    <button class="btn btn-danger" disabled style="opacity: 1 !important">Hết hạn</button>--}}
+{{--                                                </td>--}}
 {{--                                            @elseif(!$data->out_of_status)--}}
 {{--                                                <td>--}}
 {{--                                                    <button class="btn btn-warning" disabled style="opacity: 1 !important">Sắp hết hàng</button>--}}
@@ -125,7 +125,7 @@
 {{--                                                <td>--}}
 {{--                                                    <button class="btn btn-success" disabled style="opacity: 1 !important">Còn hàng</button>--}}
 {{--                                                </td>--}}
-                                            @endif
+{{--                                            @endif--}}
                                         </tr>
                                     @endforeach
 

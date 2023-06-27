@@ -479,7 +479,11 @@
             if(!document.getElementById(id).value || !document.getElementById(code).value || !document.getElementById(production_batch_id).value) {
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
             } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
-                document.getElementById(name).innerHTML = "Không hợp lệ !";
+                document.getElementById(name).innerHTML = "Sai định dạng !";
+            } else if(parseInt(document.getElementById(code).value) === 0) {
+                document.getElementById(name).innerHTML = "Giá nhập phải lớn hơn 0 !";
+            } else if(parseInt(document.getElementById(id).value) === 0 ) {
+                document.getElementById(name).innerHTML = "Số lượng phải lớn hơn 0 !";
             } else if(!checkProductionBatchName(document.getElementById(production_batch_id).value, supplier_id)) {
                 document.getElementById(name).innerHTML = "Lô sản phẩm đã tồn tại !";
             } else {

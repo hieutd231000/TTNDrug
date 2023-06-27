@@ -11,6 +11,7 @@ use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class InventoryController extends Controller
 {
@@ -19,11 +20,15 @@ class InventoryController extends Controller
      */
     protected $productRepository;
     protected $productionBatchRepository;
+    protected $orderProductRepository;
+    protected $response;
 
-    public function __construct(ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
+    public function __construct(ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
         $this->productionBatchRepository = $productionBatchRepository;
+        $this->orderProductRepository = $orderProductRepository;
+        $this->response = $response;
     }
 
     public function index(Request $request) {
@@ -47,5 +52,18 @@ class InventoryController extends Controller
         $listExpiredProduct = $this->productRepository->getListExpiredProductInventory();
         $listNextExpiredProduct = $this->productRepository->getListNextExpiredProductInventory();
         return view("admin.page.inventories.expired", ["listExpiredProduct" => $listExpiredProduct, "listNextExpiredProduct" => $listNextExpiredProduct]);
+    }
+
+    public function orderedSuccess(Request $request) {
+        try {
+            foreach ($request->listProductObject as $product) {
+                $this->orderProductRepository->orderedSuccess($product["product_name"], $product["production_batch_name"], $product["amount"]);
+            }
+            return $this->response->success(null, 200, 'Thanh toán đơn hàng thành công');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Thanh toán đơn hàng thất bại');
+        }
+
     }
 }
