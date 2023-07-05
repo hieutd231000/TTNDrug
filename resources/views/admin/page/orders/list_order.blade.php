@@ -248,11 +248,63 @@
             </div>
         </div>
         <!-- /.content -->
+        <div class="modal fade" id="receivedOrderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thông tin nhận hàng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="order_received_id" value="">
+                            <div class="form-group">
+                                <div class="form-block" style="margin-bottom: 3px !important;">
+                                    <input type="text" class="form-control" value="{{ old("order_time") }}" name="order_time" placeholder="Thời gian nhận hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker" autocomplete="off"/>
+                                </div>
+                                <div id="help-block-order_time" style="color: red">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <select data-placeholder="Lựa chọn người nhận hàng..." multiple class="chosen-select" style="margin-bottom: 3px" name="user_choice">
+                                    <option value=""></option>
+                                    @foreach($listUser as $key => $data)
+                                        <option value="{{$data->id}}">{{$data->fullname}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="help-block-user-choice" style="color: red">
+                                </div>
+                                <div id="help-block-success-order-received" style="color: red">
+                                </div>
+                            </div>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                <button type="submit" class="btn btn-primary handleReceivedOrderModal">Xác nhận</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @section("custom-js")
     <script>
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            format:'DD/MM/YYYY HH:mm:ss',
+            maxDate: getFormattedDate(new Date())
+        });
+        function getFormattedDate(date) {
+            var day = date.getDate() + 1;
+            var month = date.getMonth() + 1;
+            var year = date.getFullYear().toString().slice(2);
+            return month + '-' + day + '-' + year;
+        }
         /**
          * Datatable
          */
@@ -305,42 +357,68 @@
 
             $(".receivedOrder").click(function(e){
                 e.preventDefault();
-                var _token = $("input[name='_token']").val();
+                // var _token = $("input[name='_token']").val();
                 var id = $("input[name='order_id']").val();
-                $.ajax({
-                    url: "/admin/orders/received-order",
-                    type:'POST',
-                    data: {_token:_token, id:id},
-                    success: function(response) {
-                        setTimeout(function(){
-                            location.reload();
-                        }, 300);
-                    },
-                    error: function (err) {
-                        console.log(err);
-                    }
-                });
+                $("input[name='order_received_id']").val(id);
+                $("#changeStatusModal").modal("hide");
+                $("#receivedOrderModal").modal("show");
+                // $.ajax({
+                //     url: "/admin/orders/received-order",
+                //     type:'POST',
+                //     data: {_token:_token, id:id},
+                //     success: function(response) {
+                //         setTimeout(function(){
+                //             location.reload();
+                //         }, 300);
+                //     },
+                //     error: function (err) {
+                //         console.log(err);
+                //     }
+                // });
             });
 
+            $(".handleReceivedOrderModal").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var order_id = $("input[name='order_received_id']").val();
+                var order_time = $("input[name='order_time']").val();
+                var user_id = $("select[name='user_choice']").val();
+                var blockErrOrderTime = document.getElementById("help-block-order_time");
+                var blockErrUserChoice = document.getElementById("help-block-user-choice");
+                var blockSuccessOrderReceived = document.getElementById("help-block-success-order-received");
+                console.log(user_id);
+                // Check validate
+                if(!order_time) {
+                    blockErrOrderTime.innerHTML = "Mời bạn nhập ngày nhận hàng";
+                } else {
+                    blockErrOrderTime.innerHTML = "";
+                }
+                if(!user_id.length) {
+                    blockErrUserChoice.innerHTML = "Mời bạn chọn người dùng";
+                } else {
+                    blockErrUserChoice.innerHTML = "";
+                }
+                if(!blockErrUserChoice.innerHTML && !blockErrOrderTime.innerHTML){
+                    $.ajax({
+                        url: "/admin/orders/received-order",
+                        type:'POST',
+                        data: {_token:_token, order_id:order_id, order_user_received_id:user_id, order_received_time:order_time},
+                        success: function(response) {
+                            // setTimeout(function(){
+                            //     location.reload();
+                            // }, 300);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                }
+            });
         });
 
         const changeStatusOrder = (id) => {
             $("input[name='order_id']").val(id);
             $("#changeStatusModal").modal("show");
-            // e.preventDefault();
-            // var _token = $("input[name='_token']").val();
-            // var id = $("input[name='order_id']").val();
-            // $.ajax({
-            //     url: "/admin/orders/change-status-order",
-            //     type: 'POST',
-            //     data: {_token: _token, id: id},
-            //     success: function (response) {
-            //         // console.log(response);
-            //     },
-            //     error: function (err) {
-            //         console.log(err);
-            //     }
-            // });
         }
 
         const checkNumber = (num) => {
@@ -365,6 +443,19 @@
                 }
             });
         }
-
+        /**
+         * Chosen jquery
+         */
+        $(".chosen-select").chosen({
+            width: "100%",
+        })
+        $(".chosen-choices").css('font-size','14px');
+        $(".chosen-choices").css('border','1px solid #ced4da');
+        $(".chosen-choices").css('border-radius','0.25rem');
+        $(".chosen-choices").css('min-height','38px');
+        $(".search-field").css('margin-left','7px');
+        $(".search-field").css('margin-top','4px');
+        $(".search-choice").css('font-size','16px');
+        $(".chosen-results").css('font-size','16px');
     </script>
 @endsection

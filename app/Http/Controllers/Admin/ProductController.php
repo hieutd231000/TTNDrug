@@ -169,14 +169,14 @@ class ProductController extends Controller
         if($product->product_name != $request["product_name"] && $product->product_code != $request["product_code"]) {
             $invalid = [];
             $invalidCode = [];
-            foreach ($listName as $data) {
-                if($data == $request["product_name"]) {
-                    $invalid = ["Tên sản phảm này đã được sử dụng", $data];
-                }
-            }
+//            foreach ($listName as $data) {
+//                if($data == $request["product_name"]) {
+//                    $invalid = ["Tên sản phảm này đã được sử dụng", $data];
+//                }
+//            }
             foreach ($listProductCode as $data) {
                 if($data == $request["product_code"]) {
-                    $invalidCode = ["Mã sản phảm này đã được sử dụng", $data];
+                    $invalidCode = ["Mã sản phẩm này đã được sử dụng", $data];
                 }
             }
             if($invalid && $invalidCode) {
@@ -197,14 +197,15 @@ class ProductController extends Controller
                     return redirect()->back()->with("invalidCode", $invalidCode);
                 }
             }
-        } else if($product->product_name != $request["product_name"]) {
-            foreach ($listName as $data) {
-                if($data == $request["product_name"]) {
-                    $invalid = ["Tên sản phảm này đã được sử dụng", $data];
-                    return redirect()->back()->with("invalid", $invalid);
-                }
-            }
         }
+//        else if($product->product_name != $request["product_name"]) {
+//            foreach ($listName as $data) {
+//                if($data == $request["product_name"]) {
+//                    $invalid = ["Tên sản phảm này đã được sử dụng", $data];
+//                    return redirect()->back()->with("invalid", $invalid);
+//                }
+//            }
+//        }
 
         try {
             $file = $request->file("product_image");

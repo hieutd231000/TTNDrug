@@ -17,6 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->string('fullname');
             $table->string('dob')->nullable();
             $table->string('avatar')->nullable();
             $table->tinyInteger('gender');

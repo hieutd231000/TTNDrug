@@ -68,6 +68,7 @@ class UserController extends Controller
      */
     public function store(Request $request) {
         $data = $request->except(['fb', 'ig', 'twitter']);
+        $data["fullname"] = $request["firstname"]." ".$request["lastname"];
         $data['password'] = Hash::make($data['password']);
         $data1 = $request->except(['firstname', 'lastname', 'dob', 'gender', 'role', 'phone', 'address', 'introduce', 'email', 'password']);
         try {

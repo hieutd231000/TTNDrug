@@ -287,9 +287,9 @@
                                             <option value="{{$data[0]->id}}">{{$data[0]->product_name}}</option>
                                         @endforeach
                                     </select>
-                                    <div id="help-block-delete-product" style="color: red">
+                                    <div id="help-block-delete-product" style="color: red; margin-top: 5px">
                                     </div>
-                                    <div id="help-block-success-delete" style="color: red">
+                                    <div id="help-block-success-delete" style="color: red; margin-top: 5px">
                                     </div>
                                 </div>
                                 <div class="float-right">
@@ -387,7 +387,7 @@
                 blockSuccessDelete.innerHTML = "";
                 console.log(product_id);
                 // Check validate
-                if(!product_id) {
+                if(!product_id.length) {
                     blockErrProductDelete.innerHTML = "Mời bạn chọn sản phẩm";
                 } else {
                     blockErrProductDelete.innerHTML = "";

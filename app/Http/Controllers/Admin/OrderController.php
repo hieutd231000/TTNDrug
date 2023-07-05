@@ -9,6 +9,7 @@ use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
+use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -18,19 +19,21 @@ class OrderController extends Controller
      * @var
      */
     protected $productRepository;
+    protected $userRepository;
     protected $supplierRepository;
     protected $orderRepository;
     protected $orderProductRepository;
     protected $productionBatchRepository;
     protected $response;
 
-    public function __construct(ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
+    public function __construct(UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->supplierRepository = $suppierRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
         $this->productionBatchRepository = $productionBatchRepository;
+        $this->userRepository = $userRepository;
         $this->response = $response;
     }
 
@@ -93,6 +96,8 @@ class OrderController extends Controller
         //List Order Verify
         $listOrderUnverified = $this->orderRepository->getOrderUnVerify();
         $listAllOrder = $this->orderRepository->getAllOrder();
+        //List User
+        $listUser = $this->userRepository->listAll();
         return view("admin.page.orders.list_order", [
             'listProduct' => $listProduct,
             'listSupplier' => $listSupplier,
@@ -100,6 +105,7 @@ class OrderController extends Controller
 //            'listSupplierName' => $listSupplierName,
             'listOrderUnverified' => $listOrderUnverified,
             'listAllOrder' => $listAllOrder,
+            'listUser' => $listUser,
             'rank' => 1,
             'rankOrder' => 1
         ]);
@@ -174,6 +180,7 @@ class OrderController extends Controller
      * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function receivedOrder(Request $request) {
+        dd($request->all());
         $order = $this->orderRepository->find($request["id"]);
         if(empty($order)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
