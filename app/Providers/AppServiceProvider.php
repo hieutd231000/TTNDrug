@@ -12,6 +12,10 @@ use App\Repositories\Inventories\InventoryEloquentRepository;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
+use App\Repositories\OrderReceived\OrderReceivedEloquentRepository;
+use App\Repositories\OrderReceived\OrderReceivedRepositoryInterface;
+use App\Repositories\OrderReceivedUsers\OrderReceivedUsersEloquentRepository;
+use App\Repositories\OrderReceivedUsers\OrderReceivedUsersRepositoryInterface;
 use App\Repositories\Orders\OrderEloquentRepository;
 use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\ProductionBatches\ProductionBatchEloquentRepository;
@@ -88,6 +92,16 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             ProductionBatchRepositoryInterface::class,
             ProductionBatchEloquentRepository::class
+        );
+
+        $this->app->bind(
+            OrderReceivedUsersRepositoryInterface::class,
+            OrderReceivedUsersEloquentRepository::class
+        );
+
+        $this->app->bind(
+            OrderReceivedRepositoryInterface::class,
+            OrderReceivedEloquentRepository::class
         );
     }
 

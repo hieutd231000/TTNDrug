@@ -277,7 +277,7 @@
                                 </select>
                                 <div id="help-block-user-choice" style="color: red">
                                 </div>
-                                <div id="help-block-success-order-received" style="color: red">
+                                <div id="help-block-success-order-received" style="color: green">
                                 </div>
                             </div>
                             <div class="float-right">
@@ -404,9 +404,10 @@
                         type:'POST',
                         data: {_token:_token, order_id:order_id, order_user_received_id:user_id, order_received_time:order_time},
                         success: function(response) {
-                            // setTimeout(function(){
-                            //     location.reload();
-                            // }, 300);
+                            blockSuccessOrderReceived.innerHTML = "Xác nhận nhận đơn hàng thành công";
+                            setTimeout(function(){
+                                location.reload();
+                            }, 600);
                         },
                         error: function (err) {
                             console.log(err);

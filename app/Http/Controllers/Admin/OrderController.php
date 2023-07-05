@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
+use App\Repositories\OrderReceived\OrderReceivedRepositoryInterface;
+use App\Repositories\OrderReceivedUsers\OrderReceivedUsersRepositoryInterface;
 use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
@@ -23,15 +25,19 @@ class OrderController extends Controller
     protected $supplierRepository;
     protected $orderRepository;
     protected $orderProductRepository;
+    protected $orderReceivedRepository;
+    protected $orderReceivedUserRepository;
     protected $productionBatchRepository;
     protected $response;
 
-    public function __construct(UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
+    public function __construct(OrderReceivedRepositoryInterface $orderReceivedRepository, OrderReceivedUsersRepositoryInterface $orderReceivedUsersRepository, UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->supplierRepository = $suppierRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
+        $this->orderReceivedRepository = $orderReceivedRepository;
+        $this->orderReceivedUserRepository = $orderReceivedUsersRepository;
         $this->productionBatchRepository = $productionBatchRepository;
         $this->userRepository = $userRepository;
         $this->response = $response;
@@ -180,12 +186,21 @@ class OrderController extends Controller
      * @return \App\Helpers\JsonResponse|\Illuminate\Http\RedirectResponse
      */
     public function receivedOrder(Request $request) {
-        dd($request->all());
-        $order = $this->orderRepository->find($request["id"]);
+        $order = $this->orderRepository->find($request["order_id"]);
         if(empty($order)) {
             return redirect()->back()->with("failed", trans("auth.empty"));
         }
         try {
+            $data = $request->except(['order_user_received_id']);
+            $data["order_user_confirm_id"] = auth()->user()->id;
+            $orderReceived = $this->orderReceivedRepository->create($data);
+            if($orderReceived->id) {
+                foreach ($request["order_user_received_id"] as $userData) {
+                    $data1["order_received_id"] = $orderReceived->id;
+                    $data1["order_user_received_id"] = $userData;
+                    $this->orderReceivedUserRepository->create($data1);
+                }
+            }
             $this->orderRepository->receivedOrder($order->id);
             return $this->response->success(null, 200, 'Nhận đơn hàng thành công');
         } catch (\Exception $exception) {
