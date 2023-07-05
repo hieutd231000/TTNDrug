@@ -204,7 +204,13 @@
          */
         $(function () {
             $("#products").DataTable({
-                buttons: ["copy", "excel", "pdf", "print"],
+                buttons: [
+                    "copy", "excel", "pdf",
+                    {
+                        extend: 'print',
+                        text: 'In',
+                    }
+                ],
                 paging: true,
                 ordering: false,
                 autoWidth: true,
@@ -230,9 +236,9 @@
                 .appendTo("#products_wrapper .col-md-6:eq(0)");
         });
 
-        $('#myInput').on( 'keyup', function () {
-            table.search( this.value ).draw();
-        } );
+        // $('#myInput').on( 'keyup', function () {
+        //     table.search( this.value ).draw();
+        // } );
 
         /**
          * Confirm delete category

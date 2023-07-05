@@ -225,7 +225,7 @@
                         "next":       "Sau",
                         "previous":   "Trước"
                     },
-                    "infoFiltered": "(filtered from _MAX_ total records)"
+                    "infoFiltered": ""
                 }
             })
                 .buttons()

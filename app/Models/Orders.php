@@ -18,7 +18,8 @@ class Orders extends Model
         'supplier_id',
         'detail',
         'status',
-        'order_time'
+        'order_time',
+        'user_order_id'
     ];
 
     protected $primaryKey = "id";

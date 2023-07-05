@@ -158,6 +158,7 @@
                                     @if($totalProduct)
                                         <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá sản phẩm</button>
                                     @endif
+                                    <a class="btn btn-success" href="/admin/orders/{{$supplierDetail->id}}/product">Đặt hàng</a>
                                 </div>
                             </div>
                             <div class="card-body" style="padding-top: 0px !important;">

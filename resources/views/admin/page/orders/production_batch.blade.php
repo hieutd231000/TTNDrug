@@ -54,6 +54,7 @@
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <a href="" class="btn btn-raised g-bg-cyan float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm lô sản xuất</a>
+                        <a href="/admin/orders/{{0}}/product" style="margin-right: 5px" class="btn btn-success float-right mt-2">Đặt hàng</a>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -319,7 +320,7 @@
                 if(!productionBatchName) {
                     blockErrProductionBatchName.innerHTML = "Không được bỏ trống";
                 } else if(checkProductionBatchName(productionBatchName)) {
-                    blockErrProductionBatchName.innerHTML = "Mã đơn hàng đã được sử dụng";
+                    blockErrProductionBatchName.innerHTML = "Tên lô sản xuất đã được sử dụng";
                 } else {
                     blockErrProductionBatchName.innerHTML = "";
                 }

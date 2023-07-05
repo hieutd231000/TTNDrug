@@ -264,8 +264,8 @@
                                     </div>
                                     <div class="row clearfix">
                                         <div class="col-sm-12">
-                                            <button type="button" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
-                                            <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
+                                            <button type="button" id="handleSubmitBtn" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
+                                            <button type="button" id="handleCancelBtn" class="btn btn-cancel handleCancel">Huỷ</button>
                                         </div>
                                     </div>
                                 </form>
@@ -361,7 +361,7 @@
                             blockErrOrderTime.innerHTML = "";
                             removeItemStorage(supplierDetail["id"]);
                             setTimeout(function(){
-                                window.location.href = "/admin/orders/0/product";
+                                window.location.href = "/admin/list-orders";
                             }, 1200);
                         },
                         error: function (err) {

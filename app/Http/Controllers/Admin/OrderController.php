@@ -64,21 +64,21 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-     * Confirm order
-     *
-     * @param Request $request
-     * @param $id
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|void
-     */
-    public function confirmOrder(Request $request, $id) {
-        $listOrderCode = $this->orderRepository->getAllOrderCode($id);
-        $supplierDetail = $this->supplierRepository->find($id);
-        return view("admin.page.orders.confirm", [
-            'supplierDetail' => $supplierDetail,
-            'listOrderCode' => $listOrderCode
-        ]);
-    }
+//    /**
+//     * Confirm order
+//     *
+//     * @param Request $request
+//     * @param $id
+//     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|void
+//     */
+//    public function confirmOrder(Request $request, $id) {
+//        $listOrderCode = $this->orderRepository->getAllOrderCode($id);
+//        $supplierDetail = $this->supplierRepository->find($id);
+//        return view("admin.page.orders.confirm", [
+//            'supplierDetail' => $supplierDetail,
+//            'listOrderCode' => $listOrderCode
+//        ]);
+//    }
 
     /**
      * @param Request $request
@@ -112,6 +112,7 @@ class OrderController extends Controller
     public function store(Request $request) {
         $orderData = $request->except(['listProduct']);
         $orderData["status"] = 0;
+        $orderData["user_order_id"] = auth()->user()->id;
         $orderProductData = $request->only(['listProduct']);
         try {
             $newOrder = $this->orderRepository->create($orderData);
@@ -120,7 +121,8 @@ class OrderController extends Controller
                     $orderData["product_id"] = $this->productRepository->nameToId($orderData["product_name"]);
                     $orderData["production_batch_id"] = $this->orderProductRepository->nameToId($orderData["production_batch_name"]);
                     $orderData["order_id"] = $newOrder->id;
-                    unset($orderData["product_name"]);
+                    $orderData["price_amount"] = $orderData["price"];
+                    unset($orderData["product_name"], $orderData["price"], $orderData["category_name"], $orderData["production_batch_name"]);
                     $this->orderProductRepository->create($orderData);
                 }
             }
