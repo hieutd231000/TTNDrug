@@ -350,8 +350,8 @@
                                         <div class="row clearfix">
                                             <div class="col-sm-12">
                                                 <form class="form-inline">
-                                                    <input class="form-control" type="search" style="width: 90%" placeholder="Nhập tên sản phẩm" aria-label="Search">
-                                                    <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>
+                                                    <input class="form-control" type="search" id="productNameSearch" name="productNameSearch" style="width: 90%" placeholder="Nhập tên sản phẩm" aria-label="Search">
+                                                    <button class="btn btn-primary handleProductNameSearch" type="submit" style="width: 10%">Tìm kiếm</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -594,6 +594,13 @@
             if(supplierDetailId) {
                 buildTableReload(supplierDetailId);
             }
+            //Handle search product
+            $(".handleProductNameSearch").click(function(e){
+                e.preventDefault();
+                let productNameSearch = $("input[name='productNameSearch']").val();
+                alert(productNameSearch);
+            });
+
             //Handle add new orders
             $(".handleOrder").click(function(e){
                 e.preventDefault();
