@@ -208,7 +208,13 @@
          */
         $(function () {
             $("#products").DataTable({
-                buttons: ["copy", "excel", "pdf", "print"],
+                buttons: [
+                    "copy", "excel", "pdf",
+                    {
+                        extend: 'print',
+                        text: 'In',
+                    }
+                ],
                 paging: true,
                 ordering: true,
                 autoWidth: true,

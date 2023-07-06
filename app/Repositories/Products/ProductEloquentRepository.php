@@ -134,6 +134,7 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = date('d/m/Y H:i:s', time());
+        $currentDates = explode(" ", $date);
         $listOrders = DB::table("orders")
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
             ->join("order_products", "order_products.order_id", "=", "orders.id")
@@ -142,11 +143,36 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
             ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
                 "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
-            ->where("production_batches.expired_time", "<=", $date)
+//            ->where("production_batches.expired_time", "<=", $date)
             ->where("orders.status", 2)
             ->where("order_products.amount", '>', 0)
             ->orderBy("production_batches.expired_time", "DESC")
             ->get();
+        foreach ($listOrders as $listOrder) {
+            $expiredTimes = explode(" ", $listOrder->expired_time);
+            $currentDays = explode("/", $currentDates[0]);
+            $expiredDays = explode("/", $expiredTimes[0]);
+            //CheckCurrentDay
+            if($expiredDays[2] > $currentDays[2]) {
+                $listOrder->check_expired_time = 0;
+            } else if($expiredDays[2] == $currentDays[2]) {
+                if($expiredDays[1] > $currentDays[1]) {
+                    $listOrder->check_expired_time = 0;
+                } else if($expiredDays[1] == $currentDays[1]) {
+                    if($expiredDays[0] > $currentDays[0]) {
+                        $listOrder->check_expired_time = 0;
+                    } else if($expiredDays[0] == $currentDays[0]) {
+                        $listOrder->check_expired_time = 1;
+                    } else {
+                        $listOrder->check_expired_time = 1;
+                    }
+                } else {
+                    $listOrder->check_expired_time = 1;
+                }
+            } else {
+                $listOrder->check_expired_time = 1;
+            }
+        }
         return $listOrders;
     }
 
@@ -157,8 +183,8 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         $date = date('d/m/Y H:i:s', time());
-        $dates = explode(" ", $date);
-        $days = explode("/", $dates[0]);
+        $currentDates = explode(" ", $date);
+        $days = explode("/", $currentDates[0]);
         if($days[1] != "12") {
             if($days[1] == "09" || $days[1] == "10" || $days[1] == "11")
                 $days[1] =(string)((int)$days[1] + 1);
@@ -168,27 +194,82 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             $days[1] = "01";
             $days[2] = (string)((int)$days[2] + 1);
         }
-        $nextDate = $days[0] . "/" . $days[1] . "/". $days[2] . " " . $dates[1];
+        $nextDate = $days[0] . "/" . $days[1] . "/". $days[2];
         $listOrders = DB::table("orders")
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
             ->join("order_products", "order_products.order_id", "=", "orders.id")
             ->join("products", "products.id", "=", "order_products.product_id")
             ->join("categories", "categories.id", "=", "products.category_id")
             ->join("production_batches", "production_batches.id", "=", "order_products.production_batch_id")
-            ->select("products.product_name", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
+            ->select("products.product_name", "products.product_code", "categories.name as category_name", "suppliers.name as supplier_name", "orders.order_time", "orders.order_code", "production_batches.production_batch_name",
                 "order_products.amount", "order_products.price_amount as price", "production_batches.expired_time")
-//            ->where("production_batches.expired_time", "<=", $nextDate)
-            ->where("production_batches.expired_time", ">=", $date)
+//            ->whereTime("production_batches.expired_time", "<=", $nextDate)
+//            ->whereTime("production_batches.expired_time", ">=", $date)
             ->where("orders.status", 2)
             ->where("order_products.amount", '>', 0)
             ->orderBy("production_batches.expired_time", "DESC")
             ->get();
+        foreach ($listOrders as $listOrder) {
+            $expiredTimes = explode(" ", $listOrder->expired_time);
+            // dd($currentDates[0]);
+            // dd($nextDate);
+            // dd($expiredTimes[0]);
+            $currentDays = explode("/", $currentDates[0]);
+            $expiredDays = explode("/", $expiredTimes[0]);
+            $nextDays = explode("/", $nextDate);
+
+            //CheckCurrentDay
+            if($expiredDays[2] > $currentDays[2]) {
+                $listOrder->check_next_expired_time = 0;
+            } else if($expiredDays[2] == $currentDays[2]) {
+                if($expiredDays[1] > $currentDays[1]) {
+                    $listOrder->check_next_expired_time = 0;
+                } else if($expiredDays[1] == $currentDays[1]) {
+                    if($expiredDays[0] > $currentDays[0]) {
+                        $listOrder->check_next_expired_time = 0;
+                    } else if($expiredDays[0] == $currentDays[0]) {
+                        $listOrder->check_next_expired_time = 1;
+                    } else {
+                        $listOrder->check_next_expired_time = 1;
+                    }
+                } else {
+                    $listOrder->check_next_expired_time = 1;
+                }
+            } else {
+                $listOrder->check_next_expired_time = 1;
+            }
+
+            //CheckNextDay
+            if($expiredDays[2] < $nextDays[2]) {
+                $listOrder->check_next_expired_time = 0;
+            } else if($expiredDays[2] == $nextDays[2]) {
+                if($expiredDays[1] < $nextDays[1]) {
+                    $listOrder->check_next_expired_time = 0;
+                } else if($expiredDays[1] == $nextDays[1]) {
+                    if($expiredDays[0] < $nextDays[0]) {
+                        $listOrder->check_next_expired_time = 0;
+                    } else if($expiredDays[0] == $nextDays[0]) {
+                        $listOrder->check_next_expired_time = 1;
+                    } else {
+                        $listOrder->check_next_expired_time = 1;
+                    }
+                } else {
+                    $listOrder->check_next_expired_time = 1;
+                }
+            } else {
+                $listOrder->check_next_expired_time = 1;
+            }
+        }
         return $listOrders;
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function getListOutOfStock()
     {
         $listOutOfStock = DB::table("products")
+            ->join("order_products", "order_products.product_id", "=", "products.category_id")
             ->join("categories", "categories.id", "=", "products.category_id")
             ->select("categories.name as category_name", "products.*")
             ->get();

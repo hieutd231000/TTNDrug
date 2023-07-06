@@ -95,7 +95,8 @@
                                     </div>
                                 </div>
                                 @foreach($listExpiredProduct as $key => $data)
-                                    <form>
+                                    @if($data->check_expired_time)
+                                        <form>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <div class="card-body" style="padding-bottom: 0px">
                                             <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
@@ -135,6 +136,7 @@
                                             </div>
                                         </div>
                                     </form>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
@@ -150,7 +152,8 @@
                                     </div>
                                 </div>
                                 @foreach($listNextExpiredProduct as $key => $data)
-                                    <form>
+                                    @if(!$data->check_next_expired_time)
+                                        <form>
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <div class="card-body" style="padding-bottom: 0px">
                                             <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
@@ -158,7 +161,7 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">STT</th>
+                                                            <th scope="col">Mã sản phẩm</th>
                                                             <th scope="col" style="width: 130px">Tên sản phẩm</th>
                                                             <th scope="col">Danh mục</th>
                                                             <th scope="col">Lô sản xuất</th>
@@ -170,17 +173,17 @@
                                                         </tr>
                                                         </thead>
                                                         <tbody>
-                                                        <tr>
-                                                            <td>{{++$key}}</td>
-                                                            <td>{{$data->product_name}}</td>
-                                                            <td>{{$data->category_name}}</td>
-                                                            <td>{{$data->production_batch_name}}</td>
-                                                            <td>{{$data->supplier_name}}</td>
-                                                            <td>{{$data->price}}</td>
-                                                            <td>{{$data->amount}}</td>
-                                                            <td>{{$data->order_time}}</td>
-                                                            <td>{{$data->expired_time}}</td>
-                                                        </tr>
+                                                            <tr>
+                                                                <td>{{$data->product_code}}</td>
+                                                                <td>{{$data->product_name}}</td>
+                                                                <td>{{$data->category_name}}</td>
+                                                                <td>{{$data->production_batch_name}}</td>
+                                                                <td>{{$data->supplier_name}}</td>
+                                                                <td>{{$data->price}}</td>
+                                                                <td>{{$data->amount}}</td>
+                                                                <td>{{$data->order_time}}</td>
+                                                                <td>{{$data->expired_time}}</td>
+                                                            </tr>
                                                         </tbody>
                                                     </table>
                                                 </div>
@@ -190,6 +193,7 @@
                                             </div>
                                         </div>
                                     </form>
+                                    @endif
                                 @endforeach
                             </div>
                         </div>
