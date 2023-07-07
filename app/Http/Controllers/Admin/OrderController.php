@@ -51,8 +51,21 @@ class OrderController extends Controller
         //List Order
         $listSupplier = $this->supplierRepository->listAll();
         if($id) {
+//            if(isset($request["productNameSearch"])) {
+//                try {
+//                    $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id, $request["productNameSearch"]);
+////                    dd(count($listProductBySupplierId));
+//                    return $this->response->success($listProductBySupplierId, 200, 'Lấy danh sách sản phẩm thành công');
+//                } catch (\Exception $exception) {
+//                    Log::error($exception->getMessage());
+//                    return $this->response->error(null, 500, 'Lấy danh sách sản phẩm thất bại');
+//                }
+//            } else {
+//                $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id, "");
+//            }
             $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
             foreach ($listProductBySupplierId as $productBySupplierId) {
+                $productBySupplierId[0]->search_product_name = "sch_pro_" . $productBySupplierId[0]->product_name;
                 $productBySupplierId[0]->production_batch_id = "production_batch_" . $productBySupplierId[0]->id;
                 $productBySupplierId[0]->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($productBySupplierId[0]->id);
                 foreach ($productBySupplierId[0]->production_batch as $production_batch) {

@@ -76,8 +76,15 @@
         padding: .5rem 1rem !important;
     }
     .hidden {
-        display: none;
+        display: none !important;
     }
+    .swiper-hidden-slide {
+        display:none !important;
+        float:left;
+    }
+    /*.hideElement {*/
+    /*    visibility: hidden !important;*/
+    /*}*/
     .color-red {
         color: red;
     }
@@ -413,8 +420,8 @@
                                     <div class="row clearfix">
                                         <div class="col-sm-12">
                                             <form class="form-inline">
-                                                <input class="form-control" type="search" style="width: 90%" placeholder="Nhập" aria-label="Search">
-                                                <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>
+                                                <input class="form-control" type="text" id="posNameSearch" name="posNameSearch" style="width: 100%" placeholder="Nhập" aria-label="Search">
+{{--                                                <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>--}}
                                             </form>
                                         </div>
                                     </div>
@@ -423,7 +430,7 @@
                                             <div class="slide-content">
                                                 <div class="card-wrapper swiper-wrapper">
                                                     @foreach($products as $key => $data)
-                                                        <div class="card swiper-slide">
+                                                        <div class="card swiper-slide" id="{{$data->search_product_name}}">
                                                             <div class="image-content">
                                                                 <span class="overlay"></span>
                                                                 <div class="card-image">
@@ -615,6 +622,9 @@
             });
         });
 
+        /**
+         * Swiper
+         */
         let swiper = new Swiper(".slide-content", {
             slidesPerView: 'auto',
             spaceBetween: 25,
@@ -650,6 +660,69 @@
                 },
             },
         });
+
+        /**
+         * Handle when search box
+         */
+        document.getElementById("posNameSearch").addEventListener('keyup', function(){
+            console.log(this.value);
+            const allProduct = document.querySelectorAll('[id^="pos_sch_"]');
+            // let countFindSearchProduct = 0;
+            // let countNotFindSearchProduct = 0;
+            // for(let product of allProduct) {
+            //     const product_search = product.id.split('_');
+            //     if(product_search[2].includes(this.value)) countFindSearchProduct++;
+            //     else countNotFindSearchProduct++;
+            // }
+
+            for(let product of allProduct) {
+                const product_search = product.id.split('_');
+                if(product_search[2].includes(this.value)) {
+                    console.log(product);
+                    product.classList.remove("hidden");
+                    swiper.update();
+                    // product.classList.add("swiper-slide");
+                } else {
+                    product.classList.add("hidden");
+                    swiper.update()
+                    // swiper.removeSlide($('.swiper-slide').length - 1);
+                    // product.classList.remove("swiper-slide");
+                }
+            }
+        });
+
+        /**
+         * Check validate
+         * @param num
+         * @returns {boolean}
+         */
+        const checkNumber = (num) => {
+            return /^\d+$/.test(num);
+        }
+        const checkProductionBatchAmount = (id, num) => {
+            for (let productBatchAmount of listProductBatchAmount) {
+                // console.log(productBatchAmount);
+                // console.log(productBatchAmount["production_batch_id"]);
+                if(productBatchAmount["production_batch_id"] === parseInt(id)){
+                    if(parseInt(num) <= parseInt(productBatchAmount["total_amount"]))
+                        return 1;
+                    else return 0;
+                }
+            }
+        }
+        const checkProductionBatchName = (name) => {
+            let storageSupplierOrder = "cartStorage";
+            if (localStorage.getItem(storageSupplierOrder) !== null) {
+                let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
+                let parsedObject = JSON.parse(retrievedProductObject);
+                for (let i = 0; i < parsedObject.length; i++) {
+                    if(parsedObject[i].production_batch_name === name)
+                        return 0;
+                }
+                return 1;
+            }
+            return 1;
+        }
 
         /**
          * Handle when click confirm button
@@ -723,6 +796,13 @@
          */
         cartArray = [];
         var total_price_order = 0;
+        const getProductionBatchNameById = (id) => {
+            for (let productBatchAmount of listProductBatchAmount) {
+                if(productBatchAmount["production_batch_id"] === parseInt(id)){
+                    return productBatchAmount["production_batch_name"];
+                }
+            }
+        }
         const buildStorage = () => {
             let storedArray = JSON.stringify(cartArray);
             let storageSupplierOrder = "cartStorage";
@@ -790,7 +870,6 @@
                 buildTable();
             });
         }
-
         const addCart = (id, name, category, current_price, code) => {
             if(!document.getElementById(id).value || !document.getElementById(code).value) {
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
@@ -829,45 +908,6 @@
                 }
             }
         }
-
-        const checkNumber = (num) => {
-            return /^\d+$/.test(num);
-        }
-
-        const checkProductionBatchAmount = (id, num) => {
-            for (let productBatchAmount of listProductBatchAmount) {
-                // console.log(productBatchAmount);
-                // console.log(productBatchAmount["production_batch_id"]);
-                if(productBatchAmount["production_batch_id"] === parseInt(id)){
-                    if(parseInt(num) <= parseInt(productBatchAmount["total_amount"]))
-                        return 1;
-                    else return 0;
-                }
-            }
-        }
-
-        const checkProductionBatchName = (name) => {
-            let storageSupplierOrder = "cartStorage";
-            if (localStorage.getItem(storageSupplierOrder) !== null) {
-                let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
-                let parsedObject = JSON.parse(retrievedProductObject);
-                for (let i = 0; i < parsedObject.length; i++) {
-                    if(parsedObject[i].production_batch_name === name)
-                        return 0;
-                }
-                return 1;
-            }
-            return 1;
-        }
-
-        const getProductionBatchNameById = (id) => {
-            for (let productBatchAmount of listProductBatchAmount) {
-                if(productBatchAmount["production_batch_id"] === parseInt(id)){
-                    return productBatchAmount["production_batch_name"];
-                }
-            }
-        }
-
         const deleteAllRowTable = () => {
             var tableHeaderRowCount = 1;
             var table = document.getElementById('cartTable');
@@ -876,7 +916,6 @@
                 table.deleteRow(tableHeaderRowCount);
             }
         }
-
         const removeItemStorage = () => {
             let storageSupplierOrder = "cartStorage";
             localStorage.removeItem(storageSupplierOrder);

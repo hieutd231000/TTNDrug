@@ -338,8 +338,8 @@
                     @if (count($listProductBySupplierId))
                         <div class="row clearfix" style="margin-top: 10px">
                             <div class="col-sm-12" style="text-align: end; margin-bottom: 10px">
-                                <a class="btn btn-secondary" href="/admin/suppliers/{{$supplierDetailId}}/detail">Thêm sản phẩm</a>
-                                <a class="btn btn-success" href="/admin/production-batch">Thêm lô sản xuất</a>
+                                <a class="btn btn-success" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 100px">Thêm sản phẩm</a>
+                                <a class="btn btn-danger" href="/admin/production-batch" style="width: 100px">Thêm lô sản xuất</a>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
@@ -350,8 +350,8 @@
                                         <div class="row clearfix">
                                             <div class="col-sm-12">
                                                 <form class="form-inline">
-                                                    <input class="form-control" type="search" id="productNameSearch" name="productNameSearch" style="width: 90%" placeholder="Nhập tên sản phẩm" aria-label="Search">
-                                                    <button class="btn btn-primary handleProductNameSearch" type="submit" style="width: 10%">Tìm kiếm</button>
+                                                    <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" style="width: 100%" placeholder="Nhập tên sản phẩm" aria-label="Search">
+{{--                                                    <button class="btn btn-primary handleProductNameSearch" type="submit" style="width: 10%">Tìm kiếm</button>--}}
                                                 </form>
                                             </div>
                                         </div>
@@ -360,7 +360,7 @@
                                                 <div class="slide-content">
                                                     <div class="card-wrapper swiper-wrapper">
                                                         @foreach($listProductBySupplierId as $key => $data)
-                                                            <div class="card swiper-slide">
+                                                            <div class="card swiper-slide" id="{{$data[0]->search_product_name}}">
 {{--                                                            <div class="card">--}}
                                                                 <div class="image-content">
                                                                     <span class="overlay"></span>
@@ -568,6 +568,19 @@
         });
 
         /**
+         * Handle when chose supplier
+         */
+        const handleChose = () => {
+            let supplier_search = $('#standard-select').find(":selected").val();
+            if(supplier_search === "null") {
+                document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
+            } else {
+                document.getElementById("help-block-supplier").innerHTML = "";
+                window.location.href = "/admin/orders/" + supplier_search + "/product";
+            }
+        }
+
+        /**
          * Handle when click confirm button
          */
         const handleConfirmCard = () => {
@@ -587,6 +600,59 @@
             }
         };
 
+        /**
+         * Handle when search box
+         */
+        document.getElementById("productNameSearch").addEventListener('keyup', function(){
+            console.log(this.value);
+            const allProduct = document.querySelectorAll('[id^="sch_pro_"]');
+            for(let product of allProduct) {
+                const product_search = product.id.split('_');
+                if(product_search[2].includes(this.value)) {
+                    console.log(product);
+                    product.classList.remove("hidden");
+                    swiper.update();
+                } else {
+                    product.classList.add("hidden");
+                    swiper.update();
+                }
+            }
+        });
+
+        /**
+         * Check validate
+         * @param num
+         * @returns {boolean}
+         */
+        const checkNumber = (num) => {
+            return /^\d+$/.test(num);
+        }
+        const checkProductionBatchName = (name, supplier_id) => {
+            let storageSupplierOrder = "supplier" + "_" + supplier_id;
+            if (localStorage.getItem(storageSupplierOrder) !== null) {
+                let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
+                let parsedObject = JSON.parse(retrievedProductObject);
+                for (let i = 0; i < parsedObject.length; i++) {
+                    if(parsedObject[i].production_batch_name === name)
+                        return 0;
+                }
+                return 1;
+            }
+            return 1;
+        }
+        const getRandomOrderCode = () => {
+            let randomOrderCode = "#";
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const currentMonth = now.getMonth() + 1;
+            const currentDate = now.getDate();
+            randomOrderCode = randomOrderCode + currentYear + currentMonth + currentDate + Math.floor(Math.random() * 10000);
+            return randomOrderCode;
+        }
+
+        /**
+         * Handle add new orders
+         */
         var supplierDetailId = {!! $supplierDetailId !!};
         var blockErrOrderTime= document.getElementById("help-block-order_time");
         $(document).ready(function(){
@@ -594,12 +660,6 @@
             if(supplierDetailId) {
                 buildTableReload(supplierDetailId);
             }
-            //Handle search product
-            $(".handleProductNameSearch").click(function(e){
-                e.preventDefault();
-                let productNameSearch = $("input[name='productNameSearch']").val();
-                alert(productNameSearch);
-            });
 
             //Handle add new orders
             $(".handleOrder").click(function(e){
@@ -646,6 +706,7 @@
                 $("textarea[name='detail']").val("");
             });
         });
+
         /**
          * Handle add product to cart
          * @type {*[]}
@@ -759,48 +820,6 @@
                 }
             }
         }
-
-        const checkNumber = (num) => {
-            return /^\d+$/.test(num);
-        }
-
-        const checkProductionBatchName = (name, supplier_id) => {
-            let storageSupplierOrder = "supplier" + "_" + supplier_id;
-            if (localStorage.getItem(storageSupplierOrder) !== null) {
-                let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
-                let parsedObject = JSON.parse(retrievedProductObject);
-                for (let i = 0; i < parsedObject.length; i++) {
-                    if(parsedObject[i].production_batch_name === name)
-                        return 0;
-                }
-                return 1;
-            }
-            return 1;
-        }
-
-        /**
-         * Handle when chose supplier
-         */
-        const handleChose = () => {
-            let supplier_search = $('#standard-select').find(":selected").val();
-            if(supplier_search === "null") {
-                document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
-            } else {
-                document.getElementById("help-block-supplier").innerHTML = "";
-                window.location.href = "/admin/orders/" + supplier_search + "/product";
-            }
-        }
-
-        const getRandomOrderCode = () => {
-            let randomOrderCode = "#";
-            const now = new Date();
-            const currentYear = now.getFullYear();
-            const currentMonth = now.getMonth() + 1;
-            const currentDate = now.getDate();
-            randomOrderCode = randomOrderCode + currentYear + currentMonth + currentDate + Math.floor(Math.random() * 10000);
-            return randomOrderCode;
-        }
-
         const removeItemStorage = (supplier_id) => {
             let storageSupplierOrder = "supplier" + "_" + supplier_id;
             localStorage.removeItem(storageSupplierOrder);

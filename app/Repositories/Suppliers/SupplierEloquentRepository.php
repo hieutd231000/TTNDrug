@@ -65,13 +65,38 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
         for($i = 0; $i < count($listProductId); $i++) {
             $product = DB::table("products")
                 ->where("id", $listProductId[$i]->product_id)
+//                ->where("product_name", "like", '%'. $productSearch .'%')
                 ->get();
-            $categoryName = DB::table("categories")
-                ->select('categories.name AS category_name')
-                ->where("id", $product[0]->category_id)
+            if(count($product)) {
+                $categoryName = DB::table("categories")
+                    ->select('categories.name AS category_name')
+                    ->where("id", $product[0]->category_id)
+                    ->get();
+                $product[0]->category_name = $categoryName[0]->category_name;
+                array_push($myArray, $product);
+            }
+        }
+        return $myArray;
+    }
+
+    public function getAllSearchProductBySupplierId($supplier_id, $productSearch) {
+        $listProductId = DB::table("supplier_products")
+            ->where("supplier_id", $supplier_id)
+            ->get();
+        $myArray = [];
+        for($i = 0; $i < count($listProductId); $i++) {
+            $product = DB::table("products")
+                ->where("id", $listProductId[$i]->product_id)
+                ->where("product_name", "like", '%'. $productSearch .'%')
                 ->get();
-            $product[0]->category_name = $categoryName[0]->category_name;
-            array_push($myArray, $product);
+            if(count($product)) {
+                $categoryName = DB::table("categories")
+                    ->select('categories.name AS category_name')
+                    ->where("id", $product[0]->category_id)
+                    ->get();
+                $product[0]->category_name = $categoryName[0]->category_name;
+                array_push($myArray, $product);
+            }
         }
         return $myArray;
     }
