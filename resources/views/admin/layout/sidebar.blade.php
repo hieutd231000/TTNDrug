@@ -112,25 +112,26 @@
             </div>
         </div> --}}
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
-            <div class="input-group" data-widget="sidebar-search">
-                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-                <div class="input-group-append">
-                    <button class="btn btn-sidebar">
-                        <i class="fas fa-search fa-fw"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+{{--        <div class="form-inline">--}}
+{{--            <div class="input-group" data-widget="sidebar-search">--}}
+{{--                <input class="form-control form-control-sidebar" type="search" placeholder="Tìm kiếm" aria-label="Search">--}}
+{{--                <div class="input-group-append">--}}
+{{--                    <button class="btn btn-sidebar">--}}
+{{--                        <i class="fas fa-search fa-fw"></i>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-header">Người dùng</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-md"></i>
                         <p>
-                            Orders
+                            Đặt hàng
                             <i class="fas fa-angle-left right"></i>
                         </p>
                     </a>
@@ -138,7 +139,7 @@
                         <li class="nav-item">
                             <a href="/admin/orders/{{0}}/product" class="nav-link">
                                 <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Đặt hàng</p>
+                                <p>Đặt sản phẩm</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -147,15 +148,8 @@
                                 <p>Danh sách đơn hàng</p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="/admin/production-batch" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Lô sản xuất</p>
-                            </a>
-                        </li>
                     </ul>
                 </li>
-
                 <li class="nav-item">
                     <a href="/pos" class="nav-link">
                         <i class="nav-icon fas fa-puzzle-piece"></i>
@@ -168,7 +162,7 @@
                     <a href="/user-profile" class="nav-link">
                         <i class="nav-icon fas fa-address-card"></i>
                         <p>
-                            Profile
+                            Thông tin cá nhân
                         </p>
                     </a>
                 </li>
@@ -250,7 +244,14 @@
                                 </p>
                             </a>
                         </li>
-{{--                        <li class="nav-item">--}}
+                        <li class="nav-item">
+                            <a href="/admin/production-batch" class="nav-link">
+                                <i class="fas fa-plus nav-icon font-size-11"></i>
+                                <p>Lô sản xuất</p>
+                            </a>
+                        </li>
+
+                        {{--                        <li class="nav-item">--}}
 {{--                            <a href="/admin/units" class="nav-link">--}}
 {{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
 {{--                                <p>--}}

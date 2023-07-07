@@ -36,7 +36,7 @@
         margin-top: 20px;
     }
     .hidden {
-        display: none;
+        display: none !important;
     }
     .alert-edit {
         padding: .5rem 1.25rem !important;
@@ -80,8 +80,13 @@
                             <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
                             </div>
                         </div>
+                        <form>
+                            <div class="card-body" style="padding-bottom: 0px">
+                                <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search">
+                            </div>
+                        </form>
                         @foreach($listOutOfStock as $key => $data)
-                            <form>
+                            <form id="{{$data->search_product_name}}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <div class="card-body" style="padding-bottom: 0px">
                                     <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
@@ -89,7 +94,8 @@
                                             <table class="table">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">STT</th>
+                                                    <th scope="col">Mã sản phẩm</th>
+                                                    <th scope="col">DS nhà cung cấp</th>
                                                     <th scope="col" style="width: 130px">Tên sản phẩm</th>
                                                     <th scope="col">Danh mục</th>
                                                     <th scope="col">Đường dùng</th>
@@ -99,7 +105,17 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr>
-                                                    <td>{{++$key}}</td>
+                                                    <td>{{$data->product_code}}</td>
+                                                    <td>
+                                                        @if(count($data->listSupplier))
+                                                            @foreach($data->listSupplier as $supplier)
+                                                                <p>{{$supplier->supplier_name}}</p>
+                                                            @endforeach
+                                                        @else
+                                                            <p style="color: red; font-weight: bold">Không có</p>
+                                                        @endif
+
+                                                    </td>
                                                     <td>{{$data->product_name}}</td>
                                                     <td>{{$data->category_name}}</td>
                                                     <td>{{$data->route_of_use}}</td>
@@ -109,9 +125,11 @@
                                                 </tbody>
                                             </table>
                                         </div>
-                                        <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->id }} )" style="background-color: #007bff !important;">
-                                            Gửi yêu cầu
-                                        </div>
+                                        @if(count($data->listSupplier))
+                                            <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->id }} )" style="background-color: #007bff !important;">
+                                                Gửi yêu cầu
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
                             </form>
@@ -162,39 +180,24 @@
         $(document).ready(function(){
             $('.alert-edit').fadeIn().delay(2000).fadeOut();
         });
-        /**
-         * Datatable
-         */
-        $(function () {
-            $("#products").DataTable({
-                buttons: ["copy", "excel", "pdf", "print"],
-                paging: true,
-                ordering: true,
-                autoWidth: true,
-                responsive: true,
-                lengthChange: true,
-                info: true,
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-                    "zeroRecords": "Không có sản phẩm",
-                    "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
-                    "search": "Tìm kiếm:",
-                    "infoEmpty": "",
-                    "paginate": {
-                        "next":       "Sau",
-                        "previous":   "Trước"
-                    },
-                    "infoFiltered": "(filtered from _MAX_ total records)"
-                }
-            })
-                .buttons()
-                .container()
-                .appendTo("#products_wrapper .col-md-6:eq(0)");
-        });
 
-        $('#myInput').on( 'keyup', function () {
-            table.search( this.value ).draw();
-        } );
+        /**
+         * Handle when search box
+         */
+        document.getElementById("productNameSearch").addEventListener('keyup', function(){
+            const allProduct = document.querySelectorAll('[id^="sch_outofpro"]');
+            for(let product of allProduct) {
+                const product_search = product.id.split('_');
+                if(product_search[2].includes(this.value)) {
+                    console.log(product);
+                    product.classList.remove("hidden");
+                } else {
+                    product.classList.add("hidden");
+                    document.querySelector(".content-wrapper").style.minHeight = "auto";
+                    document.querySelector(".content-wrapper").style.minHeight = null;
+                }
+            }
+        });
 
         function confirmOrder(id) {
             $("#confirmModal").modal("show");

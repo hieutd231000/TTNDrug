@@ -104,7 +104,7 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">STT</th>
+                                                            <th scope="col">Mã sản phẩm</th>
                                                             <th scope="col" style="width: 130px">Tên sản phẩm</th>
                                                             <th scope="col">Danh mục</th>
                                                             <th scope="col">Lô sản xuất</th>
@@ -117,15 +117,23 @@
                                                         </thead>
                                                         <tbody>
                                                         <tr>
-                                                            <td>{{++$key}}</td>
+                                                            <td>{{$data->product_code}}</td>
                                                             <td>{{$data->product_name}}</td>
                                                             <td>{{$data->category_name}}</td>
                                                             <td>{{$data->production_batch_name}}</td>
                                                             <td>{{$data->supplier_name}}</td>
                                                             <td>{{$data->price}}</td>
                                                             <td>{{$data->amount}}</td>
-                                                            <td>{{$data->order_time}}</td>
-                                                            <td>{{$data->expired_time}}</td>
+                                                            <td>
+                                                                <button class="btn btn-primary" style="font-weight: bold">
+                                                                    {{$data->order_time}}
+                                                                </button>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-danger" style="font-weight: bold">
+                                                                    {{$data->expired_time}}
+                                                                </button>
+                                                            </td>
                                                         </tr>
                                                         </tbody>
                                                     </table>
@@ -181,8 +189,16 @@
                                                                 <td>{{$data->supplier_name}}</td>
                                                                 <td>{{$data->price}}</td>
                                                                 <td>{{$data->amount}}</td>
-                                                                <td>{{$data->order_time}}</td>
-                                                                <td>{{$data->expired_time}}</td>
+                                                                <td>
+                                                                    <button class="btn btn-primary" style="font-weight: bold">
+                                                                        {{$data->order_time}}
+                                                                    </button>
+                                                                </td>
+                                                                <td>
+                                                                    <button class="btn btn-danger" style="font-weight: bold">
+                                                                        {{$data->expired_time}}
+                                                                    </button>
+                                                                </td>
                                                             </tr>
                                                         </tbody>
                                                     </table>

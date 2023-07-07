@@ -85,16 +85,21 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
             ->get();
         foreach ($listProductInventory as $product) {
 //            dd(intval($product->amount));
-            if(intval($product->amount) >= $total) {
+            if(intval($product->amount) > $total) {
                 DB::table('order_products')
                     ->where('id', $product->id)
                     ->update(['amount' => intval($product->amount) - $total]);
+                break;
+            } else if(intval($product->amount) == $total) {
+                DB::table('order_products')
+                    ->where('id', $product->id)
+                    ->delete();
                 break;
             } else {
                 $total = $total - intval($product->amount);
                 DB::table('order_products')
                     ->where('id', $product->id)
-                    ->update(['amount' => '0']);
+                    ->delete();
             }
         }
     }

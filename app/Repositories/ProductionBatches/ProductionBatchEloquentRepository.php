@@ -25,15 +25,25 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
     public function statusProductionBatch($expired_time) {
         $expireDates = explode(" ", $expired_time);
         $expireDate = explode("/", $expireDates[0]);
-        $currentDate = explode("/", date("d/m/Y",time()));
-        if(intval($expireDate[2]) < intval($currentDate[2])) {
-            return 0;
-        } else if(intval($expireDate[1]) < intval($currentDate[1])) {
-            return 0;
-        } else if(intval($expireDate[0]) <= intval($currentDate[0])) {
-            return 0;
-        } else {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date('d/m/Y', time());
+        $currentDate = explode("/", $date);
+        if(intval($expireDate[2]) > intval($currentDate[2])) {
             return 1;
+        } else if(intval($expireDate[2]) == intval($currentDate[2])) {
+            if(intval($expireDate[1]) > intval($currentDate[1])) {
+                return 1;
+            } else if(intval($expireDate[1]) == intval($currentDate[1])) {
+                if(intval($expireDate[0]) > intval($currentDate[0])) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
         }
     }
 

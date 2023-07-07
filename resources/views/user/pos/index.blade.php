@@ -420,7 +420,7 @@
                                     <div class="row clearfix">
                                         <div class="col-sm-12">
                                             <form class="form-inline">
-                                                <input class="form-control" type="text" id="posNameSearch" name="posNameSearch" style="width: 100%" placeholder="Nhập" aria-label="Search">
+                                                <input class="form-control" type="text" id="posNameSearch" name="posNameSearch" style="width: 100%" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search">
 {{--                                                <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>--}}
                                             </form>
                                         </div>
@@ -445,8 +445,8 @@
                                                                     @foreach($data->production_batch as $key_production_batch => $data_production_batch)
                                                                         @if($data_production_batch->expired_status)
                                                                             <option value={{$data_production_batch->id}}>{{$data_production_batch->production_batch_name}}</option>
-                                                                        @else
-                                                                            <option value={{$data_production_batch->id}} disabled>{{$data_production_batch->production_batch_name}}</option>
+{{--                                                                        @else--}}
+{{--                                                                            <option value={{$data_production_batch->id}}>{{$data_production_batch->production_batch_name}}</option>--}}
                                                                         @endif
                                                                     @endforeach
                                                                 </select>

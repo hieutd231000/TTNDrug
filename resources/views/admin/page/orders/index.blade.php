@@ -350,7 +350,7 @@
                                         <div class="row clearfix">
                                             <div class="col-sm-12">
                                                 <form class="form-inline">
-                                                    <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" style="width: 100%" placeholder="Nhập tên sản phẩm" aria-label="Search">
+                                                    <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" style="width: 100%" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search">
 {{--                                                    <button class="btn btn-primary handleProductNameSearch" type="submit" style="width: 10%">Tìm kiếm</button>--}}
                                                 </form>
                                             </div>
@@ -375,8 +375,8 @@
                                                                         @foreach($data[0]->production_batch as $key_production_batch => $data_production_batch)
                                                                             @if($data_production_batch->expired_status)
                                                                                 <option value={{$data_production_batch->production_batch_name}}>{{$data_production_batch->production_batch_name}}</option>
-                                                                            @else
-                                                                                <option value={{$data_production_batch->production_batch_name}} disabled>{{$data_production_batch->production_batch_name}}</option>
+{{--                                                                            @else--}}
+{{--                                                                                <option value={{$data_production_batch->production_batch_name}} disabled>{{$data_production_batch->production_batch_name}}</option>--}}
                                                                             @endif
                                                                         @endforeach
                                                                     </select>
@@ -530,6 +530,42 @@
             return month + '-' + day + '-' + year;
         }
 
+        /**
+         * Datatable
+         */
+        // window.addEventListener('load', function () {
+        //     $("#cartTable").DataTable({
+        //         buttons: [
+        //             "copy", "excel", "pdf",
+        //             {
+        //                 extend: 'print',
+        //                 text: 'In',
+        //             }
+        //         ],
+        //         paging: false,
+        //         ordering: false,
+        //         autoWidth: false,
+        //         responsive: false,
+        //         lengthChange: false,
+        //         info: false,
+        //         "language": {
+        //             // // url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json',
+        //             // "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
+        //             "zeroRecords": "Không có sản phẩm",
+        //             // "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
+        //             "search": "Tìm kiếm:",
+        //             // "infoEmpty": "",
+        //             // "paginate": {
+        //             //     "next":       "Sau",
+        //             //     "previous":   "Trước"
+        //             // },
+        //             // "infoFiltered": "(filtered from _MAX_ total records)"
+        //         }
+        //     })
+        //         .buttons()
+        //         .container()
+        //         .appendTo("#cartTable_wrapper .col-md-6:eq(0)");
+        // });
         // Slider
         let swiper = new Swiper(".slide-content", {
             slidesPerView: 'auto',
@@ -825,10 +861,7 @@
             localStorage.removeItem(storageSupplierOrder);
         }
 
-        /**
-         * Datatable
-         */
-        // window.addEventListener('load', function () {
+        // $(function () {
         //     $("#cartTable").DataTable({
         //         buttons: [
         //             "copy", "excel", "pdf",
@@ -843,6 +876,9 @@
         //         responsive: false,
         //         lengthChange: false,
         //         info: false,
+        //         colReorder: {
+        //             realtime: true
+        //         },
         //         "language": {
         //             // // url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json',
         //             // "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
@@ -861,38 +897,6 @@
         //         .container()
         //         .appendTo("#cartTable_wrapper .col-md-6:eq(0)");
         // });
-        $(function () {
-            $("#cartTable").DataTable({
-                buttons: [
-                    "copy", "excel", "pdf",
-                    {
-                        extend: 'print',
-                        text: 'In',
-                    }
-                ],
-                paging: false,
-                ordering: false,
-                autoWidth: false,
-                responsive: false,
-                lengthChange: false,
-                info: false,
-                "language": {
-                    // // url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json',
-                    // "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-                    "zeroRecords": "Không có sản phẩm",
-                    // "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
-                    "search": "Tìm kiếm:",
-                    // "infoEmpty": "",
-                    // "paginate": {
-                    //     "next":       "Sau",
-                    //     "previous":   "Trước"
-                    // },
-                    // "infoFiltered": "(filtered from _MAX_ total records)"
-                }
-            })
-                .buttons()
-                .container()
-                .appendTo("#cartTable_wrapper .col-md-6:eq(0)");
-        });
+
     </script>
 @endsection

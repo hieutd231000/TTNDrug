@@ -270,7 +270,6 @@
 
         $('#reservationdateEdit').datetimepicker({
             format:'DD/MM/YYYY HH:mm:ss',
-            minDate: getFormattedDate(new Date())
         });
 
         function getFormattedDate(date) {

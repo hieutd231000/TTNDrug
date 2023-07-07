@@ -87,7 +87,7 @@
                                 <table id="products" style="width: 100% !important;" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>STT</th>
+                                        <th>Mã sản phẩm</th>
                                         <th>Tên sản phẩm</th>
                                         <th>Danh mục</th>
                                         <th>Đơn hàng</th>
@@ -102,17 +102,18 @@
                                     </thead>
                                     <tbody>
                                     @foreach($listProductInventory as $key => $data)
-                                        <tr>
-                                            <td>{{++$key}}</td>
-                                            <td>{{$data->product_name}}</td>
-                                            <td>{{$data->category_name}}</td>
-                                            <td>{{$data->order_code}}</td>
-                                            <td>{{$data->production_batch_name}}</td>
-                                            <td>{{$data->supplier_name}}</td>
-                                            <td>{{$data->price}}</td>
-                                            <td>{{$data->amount}}</td>
-                                            <td>{{$data->order_time}}</td>
-                                            <td>{{$data->expired_time}}</td>
+                                        @if(!$data->check_expired_time)
+                                            <tr>
+                                                <td>{{$data->product_code}}</td>
+                                                <td>{{$data->product_name}}</td>
+                                                <td>{{$data->category_name}}</td>
+                                                <td>{{$data->order_code}}</td>
+                                                <td>{{$data->production_batch_name}}</td>
+                                                <td>{{$data->supplier_name}}</td>
+                                                <td>{{$data->price}}</td>
+                                                <td>{{$data->amount}}</td>
+                                                <td>{{$data->order_time}}</td>
+                                                <td>{{$data->expired_time}}</td>
 {{--                                            @if(!$data->expired_status)--}}
 {{--                                                <td>--}}
 {{--                                                    <button class="btn btn-danger" disabled style="opacity: 1 !important">Hết hạn</button>--}}
@@ -126,7 +127,8 @@
 {{--                                                    <button class="btn btn-success" disabled style="opacity: 1 !important">Còn hàng</button>--}}
 {{--                                                </td>--}}
 {{--                                            @endif--}}
-                                        </tr>
+                                            </tr>
+                                        @endif
                                     @endforeach
 
                                     </tbody>
