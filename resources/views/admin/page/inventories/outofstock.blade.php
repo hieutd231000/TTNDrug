@@ -130,7 +130,7 @@
                                             </table>
                                         </div>
                                         @if(count($data->listSupplier))
-                                            <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->id }} )" style="background-color: #007bff !important;">
+                                            <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->id }}, {{$data->listSupplier}} )" style="background-color: #007bff !important;">
                                                 Gửi yêu cầu
                                             </div>
                                         @endif
@@ -142,79 +142,68 @@
                     </div>
                 </div>
             </div><!-- /.container-fluid -->
-        </section>
-        <!-- /.content -->
-
-        <!-- Request Product Modal -->
-        <div class="modal fade" id="requestModal" role="dialog" style="display: none;" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Thông tin sản phẩm</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form>
-                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="product_id" value="">
-                            <div class="row form-row">
-                                <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 9px !important;">
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Nhà cung cấp</label>
-{{--                                        <select name="production_batch_selected" id="{{$data[0]->production_batch_id}}" style="width: 60%; margin-top: 8px; height: 30px; margin-bottom: 6px;">--}}
-{{--                                            <option value="" disabled selected>Lô sản xuất</option>--}}
-{{--                                            @foreach($data[0]->production_batch as $key_production_batch => $data_production_batch)--}}
-{{--                                                @if($data_production_batch->expired_status)--}}
-{{--                                                    <option value={{$data_production_batch->production_batch_name}}>{{$data_production_batch->production_batch_name}}</option>--}}
-{{--                                                    --}}{{--                                                                            @else--}}
-{{--                                                    --}}{{--                                                                                <option value={{$data_production_batch->production_batch_name}} disabled>{{$data_production_batch->production_batch_name}}</option>--}}
-{{--                                                @endif--}}
-{{--                                            @endforeach--}}
-{{--                                        </select>--}}
-                                        <div id="help-block-supplier" style="color: red">
+            <!-- Request Product Modal -->
+            <div class="modal fade" id="requestModal" role="dialog" style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Thông tin sản phẩm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="product_id" value="">
+                                <div class="row form-row">
+                                    <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 9px !important;">
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Nhà cung cấp</label>
+                                            <select name="supplier_selected" id="supplier_selected" style="font-size:16px; padding-left: 5px; width: 100%; border: 1px solid #ced4da; background-color: #fff; border-radius: 0.25rem; min-height: 38px">
+                                                <option value="" disabled selected>Nhà cung cấp</option>
+                                            </select>
+                                            <div id="help-block-supplier" style="color: red">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Số lượng</label>
-                                        <input class="form-control" name="amount" type="text" value="" placeholder="Số lượng *">
-                                        <div id="help-block-amount" style="color: red">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Số lượng</label>
+                                            <input class="form-control" name="amount" type="text" value="" placeholder="Số lượng *">
+                                            <div id="help-block-amount" style="color: red">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Ngày yêu cầu</label>
-                                        <input type="text" class="form-control" value="" name="request_time" placeholder="Thời gian yêu cầu *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker" autocomplete="off"/>
-                                        <div id="help-block-dateRequest" style="color: red">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Ngày yêu cầu</label>
+                                            <input type="text" class="form-control" value="" name="request_time" placeholder="Thời gian yêu cầu *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker" autocomplete="off"/>
+                                            <div id="help-block-dateRequest" style="color: red">
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label>Mô tả thêm</label>
-                                        <textarea name="detail" id="detail" rows="4" class="form-control no-resize" placeholder="Thông tin thêm"></textarea>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Mô tả thêm</label>
+                                            <textarea name="detail" id="detail" rows="4" class="form-control no-resize" placeholder="Thông tin thêm"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" style="text-align: end">
+                                        <button type="button" class="btn btn-primary handleRequest">Yêu cầu</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
                                     </div>
                                 </div>
-                                <div class="col-12" style="text-align: end">
-                                    <button type="submit" class="btn btn-primary handleRequest">Yêu cầu</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
-                                </div>
-                            </div>
-{{--                            <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>--}}
-{{--                            <button type="submit" class="btn btn-primary handleRequest">Yêu cầu</button>--}}
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- /Request Product Modal -->
-
+            <!-- /Request Product Modal -->
+        </section>
+        <!-- /.content -->
     </div>
 @endsection
 
@@ -258,7 +247,51 @@
             }
         });
 
-        function confirmOrder(id) {
+        /**
+         *
+         * @param selectElement
+         */
+        function removeOptions(selectElement) {
+            var i, L = selectElement.options.length - 1;
+            for(i = L; i >= 0; i--) {
+                selectElement.remove(i);
+            }
+        }
+
+        /**
+         *
+         * @param id
+         * @param listSupplier
+         */
+        function confirmOrder(id, listSupplier) {
+            $("input[name='product_id']").val(id);
+            let select = document.getElementById("supplier_selected");
+            removeOptions(select);
+            //Add default
+            const newOptionDefault = document.createElement('option');
+            const optionDefaultText = document.createTextNode("Nhà cung cấp");
+            // set option text
+            newOptionDefault.appendChild(optionDefaultText);
+            // and addtribute
+            newOptionDefault.setAttribute('value',"");
+            newOptionDefault.setAttribute('disabled', '');
+            newOptionDefault.setAttribute('selected', '');
+            // add to select
+            select.appendChild(newOptionDefault);
+
+            // Add list supplier
+            for (const supplier of listSupplier) {
+                const newOption = document.createElement('option');
+                const optionText = document.createTextNode(supplier.supplier_name);
+                // set option text
+                newOption.appendChild(optionText);
+                // and option value
+                newOption.setAttribute('value',supplier.supplier_name);
+                // add to select
+                select.appendChild(newOption);
+            }
+
+            // console.log(listSupplier);
             $("#requestModal").modal("show");
         }
     </script>
