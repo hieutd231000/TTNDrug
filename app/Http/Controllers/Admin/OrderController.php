@@ -65,7 +65,7 @@ class OrderController extends Controller
 //            }
             $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
             foreach ($listProductBySupplierId as $productBySupplierId) {
-                $productBySupplierId[0]->search_product_name = "sch_pro_" . $productBySupplierId[0]->product_name;
+                $productBySupplierId[0]->search_product_name = "sch_pro_" . strtolower($productBySupplierId[0]->product_name);
                 $productBySupplierId[0]->production_batch_id = "production_batch_" . $productBySupplierId[0]->id;
                 $productBySupplierId[0]->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($productBySupplierId[0]->id);
                 foreach ($productBySupplierId[0]->production_batch as $production_batch) {

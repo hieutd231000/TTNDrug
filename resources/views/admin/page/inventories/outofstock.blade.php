@@ -19,6 +19,15 @@
         font-size: .875rem;
         line-height: 1.5;
     }
+    /*.supplier_select {*/
+    /*    font-size:16px;*/
+    /*    padding-left: 5px;*/
+    /*    width: 100%;*/
+    /*    border: 1px solid #ced4da;*/
+    /*    background-color: #fff; */
+    /*    border-radius: 0.25rem;*/
+    /*    min-height: 38px*/
+    /*}*/
     .no-resize {
         resize: none;
     }
@@ -153,7 +162,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form>
+                            <form id="request_form_id">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="product_id" value="">
                                 <div class="row form-row">
@@ -162,8 +171,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label>Nhà cung cấp</label>
-                                            <select name="supplier_selected" id="supplier_selected" style="font-size:16px; padding-left: 5px; width: 100%; border: 1px solid #ced4da; background-color: #fff; border-radius: 0.25rem; min-height: 38px">
-                                                <option value="" disabled selected>Nhà cung cấp</option>
+                                            <select data-placeholder="Lựa chọn nhà cung cấp..." multiple class="chosen-select" name="supplier_selected" id="supplier_selected">
+{{--                                                <option value="" disabled selected>Nhà cung cấp</option>--}}
                                             </select>
                                             <div id="help-block-supplier" style="color: red">
                                             </div>
@@ -215,8 +224,14 @@
          */
         $(document).ready(function(){
             $('.alert-edit').fadeIn().delay(2000).fadeOut();
+            $('#requestModal').on('hidden.bs.modal', function () {
+                $("#request_form_id").trigger("reset");
+            });
         });
 
+        /**
+         * Date input config
+         */
         $('#reservationdate').datetimepicker({
             format:'DD/MM/YYYY HH:mm:ss',
             minDate: getFormattedDate(new Date())
@@ -236,7 +251,7 @@
             const allProduct = document.querySelectorAll('[id^="sch_outofpro"]');
             for(let product of allProduct) {
                 const product_search = product.id.split('_');
-                if(product_search[2].includes(this.value)) {
+                if(product_search[2].includes(this.value.toLowerCase().replace(/\s/g,''))) {
                     console.log(product);
                     product.classList.remove("hidden");
                 } else {
@@ -267,18 +282,18 @@
             $("input[name='product_id']").val(id);
             let select = document.getElementById("supplier_selected");
             removeOptions(select);
-            //Add default
-            const newOptionDefault = document.createElement('option');
-            const optionDefaultText = document.createTextNode("Nhà cung cấp");
-            // set option text
-            newOptionDefault.appendChild(optionDefaultText);
-            // and addtribute
-            newOptionDefault.setAttribute('value',"");
-            newOptionDefault.setAttribute('disabled', '');
-            newOptionDefault.setAttribute('selected', '');
-            // add to select
-            select.appendChild(newOptionDefault);
-
+            // // //Add default
+            // // const newOptionDefault = document.createElement('option');
+            // // const optionDefaultText = document.createTextNode("Nhà cung cấp");
+            // // // set option text
+            // // newOptionDefault.appendChild(optionDefaultText);
+            // // // and addtribute
+            // // newOptionDefault.setAttribute('value',"");
+            // // newOptionDefault.setAttribute('disabled', '');
+            // // newOptionDefault.setAttribute('selected', '');
+            // // // add to select
+            // // select.appendChild(newOptionDefault);
+            //
             // Add list supplier
             for (const supplier of listSupplier) {
                 const newOption = document.createElement('option');
@@ -290,6 +305,17 @@
                 // add to select
                 select.appendChild(newOption);
             }
+
+            /**
+             * Chosen jquery
+             */
+            $("#supplier_selected").trigger("chosen:updated");
+            $(".chosen-select").chosen({
+                width: "100%",
+            })
+            $(".chosen-choices").css('font-size','14px');
+            $(".search-choice").css('font-size','16px');
+            $(".chosen-results").css('font-size','16px');
 
             // console.log(listSupplier);
             $("#requestModal").modal("show");

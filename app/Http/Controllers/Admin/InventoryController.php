@@ -46,7 +46,7 @@ class InventoryController extends Controller
     public function listOutOfStock(Request $request) {
         $listOutOfStock = $this->productRepository->getListOutOfStock();
         foreach ($listOutOfStock as $productOutOfStock) {
-            $productOutOfStock->search_product_name = "sch_outofpro_" . $productOutOfStock->product_name;
+            $productOutOfStock->search_product_name = "sch_outofpro_" . strtolower($productOutOfStock->product_name);
         }
         return view("admin.page.inventories.outofstock", ["listOutOfStock" => $listOutOfStock]);
     }

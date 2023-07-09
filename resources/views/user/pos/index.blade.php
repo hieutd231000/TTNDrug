@@ -677,7 +677,7 @@
 
             for(let product of allProduct) {
                 const product_search = product.id.split('_');
-                if(product_search[2].includes(this.value)) {
+                if(product_search[2].includes(this.value.toLowerCase().replace(/\s/g,''))) {
                     console.log(product);
                     product.classList.remove("hidden");
                     swiper.update();

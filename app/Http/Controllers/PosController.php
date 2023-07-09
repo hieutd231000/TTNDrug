@@ -37,7 +37,7 @@ class PosController extends Controller
             } else {
                 $product->current_price = null;
             }
-            $product->search_product_name = "pos_sch_" . $product->product_name;
+            $product->search_product_name = "pos_sch_" . strtolower($product->product_name);
             $product->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($product->id);
             foreach ($product->production_batch as $production_batch) {
                 $production_batch->expired_status = $this->productionBatchRepository->statusProductionBatch($production_batch->expired_time);

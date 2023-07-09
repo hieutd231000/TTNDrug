@@ -282,7 +282,7 @@
                                 <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
                                 <div class="form-group">
                                     <select data-placeholder="Lựa chọn sản phẩm bạn muốn xoá..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_delete">
-                                        <option value=""></option>
+{{--                                        <option value=""></option>--}}
                                         @foreach($listProduct as $key => $data)
                                             <option value="{{$data[0]->id}}">{{$data[0]->product_name}}</option>
                                         @endforeach
