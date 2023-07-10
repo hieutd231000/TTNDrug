@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
             Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
             Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
             Route::post("/ordered-success", [\App\Http\Controllers\Admin\InventoryController::class, 'orderedSuccess']);
+            Route::post("/request-outofstock", [\App\Http\Controllers\Admin\InventoryController::class, 'requestOutOfStock']);
         });
         Route::group(["prefix" => "orders"], function () {
             Route::get('/{id}/product', [\App\Http\Controllers\Admin\OrderController::class, 'index']);

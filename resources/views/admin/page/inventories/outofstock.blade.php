@@ -66,6 +66,15 @@
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
+                @if (session('failed'))
+                    <div class="alert alert-danger" style="display: inline-block">
+                        {{ session('failed') }}
+                    </div>
+                @elseif(session('success'))
+                    <div class="alert alert-success" style="display: inline-block">
+                        {{ session('success') }}
+                    </div>
+                @endif
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <h3>Sản phẩm hết hàng</h3>
@@ -139,7 +148,7 @@
                                             </table>
                                         </div>
                                         @if(count($data->listSupplier))
-                                            <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->id }}, {{$data->listSupplier}} )" style="background-color: #007bff !important;">
+                                            <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->product_code }}, {{$data->listSupplier}} )" style="background-color: #007bff !important;">
                                                 Gửi yêu cầu
                                             </div>
                                         @endif
@@ -164,7 +173,7 @@
                         <div class="modal-body">
                             <form id="request_form_id">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" name="product_id" value="">
+                                <input type="hidden" name="product_code" value="">
                                 <div class="row form-row">
                                     <div class="alert alert-success hidden" id="notification" style="display: inline-block; padding: 9px !important;">
                                     </div>
@@ -200,6 +209,10 @@
                                             <textarea name="detail" id="detail" rows="4" class="form-control no-resize" placeholder="Thông tin thêm"></textarea>
                                         </div>
                                     </div>
+                                    <div class="col-12">
+                                        <div id="help-block-success" style="color: green">
+                                        </div>
+                                    </div>
                                     <div class="col-12" style="text-align: end">
                                         <button type="button" class="btn btn-primary handleRequest">Yêu cầu</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
@@ -222,10 +235,68 @@
         /**
          * Hidden alert
          */
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('.alert-edit').fadeIn().delay(2000).fadeOut();
+            var blockErrSupplierSelected = document.getElementById("help-block-supplier");
+            var blockErrAmount = document.getElementById("help-block-amount");
+            var blockErrDateRequest = document.getElementById("help-block-dateRequest");
+            var blockSuccess = document.getElementById("help-block-success");
             $('#requestModal').on('hidden.bs.modal', function () {
                 $("#request_form_id").trigger("reset");
+                blockErrSupplierSelected.innerHTML = "";
+                blockErrAmount.innerHTML = "";
+                blockErrDateRequest.innerHTML = "";
+                blockSuccess.innerHTML = "";
+            });
+            $(".handleRequest").click(function (e) {
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var product_code = $("input[name='product_code']").val();
+                var supplier_selected = $("select[name='supplier_selected']").val();
+                var amount = $("input[name='amount']").val();
+                var request_time = $("input[name='request_time']").val();
+                var detail = $("textarea[name='detail']").val();
+                blockSuccess.innerHTML = "";
+                console.log(supplier_selected);
+
+                if(!supplier_selected.length) {
+                    blockErrSupplierSelected.innerHTML = "Không được bỏ trống"
+                } else {
+                    blockErrSupplierSelected.innerHTML = ""
+                }
+
+                if(!amount) {
+                    blockErrAmount.innerHTML = "Không được bỏ trống"
+                } else if(!checkNumber(amount)) {
+                    blockErrAmount.innerHTML = "Sai định đạng"
+                } else if(parseInt(amount) === 0) {
+                    blockErrAmount.innerHTML = "Số lượng phải lớn hơn 0 !"
+                } else {
+                    blockErrAmount.innerHTML = ""
+                }
+
+                if(!request_time) {
+                    blockErrDateRequest.innerHTML = "Mời bạn nhập ngày nhận hàng";
+                } else {
+                    blockErrDateRequest.innerHTML = "";
+                }
+
+                if(!blockErrDateRequest.innerHTML && !blockErrAmount.innerHTML && !blockErrSupplierSelected.innerHTML) {
+                    $.ajax({
+                        url: "/admin/inventories/request-outofstock",
+                        type:'POST',
+                        data: {_token:_token, product_code:product_code, supplier_selected: supplier_selected, amount:amount, request_time:request_time, detail:detail},
+                        success: function(response) {
+                            blockSuccess.innerHTML = "Yêu cầu thêm về sản phẩm thành công"
+                            setTimeout(function(){
+                                $("#requestModal").modal("hide");
+                            }, 1000);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    })
+                }
             });
         });
 
@@ -275,11 +346,20 @@
 
         /**
          *
+         * @param num
+         * @returns {boolean}
+         */
+        const checkNumber = (num) => {
+            return /^\d+$/.test(num);
+        }
+
+        /**
+         *
          * @param id
          * @param listSupplier
          */
-        function confirmOrder(id, listSupplier) {
-            $("input[name='product_id']").val(id);
+        function confirmOrder(productCode, listSupplier) {
+            $("input[name='product_code']").val(productCode);
             let select = document.getElementById("supplier_selected");
             removeOptions(select);
             // // //Add default

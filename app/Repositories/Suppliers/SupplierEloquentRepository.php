@@ -112,6 +112,13 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             ->get();
     }
 
+    public function getSupplierEmail($supplierName) {
+        $supplier = DB::table('suppliers')
+            ->where("name", $supplierName)
+            ->first();
+        return $supplier->email;
+    }
+
     /**
      * @param $productName
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Mail\RequestProduct;
+use App\Models\Suppliers;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderRepositoryInterface;
@@ -12,6 +14,7 @@ use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class InventoryController extends Controller
 {
@@ -21,13 +24,15 @@ class InventoryController extends Controller
     protected $productRepository;
     protected $productionBatchRepository;
     protected $orderProductRepository;
+    protected $supplierRepository;
     protected $response;
 
-    public function __construct(ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
+    public function __construct(SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
         $this->productionBatchRepository = $productionBatchRepository;
         $this->orderProductRepository = $orderProductRepository;
+        $this->supplierRepository = $supplierRepository;
         $this->response = $response;
     }
 
@@ -49,6 +54,26 @@ class InventoryController extends Controller
             $productOutOfStock->search_product_name = "sch_outofpro_" . strtolower($productOutOfStock->product_name);
         }
         return view("admin.page.inventories.outofstock", ["listOutOfStock" => $listOutOfStock]);
+    }
+
+    public function requestOutOfStock(Request $request) {
+        $listRequest = $request->all();
+        foreach ($listRequest["supplier_selected"] as $supplier_selected) {
+            $supplier_email = $this->supplierRepository->getSupplierEmail($supplier_selected);
+            $product_name = $this->productRepository->getProductNameByProductCode($listRequest["product_code"]);
+            $suppliers = Suppliers::where('email', $supplier_email)->first();
+            if($suppliers === null) {
+                return $this->response->unAuthenticated("Email không tồn tại");
+            } else {
+                try {
+                    Mail::to($supplier_email)->send(new RequestProduct($suppliers, $product_name, $listRequest["product_code"], $listRequest["amount"]));
+                } catch (\Exception $e) {
+                    Log::error($e);
+                    return $this->response->error();
+                }
+            }
+        }
+        return $this->response->success(null, 200, 'Chúng tôi đã gửi cho bạn thông tin sản phẩm hiện hết hàng');
     }
 
     public function listExpiredProduct(Request $request) {

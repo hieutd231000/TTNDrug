@@ -37,6 +37,14 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->pluck("product_code");
     }
 
+    public function getProductNameByProductCode($product_code)
+    {
+        $product = DB::table('products')
+            ->where("product_code", $product_code)
+            ->first();
+        return $product->product_name;
+    }
+
     /**
      * Get all product from products
      *
@@ -342,7 +350,8 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
         foreach ($listProduct as $product) {
             $product->listSupplier = DB::table("supplier_products")
                 ->join("suppliers", "suppliers.id", "=", "supplier_products.supplier_id")
-                ->select("suppliers.name as supplier_name", "supplier_products.*")
+                ->join("products", "products.id", "=", "supplier_products.product_id")
+                ->select("suppliers.name as supplier_name", "supplier_products.*", "products.product_name")
                 ->where("supplier_products.product_id", $product->id)
                 ->get();
             $checkAmount = DB::table("order_products")
