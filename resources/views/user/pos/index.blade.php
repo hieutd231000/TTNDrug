@@ -452,15 +452,15 @@
                                                                 </select>
 {{--                                                                <p style="margin-bottom: 0px; color: blue"></p>--}}
                                                             @if($data->current_price)
-                                                                    <p style="margin-bottom: 8px; color: blue">Giá: {{$data->current_price}} VNĐ</p>
-                                                                    <div style="display: flex">
-                                                                        <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->id}}" placeholder="Nhập SL">
-                                                                    </div>
-                                                                    <button class="btn btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
-                                                                    <p id="{{$data->product_name}}" style="color: red; height: 40px"></p>
-                                                                @else
-                                                                    <p style="margin-bottom: 8px; color: red">Chưa cập nhật</p>
-                                                                @endif
+                                                                <p style="margin-bottom: 8px; color: blue" id="{{$data->current_price_search}}">Giá: {{$data->current_price}} VNĐ</p>
+                                                                <div style="display: flex">
+                                                                    <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->id}}" placeholder="Nhập SL">
+                                                                </div>
+                                                                <button class="btn btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                <p id="{{$data->product_name}}" style="color: red; height: 40px"></p>
+                                                            @else
+                                                                <span style="margin-bottom: 8px; color: red">Chưa cập nhật giá bán</span>
+                                                            @endif
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -609,15 +609,40 @@
         $(document).ready(function() {
             $("#success_tic").modal("hide");
             buildTableReload();
+
             $('select[name="production_batch_selected"]').change(function () {
-                let production_batch_id = $('select[name="production_batch_selected"]').val();
+                // let production_batch_id = $('select[name="production_batch_selected"]').val();
+                // console.log(this.id);
+                var e = document.getElementById(this.id);
                 for (let productBatchAmount of listProductBatchAmount) {
                     // console.log(productBatchAmount);
                     // console.log(productBatchAmount["production_batch_id"]);
-                    if(productBatchAmount["production_batch_id"] === parseInt(production_batch_id)){
+                    if(productBatchAmount["production_batch_id"] === parseInt(e.value)){
                         console.log(productBatchAmount["total_amount"]);
+                        let h6 = document.createElement("h6");
+                        let text = document.createTextNode("SL: " + productBatchAmount["total_amount"]);
+                        h6.style.color = "green";
+                        h6.style.marginBottom = "0px";
+                        h6.style.textAlign = "center";
+                        h6.classList.add(productBatchAmount["product_name"]);
+                        h6.appendChild(text);
+                        let element = document.getElementById(this.id);
+                        let priceSearch = document.getElementById(productBatchAmount["current_price_search"]);
+                        let parentDiv = element.parentNode;
+                        // console.log(element.parentNode);
+                        if(parentDiv.contains(document.getElementsByClassName(productBatchAmount["product_name"])[0])) {
+                            document.getElementsByClassName(productBatchAmount["product_name"])[0].remove();
+                            parentDiv.insertBefore(h6, priceSearch);
+                        } else
+                            parentDiv.insertBefore(h6, priceSearch);
+                        // if(element.childNodes.length === 2)
+                        //     element.removeChild(element.childNodes[1]);
+                        // $( "<p style='color: green; margin-bottom: 0px; text-align: center'>$text</p>" ).insertAfter( "#" + productBatchAmount["product_code"]);
+                        // element.appendChild(p);
                     }
                 }
+
+
                 // document.getElementById("production_batch_amount").innerHTML = 'dsad';
             });
         });
@@ -903,6 +928,7 @@
                     console.log(cartArray);
                     document.getElementById(id).value = "";
                     document.getElementById(code).value = "";
+                    document.getElementsByClassName(name)[0].remove();
                     buildStorage();
                     buildTable();
                 }

@@ -126,223 +126,224 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-header">Người dùng</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user-md"></i>
-                        <p>
-                            Đặt hàng
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/orders/{{0}}/product" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Đặt sản phẩm</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/list-orders" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách đơn hàng</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="/pos" class="nav-link">
-                        <i class="nav-icon fas fa-puzzle-piece"></i>
-                        <p>
-                            PoS
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/user-profile" class="nav-link">
-                        <i class="nav-icon fas fa-address-card"></i>
-                        <p>
-                            Thông tin cá nhân
-                        </p>
-                    </a>
-                </li>
+                    <li class="nav-header">Người dùng</li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-user-md"></i>
+                            <p>
+                                Đặt hàng
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/orders/{{0}}/product" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Đặt sản phẩm</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/list-orders" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách đơn hàng</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/pos" class="nav-link">
+                            <i class="nav-icon fas fa-puzzle-piece"></i>
+                            <p>
+                                PoS
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user-profile" class="nav-link">
+                            <i class="nav-icon fas fa-address-card"></i>
+                            <p>
+                                Thông tin cá nhân
+                            </p>
+                        </a>
+                    </li>
+                @if(Auth::user()->role)
+                    <li class="nav-header">Báo cáo</li>
+                    <li class="nav-item">
+                        <a href="/admin/dashboard" class="nav-link" {{ Request::is('my/url','my/url/*') ? 'active' : '' }}>
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/dashboard" class="nav-link">
+                            <i class="nav-icon fas fa-chart-bar"></i>
+                            <p>
+                                Prediction Report
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-chart-line"></i>
+                            <p>
+                                Sales Report
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/doctors/doctor-calendar" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/appointments/add-appointment" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Thêm mới</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
-                <li class="nav-header">Báo cáo</li>
-                <li class="nav-item">
-                    <a href="/admin/dashboard" class="nav-link" {{ Request::is('my/url','my/url/*') ? 'active' : '' }}>
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/admin/dashboard" class="nav-link">
-                        <i class="nav-icon fas fa-chart-bar"></i>
-                        <p>
-                            Prediction Report
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-chart-line"></i>
-                        <p>
-                            Sales Report
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/doctors/doctor-calendar" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/appointments/add-appointment" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm mới</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="nav-header">Quản lý</li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-book"></i>
+                            <p>
+                                Sản phẩm
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/products" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách sản phẩm</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/products/add-product" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Thêm sản phẩm mới</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/products/{{0}}/price-product" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Giá sản phẩm</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/categories" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>
+                                        Danh mục
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/production-batch" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Lô sản xuất</p>
+                                </a>
+                            </li>
 
-                <li class="nav-header">Quản lý</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-book"></i>
-                        <p>
-                            Sản phẩm
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/products" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách sản phẩm</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/products/add-product" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm sản phẩm mới</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/products/{{0}}/price-product" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Giá sản phẩm</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/categories" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>
-                                    Danh mục
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/production-batch" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Lô sản xuất</p>
-                            </a>
-                        </li>
-
-                        {{--                        <li class="nav-item">--}}
-{{--                            <a href="/admin/units" class="nav-link">--}}
-{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
-{{--                                <p>--}}
-{{--                                    Đơn vị--}}
-{{--                                </p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-columns"></i>
-                        <p>
-                            Kho hàng
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/inventories" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách sản phẩm</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/inventories/out-of-stock" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Sản phẩm hết hàng</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/inventories/list-expired" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Sản phẩm hết hạn</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-user-plus"></i>
-                        <p>
-                            Nhân viên
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/users" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách nhân viên</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/users/add-user" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm nhân viên</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-item" style="margin-bottom: 20px">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-truck"></i>
-                        <p>
-                            Nhà cung cấp
-                            <i class="fas fa-angle-left right"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="/admin/suppliers" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Danh sách nhà cung cấp</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/suppliers/add-supplier" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thêm nhà cung cấp</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/admin/suppliers/{{0}}/detail" class="nav-link">
-                                <i class="fas fa-plus nav-icon font-size-11"></i>
-                                <p>Thông tin nhà cung cấp</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-{{--                <li class="nav-item">--}}
+                            {{--                        <li class="nav-item">--}}
+    {{--                            <a href="/admin/units" class="nav-link">--}}
+    {{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
+    {{--                                <p>--}}
+    {{--                                    Đơn vị--}}
+    {{--                                </p>--}}
+    {{--                            </a>--}}
+    {{--                        </li>--}}
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-columns"></i>
+                            <p>
+                                Kho hàng
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/inventories" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách sản phẩm</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/inventories/out-of-stock" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Sản phẩm hết hàng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/inventories/list-expired" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Sản phẩm hết hạn</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-user-plus"></i>
+                            <p>
+                                Nhân viên
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/users" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách nhân viên</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/users/add-user" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Thêm nhân viên</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item" style="margin-bottom: 20px">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-truck"></i>
+                            <p>
+                                Nhà cung cấp
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/suppliers" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách nhà cung cấp</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/suppliers/add-supplier" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Thêm nhà cung cấp</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/suppliers/{{0}}/detail" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Thông tin nhà cung cấp</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+                {{--                <li class="nav-item">--}}
 {{--                    <a href="#" class="nav-link">--}}
 {{--                        <i class="nav-icon fas fa-tachometer-alt"></i>--}}
 {{--                        <p>--}}

@@ -34,6 +34,7 @@ class PosController extends Controller
             $productsPrice = $this->orderProductRepository->getExportPriceProductUpdated($product->id);
             if($productsPrice) {
                 $product->current_price = $productsPrice->current_price;
+                $product->current_price_search = $productsPrice->current_price . "_" . $product->product_name;
             } else {
                 $product->current_price = null;
             }
@@ -44,8 +45,17 @@ class PosController extends Controller
             }
         }
         $productionBatchAmount = $this->productionBatchRepository->getAmountByProductionBatchId();
+        foreach ($productionBatchAmount as $productBatch) {
+            $productBatch->product_code = $this->productRepository->getProductCodeByProductId($productBatch->product_id);
+            $productBatch->product_name = $this->productRepository->idToName($productBatch->product_id);
+            $productsPrice = $this->orderProductRepository->getExportPriceProductUpdated($productBatch->product_id);
+            if($productsPrice) {
+                $productBatch->current_price_search = $productsPrice->current_price . "_" . $this->productRepository->idToName($productBatch->product_id);
+            } else {
+                $productBatch->current_price_search = null;
+            }
+        }
 //        dd($productionBatchAmount);
-//        dd($products);
         return view("user.pos.index", ['rank' => 1 , 'products' => $products, 'productionBatchAmount' => $productionBatchAmount]);
     }
 }

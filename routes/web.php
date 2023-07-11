@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return response('Hello World', 200)->header('Content-Type', 'text/plain');
+    return redirect()->to('/login');
 });
 
 Route::get('/login', [\App\Http\Controllers\Admin\AuthController::class, 'loginAdminForm'])->name('login');

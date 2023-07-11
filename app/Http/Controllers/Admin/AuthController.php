@@ -55,7 +55,9 @@ class AuthController extends Controller
         $request->validated();
         // dd($request['remember_me'])
         if (Auth::attempt(request(['email', 'password']))) {
-            return redirect('/admin/dashboard');
+            if(Auth::user()->role)
+                return redirect('/admin/dashboard');
+            return redirect('/user-profile');
         } else {
             return back()->with('error', trans("auth.login_failed"));;
         }

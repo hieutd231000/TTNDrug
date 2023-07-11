@@ -45,6 +45,14 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
         return $product->product_name;
     }
 
+    public function getProductCodeByProductId($id)
+    {
+        $product = DB::table('products')
+            ->where("id", $id)
+            ->first();
+        return $product->product_code;
+    }
+
     /**
      * Get all product from products
      *
