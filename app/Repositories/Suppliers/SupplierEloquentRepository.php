@@ -129,4 +129,10 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             ->first();
         return $supplier->id;
     }
+
+    public function countSupplier() {
+        return DB::table("suppliers")
+            ->get()
+            ->count();
+    }
 }

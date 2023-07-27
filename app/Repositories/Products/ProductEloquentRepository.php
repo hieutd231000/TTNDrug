@@ -375,4 +375,13 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
         }
         return $listProduct;
     }
+
+    /**
+     * @return int
+     */
+    public function countProduct() {
+        return DB::table("products")
+            ->get()
+            ->count();
+    }
 }

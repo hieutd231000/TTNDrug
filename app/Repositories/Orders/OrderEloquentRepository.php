@@ -98,4 +98,15 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
             ->where('id', $id)
             ->update(['status' => 2]);
     }
+
+    /**
+     * @return int
+     */
+    public function countNewOrder() {
+        return DB::table("orders")
+            ->where('status', 0)
+            ->orWhere('status', 1)
+            ->get()
+            ->count();
+    }
 }

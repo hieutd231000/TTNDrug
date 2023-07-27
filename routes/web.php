@@ -20,8 +20,8 @@ Route::get('/', function () {
 Route::get('/login', [\App\Http\Controllers\Admin\AuthController::class, 'loginAdminForm'])->name('login');
 Route::get('/logout', [\App\Http\Controllers\Admin\AuthController::class, 'processAdminLogout']);
 Route::post('/login', [\App\Http\Controllers\Admin\AuthController::class, 'processAdminLogin']);
-Route::get('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'signupAdminForm']);
-Route::post('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'processAdminSignup']);
+//Route::get('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'signupAdminForm']);
+//Route::post('/signup', [\App\Http\Controllers\Admin\AuthController::class, 'processAdminSignup']);
 Route::get('/forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'forgotPasswordForm']);
 Route::post('/confirm-otp', [\App\Http\Controllers\Admin\AuthController::class, 'confirmOtp']);
 Route::post('/forgot-password', [\App\Http\Controllers\Admin\AuthController::class, 'postForgotPassword']);

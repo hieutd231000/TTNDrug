@@ -622,7 +622,8 @@
                         let h6 = document.createElement("h6");
                         let text = document.createTextNode("SL: " + productBatchAmount["total_amount"]);
                         h6.style.color = "green";
-                        h6.style.marginBottom = "0px";
+                        h6.style.marginBottom = "3px";
+                        h6.style.marginTop = "1px";
                         h6.style.textAlign = "center";
                         h6.classList.add(productBatchAmount["product_name"]);
                         h6.appendChild(text);
@@ -928,7 +929,6 @@
                     console.log(cartArray);
                     document.getElementById(id).value = "";
                     document.getElementById(code).value = "";
-                    document.getElementsByClassName(name)[0].remove();
                     buildStorage();
                     buildTable();
                 }

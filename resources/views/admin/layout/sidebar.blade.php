@@ -172,7 +172,7 @@
                         <a href="/admin/dashboard" class="nav-link" {{ Request::is('my/url','my/url/*') ? 'active' : '' }}>
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
-                                Dashboard
+                                Thống kê
                             </p>
                         </a>
                     </li>

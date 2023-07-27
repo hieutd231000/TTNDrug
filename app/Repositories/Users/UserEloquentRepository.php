@@ -53,4 +53,11 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         return DB::table("users")
             ->pluck("email");
     }
+
+    public function countUser()
+    {
+        return DB::table("users")
+            ->get()
+            ->count();
+    }
 }
