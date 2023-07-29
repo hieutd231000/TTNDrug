@@ -25,4 +25,10 @@ class CategoryEloquentRepository extends EloquentRepository implements CategoryR
             ->where("category_id", $categoryId)
             ->count();
     }
+
+    public function countCategory() {
+        return DB::table("categories")
+            ->get()
+            ->count();
+    }
 }

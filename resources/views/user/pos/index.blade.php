@@ -493,7 +493,7 @@
                                                     <thead>
                                                     <tr>
                                                         <th style="width: 200px">Tên sản phẩm</th>
-                                                        <th style="width: 200px">Danh mục</th>
+{{--                                                        <th style="width: 200px">Danh mục</th>--}}
                                                         <th style="width: 170px">Lô sản xuất</th>
                                                         <th style="width: 130px">Số lượng</th>
                                                         <th style="width: 150px">Đơn giá</th>
@@ -527,16 +527,23 @@
                                     <div class="container-form">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                             <div class="row">
-                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Tổng tiền: </p>
+                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Khách cần trả: </p>
                                                 <p class="col-sm-7" id="confirm_price">0 VNĐ</p>
                                             </div>
                                             <div class="row">
                                                 <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Thanh toán:</p>
                                                 <input type="text" style="height: 10px !important;"  id="paidCart" name="paidCart" disabled autocomplete="off">
                                             </div>
-                                            <div class="row">
-                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3" style="margin-bottom: 7px !important;">Trả lại:</p>
+                                            <div class="row" style="margin-bottom: 10px">
+                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3" style="margin-bottom: 7px !important;">Trả lại khách:</p>
                                                 <p class="col-sm-7" id="return_price" style="margin-bottom: 7px !important;"></p>
+                                            </div>
+                                            <div class="row" style="margin-bottom: 10px">
+                                                <select id="standard-select" style="height: 38px; width: 400px; padding-left: 5px" disabled>
+                                                    <option value="null" disabled selected>Hình thức thanh toán</option>
+                                                    <option value="tien">Tiền mặt </option>
+                                                    <option value="the">Thẻ thanh toán</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <p class="col-sm-12" id="validatePaid" style="color: red; width: 100%; margin-bottom: 7px"></p>
@@ -561,6 +568,8 @@
             <div class="modal-dialog" role="document">
                 <form>
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="total_price" value="">
+                    <input type="hidden" name="method_chose" value="">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn thanh toán giỏ hàng này?</h5>
@@ -614,34 +623,35 @@
                 // let production_batch_id = $('select[name="production_batch_selected"]').val();
                 // console.log(this.id);
                 var e = document.getElementById(this.id);
-                for (let productBatchAmount of listProductBatchAmount) {
-                    // console.log(productBatchAmount);
-                    // console.log(productBatchAmount["production_batch_id"]);
-                    if(productBatchAmount["production_batch_id"] === parseInt(e.value)){
-                        console.log(productBatchAmount["total_amount"]);
-                        let h6 = document.createElement("h6");
-                        let text = document.createTextNode("SL: " + productBatchAmount["total_amount"]);
-                        h6.style.color = "green";
-                        h6.style.marginBottom = "3px";
-                        h6.style.marginTop = "1px";
-                        h6.style.textAlign = "center";
-                        h6.classList.add(productBatchAmount["product_name"]);
-                        h6.appendChild(text);
-                        let element = document.getElementById(this.id);
-                        let priceSearch = document.getElementById(productBatchAmount["current_price_search"]);
-                        let parentDiv = element.parentNode;
-                        // console.log(element.parentNode);
-                        if(parentDiv.contains(document.getElementsByClassName(productBatchAmount["product_name"])[0])) {
-                            document.getElementsByClassName(productBatchAmount["product_name"])[0].remove();
-                            parentDiv.insertBefore(h6, priceSearch);
-                        } else
-                            parentDiv.insertBefore(h6, priceSearch);
-                        // if(element.childNodes.length === 2)
-                        //     element.removeChild(element.childNodes[1]);
-                        // $( "<p style='color: green; margin-bottom: 0px; text-align: center'>$text</p>" ).insertAfter( "#" + productBatchAmount["product_code"]);
-                        // element.appendChild(p);
-                    }
-                }
+
+                // for (let productBatchAmount of listProductBatchAmount) {
+                //     // console.log(productBatchAmount);
+                //     // console.log(productBatchAmount["production_batch_id"]);
+                //     if(productBatchAmount["production_batch_id"] === parseInt(e.value)){
+                //         console.log(productBatchAmount["total_amount"]);
+                //         let h6 = document.createElement("h6");
+                //         let text = document.createTextNode("SL: " + productBatchAmount["total_amount"]);
+                //         h6.style.color = "green";
+                //         h6.style.marginBottom = "3px";
+                //         h6.style.marginTop = "1px";
+                //         h6.style.textAlign = "center";
+                //         h6.classList.add(productBatchAmount["product_name"]);
+                //         h6.appendChild(text);
+                //         let element = document.getElementById(this.id);
+                //         let priceSearch = document.getElementById(productBatchAmount["current_price_search"]);
+                //         let parentDiv = element.parentNode;
+                //         // console.log(element.parentNode);
+                //         if(parentDiv.contains(document.getElementsByClassName(productBatchAmount["product_name"])[0])) {
+                //             document.getElementsByClassName(productBatchAmount["product_name"])[0].remove();
+                //             parentDiv.insertBefore(h6, priceSearch);
+                //         } else
+                //             parentDiv.insertBefore(h6, priceSearch);
+                //         // if(element.childNodes.length === 2)
+                //         //     element.removeChild(element.childNodes[1]);
+                //         // $( "<p style='color: green; margin-bottom: 0px; text-align: center'>$text</p>" ).insertAfter( "#" + productBatchAmount["product_code"]);
+                //         // element.appendChild(p);
+                //     }
+                // }
 
 
                 // document.getElementById("production_batch_amount").innerHTML = 'dsad';
@@ -759,10 +769,12 @@
                 document.getElementById("paidCardBtn").disabled = false;
                 document.getElementById("validateEmptyCart").innerHTML = "";
                 document.getElementById("paidCart").disabled = false;
+                document.getElementById("standard-select").disabled = false;
             } else {
                 document.getElementById("paidCardBtn").disabled = true;
                 document.getElementById("validateEmptyCart").innerHTML = "Mời bạn chọn sản phẩm";
                 document.getElementById("paidCart").disabled = true;
+                document.getElementById("standard-select").disabled = true;
             }
         };
         document.getElementById("paidCart").addEventListener('keyup', function(){
@@ -774,12 +786,19 @@
         });
         const handlePaid = () => {
             let moneyPay = $("input[name='paidCart']").val();
+            let method_chose = $('#standard-select').find(":selected").val();
             document.getElementById("validatePaid").innerHTML = "";
             if(!moneyPay) {
                 document.getElementById("validatePaid").innerHTML = "Nhập số tiền thanh toán !";
-            } else if(total_price_order > parseInt(moneyPay)) {
+            } else if(method_chose === "null") {
+                document.getElementById("validatePaid").innerHTML = "Mời bạn chọn hình thức thanh toán !";
+            }
+            else if(total_price_order > parseInt(moneyPay)) {
                 document.getElementById("validatePaid").innerHTML = "Số tiền thanh toán không được thấp hơn số tiền của đơn hàng !";
             } else {
+                document.getElementById("validatePaid").innerHTML = "";
+                $("input[name='total_price']").val(total_price_order);
+                $("input[name='method_chose']").val(method_chose);
                 $("#confirmModal").modal("show");
                 // document.getElementById("return_price").innerHTML = total_price - parseInt(moneyPay) + "VNĐ";
             }
@@ -787,13 +806,15 @@
         const handlePayOrderSuccess = () => {
             $("#confirmModal").modal("hide");
             var _token = $("input[name='_token']").val();
+            var totalPrice = $("input[name='total_price']").val();
+            var method_chose = $("input[name='method_chose']").val();
             let storageSupplierOrder = "cartStorage";
             let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
             let listProductObject = JSON.parse(retrievedProductObject);
             $.ajax({
                 url: "/admin/inventories/ordered-success",
                 type:'POST',
-                data: {_token:_token, listProductObject: listProductObject},
+                data: {_token:_token, listProductObject: listProductObject, totalPrice: totalPrice, methodChose: method_chose},
                 success: function(response) {
                     document.getElementById("notification").innerHTML = response["message"];
                     document.getElementsByClassName("background")[0].classList.remove("background-failed");
@@ -806,10 +827,10 @@
                     }, 1000);
                 },
                 error: function (err) {
-                    document.getElementById("notification").innerHTML = err["responseJSON"]["message"];
-                    document.getElementsByClassName("background")[0].classList.remove("background-success");
-                    document.getElementsByClassName("background")[0].classList.add("background-failed");
-                    $("#success_tic").modal("show");
+                    // document.getElementById("notification").innerHTML = err["responseJSON"]["message"];
+                    // document.getElementsByClassName("background")[0].classList.remove("background-success");
+                    // document.getElementsByClassName("background")[0].classList.add("background-failed");
+                    // $("#success_tic").modal("show");
                     console.log(err);
                 }
             });
@@ -875,14 +896,14 @@
             let cell3 = row.insertCell(2);
             let cell4 = row.insertCell(3);
             let cell5 = row.insertCell(4);
-            let cell6 = row.insertCell(5);
-            var deleteRow = row.insertCell(6);
+            // let cell6 = row.insertCell(5);
+            var deleteRow = row.insertCell(5);
             cell1.innerHTML = name;
-            cell2.innerHTML = category;
-            cell3.innerHTML = production_batch_name;
-            cell4.innerHTML = amount;
-            cell5.innerHTML = price + " VNĐ";
-            cell6.innerHTML = totalPrice + "<span> VNĐ</span>";
+            // cell2.innerHTML = category;
+            cell2.innerHTML = production_batch_name;
+            cell3.innerHTML = amount;
+            cell4.innerHTML = price + " VNĐ";
+            cell5.innerHTML = totalPrice + "<span> VNĐ</span>";
             //Create button
             let button = document.createElement("button");
             button.innerText = "Xoá";

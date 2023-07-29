@@ -8,6 +8,7 @@ use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\SupplierProducts\SupplierProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class SupplierController extends Controller

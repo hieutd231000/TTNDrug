@@ -82,4 +82,10 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
             ->where("orders.status", 2)
             ->get();
     }
+
+    public function countProductionBatch() {
+        return DB::table("production_batches")
+            ->get()
+            ->count();
+    }
 }

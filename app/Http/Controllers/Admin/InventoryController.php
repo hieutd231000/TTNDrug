@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Mail\RequestProduct;
 use App\Models\Suppliers;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
+use App\Repositories\Invoices\InvoiceRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
+use App\Repositories\Sales\SaleRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -25,13 +27,17 @@ class InventoryController extends Controller
     protected $productionBatchRepository;
     protected $orderProductRepository;
     protected $supplierRepository;
+    protected $saleRepository;
+    protected $invoiceRepository;
     protected $response;
 
-    public function __construct(SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
+    public function __construct(SaleRepositoryInterface $saleRepository, InvoiceRepositoryInterface $invoiceRepository, SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
         $this->productionBatchRepository = $productionBatchRepository;
         $this->orderProductRepository = $orderProductRepository;
+        $this->saleRepository = $saleRepository;
+        $this->invoiceRepository = $invoiceRepository;
         $this->supplierRepository = $supplierRepository;
         $this->response = $response;
     }
@@ -84,10 +90,24 @@ class InventoryController extends Controller
 
     public function orderedSuccess(Request $request) {
         try {
-            foreach ($request->listProductObject as $product) {
-                $this->orderProductRepository->orderedSuccess($product["product_name"], $product["production_batch_name"], $product["amount"]);
+//            dd($request->all());
+            $data1["money"] = $request["totalPrice"];
+            $data1["method"] = $request["methodChose"];
+            $data1["user_id"] = auth()->user()->id;
+            $newInvoice = $this->invoiceRepository->create($data1);
+            if($newInvoice->id) {
+                foreach ($request->listProductObject as $product) {
+                    $data2["product_name"] = $product["product_name"];
+                    $data2["invoice_id"] = $newInvoice->id;
+                    $data2["amount"] = $product["amount"];
+                    $data2["price"] = $product["price"];
+                    $data2["total_price"] = $product["total_price"];
+                    $this->saleRepository->create($data2);
+                    $this->orderProductRepository->orderedSuccess($product["product_name"], $product["production_batch_name"], $product["amount"]);
+                }
+                return $this->response->success(null, 200, 'Thanh toán đơn hàng thành công');
             }
-            return $this->response->success(null, 200, 'Thanh toán đơn hàng thành công');
+            return $this->response->error(null, 500, 'Thanh toán đơn hàng thất bại');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Thanh toán đơn hàng thất bại');

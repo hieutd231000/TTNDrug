@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Repositories\Categories\CategoryRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\OrderReceived\OrderReceivedRepositoryInterface;
 use App\Repositories\OrderReceivedUsers\OrderReceivedUsersRepositoryInterface;
@@ -20,6 +21,7 @@ class DashboardController extends Controller
      * @var
      */
     protected $productRepository;
+    protected $categoryRepository;
     protected $userRepository;
     protected $supplierRepository;
     protected $orderRepository;
@@ -29,8 +31,9 @@ class DashboardController extends Controller
     protected $productionBatchRepository;
     protected $response;
 
-    public function __construct(OrderReceivedRepositoryInterface $orderReceivedRepository, OrderReceivedUsersRepositoryInterface $orderReceivedUsersRepository, UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
+    public function __construct(CategoryRepositoryInterface $categoryRepository, OrderReceivedRepositoryInterface $orderReceivedRepository, OrderReceivedUsersRepositoryInterface $orderReceivedUsersRepository, UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
     {
+        $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
         $this->supplierRepository = $suppierRepository;
         $this->orderRepository = $orderRepository;
@@ -53,13 +56,52 @@ class DashboardController extends Controller
     {
         $countCurrentProduct = $this->productRepository->countProduct();
         $countCurrentSupplier = $this->supplierRepository->countSupplier();
+        $countCurrentCategory = $this->categoryRepository->countCategory();
+        $countCurrentSupplierProduct = $this->supplierRepository->countSupplierProduct();
         $countCurrentNewOrder = $this->orderRepository->countNewOrder();
         $countCurrentUser = $this->userRepository->countUser();
+        $countCurrentAdmin = $this->userRepository->countAdmin();
+        //Nguoi dung moi nhat, nha cung cap moi nhat
+        $getLatestUser = $this->userRepository->getLatestUser();
+        $getLatestSupplier = $this->supplierRepository->getLatestSupplier();
+        //Thong ke
+        $thkUser = $this->userRepository->thkUserByTime();
+        $thkAdmin = $this->userRepository->thkAdminByTime();
+        $thkSupplier = $this->userRepository->thkSupplierByTime();
+        //San pham
+        $countCurrentProductionBatch = $this->productionBatchRepository->countProductionBatch();
+        $countCurrentOutOfProduct = 0;
+        $listOutOfProduct = $this->productRepository->getListOutOfStock();
+        foreach ($listOutOfProduct as $outOfProduct) {
+            if(!$outOfProduct->checkAmount)
+                $countCurrentOutOfProduct ++;
+        }
+        $countCurrentExpiredProduct = 0;
+        $listExpiredProduct = $this->productRepository->getListExpiredProductInventory();
+        foreach ($listExpiredProduct as $expiredProduct) {
+            if($expiredProduct->check_expired_time)
+                $countCurrentExpiredProduct ++;
+        }
         return view("admin.page.dashboard", [
             "countCurrentProduct" => $countCurrentProduct,
+            "countCurrentCategory" => $countCurrentCategory,
             "countCurrentSupplier" => $countCurrentSupplier,
+            "countCurrentSupplierProduct" => $countCurrentSupplierProduct,
             "countCurrentNewOrder" => $countCurrentNewOrder,
             "countCurrentUser" => $countCurrentUser,
+            "countCurrentAdmin" => $countCurrentAdmin,
+
+            "getLatestUser" => $getLatestUser,
+            "getLatestSupplier" => $getLatestSupplier,
+
+            "thkUser" => $thkUser,
+            "thkAdmin" => $thkAdmin,
+            "thkSupplier" => $thkSupplier,
+
+            "countCurrentProductionBatch" => $countCurrentProductionBatch,
+            "countCurrentOutOfProduct" => $countCurrentOutOfProduct,
+            "countCurrentExpiredProduct" => $countCurrentExpiredProduct,
+
         ]);
     }
 }

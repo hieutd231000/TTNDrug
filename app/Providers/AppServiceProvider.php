@@ -10,6 +10,8 @@ use App\Repositories\Infos\InfoEloquentRepository;
 use App\Repositories\Infos\InfoRepositoryInterface;
 use App\Repositories\Inventories\InventoryEloquentRepository;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
+use App\Repositories\Invoices\InvoiceEloquentRepository;
+use App\Repositories\Invoices\InvoiceRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\OrderReceived\OrderReceivedEloquentRepository;
@@ -22,6 +24,8 @@ use App\Repositories\ProductionBatches\ProductionBatchEloquentRepository;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductEloquentRepository;
 use App\Repositories\Products\ProductRepositoryInterface;
+use App\Repositories\Sales\SaleEloquentRepository;
+use App\Repositories\Sales\SaleRepositoryInterface;
 use App\Repositories\SupplierProducts\SupplierProductEloquentRepository;
 use App\Repositories\SupplierProducts\SupplierProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
@@ -102,6 +106,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             OrderReceivedRepositoryInterface::class,
             OrderReceivedEloquentRepository::class
+        );
+        $this->app->bind(
+            SaleRepositoryInterface::class,
+            SaleEloquentRepository::class
+        );
+        $this->app->bind(
+            InvoiceRepositoryInterface::class,
+            InvoiceEloquentRepository::class
         );
     }
 

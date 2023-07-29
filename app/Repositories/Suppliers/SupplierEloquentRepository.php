@@ -135,4 +135,29 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             ->get()
             ->count();
     }
+
+    public function countSupplierProduct() {
+        return DB::table("supplier_products")
+            ->get()
+            ->count();
+    }
+
+    public function getLatestSupplier() {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $date = date('Y/m/d', time());
+        $currentDates = explode("/", $date);
+        $suppliers = DB::table("suppliers")
+            ->take(5)
+            ->orderBy("id", "DESC")
+            ->get();
+        foreach ($suppliers as $supplier) {
+            if(!is_null($supplier->created_at)) {
+                $createUserTime = explode(" ", $supplier->created_at);
+                $createUserDay = explode("-", $supplier->created_at);
+                $supplier->countDayCreate =((int)$currentDates[1] - (int)$createUserDay[1]) * 31 + ((int)$currentDates[2] - (int)$createUserDay[2]);
+            }
+        }
+        return $suppliers;
+    }
+
 }
