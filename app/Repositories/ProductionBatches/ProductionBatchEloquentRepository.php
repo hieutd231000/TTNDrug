@@ -88,4 +88,51 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
             ->get()
             ->count();
     }
+
+    /**
+     * @return array
+     */
+    public function thkProductBatchByTime() {
+        $currentYear = date("Y");
+        $countItemByTime = [];
+        $listItems = DB::table("production_batches")
+            ->select("id", "created_at")
+            ->get();
+        for($i = 0; $i < 7; $i++) {
+            $countByMonth = array_fill(0, 12, 0);
+            foreach ($listItems as $item) {
+                if(!is_null($item->created_at)) {
+                    $getCreateTimes = explode(" ", $item->created_at);
+                    $getCreateTime = explode("-", $getCreateTimes[0]);
+                    if($getCreateTime[0] == strval((int)$currentYear - $i)) {
+                        $countByMonth[(int)$getCreateTime[1] - 1] += 1;
+                    }
+                }
+            }
+            array_push($countItemByTime, ['currentYear' => strval((int)$currentYear - $i), 'countProductionBatchByTime' => $countByMonth]);
+        }
+        return $countItemByTime;
+    }
+
+    public function thkProductExBatchByTime() {
+        $currentYear = date("Y");
+        $countItemByTime = [];
+        $listItems = DB::table("production_batches")
+            ->select("id", "expired_time")
+            ->get();
+        for($i = 0; $i < 7; $i++) {
+            $countByMonth = array_fill(0, 12, 0);
+            foreach ($listItems as $item) {
+                if(!is_null($item->expired_time )) {
+                    $getCreateTimes = explode(" ", $item->expired_time);
+                    $getCreateTime = explode("/", $getCreateTimes[0]);
+                    if($getCreateTime[2] == strval((int)$currentYear - $i)) {
+                        $countByMonth[(int)$getCreateTime[1] - 1] += 1;
+                    }
+                }
+            }
+            array_push($countItemByTime, ['currentYear' => strval((int)$currentYear - $i), 'countProductionBatchByTime' => $countByMonth]);
+        }
+        return $countItemByTime;
+    }
 }

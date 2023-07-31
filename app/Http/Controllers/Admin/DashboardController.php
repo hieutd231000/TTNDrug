@@ -68,6 +68,9 @@ class DashboardController extends Controller
         $thkUser = $this->userRepository->thkUserByTime();
         $thkAdmin = $this->userRepository->thkAdminByTime();
         $thkSupplier = $this->userRepository->thkSupplierByTime();
+        $thkProduct = $this->productRepository->thkProductByTime();
+        $thkProductionBatch = $this->productionBatchRepository->thkProductBatchByTime();
+        $thkProductionExBatch = $this->productionBatchRepository->thkProductExBatchByTime();
         //San pham
         $countCurrentProductionBatch = $this->productionBatchRepository->countProductionBatch();
         $countCurrentOutOfProduct = 0;
@@ -97,6 +100,9 @@ class DashboardController extends Controller
             "thkUser" => $thkUser,
             "thkAdmin" => $thkAdmin,
             "thkSupplier" => $thkSupplier,
+            "thkProduct" => $thkProduct,
+            "thkProductionBatch" => $thkProductionBatch,
+            "thkProductionExBatch" => $thkProductionExBatch,
 
             "countCurrentProductionBatch" => $countCurrentProductionBatch,
             "countCurrentOutOfProduct" => $countCurrentOutOfProduct,

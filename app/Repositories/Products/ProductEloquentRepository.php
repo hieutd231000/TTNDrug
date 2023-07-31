@@ -384,4 +384,26 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->get()
             ->count();
     }
+
+    public function thkProductByTime() {
+        $currentYear = date("Y");
+        $countProductByTime = [];
+        $listUser = DB::table("products")
+            ->select("id", "created_at")
+            ->get();
+        for($i = 0; $i < 7; $i++) {
+            $countByMonth = array_fill(0, 12, 0);
+            foreach ($listUser as $user) {
+                if(!is_null($user->created_at)) {
+                    $getCreateTimes = explode(" ", $user->created_at);
+                    $getCreateTime = explode("-", $getCreateTimes[0]);
+                    if($getCreateTime[0] == strval((int)$currentYear - $i)) {
+                        $countByMonth[(int)$getCreateTime[1] - 1] += 1;
+                    }
+                }
+            }
+            array_push($countProductByTime, ['currentYear' => strval((int)$currentYear - $i), 'countProductByTime' => $countByMonth]);
+        }
+        return $countProductByTime;
+    }
 }

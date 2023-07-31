@@ -125,7 +125,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Nhà cung cấp mới nhất
                                     &nbsp;
-                                    <span class="badge badge-info">5 nhà</span>
+                                    <span class="badge badge-info">5 đơn vị</span>
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -170,13 +170,15 @@
                         <!-- LINE CHART -->
                         <div class="card">
                             <div class="card-body" style="height: 425px !important;">
-                                <div style="text-align: end">
+                                <div style="text-align: end">Năm:
                                     <select name="select_year" id="select_year" style="padding: 2px">
                                         <option value="2023" selected>2023</option>
                                         <option value="2022">2022</option>
                                         <option value="2021">2021</option>
                                         <option value="2020">2020</option>
                                         <option value="2019">2019</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2017">2017</option>
                                     </select>
                                 </div>
                                 <div class="chart">
@@ -193,6 +195,17 @@
                         <!-- BAR CHART -->
                         <div class="card">
                             <div class="card-body">
+                                <div style="text-align: end">Năm:
+                                    <select name="select_year1" id="select_year1" style="padding: 2px">
+                                        <option value="2023" selected>2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2017">2017</option>
+                                    </select>
+                                </div>
                                 <div class="chart">
                                     <canvas
                                         id="barChart"
@@ -323,7 +336,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Thống kê số lượng người dùng, nhà cung cấp (năm 2023)',
+                    text: 'Thống kê số lượng người dùng, nhà cung cấp',
                 }
             }
             //-------------
@@ -407,13 +420,15 @@
             //-------------
             //- BAR CHART -
             //-------------
-
+            var thkProduct = @json($thkProduct);
+            var thkProductionBatch = @json($thkProductionBatch);
+            var thkProductionExBatch = @json($thkProductionExBatch);
             var areaChartData1 = {
                 labels  : ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
                     'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                 datasets: [
                     {
-                        label               : 'Số lượng',
+                        label               : 'Số lượng thuốc',
                         backgroundColor     : '#ffc107',
                         borderColor         : '#ffc107',
                         pointRadius          : true,
@@ -421,21 +436,21 @@
                         pointStrokeColor    : 'rgba(60,141,188,1)',
                         pointHighlightFill  : '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : thkUser
+                        data                : thkProduct[0]["countProductByTime"]
                     },
                     {
-                        label               : 'Sắp hết tồn kho',
-                        backgroundColor     : '#17a2b8',
-                        borderColor         : '#17a2b8',
+                        label               : 'Lô sản xuất',
+                        backgroundColor     : '#28a745',
+                        borderColor         : '#28a745',
                         pointRadius          : true,
                         pointColor          : '#3b8bba',
                         pointStrokeColor    : 'rgba(60,141,188,1)',
                         pointHighlightFill  : '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : thkSupplier
+                        data                : thkProductionBatch[0]["countProductionBatchByTime"]
                     },
                     {
-                        label               : 'Sắp quá hạn',
+                        label               : 'Lô sản xuất hết hạn',
                         backgroundColor     : '#dc3545',
                         borderColor         : '#dc3545',
                         pointRadius          : true,
@@ -443,7 +458,7 @@
                         pointStrokeColor    : 'rgba(60,141,188,1)',
                         pointHighlightFill  : '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : thkAdmin
+                        data                : thkProductionExBatch[0]["countProductionBatchByTime"]
                     }
                 ]
             }
@@ -468,6 +483,70 @@
                 data: barChartData,
                 options: barChartOptions,
             });
+            $('#select_year1').change(function(){
+                for(let i = 0; i < thkProduct.length; i++) {
+                    if(thkProduct[i]["currentYear"] === $(this).val()) {
+                        areaChartData1 = {
+                            labels  : ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                                'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                            datasets: [
+                                {
+                                    label               : 'Số lượng thuốc',
+                                    backgroundColor     : '#ffc107',
+                                    borderColor         : '#ffc107',
+                                    pointRadius          : true,
+                                    pointColor          : '#3b8bba',
+                                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                                    pointHighlightFill  : '#fff',
+                                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                                    data                : thkProduct[i]["countProductByTime"]
+                                },
+                                {
+                                    label               : 'Lô sản xuất',
+                                    backgroundColor     : '#28a745',
+                                    borderColor         : '#28a745',
+                                    pointRadius          : true,
+                                    pointColor          : '#3b8bba',
+                                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                                    pointHighlightFill  : '#fff',
+                                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                                    data                : thkProductionBatch[i]["countProductionBatchByTime"]
+                                },
+                                {
+                                    label               : 'Lô sản xuất hết hạn',
+                                    backgroundColor     : '#dc3545',
+                                    borderColor         : '#dc3545',
+                                    pointRadius          : true,
+                                    pointColor          : '#3b8bba',
+                                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                                    pointHighlightFill  : '#fff',
+                                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                                    data                : thkProductionExBatch[i]["countProductionBatchByTime"]
+                                }
+                            ]
+                        }
+                        //-------------
+                        //- LINE CHART SELECT YEAR-
+                        //--------------
+                        var barChartCanvas = $("#barChart").get(0).getContext("2d");
+                        var barChartData = $.extend(true, {}, areaChartData1);
+                        var temp0 = areaChartData1.datasets[0];
+                        var temp1 = areaChartData1.datasets[1];
+                        var temp2 = areaChartData1.datasets[2];
+                        barChartData.datasets[0] = temp0;
+                        barChartData.datasets[1] = temp1;
+                        barChartData.datasets[2] = temp2;
+
+                        new Chart(barChartCanvas, {
+                            type: "bar",
+                            data: barChartData,
+                            options: barChartOptions,
+                        });
+                        break;
+                    }
+                }
+            })
+
         });
     </script>
 @endsection
