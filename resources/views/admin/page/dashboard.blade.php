@@ -194,8 +194,8 @@
                     <section class="col-lg-9 connectedSortable">
                         <!-- BAR CHART -->
                         <div class="card">
-                            <div class="card-body">
-                                <div style="text-align: end">Năm:
+                            <div class="card-body" style="height: 400px !important;">
+                                <div style="text-align: end; margin-bottom: 15px">Năm:
                                     <select name="select_year1" id="select_year1" style="padding: 2px">
                                         <option value="2023" selected>2023</option>
                                         <option value="2022">2022</option>
@@ -209,7 +209,7 @@
                                 <div class="chart">
                                     <canvas
                                         id="barChart"
-                                        style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"
+                                        style="min-height: 285px; height: 285px; max-height: 285px; max-width: 100%;"
                                     ></canvas>
                                 </div>
                             </div>

@@ -77,6 +77,7 @@
 <script src="{{ asset("admin/plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
 <!-- ChartJS -->
 <script src="{{ asset("admin/plugins/chart.js/Chart.min.js") }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <!-- Sparkline -->
 <script src="{{ asset("admin/plugins/sparklines/sparkline.js") }}"></script>
 <!-- JQVMap -->

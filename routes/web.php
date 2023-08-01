@@ -33,6 +33,7 @@ Route::get('/pos', [\App\Http\Controllers\PosController::class, 'index']);
 Route::middleware('auth')->group(function () {
     Route::group(["prefix" => "admin"], function () {
         Route::get('/dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'dashboard']);
+        Route::get('/sale-report', [\App\Http\Controllers\Admin\DashboardController::class, 'sale']);
 
         Route::group(["prefix" => "production-batch"], function () {
             Route::get("/", [\App\Http\Controllers\Admin\OrderController::class, 'productionBatchIndex']);

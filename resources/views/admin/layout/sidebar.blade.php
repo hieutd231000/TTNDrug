@@ -185,27 +185,12 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">
+                        <a href="/admin/sale-report" class="nav-link">
                             <i class="nav-icon fas fa-chart-line"></i>
                             <p>
-                                Sales Report
-                                <i class="fas fa-angle-left right"></i>
+                                Báo cáo doanh số
                             </p>
                         </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/admin/doctors/doctor-calendar" class="nav-link">
-                                    <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Danh sách</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="/admin/appointments/add-appointment" class="nav-link">
-                                    <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Thêm mới</p>
-                                </a>
-                            </li>
-                        </ul>
                     </li>
 
                     <li class="nav-header">Quản lý</li>

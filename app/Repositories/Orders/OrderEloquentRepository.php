@@ -109,4 +109,25 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
             ->get()
             ->count();
     }
+
+    /**
+     * @param $selectYear
+     * @return void
+     */
+    public function getCost($selectYear) {
+        $orders = DB::table("orders")
+            ->select()
+            ->where("status", 2)
+            ->get();
+        $sumTotal = 0;
+        foreach ($orders as $order) {
+            if(!is_null($order->created_at)) {
+                $orderTime = explode(" ", $order->created_at);
+                $orderDate = explode("-", $orderTime[0]);
+                if($orderDate[0] == $selectYear)
+                    $sumTotal += (int) $order->price_order;
+            }
+        }
+        return $sumTotal;
+    }
 }
