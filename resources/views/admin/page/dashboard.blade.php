@@ -1,4 +1,6 @@
 @extends("admin.master")
+{{--<!-- Navbar -->--}}
+{{--@include("admin.layout.navbar")--}}
 @section("title", "Dashboard")
 @section("content")
     <div class="content-wrapper">

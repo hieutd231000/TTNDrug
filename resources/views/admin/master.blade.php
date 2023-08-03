@@ -118,6 +118,78 @@
 <script src="{{ asset("admin/plugins/summernote/summernote-bs4.min.js") }}"></script>
 {{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>--}}
 <script src="https://cdn.rawgit.com/harvesthq/chosen/gh-pages/chosen.jquery.min.js"></script>
+{{--pusher--}}
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script>
+    $(document).ready(function (){
+        //Thong bao pusher (dat hang)
+        var pusher = new Pusher('88177615218eba838363', {
+            cluster: 'ap1'
+        });
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            //Add amount
+            var notificationsWrapper = $('.dropdownNotifi');
+            //Lay so luong tat ca thong bao va so luong thong bao chua doc
+            var notificationsAllCountElem = $('.countAllNotification');
+            var notificationsUnCountElem = $('.countUnNotification');
+            var notificationsCountAll = parseInt(notificationsAllCountElem.html());
+            var notificationsCountUn = parseInt(notificationsUnCountElem.html());
+            // if (notificationsCountAll <= 0) {
+            //     notificationsWrapper.hide();
+            // }
+            notificationsAllCountElem.html(notificationsCountAll + 1);
+            notificationsUnCountElem.html(notificationsCountUn + 1);
+
+            //Add content
+            var notificationsContent = $('.dropdown-content');
+            var existingNotifications = notificationsContent.html();
+            var newNotificationHtml = `
+                <div class="dropdown-divider"></div>
+                <a href="/read-notification/`+data.notification_id+`" class="dropdown-item">
+                    <div class="row">
+                        <div class="col-11 col-md-11 col-lg-11 col-sm-11">
+                            <p>`+data.notification_content+`</p>
+                            <p class="text-muted text-sm">Khoảng 1 phút trước</p>
+                        </div>
+                        <div class="col-1 col-md-1 col-lg-1 col-sm-1" style="display: flex; align-items: center;">
+                            <div style="background: hsl(214, 100%, 59%);
+                              border-radius: 50%;
+                              height: 12px;
+                              width: 12px;">
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            `;
+            notificationsContent.html(newNotificationHtml + existingNotifications);
+        });
+
+        //Thong bao pusher (doc thong bao)
+        var readChannel = pusher.subscribe('my-read-channel');
+        readChannel.bind('my-read-event', function(data) {
+            alert(JSON.stringify(data));
+            //Danh dau da doc
+            var circle = {};
+            var notificationsContent = document.getElementById(data.read_user_id).getElementsByTagName("*");
+            for (var i = 0; i < notificationsContent.length; i++) {
+                if (notificationsContent[i].classList.contains("countUnNotification")) {
+                    notificationsContent[i].html(parseInt(notificationsContent[i].html()) - 1);
+                }
+                if (notificationsContent[i].id === data.notification_id) {
+                    var newCircleHtml = `<div style="background: hsl(214, 100%, 59%);
+                                                      border-radius: 50%;
+                                                      height: 12px;
+                                                      width: 12px;">
+                                                    </div>`;
+                    notificationsContent[i].html(newCircleHtml);
+                }
+            }
+            // var existingNotifications = notificationsContent.html();
+        });
+    })
+</script>
+
 @yield("custom-js")
 </body>
 </html>

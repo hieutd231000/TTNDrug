@@ -287,6 +287,8 @@
 </style>
 
 @extends("admin.master")
+{{--<!-- Navbar -->--}}
+{{--@include("admin.layout.navbar")--}}
 @section("content")
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -478,8 +480,8 @@
                                             </div>
                                             <div class="row clearfix">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: end">
-                                                    <button class="btn btn-cancel handleCancel" id="handleCancelBtn" disabled>Huỷ</button>
-                                                    <button class="btn btn-primary handleOrder" id="handleOrderBtn" disabled>Đặt hàng</button>
+                                                    <button type="button" class="btn btn-cancel" onclick="handleCancel()" id="handleCancelBtn" disabled>Huỷ</button>
+                                                    <button type="button" class="btn btn-primary" onclick="handleOrder()" id="handleOrderBtn" disabled>Đặt hàng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -696,52 +698,59 @@
             if(supplierDetailId) {
                 buildTableReload(supplierDetailId);
             }
-
-            //Handle add new orders
-            $(".handleOrder").click(function(e){
-                e.preventDefault();
-                console.log(productArray);
-                order_code = getRandomOrderCode();
-                order_time = $("input[name='order_time']").val();
-                detail = $("textarea[name='detail']").val();
-                // Check validate
-                if(!order_time) {
-                    blockErrOrderTime.innerHTML = "Không được để trống";
-                } else {
-                    blockErrOrderTime.innerHTML = "";
-                }
-                //Thành công
-                if(!blockErrOrderTime.innerHTML) {
-                    var _token = $("input[name='_token']").val();
-                    $.ajax({
-                        url: "/admin/orders/add-order",
-                        type:'POST',
-                        data: {_token:_token, supplier_id:supplierDetailId, listProduct:productArray, price_order:total_price,
-                            order_code:order_code , order_time: order_time, detail: detail
-                        },
-                        success: function(response) {
-                            $("#success_tic").modal("show");
-                            $("input[name='order_time']").val("");
-                            $("textarea[name='detail']").val("");
-                            blockErrOrderTime.innerHTML = "";
-                            removeItemStorage(supplierDetailId);
-                            setTimeout(function(){
-                                window.location.href = "/admin/list-orders";
-                            }, 1200);
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                }
-            });
-            //Handle cancel orders
-            $(".handleCancel").click(function(e){
-                e.preventDefault();
-                $("input[name='order_time']").val("");
-                $("textarea[name='detail']").val("");
-            });
         });
+        //Handle add new orders
+        const handleOrder = () => {
+            console.log(productArray);
+            order_code = getRandomOrderCode();
+            order_time = $("input[name='order_time']").val();
+            detail = $("textarea[name='detail']").val();
+            // Check validate
+            if(!order_time) {
+                blockErrOrderTime.innerHTML = "Không được để trống";
+            } else {
+                blockErrOrderTime.innerHTML = "";
+            }
+            //Thành công
+            if(!blockErrOrderTime.innerHTML) {
+                var _token = $("input[name='_token']").val();
+                $.ajax({
+                    url: "/admin/orders/add-order",
+                    type:'POST',
+                    data: {_token:_token, supplier_id:supplierDetailId, listProduct:productArray, price_order:total_price,
+                        order_code:order_code , order_time: order_time, detail: detail
+                    },
+                    success: function(response) {
+                        $("#success_tic").modal("show");
+                        $("input[name='order_time']").val("");
+                        $("textarea[name='detail']").val("");
+                        blockErrOrderTime.innerHTML = "";
+                        removeItemStorage(supplierDetailId);
+                        setTimeout(function(){
+                            window.location.href = "/admin/list-orders";
+                        }, 1200);
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+            }
+        }
+        //Handle cancel orders
+        const handleCancel = () => {
+            $("input[name='order_time']").val("");
+            $("textarea[name='detail']").val("");
+        }
+
+        // $(".handleOrder").click(function(e){
+        //
+        // });
+        // //Handle cancel orders
+        // $(".handleCancel").click(function(e){
+        //     e.preventDefault();
+        //     $("input[name='order_time']").val("");
+        //     $("textarea[name='detail']").val("");
+        // });
 
         /**
          * Handle add product to cart

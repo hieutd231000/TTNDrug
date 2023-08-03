@@ -12,6 +12,8 @@ use App\Repositories\Inventories\InventoryEloquentRepository;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\Invoices\InvoiceEloquentRepository;
 use App\Repositories\Invoices\InvoiceRepositoryInterface;
+use App\Repositories\Notifications\NotificationEloquentRepository;
+use App\Repositories\Notifications\NotificationRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\OrderReceived\OrderReceivedEloquentRepository;
@@ -30,8 +32,12 @@ use App\Repositories\SupplierProducts\SupplierProductEloquentRepository;
 use App\Repositories\SupplierProducts\SupplierProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use App\Repositories\Suppliers\SupplierEloquentRepository;
+use App\Repositories\UserNotifications\UserNotificationsEloquentRepository;
+use App\Repositories\UserNotifications\UserNotificationsRepositoryInterface;
 use App\Repositories\Users\UserEloquentRepository;
 use App\Repositories\Users\UserRepositoryInterface;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -115,6 +121,14 @@ class AppServiceProvider extends ServiceProvider
             InvoiceRepositoryInterface::class,
             InvoiceEloquentRepository::class
         );
+        $this->app->bind(
+            NotificationRepositoryInterface::class,
+            NotificationEloquentRepository::class
+        );
+        $this->app->bind(
+            UserNotificationsRepositoryInterface::class,
+            UserNotificationsEloquentRepository::class
+        );
     }
 
     /**
@@ -124,6 +138,39 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //User notification
+        $userNotifications = DB::table("users")
+            ->select("users.id AS user_id", "users.fullname", "users.email")
+            ->get();
+//        $notifications = DB::table("notifications")
+//            ->orderBy("id", "DESC")
+//            ->get();
+        $readNotifications = DB::table("user_notifications")
+            ->get();
+        foreach ($userNotifications as $user) {
+//            $user->unread = count($notifications);
+//            $user->listNotifications = $notifications;
+            $countRead = 0;
+            $listNotification = DB::table("notifications")
+                ->orderBy("id", "DESC")
+                ->get();
+            foreach ($readNotifications as $readNotification) {
+                if($user->user_id == $readNotification->user_id) {
+                    foreach ($listNotification as $notification) {
+                        if($notification->id == $readNotification->notification_id) {
+                            $notification->is_read = 1;
+                            $countRead ++;
+                        }
+                    }
+                }
+            }
+            $user->countNotifi = count($listNotification);
+            $user->unread = count($listNotification) - $countRead;
+            $user->listNotifications = $listNotification;
+        }
+//        dd($userNotifications);
+//        dd($userNotifications[0]->listNotification[0]->notification);
+        \Illuminate\Support\Facades\View::share("shareNotification", $userNotifications);
+//        View::share('shareNotification', 0);
     }
 }

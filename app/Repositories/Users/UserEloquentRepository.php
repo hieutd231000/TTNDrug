@@ -4,6 +4,7 @@ namespace App\Repositories\Users;
 
 use App\Models\User;
 use App\Repositories\Eloquent\EloquentRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class UserEloquentRepository extends EloquentRepository implements UserRepositoryInterface
@@ -166,4 +167,31 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         }
         return $countSupplierByTime;
     }
+
+    /**
+     * @return \Illuminate\Support\Collection
+     */
+    public function getAllUserNotification()
+    {
+        $users = DB::table("users")
+            ->select("users.id AS user_id", "users.fullname", "users.email")
+            ->get();
+        $notifications = DB::table("notifications")
+            ->get();
+        foreach ($users as $user) {
+            $user->unread = count($notifications);
+//            foreach ($notifications as $notification) {
+//                if($notification->from_user_id == $user->user_id && $notification->is_read)
+//                    $user->unread -= 1;
+//            }
+        }
+        return $users;
+//        return DB::table("users")
+//            ->select("users.id AS user_id", "users.fullname", "users.email", DB::raw('count(notifications.is_read) AS unread'))
+//            ->join("notifications", "users.id", "=", "notifications.from_user_id")
+//            //            ->where("users.id", "=", Auth::id())
+//            ->groupBy("users.fullname", "users.email", "users.id")
+//            ->get();
+    }
+
 }

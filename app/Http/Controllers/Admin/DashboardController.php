@@ -16,6 +16,7 @@ use App\Repositories\Sales\SaleRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\View;
 
 class DashboardController extends Controller
 {
@@ -91,6 +92,11 @@ class DashboardController extends Controller
             if($expiredProduct->check_expired_time)
                 $countCurrentExpiredProduct ++;
         }
+        //User notification
+//        $userNotification = $this->userRepository->getAllUserNotification();
+////        dd($userNotification);
+//        View::share("shareNotification", $userNotification);
+
         return view("admin.page.dashboard", [
             "countCurrentProduct" => $countCurrentProduct,
             "countCurrentCategory" => $countCurrentCategory,

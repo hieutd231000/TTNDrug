@@ -218,9 +218,9 @@
                         },
                         success: function(response) {
                             blockErrSubmit.innerHTML = response["message"];
-                            setTimeout(function(){
-                                window.location.href = '/admin/suppliers';
-                            }, 400);
+                            // setTimeout(function(){
+                            //     window.location.href = '/admin/suppliers';
+                            // }, 400);
                         },
                         error: function (err) {
                             console.log(err);

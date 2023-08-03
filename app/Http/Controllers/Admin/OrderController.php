@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
+use App\Repositories\Notifications\NotificationRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\OrderReceived\OrderReceivedRepositoryInterface;
 use App\Repositories\OrderReceivedUsers\OrderReceivedUsersRepositoryInterface;
@@ -11,9 +12,13 @@ use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
+use App\Repositories\UserNotifications\UserNotificationsRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\View\View;
+use Pusher\Pusher;
 
 class OrderController extends Controller
 {
@@ -28,18 +33,22 @@ class OrderController extends Controller
     protected $orderReceivedRepository;
     protected $orderReceivedUserRepository;
     protected $productionBatchRepository;
+    protected $notificationRepository;
+    protected $userNotificationRepository;
     protected $response;
 
-    public function __construct(OrderReceivedRepositoryInterface $orderReceivedRepository, OrderReceivedUsersRepositoryInterface $orderReceivedUsersRepository, UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
+    public function __construct(UserNotificationsRepositoryInterface $userNotificationsRepository, NotificationRepositoryInterface $notificationRepository, OrderReceivedRepositoryInterface $orderReceivedRepository, OrderReceivedUsersRepositoryInterface $orderReceivedUsersRepository, UserRepositoryInterface $userRepository, ProductionBatchRepositoryInterface $productionBatchRepository, OrderRepositoryInterface $orderRepository, OrderProductRepositoryInterface $orderProductRepository, ProductRepositoryInterface $productRepository, SuppierRepositoryInterface $suppierRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->supplierRepository = $suppierRepository;
+        $this->notificationRepository = $notificationRepository;
         $this->orderRepository = $orderRepository;
         $this->orderProductRepository = $orderProductRepository;
         $this->orderReceivedRepository = $orderReceivedRepository;
         $this->orderReceivedUserRepository = $orderReceivedUsersRepository;
         $this->productionBatchRepository = $productionBatchRepository;
         $this->userRepository = $userRepository;
+        $this->userNotificationRepository = $userNotificationsRepository;
         $this->response = $response;
     }
 
@@ -48,21 +57,13 @@ class OrderController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request, $id) {
+        //User notification
+//        $userNotification = $this->userRepository->getAllUserNotification();
+////        dd($userNotification);
+//        \Illuminate\Support\Facades\View::share("shareNotification", $userNotification);
         //List Order
         $listSupplier = $this->supplierRepository->listAll();
         if($id) {
-//            if(isset($request["productNameSearch"])) {
-//                try {
-//                    $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id, $request["productNameSearch"]);
-////                    dd(count($listProductBySupplierId));
-//                    return $this->response->success($listProductBySupplierId, 200, 'Lấy danh sách sản phẩm thành công');
-//                } catch (\Exception $exception) {
-//                    Log::error($exception->getMessage());
-//                    return $this->response->error(null, 500, 'Lấy danh sách sản phẩm thất bại');
-//                }
-//            } else {
-//                $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id, "");
-//            }
             $listProductBySupplierId = $this->supplierRepository->getAllProductBySupplierId($id);
             foreach ($listProductBySupplierId as $productBySupplierId) {
                 $productBySupplierId[0]->search_product_name = "sch_pro_" . strtolower($productBySupplierId[0]->product_name);
@@ -107,6 +108,10 @@ class OrderController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function listOrder(Request $request) {
+        //User notification
+//        $userNotification = $this->userRepository->getAllUserNotification();
+////        dd($userNotification);
+//        \Illuminate\Support\Facades\View::share("shareNotification", $userNotification);
         //List Order
         $listProduct = $this->productRepository->getAll(config("const.paginate"), "DESC");
         $listSupplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
@@ -140,6 +145,31 @@ class OrderController extends Controller
         $orderData["user_order_id"] = auth()->user()->id;
         $orderProductData = $request->only(['listProduct']);
         try {
+            $orderNotification["from_user_id"] = Auth::user()->id;
+            $orderNotification["notification"] = "Đơn hàng " . $orderData["order_code"] . " được đặt thành công.";
+            $newNotification = $this->notificationRepository->create($orderNotification);
+            //dd($newNotification);
+            //Share Notification All User
+//            $userNotification = $this->userRepository->getAllUserNotification();
+//            //dd($userNotification);
+//            \Illuminate\Support\Facades\View::share("shareNotification", $userNotification);
+            //Pusher notification
+            $options = array(
+                'cluster' => 'ap1',
+                'useTLS' => true
+            );
+            $pusher = new Pusher(
+                '88177615218eba838363',
+                '39362a1589b0eccda200',
+                '1645779',
+                $options
+            );
+            $pusher->trigger('my-channel', 'my-event', [
+                "notification_id" => $newNotification->id,
+                "from_user_id" => Auth::user()->id,
+                "notification_content" => $newNotification->notification
+            ]);
+
             $newOrder = $this->orderRepository->create($orderData);
             if($newOrder->id) {
                 foreach ($orderProductData["listProduct"] as $orderData) {
@@ -286,6 +316,44 @@ class OrderController extends Controller
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
             return $this->response->error(null, 500, 'Sửa thông tin lô sản xuất thất bại');
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return void
+     */
+    public function readNotification(Request $request, $id) {
+        try {
+            if($id) {
+                if($this->userNotificationRepository->is_read($id, Auth::user()->id)) {
+                    return redirect('/admin/list-orders');
+                }
+                $data["user_id"] = Auth::user()->id;
+                $data["notification_id"] = $id;
+                //Pusher notification
+                $options = array(
+                    'cluster' => 'ap1',
+                    'useTLS' => true
+                );
+                $pusher = new Pusher(
+                    '88177615218eba838363',
+                    '39362a1589b0eccda200',
+                    '1645779',
+                    $options
+                );
+                $pusher->trigger('my-read-channel', 'my-read-event', [
+                    "notification_id" => $id,
+                    "read_user_id" => Auth::user()->id,
+                    "notification_content" => "Đã đọc thông báo"
+                ]);
+
+                $this->userNotificationRepository->create($data);
+                return redirect('/admin/list-orders');
+            }
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
         }
     }
 }
