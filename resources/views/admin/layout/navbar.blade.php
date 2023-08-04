@@ -94,7 +94,7 @@
         <li class="nav-item dropdown dropdownNotifi">
             @foreach($shareNotification as $key => $data)
                 @if($data->user_id == auth()->user()->id)
-                    <div id="{{$data->user_id}}">
+                    <div id="{{$data->email}}">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-bell"></i>
                             <span class="badge badge-warning navbar-badge countUnNotification">
@@ -114,7 +114,7 @@
                                         <div class="row">
                                             <div class="col-11 col-md-11 col-lg-11 col-sm-11">
                                                 <p>{{$notifi->notification}}</p>
-                                                <p class="text-muted text-sm">Khoảng 30 phút trước</p>
+                                                <p class="text-muted text-sm">{{$notifi->createAgo}}</p>
                                             </div>
                                             <div class="col-1 col-md-1 col-lg-1 col-sm-1" id="{{$notifi->id}}" style="display: flex; align-items: center;">
                                                 @if(!$notifi->is_read)

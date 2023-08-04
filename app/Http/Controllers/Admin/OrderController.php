@@ -68,11 +68,13 @@ class OrderController extends Controller
             foreach ($listProductBySupplierId as $productBySupplierId) {
                 $productBySupplierId[0]->search_product_name = "sch_pro_" . strtolower($productBySupplierId[0]->product_name);
                 $productBySupplierId[0]->production_batch_id = "production_batch_" . $productBySupplierId[0]->id;
+                $productBySupplierId[0]->product_id = "product_id_" . $productBySupplierId[0]->id;
                 $productBySupplierId[0]->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($productBySupplierId[0]->id);
                 foreach ($productBySupplierId[0]->production_batch as $production_batch) {
                     $production_batch->expired_status = $this->productionBatchRepository->statusProductionBatch($production_batch->expired_time);
                 }
             }
+//            dd($listProductBySupplierId);
             $supplierDetail = $this->supplierRepository->find($id);
             return view("admin.page.orders.index", [
                 'listSupplier' => $listSupplier,
@@ -346,6 +348,7 @@ class OrderController extends Controller
                 $pusher->trigger('my-read-channel', 'my-read-event', [
                     "notification_id" => $id,
                     "read_user_id" => Auth::user()->id,
+                    "read_user_email" => Auth::user()->email,
                     "notification_content" => "Đã đọc thông báo"
                 ]);
 

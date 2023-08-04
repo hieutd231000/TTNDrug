@@ -152,7 +152,7 @@
                             <p>`+data.notification_content+`</p>
                             <p class="text-muted text-sm">Khoảng 1 phút trước</p>
                         </div>
-                        <div class="col-1 col-md-1 col-lg-1 col-sm-1" style="display: flex; align-items: center;">
+                        <div class="col-1 col-md-1 col-lg-1 col-sm-1" id="`+data.notification_id+`" style="display: flex; align-items: center;">
                             <div style="background: hsl(214, 100%, 59%);
                               border-radius: 50%;
                               height: 12px;
@@ -168,21 +168,25 @@
         //Thong bao pusher (doc thong bao)
         var readChannel = pusher.subscribe('my-read-channel');
         readChannel.bind('my-read-event', function(data) {
-            alert(JSON.stringify(data));
             //Danh dau da doc
             var circle = {};
-            var notificationsContent = document.getElementById(data.read_user_id).getElementsByTagName("*");
+            var notificationsContent = document.getElementById(data.read_user_email).getElementsByTagName("*");
+            console.log(notificationsContent);
             for (var i = 0; i < notificationsContent.length; i++) {
                 if (notificationsContent[i].classList.contains("countUnNotification")) {
-                    notificationsContent[i].html(parseInt(notificationsContent[i].html()) - 1);
+                    console.log("finded");
+                    console.log(parseInt(notificationsContent[i].innerText));
+                    notificationsContent[i].innerText = parseInt(notificationsContent[i].innerText) - 1;
                 }
                 if (notificationsContent[i].id === data.notification_id) {
+                    console.log("find circle");
                     var newCircleHtml = `<div style="background: hsl(214, 100%, 59%);
                                                       border-radius: 50%;
                                                       height: 12px;
-                                                      width: 12px;">
+                                                      width: 12px;
+                                                      display: none">
                                                     </div>`;
-                    notificationsContent[i].html(newCircleHtml);
+                    notificationsContent[i].innerHTML = newCircleHtml;
                 }
             }
             // var existingNotifications = notificationsContent.html();

@@ -8,8 +8,6 @@ use App\Repositories\ExportPrices\ExportPricesEloquentRepository;
 use App\Repositories\ExportPrices\ExportPricesRepositoryInterface;
 use App\Repositories\Infos\InfoEloquentRepository;
 use App\Repositories\Infos\InfoRepositoryInterface;
-use App\Repositories\Inventories\InventoryEloquentRepository;
-use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\Invoices\InvoiceEloquentRepository;
 use App\Repositories\Invoices\InvoiceRepositoryInterface;
 use App\Repositories\Notifications\NotificationEloquentRepository;
@@ -36,8 +34,8 @@ use App\Repositories\UserNotifications\UserNotificationsEloquentRepository;
 use App\Repositories\UserNotifications\UserNotificationsRepositoryInterface;
 use App\Repositories\Users\UserEloquentRepository;
 use App\Repositories\Users\UserRepositoryInterface;
+use Faker\Core;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -138,25 +136,45 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        date_default_timezone_set('Europe/Isle_of_Man');
+        $end_at = date('Y-m-d h:i:s', time());
         //User notification
         $userNotifications = DB::table("users")
             ->select("users.id AS user_id", "users.fullname", "users.email")
             ->get();
-//        $notifications = DB::table("notifications")
-//            ->orderBy("id", "DESC")
-//            ->get();
         $readNotifications = DB::table("user_notifications")
             ->get();
         foreach ($userNotifications as $user) {
-//            $user->unread = count($notifications);
-//            $user->listNotifications = $notifications;
             $countRead = 0;
-            $listNotification = DB::table("notifications")
+            $listNotifications = DB::table("notifications")
                 ->orderBy("id", "DESC")
                 ->get();
+            //Get time create ago
+            foreach ($listNotifications as $date) {
+                $start_at = new \DateTime($date->created_at);
+                $period = $start_at->diff(new \DateTime($end_at));
+                if($period->y) {
+                    $date->createAgo = "Khoảng " . ($period->y) . " năm trước";
+                } else {
+                    if($period->m) {
+                        $date->createAgo = "Khoảng " . ($period->m) . " tháng trước";
+                    } else {
+                        if($period->d) {
+                            $date->createAgo = "Khoảng " . ($period->d) . " ngày trước";
+                        } else {
+                            if($period->h > 1) {
+                                $date->createAgo = "Khoảng " . ($period->h - 1) . " giờ trước";
+                            } else {
+                                $date->createAgo = "Khoảng " . ($period->i + 1) . " phút trước";
+                            }
+                        }
+                    }
+                }
+            }
+            //Check read
             foreach ($readNotifications as $readNotification) {
                 if($user->user_id == $readNotification->user_id) {
-                    foreach ($listNotification as $notification) {
+                    foreach ($listNotifications as $notification) {
                         if($notification->id == $readNotification->notification_id) {
                             $notification->is_read = 1;
                             $countRead ++;
@@ -164,11 +182,10 @@ class AppServiceProvider extends ServiceProvider
                     }
                 }
             }
-            $user->countNotifi = count($listNotification);
-            $user->unread = count($listNotification) - $countRead;
-            $user->listNotifications = $listNotification;
+            $user->countNotifi = count($listNotifications);
+            $user->unread = count($listNotifications) - $countRead;
+            $user->listNotifications = $listNotifications;
         }
-//        dd($userNotifications);
 //        dd($userNotifications[0]->listNotification[0]->notification);
         \Illuminate\Support\Facades\View::share("shareNotification", $userNotifications);
 //        View::share('shareNotification', 0);

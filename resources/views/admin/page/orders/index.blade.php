@@ -383,12 +383,13 @@
                                                                         @endforeach
                                                                     </select>
                                                                     <input type="text" name="price" id="{{$data[0]->product_code}}" placeholder="Nhập giá (VNĐ)" style="width: 60%; margin-bottom: 5px; font-size: 14px">
+                                                                    <input type="text" name="sl" id="{{$data[0]->product_id}}" placeholder="SL:" style="width: 40px; text-align: center; font-size: 14px">
+
                                                                     <div style="display: flex">
 {{--                                                                        <input type="button" onclick="subtractCount({{$key}})" value="-">--}}
-                                                                        <input type="text" style="width: 40px; text-align: center; font-size: 14px" id="{{$data[0]->id}}" placeholder="SL:">
 {{--                                                                        <input type="button" onclick="increaseCount({{$key}})" value="+">--}}
                                                                     </div>
-                                                                    <button class="btn btn-secondary" onclick="addNewProduct({{$data[0]->id}}, '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
+                                                                    <button class="btn btn-secondary" onclick="addNewProduct('{{$data[0]->product_id}}', '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
                                                                     <p id="{{$data[0]->product_name}}" style="color: red; height: 40px"></p>
                                                                 </div>
                                                             </div>
@@ -707,7 +708,7 @@
             detail = $("textarea[name='detail']").val();
             // Check validate
             if(!order_time) {
-                blockErrOrderTime.innerHTML = "Không được để trống";
+                blockErrOrderTime.innerHTML = "Không được bỏ trống";
             } else {
                 blockErrOrderTime.innerHTML = "";
             }
@@ -826,7 +827,9 @@
             });
         }
         const addNewProduct = (id, supplier_id, name, category, code, production_batch_id) => {
+            console.log(id);
             if(!document.getElementById(id).value || !document.getElementById(code).value || !document.getElementById(production_batch_id).value) {
+                console.log("bo trong");
                 document.getElementById(name).innerHTML = "Không được bỏ trống !";
             } else if(!checkNumber(document.getElementById(id).value) || !checkNumber(document.getElementById(code).value)) {
                 document.getElementById(name).innerHTML = "Sai định dạng !";
