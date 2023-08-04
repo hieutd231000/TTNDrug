@@ -221,6 +221,17 @@
                                     @elseif (auth()->user()->gender == 1)
                                         <h4 class="text-white font-weight-bold mb-0">Ms.{{auth()->user()->lastname}}</h4>
                                     @endif
+                                    <div class="row">
+                                        <a href="#">
+                                            <i class="fad fa-facebook"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="fas fa-twitter"></i>
+                                        </a>
+                                        <a href="#">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+                                    </div>
                                     <span class="text-white font-weight-normal">{{auth()->user()->email}}</span>
                                 </div>
                             </div>

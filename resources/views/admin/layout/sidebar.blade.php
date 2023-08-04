@@ -92,42 +92,11 @@
                 </div>
             </div>
         </div>
-        {{-- <div class="user-panel pb-3 mb-3">
-            <div class="quick-start">
-                <h5>Thống kê</h5>
-                <ul>
-                    <li class="quick-start-block">
-                        <span>16</span>
-                        Bệnh nhân
-                    </li>
-                    <li class="quick-start-block">
-                        <span>20</span>
-                        Lịch khám
-                    </li>
-                    <li class="quick-start-block">
-                        <span>5</span>
-                        Tư vấn
-                    </li>
-                </ul>
-            </div>
-        </div> --}}
-        <!-- SidebarSearch Form -->
-{{--        <div class="form-inline">--}}
-{{--            <div class="input-group" data-widget="sidebar-search">--}}
-{{--                <input class="form-control form-control-sidebar" type="search" placeholder="Tìm kiếm" aria-label="Search">--}}
-{{--                <div class="input-group-append">--}}
-{{--                    <button class="btn btn-sidebar">--}}
-{{--                        <i class="fas fa-search fa-fw"></i>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-header">Người dùng</li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user-md"></i>
                             <p>
@@ -169,7 +138,7 @@
                 @if(Auth::user()->role)
                     <li class="nav-header">Báo cáo</li>
                     <li class="nav-item">
-                        <a href="/admin/dashboard" class="nav-link" {{ Request::is('my/url','my/url/*') ? 'active' : '' }}>
+                        <a href="/admin/dashboard" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Thống kê
@@ -194,7 +163,7 @@
                     </li>
 
                     <li class="nav-header">Quản lý</li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-book"></i>
                             <p>
@@ -235,18 +204,9 @@
                                     <p>Lô sản xuất</p>
                                 </a>
                             </li>
-
-                            {{--                        <li class="nav-item">--}}
-    {{--                            <a href="/admin/units" class="nav-link">--}}
-    {{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
-    {{--                                <p>--}}
-    {{--                                    Đơn vị--}}
-    {{--                                </p>--}}
-    {{--                            </a>--}}
-    {{--                        </li>--}}
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-columns"></i>
                             <p>
@@ -275,7 +235,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user-plus"></i>
                             <p>
@@ -298,7 +258,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item" style="margin-bottom: 20px">
+                    <li class="nav-item has-treeview" style="margin-bottom: 20px">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-truck"></i>
                             <p>
@@ -328,70 +288,32 @@
                         </ul>
                     </li>
                 @endif
-                {{--                <li class="nav-item">--}}
-{{--                    <a href="#" class="nav-link">--}}
-{{--                        <i class="nav-icon fas fa-tachometer-alt"></i>--}}
-{{--                        <p>--}}
-{{--                            Bill--}}
-{{--                            <i class="fas fa-angle-left right"></i>--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                    <ul class="nav nav-treeview">--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/admin/payments" class="nav-link">--}}
-{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
-{{--                                <p>Danh sách hóa đơn</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/admin/payments/add-payment" class="nav-link">--}}
-{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
-{{--                                <p>Thêm hóa đơn</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                        <li class="nav-item">--}}
-{{--                            <a href="/admin/payments/patient-invoice" class="nav-link">--}}
-{{--                                <i class="fas fa-plus nav-icon font-size-11"></i>--}}
-{{--                                <p>Hóa đơn bệnh nhân</p>--}}
-{{--                            </a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a href="#" class="nav-link">--}}
-{{--                        <i class="nav-icon fas fa-file"></i>--}}
-{{--                        <p>--}}
-{{--                            Reports--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
-{{--                <li class="nav-item">--}}
-{{--                    <a href="#" id="dksada" class="nav-link">--}}
-{{--                        <i class="nav-icon fas fa-ellipsis-h"></i>--}}
-{{--                        <p>--}}
-{{--                            Setting--}}
-{{--                        </p>--}}
-{{--                    </a>--}}
-{{--                </li>--}}
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
 </aside>
 
 <script>
     /** add active class and stay opened when selected */
     var url = window.location;
+    const allLinks = document.querySelectorAll('.nav-item a');
+    const currentLink = [...allLinks].filter(e => {
+        return e.href == url;
+    });
 
-    // for sidebar menu entirely but not cover treeview
-    $('ul.nav-sidebar a').filter(function() {
-        console.log(this.href);
-        return this.href == url;
-    }).addClass('active');
-
-    // for treeview
-    $('ul.nav-treeview a').filter(function() {
-        return this.href == url;
-    }).parentsUntil(".nav-sidebar > .nav-treeview").addClass('menu-open').prev('a').addClass('active');
+    console.log(currentLink);
+    if (currentLink.length > 0) { //this filter because some links are not from menu
+        currentLink[0].classList.add("active");
+        if(currentLink[0].closest(".nav-treeview")) {
+            currentLink[0].closest(".nav-treeview").style.display = "block";
+            currentLink[0].closest(".has-treeview").firstElementChild.classList.add("active");
+        }
+    }
 </script>

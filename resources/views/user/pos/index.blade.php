@@ -454,9 +454,9 @@
                                                             @if($data->current_price)
                                                                 <p style="margin-bottom: 8px; color: blue" id="{{$data->current_price_search}}">Giá: {{$data->current_price}} VNĐ</p>
                                                                 <div style="display: flex">
-                                                                    <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->id}}" placeholder="Nhập SL">
+                                                                    <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->product_id}}" placeholder="Nhập SL">
                                                                 </div>
-                                                                <button class="btn btn-secondary" onclick="addCart({{$data->id}}, '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                <button class="btn btn-secondary" onclick="addCart('{{$data->product_id}}', '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
                                                                 <p id="{{$data->product_name}}" style="color: red; height: 40px"></p>
                                                             @else
                                                                 <span style="margin-bottom: 8px; color: red">Chưa cập nhật giá bán</span>

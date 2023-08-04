@@ -391,7 +391,7 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
         $listUser = DB::table("products")
             ->select("id", "created_at")
             ->get();
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
             foreach ($listUser as $user) {
                 if(!is_null($user->created_at)) {

@@ -130,66 +130,76 @@ class DashboardController extends Controller
      */
     public function sale(Request $request)
     {
-        $currentYear = date("Y");
-        $preYear = strval((int)$currentYear - 1);
-        $currentRevenue = $this->invoiceRepository->getRevenue($currentYear);
-        $preRevenue = $this->invoiceRepository->getRevenue($preYear);
-        if(!$preRevenue) {
-            $rateRevenue = 100;
-        }
-        else $rateRevenue = ceil(($currentRevenue - $preRevenue ) / $preRevenue * 100);
+        //I.Bao cao doanh thu
+            $currentYear = date("Y");
+            $preYear = strval((int)$currentYear - 1);
+            $currentRevenue = $this->invoiceRepository->getRevenue($currentYear);
+            $preRevenue = $this->invoiceRepository->getRevenue($preYear);
+            if(!$preRevenue) {
+                $rateRevenue = 100;
+            }
+            else $rateRevenue = ceil(($currentRevenue - $preRevenue ) / $preRevenue * 100);
 
-        $currentCost = $this->orderRepository->getCost($currentYear);
-        $preCost = $this->orderRepository->getCost($preYear);
-        if(!$preCost) {
-            $rateCost = 100;
-        } else $rateCost = ceil(($currentCost - $preCost) / $preCost * 100);
+            $currentCost = $this->orderRepository->getCost($currentYear);
+            $preCost = $this->orderRepository->getCost($preYear);
+            if(!$preCost) {
+                $rateCost = 100;
+            } else $rateCost = ceil(($currentCost - $preCost) / $preCost * 100);
 
-        $currentProfit = $currentRevenue - $currentCost;
-        $preProfit = $preRevenue - $preCost;
-        if(!$preProfit) {
-            if($currentProfit > 0)
-                $rateProfit = 100;
-            else if($currentProfit < 0)
-                $rateProfit = -100;
-            else $rateProfit = 0;
-        } else if ($currentProfit > $preProfit) {
-            $rateProfit = ceil(abs(($currentProfit - $preProfit) / $preProfit * 100));
-        } else if ($currentProfit < $preProfit) {
-            $rate = ceil(abs(($preProfit - $currentProfit) / $currentProfit * 100));
-            $rateProfit = $rate - 2 * $rate;
-        } else
-            $rateProfit = 0;
-        //Goal
-        $goalCost = 1000000;
-        if(!$currentProfit) {
-            $rateGoal = -100;
-        } else if ($goalCost > $currentProfit) {
-            $rateGoal = ceil(($goalCost - $currentProfit) / $goalCost * 100) * (-1);
-        } else if ($goalCost < $currentProfit) {
-            $rateGoal = ceil(($currentProfit - $goalCost) / $goalCost * 100);
-        } else $rateGoal = 0;
+            $currentProfit = $currentRevenue - $currentCost;
+            $preProfit = $preRevenue - $preCost;
+            if(!$preProfit) {
+                if($currentProfit > 0)
+                    $rateProfit = 100;
+                else if($currentProfit < 0)
+                    $rateProfit = -100;
+                else $rateProfit = 0;
+            } else if ($currentProfit > $preProfit) {
+                $rateProfit = ceil(abs(($currentProfit - $preProfit) / $preProfit * 100));
+            } else if ($currentProfit < $preProfit) {
+                $rate = ceil(abs(($preProfit - $currentProfit) / $currentProfit * 100));
+                $rateProfit = $rate - 2 * $rate;
+            } else
+                $rateProfit = 0;
+            //Goal
+            $goalCost = 1000000;
+            if(!$currentProfit) {
+                $rateGoal = -100;
+            } else if ($goalCost > $currentProfit) {
+                $rateGoal = ceil(($goalCost - $currentProfit) / $goalCost * 100) * (-1);
+            } else if ($goalCost < $currentProfit) {
+                $rateGoal = ceil(($currentProfit - $goalCost) / $goalCost * 100);
+            } else $rateGoal = 0;
 
-        //Lay doanh thu 10 nam
-        $profit10y = $this->invoiceRepository->getProfitIn10Years();
+            //Lay doanh thu 10 nam
+            $profit10y = $this->invoiceRepository->getProfitIn10Years();
 
-        //Lay tat ca cac ngay trong 10 nam
-        // 1. Lay ngay hien tai
-        $interval = new \DateInterval('P1D');
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $currentDate = date('Y-m-d', time());
-        $realEnd = new \DateTime($currentDate);
-        $realEnd->add($interval);
-        // 2. Lay tu ngay 10 nam truoc den ngay hien tai
-        $currentDates = explode("-", $currentDate);
-        $date10yAgo = strval((int)$currentDates[0] - 10)."-".$currentDates[1]."-".$currentDate[2];
-        $realStart = new \DateTime($date10yAgo);
-        $period = new \DatePeriod($realStart, $interval, $realEnd);
-        // 3. Them vao array
-        $arrayDayIn10Y = array();
-        foreach($period as $date) {
-            $arrayDayIn10Y[] = $date->format('Y-m-d');
-        }
+            //Lay tat ca cac ngay trong 10 nam
+            // 1. Lay ngay hien tai
+            $interval = new \DateInterval('P1D');
+            date_default_timezone_set('Asia/Ho_Chi_Minh');
+            $currentDate = date('Y-m-d', time());
+            $realEnd = new \DateTime($currentDate);
+            $realEnd->add($interval);
+            // 2. Lay tu ngay 10 nam truoc den ngay hien tai
+            $currentDates = explode("-", $currentDate);
+            $date10yAgo = strval((int)$currentDates[0] - 10)."-".$currentDates[1]."-".$currentDate[2];
+            $realStart = new \DateTime($date10yAgo);
+            $period = new \DatePeriod($realStart, $interval, $realEnd);
+            // 3. Them vao array
+            $arrayDayIn10Y = array();
+            foreach($period as $date) {
+                $arrayDayIn10Y[] = $date->format('Y-m-d');
+            }
+         //II. Thong ke don hang
+            $orderUnConfirm = $this->orderRepository->thkorderUnConfirm();
+            $orderEdConfirm = $this->orderRepository->thkorderEdConfirm();
+            $orderEdReceive = $this->orderRepository->thkorderEdReceive();
+            $thkOrder[0] = $orderUnConfirm;
+            $thkOrder[1] = $orderEdConfirm;
+            $thkOrder[2] = $orderEdReceive;
+            //Chi phi theo nam
+            $thkExpenseByTime = $this->orderRepository->thkExpenseByTime();
         return view("admin.page.report.sale", [
             "currentRevenue" => $currentRevenue,
             "rateRevenue" => $rateRevenue,
@@ -200,7 +210,9 @@ class DashboardController extends Controller
             "goalCost" => $goalCost,
             "rateGoal" => $rateGoal,
             "profitByDayIn10Year" => $profit10y,
-            "arrayDayIn10Year" => $arrayDayIn10Y
+            "arrayDayIn10Year" => $arrayDayIn10Y,
+            "thkOrder" => $thkOrder,
+            "thkExpenseByTime" => $thkExpenseByTime
         ]);
     }
 

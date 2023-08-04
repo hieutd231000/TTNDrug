@@ -26,7 +26,7 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
             ->select("suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
             ->where("orders.status", 0)
             ->orderBy("orders.id", "DESC")
-            ->get();
+            ->paginate(12);
         foreach ($listOrdersUnVerify as $listOrderUnVerify) {
             $listOrderProducts = DB::table("order_products")
                 ->join("products", "products.id", "=", "order_products.product_id")
@@ -129,5 +129,46 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
             }
         }
         return $sumTotal;
+    }
+
+    public function thkorderUnConfirm() {
+        return DB::table("orders")
+            ->where("status", 0)
+            ->count();
+    }
+    public function thkorderEdConfirm() {
+        return DB::table("orders")
+            ->where("status", 1)
+            ->count();
+    }
+    public function thkorderEdReceive() {
+        return DB::table("orders")
+            ->where("status", 2)
+            ->count();
+    }
+
+    /**
+     * @return void
+     */
+    public function thkExpenseByTime() {
+        $currentYear = date("Y");
+        $countExpenseByTime = [];
+        $listOrder = DB::table("orders")
+            ->select("id", "price_order", "created_at")
+            ->get();
+        for($i = 0; $i < 10; $i++) {
+            $countByMonth = array_fill(0, 12, 0);
+            foreach ($listOrder as $order) {
+                if(!is_null($order->created_at)) {
+                    $getCreateTimes = explode(" ", $order->created_at);
+                    $getCreateTime = explode("-", $getCreateTimes[0]);
+                    if($getCreateTime[0] == strval((int)$currentYear - $i)) {
+                        $countByMonth[(int)$getCreateTime[1] - 1] += (int)$order->price_order;
+                    }
+                }
+            }
+            array_push($countExpenseByTime, ['currentYear' => strval((int)$currentYear - $i), 'countExpendByTime' => $countByMonth]);
+        }
+        return $countExpenseByTime;
     }
 }

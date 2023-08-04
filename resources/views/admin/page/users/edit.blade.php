@@ -200,35 +200,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                            <div class="card">
-                                <div class="header">
-                                    <h5>Thông tin tài khoản <span style="color: red">*</span></h5>
-                                    <div class="alert alert-success hidden" id="notiAccount">
-                                    </div>
-                                </div>
+{{--                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">--}}
+{{--                            <div class="card">--}}
+{{--                                <div class="header">--}}
+{{--                                    <h5>Thông tin tài khoản <span style="color: red">*</span></h5>--}}
+{{--                                    <div class="alert alert-success hidden" id="notiAccount">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
-                                <div class="body">
-                                    <div class="row clearfix">
-                                        <div class="col-sm-12">
-                                            <div class="form-group">
-                                                <div class="form-block">
-                                                    <input type="text" value="{{$user->email}}" name="email" id="email" class="form-control" placeholder="Email *">
-                                                </div>
-                                                <div id="help-block-email" style="color: red">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row clearfix">
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-save margin-right-3 submitAccount">Lưu</button>
-                                            <button type="submit" class="btn btn-cancel cancelAccount">Huỷ</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+{{--                                <div class="body">--}}
+{{--                                    <div class="row clearfix">--}}
+{{--                                        <div class="col-sm-12">--}}
+{{--                                            <div class="form-group">--}}
+{{--                                                <div class="form-block">--}}
+{{--                                                    <input type="text" value="{{$user->email}}" name="email" id="email" class="form-control" placeholder="Email *">--}}
+{{--                                                </div>--}}
+{{--                                                <div id="help-block-email" style="color: red">--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="row clearfix">--}}
+{{--                                        <div class="col-sm-12">--}}
+{{--                                            <button type="submit" class="btn btn-save margin-right-3 submitAccount">Lưu</button>--}}
+{{--                                            <button type="submit" class="btn btn-cancel cancelAccount">Huỷ</button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="header">

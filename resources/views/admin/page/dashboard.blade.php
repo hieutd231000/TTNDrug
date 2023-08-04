@@ -181,6 +181,9 @@
                                         <option value="2019">2019</option>
                                         <option value="2018">2018</option>
                                         <option value="2017">2017</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2014">2014</option>
                                     </select>
                                 </div>
                                 <div class="chart">
@@ -197,7 +200,7 @@
                         <!-- BAR CHART -->
                         <div class="card">
                             <div class="card-body" style="height: 400px !important;">
-                                <div style="text-align: end; margin-bottom: 15px">Năm:
+                                <div style="text-align: end; margin-bottom: 5px">Năm:
                                     <select name="select_year1" id="select_year1" style="padding: 2px">
                                         <option value="2023" selected>2023</option>
                                         <option value="2022">2022</option>
@@ -206,6 +209,9 @@
                                         <option value="2019">2019</option>
                                         <option value="2018">2018</option>
                                         <option value="2017">2017</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2014">2014</option>
                                     </select>
                                 </div>
                                 <div class="chart">
@@ -227,6 +233,17 @@
                             <div class="info-box-content" style="padding: 0 0 0 5px">
                                 <span class="info-box-text">Lô sản xuất</span>
                                 <span class="info-box-number">{{$countCurrentProductionBatch}}</span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <div class="info-box mb-3 bg-danger">
+                            <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
+
+                            <div class="info-box-content" style="padding: 0 0 0 5px">
+                                <span class="info-box-text" style="line-height: 23px">Lô sản xuất sắp <br>
+                                    <span>quá hạn</span>
+                                </span>
+                                <span class="info-box-number">{{$countCurrentExpiredProduct}}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -254,15 +271,6 @@
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
-                        <div class="info-box mb-3 bg-danger">
-                            <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
-
-                            <div class="info-box-content" style="padding: 0 0 0 5px">
-                                <span class="info-box-text">Số thuốc sắp quá hạn</span>
-                                <span class="info-box-number">{{$countCurrentExpiredProduct}}</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                        </div>
                     </section>
                     <!-- right col -->
                 </div>
@@ -338,7 +346,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Thống kê số lượng người dùng, nhà cung cấp',
+                    text: 'Thống kê số lượng nhân lực mới',
                 }
             }
             //-------------
@@ -359,61 +367,10 @@
             $('#select_year').change(function(){
                 for(let i = 0; i < thkUsers.length; i++) {
                     if(thkUsers[i]["currentYear"] === $(this).val()) {
-                        areaChartData = {
-                            labels  : ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-                                'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
-                            datasets: [
-                                {
-                                    label               : 'Quản trị viên',
-                                    backgroundColor     : '#dc3545',
-                                    borderColor         : '#dc3545',
-                                    pointRadius          : true,
-                                    pointColor          : '#3b8bba',
-                                    pointStrokeColor    : 'rgba(60,141,188,1)',
-                                    pointHighlightFill  : '#fff',
-                                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                                    data                : thkAdmin[i]["countUserByTime"]
-                                },
-                                {
-                                    label               : 'Nhân viên',
-                                    backgroundColor     : '#ffc107',
-                                    borderColor         : '#ffc107',
-                                    pointRadius          : true,
-                                    pointColor          : '#3b8bba',
-                                    pointStrokeColor    : 'rgba(60,141,188,1)',
-                                    pointHighlightFill  : '#fff',
-                                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                                    data                : thkUsers[i]["countUserByTime"]
-                                },
-                                {
-                                    label               : 'Nhà cung cấp',
-                                    backgroundColor     : '#17a2b8',
-                                    borderColor         : '#17a2b8',
-                                    pointRadius          : true,
-                                    pointColor          : '#3b8bba',
-                                    pointStrokeColor    : 'rgba(60,141,188,1)',
-                                    pointHighlightFill  : '#fff',
-                                    pointHighlightStroke: 'rgba(60,141,188,1)',
-                                    data                : thkSupplier[i]["countUserByTime"]
-                                },
-                            ]
-                        }
-                        //-------------
-                        //- LINE CHART SELECT YEAR-
-                        //--------------
-                        var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
-                        var lineChartOptions = $.extend(true, {}, areaChartOptions)
-                        var lineChartData = $.extend(true, {}, areaChartData)
-                        lineChartData.datasets[0].fill = false;
-                        lineChartData.datasets[1].fill = false;
-                        lineChartData.datasets[2].fill = false;
-                        lineChartOptions.datasetFill = false
-
-                        var lineChart = new Chart(lineChartCanvas, {
-                            type: 'line',
-                            data: lineChartData,
-                            options: lineChartOptions
-                        })
+                        lineChart.data.datasets[0].data = thkAdmin[i]["countUserByTime"];
+                        lineChart.data.datasets[1].data = thkUsers[i]["countUserByTime"];
+                        lineChart.data.datasets[2].data = thkSupplier[i]["countUserByTime"];
+                        lineChart.update()
                         break;
                     }
                 }
@@ -430,7 +387,7 @@
                     'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                 datasets: [
                     {
-                        label               : 'Số lượng thuốc',
+                        label               : 'Thuốc',
                         backgroundColor     : '#ffc107',
                         borderColor         : '#ffc107',
                         pointRadius          : true,
@@ -452,7 +409,7 @@
                         data                : thkProductionBatch[0]["countProductionBatchByTime"]
                     },
                     {
-                        label               : 'Lô sản xuất hết hạn',
+                        label               : 'Lô sản xuất sắp hết hạn',
                         backgroundColor     : '#dc3545',
                         borderColor         : '#dc3545',
                         pointRadius          : true,
@@ -478,6 +435,10 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 datasetFill: false,
+                title: {
+                    display: true,
+                    text: 'Thống kê số lượng thuốc mới',
+                }
             };
 
             new Chart(barChartCanvas, {
@@ -493,7 +454,7 @@
                                 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                             datasets: [
                                 {
-                                    label               : 'Số lượng thuốc',
+                                    label               : 'Thuốc',
                                     backgroundColor     : '#ffc107',
                                     borderColor         : '#ffc107',
                                     pointRadius          : true,
@@ -515,7 +476,7 @@
                                     data                : thkProductionBatch[i]["countProductionBatchByTime"]
                                 },
                                 {
-                                    label               : 'Lô sản xuất hết hạn',
+                                    label               : 'Lô sản xuất sẽ hết hạn',
                                     backgroundColor     : '#dc3545',
                                     borderColor         : '#dc3545',
                                     pointRadius          : true,

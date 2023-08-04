@@ -122,19 +122,51 @@
                 </div>
                 <!-- Main row -->
                 <div class="row">
-                    <!-- Left col -->
-                    <section class="col-lg-12 connectedSortable">
-
+                    <section class="col-lg-8 connectedSortable">
+                        <!-- BAR CHART -->
+                        <div class="card">
+                            <div class="card-body" style="height: 430px !important;">
+                                <div style="text-align: end; margin-bottom: 5px">Năm:
+                                    <select name="select_year1" id="select_year1" style="padding: 2px">
+                                        <option value="2023" selected>2023</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2019">2019</option>
+                                        <option value="2018">2018</option>
+                                        <option value="2017">2017</option>
+                                        <option value="2016">2016</option>
+                                        <option value="2015">2015</option>
+                                        <option value="2014">2014</option>
+                                    </select>
+                                </div>
+                                <div class="chart">
+                                    <canvas id="lineChart" style="min-height: 350px; height: 350px; max-height: 350px; max-width: 100%;"></canvas>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
                     </section>
-                    <!-- /.Left col -->
-                    <!-- right col (We are only adding the ID to make the widgets sortable)-->
-                    <section class="col-lg-9 connectedSortable">
-
+                    <section class="col-lg-4 connectedSortable">
+                        <!-- /.info-box -->
+                        <div class="card">
+                            <div class="card-body" style="height: 400px !important;">
+                                <div
+                                    class="chart tab-pane"
+                                    id="sales-chart"
+                                    style="position: relative; height: 300px"
+                                >
+                                    <canvas
+                                        id="sales-chart-canvas"
+                                        height="300"
+                                        style="height: 300px"
+                                    ></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.info-box -->
                     </section>
-                    <section class="col-lg-3 connectedSortable">
-
-                    </section>
-                    <!-- right col -->
                 </div>
                 <!-- /.row (main row) -->
             </div><!-- /.container-fluid -->
@@ -291,6 +323,118 @@
                 salesGraphChart.data.labels = filterDate;
                 salesGraphChart.update();
             });
+
+            // Donut Chart (don hang)
+            var thkOrder = @json($thkOrder);
+            var pieChartCanvas = $('#sales-chart-canvas').get(0).getContext('2d')
+            var pieData = {
+                labels: [
+                    'Đơn hàng đã được đặt',
+                    'Đơn hàng đã xác nhận',
+                    'Đơn hàng nhận thành công'
+                ],
+                datasets: [
+                    {
+                        data: thkOrder,
+                        backgroundColor: ['#dc3545', '#17a2b8', '#00a65a']
+                    }
+                ]
+            }
+            var pieOptions = {
+                legend: {
+                    position: 'top',
+
+                },
+                title: {
+                    display: true,
+                    text: 'Thống kê số lượng đơn hàng (2023)',
+                    // padding: {
+                    //     bottom: 10
+                    // },
+                    font: {
+                        size: 54,
+                        style: 'italic',
+                        family: 'Helvetica Neue'
+                    }
+                },
+                maintainAspectRatio: false,
+                responsive: true
+            }
+            // Create douhnut chart
+            var pieChart = new Chart(pieChartCanvas, { // lgtm[js/unused-local-variable]
+                type: 'doughnut',
+                data: pieData,
+                options: pieOptions
+            })
+
+            //-------------
+            //- LINE CHART (don hang) -
+            //--------------
+            var thkExpenseByTime = @json($thkExpenseByTime);
+            var areaChartData = {
+                labels  : ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+                    'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
+                datasets: [
+                    {
+                        label               : 'Chi phí',
+                        backgroundColor     : '#dc3545',
+                        borderColor         : '#dc3545',
+                        // pointRadius          : true,
+                        // pointColor          : '#3b8bba',
+                        // pointStrokeColor    : 'rgba(60,141,188,1)',
+                        // pointHighlightFill  : '#fff',
+                        // pointHighlightStroke: 'rgba(60,141,188,1)',
+                        data                : thkExpenseByTime[0]["countExpendByTime"]
+                    },
+                ]
+            }
+            var areaChartOptions = {
+                maintainAspectRatio : false,
+                responsive : true,
+                legend: {
+                    display: false,
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines : {
+                            display : true,
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines : {
+                            display : true,
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Thống kê chi phí (VNĐ)',
+                }
+            }
+
+            var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+            var lineChartOptions = $.extend(true, {}, areaChartOptions)
+            var lineChartData = $.extend(true, {}, areaChartData)
+            lineChartData.datasets[0].fill = false;
+            lineChartOptions.datasetFill = false
+            var lineChart = new Chart(lineChartCanvas, {
+                type: 'line',
+                data: lineChartData,
+                options: lineChartOptions
+            })
+            $('#select_year1').change(function(){
+                for(let i = 0; i < thkExpenseByTime.length; i++) {
+                    if(thkExpenseByTime[i]["currentYear"] === $(this).val()) {
+                        //-------------
+                        //- LINE CHART SELECT YEAR-
+                        //--------------
+                        lineChart.data.datasets[0].data = thkExpenseByTime[i]["countExpendByTime"];
+                        lineChart.update();
+                        break;
+                    }
+                }
+            })
+
         });
     </script>
 @endsection

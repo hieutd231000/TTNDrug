@@ -50,7 +50,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h3>Lô sản xuất</h3>
+                        <h4>Lô sản xuất</h4>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <a href="" class="btn btn-raised g-bg-cyan float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm lô sản xuất</a>

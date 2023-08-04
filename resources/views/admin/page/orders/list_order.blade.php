@@ -101,7 +101,7 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">STT</th>
+                                                            <th scope="col">Mã đơn hàng</th>
                                                             <th scope="col" style="width: 150px">Tên nhà cung cấp</th>
                                                             <th scope="col">SĐT</th>
                                                             <th scope="col">Danh sách sản phẩm</th>
@@ -114,7 +114,7 @@
                                                         </thead>
                                                         <tbody>
                                                         <tr>
-                                                            <td>{{$rank++}}</td>
+                                                            <td>{{$data->order_code}}</td>
                                                             <td>{{$data->supplier_name}}</td>
                                                             <td>{{$data->supplier_phone}}</td>
                                                             <td>
@@ -151,6 +151,9 @@
                                     </form>
                                 @endforeach
                             </div>
+                        </div>
+                        <div class="d-flex justify-content-end" style="margin-right: 3%">
+                            {!! $listOrderUnverified->appends($_GET)->links("pagination::bootstrap-4") !!}
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane padding-20" id="listOrder">
@@ -217,6 +220,9 @@
                                         </tbody>
                                     </table>
                                 </div>
+{{--                                <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+{{--                                    {!! $listAllOrder->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -305,6 +311,7 @@
             var year = date.getFullYear().toString().slice(2);
             return month + '-' + day + '-' + year;
         }
+
         /**
          * Datatable
          */
@@ -312,11 +319,7 @@
             $("#listOrderTable").DataTable({
                 paging: false,
                 ordering: false,
-                autoWidth: false,
-                responsive: false,
-                lengthChange: false,
                 info: false,
-                searching: false,
                 "language": {
                     "lengthMenu": "Hiển thị _MENU_ đơn hàng trên một trang",
                     "zeroRecords": "Không có đơn hàng",
@@ -324,15 +327,12 @@
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {
-                        "next":       "Sau",
+                        "next":       "Tiếp",
                         "previous":   "Trước"
                     },
                     "infoFiltered": "(filtered from _MAX_ total records)"
                 }
-            })
-                .buttons()
-                .container()
-                .appendTo("#listOrderTable_wrapper .col-md-6:eq(0)");
+            });
         });
 
         $(document).ready(function(){

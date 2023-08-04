@@ -98,7 +98,7 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
         $listItems = DB::table("production_batches")
             ->select("id", "created_at")
             ->get();
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
             foreach ($listItems as $item) {
                 if(!is_null($item->created_at)) {
@@ -120,7 +120,7 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
         $listItems = DB::table("production_batches")
             ->select("id", "expired_time")
             ->get();
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
             foreach ($listItems as $item) {
                 if(!is_null($item->expired_time )) {

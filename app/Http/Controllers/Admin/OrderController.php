@@ -330,7 +330,7 @@ class OrderController extends Controller
         try {
             if($id) {
                 if($this->userNotificationRepository->is_read($id, Auth::user()->id)) {
-                    return redirect('/admin/list-orders');
+                    return redirect()->back();
                 }
                 $data["user_id"] = Auth::user()->id;
                 $data["notification_id"] = $id;

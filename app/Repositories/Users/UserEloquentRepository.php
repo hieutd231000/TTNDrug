@@ -107,7 +107,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
             ->select("id", "created_at")
             ->where("role", 0)
             ->get();
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
             foreach ($listUser as $user) {
                 if(!is_null($user->created_at)) {
@@ -130,7 +130,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
             ->select("id", "created_at")
             ->where("role", 1)
             ->get();
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
             foreach ($listUser as $user) {
                 if(!is_null($user->created_at)) {
@@ -152,7 +152,7 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
         $listSuppliers = DB::table("suppliers")
             ->select("id", "created_at")
             ->get();
-        for($i = 0; $i < 7; $i++) {
+        for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
             foreach ($listSuppliers as $user) {
                 if(!is_null($user->created_at)) {

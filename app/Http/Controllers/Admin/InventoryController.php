@@ -8,15 +8,19 @@ use App\Mail\RequestProduct;
 use App\Models\Suppliers;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\Invoices\InvoiceRepositoryInterface;
+use App\Repositories\Notifications\NotificationRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Orders\OrderRepositoryInterface;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use App\Repositories\Sales\SaleRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
+use App\Repositories\UserNotifications\UserNotificationsRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Pusher\Pusher;
 
 class InventoryController extends Controller
 {
@@ -29,9 +33,11 @@ class InventoryController extends Controller
     protected $supplierRepository;
     protected $saleRepository;
     protected $invoiceRepository;
+    protected $notificationRepository;
+    protected $userNotificationRepository;
     protected $response;
 
-    public function __construct(SaleRepositoryInterface $saleRepository, InvoiceRepositoryInterface $invoiceRepository, SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
+    public function __construct(NotificationRepositoryInterface $notificationRepository, UserNotificationsRepositoryInterface $userNotificationsRepository, SaleRepositoryInterface $saleRepository, InvoiceRepositoryInterface $invoiceRepository, SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
         $this->productionBatchRepository = $productionBatchRepository;
@@ -39,6 +45,8 @@ class InventoryController extends Controller
         $this->saleRepository = $saleRepository;
         $this->invoiceRepository = $invoiceRepository;
         $this->supplierRepository = $supplierRepository;
+        $this->notificationRepository = $notificationRepository;
+        $this->userNotificationRepository = $userNotificationsRepository;
         $this->response = $response;
     }
 
@@ -79,6 +87,27 @@ class InventoryController extends Controller
                 }
             }
         }
+        //Create new notification
+        $orderNotification["from_user_id"] = Auth::user()->id;
+        $product_name = $this->productRepository->getProductNameByProductCode($listRequest["product_code"]);
+        $orderNotification["notification"] = "Yêu cầu nhập thêm sản phẩm " . $product_name . " thành công.";
+        $newNotification = $this->notificationRepository->create($orderNotification);
+        //Pusher notification
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => true
+        );
+        $pusher = new Pusher(
+            '88177615218eba838363',
+            '39362a1589b0eccda200',
+            '1645779',
+            $options
+        );
+        $pusher->trigger('my-channel', 'my-event', [
+            "notification_id" => $newNotification->id,
+            "from_user_id" => Auth::user()->id,
+            "notification_content" => $newNotification->notification
+        ]);
         return $this->response->success(null, 200, 'Chúng tôi đã gửi cho bạn thông tin sản phẩm hiện hết hàng');
     }
 
@@ -90,12 +119,33 @@ class InventoryController extends Controller
 
     public function orderedSuccess(Request $request) {
         try {
-//            dd($request->all());
             $data1["money"] = $request["totalPrice"];
             $data1["method"] = $request["methodChose"];
             $data1["user_id"] = auth()->user()->id;
             $newInvoice = $this->invoiceRepository->create($data1);
             if($newInvoice->id) {
+                //Create new notification
+                $orderNotification["from_user_id"] = Auth::user()->id;
+                $orderNotification["notification"] = "Khách hàng đã thanh toán số tiền " . $newInvoice->money . " VNĐ thành công.";
+                $newNotification = $this->notificationRepository->create($orderNotification);
+                //Pusher notification
+                $options = array(
+                    'cluster' => 'ap1',
+                    'useTLS' => true
+                );
+                $pusher = new Pusher(
+                    '88177615218eba838363',
+                    '39362a1589b0eccda200',
+                    '1645779',
+                    $options
+                );
+                $pusher->trigger('my-channel', 'my-event', [
+                    "notification_id" => $newNotification->id,
+                    "from_user_id" => Auth::user()->id,
+                    "notification_content" => $newNotification->notification
+                ]);
+
+                //Cap nhat kho hang
                 foreach ($request->listProductObject as $product) {
                     $data2["product_name"] = $product["product_name"];
                     $data2["invoice_id"] = $newInvoice->id;
@@ -105,12 +155,12 @@ class InventoryController extends Controller
                     $this->saleRepository->create($data2);
                     $this->orderProductRepository->orderedSuccess($product["product_name"], $product["production_batch_name"], $product["amount"]);
                 }
-                return $this->response->success(null, 200, 'Thanh toán đơn hàng thành công');
+                return $this->response->success(null, 200, 'Khách hàng thanh toán thành công');
             }
-            return $this->response->error(null, 500, 'Thanh toán đơn hàng thất bại');
+            return $this->response->error(null, 500, 'Khách hàng thanh toán thất bại');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Thanh toán đơn hàng thất bại');
+            return $this->response->error(null, 500, 'Khách hàng thanh toán thất bại');
         }
 
     }

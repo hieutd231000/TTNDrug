@@ -39,6 +39,7 @@ class PosController extends Controller
                 $product->current_price = null;
             }
             $product->search_product_name = "pos_sch_" . strtolower($product->product_name);
+            $product->product_id = "product_id_" . $product->id;
             $product->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($product->id);
             foreach ($product->production_batch as $production_batch) {
                 $production_batch->expired_status = $this->productionBatchRepository->statusProductionBatch($production_batch->expired_time);
@@ -55,7 +56,6 @@ class PosController extends Controller
                 $productBatch->current_price_search = null;
             }
         }
-//        dd($productionBatchAmount);
         return view("user.pos.index", ['rank' => 1 , 'products' => $products, 'productionBatchAmount' => $productionBatchAmount]);
     }
 }
