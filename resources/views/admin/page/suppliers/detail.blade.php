@@ -114,7 +114,8 @@
                             <div class="header">
                                 <h5 style="display: inline">Thông tin cơ bản</h5>
                                 @if(auth()->user()->role)
-                                    <a href="/admin/suppliers/{{$supplierDetail->id}}/edit" class="btn btn-secondary float-right mt-2">Chỉnh sửa</a>
+                                    <i class="fas fa-edit float-right" style="cursor: pointer" onclick="editSupplier({{$supplierDetail->id}})">
+                                    </i>
                                 @endif
                             </div>
 
@@ -484,6 +485,10 @@
         $(".chosen-choices").css('font-size','14px');
         $(".search-choice").css('font-size','16px');
         $(".chosen-results").css('font-size','16px');
+
+        const editSupplier = (id) => {
+            window.location.href = "/admin/suppliers/" + id + "/edit";
+        }
     </script>
 
 @endsection

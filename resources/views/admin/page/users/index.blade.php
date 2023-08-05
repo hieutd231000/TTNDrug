@@ -49,15 +49,11 @@
 @section("content")
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
+        <div class="content-header" style="padding-bottom: 0px">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h3>Danh sách nhân viên</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/users">Danh sách nhân viên</a></li>
-                        </ol>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -69,7 +65,7 @@
             <div class="container-fluid">
                 <div class="row clearfix">
                     <div class="col-md-12 m-b-20" style="text-align: end">
-                        <a href="/admin/users/add-user" class="btn btn-raised g-bg-cyan">Thêm nhân viên</a>
+                        <a href="/admin/users/add-user" class="btn btn-primary">Thêm nhân viên</a>
                     </div>
                 </div>
                 @if (session('failed'))
@@ -83,7 +79,8 @@
                 @endif
                 <div class="row clearfix margin-bottom-20">
                     @foreach($users as $key => $data)
-                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        @if($data->role != 2)
+                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="body">
                                     <div class="member-card verified">
@@ -102,7 +99,7 @@
                                             <a href="javascript:void(0);" class="text-link">{{$data->email}}</a>
                                         </div>
                                         <p class="text-muted">{{$data->phone}}</p>
-                                        <a href="/admin/users/{{$data->id}}/edit" class="btn btn-primary btn-sm">Chỉnh sửa</a>
+                                        <a href="/admin/users/{{$data->id}}/edit" class="btn btn-secondary btn-sm">Chỉnh sửa</a>
                                         <button class="btn btn-danger btn-sm" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal">Xoá</button>
 {{--                                        <ul class="social-links list-inline m-t-10">--}}
 {{--                                            <li><a title="facebook" href="javascript:void(0);"><i class="fab fa-facebook"></i></a></li>--}}
@@ -113,6 +110,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                     @endforeach
                 </div>
                 <div class="d-flex justify-content-end" style="margin-right: 3%">

@@ -137,7 +137,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         date_default_timezone_set('Europe/Isle_of_Man');
-        $end_at = date('Y-m-d h:i:s', time());
+        $end_at = date('Y-m-d H:i:s', time());
         //User notification
         $userNotifications = DB::table("users")
             ->select("users.id AS user_id", "users.fullname", "users.email")

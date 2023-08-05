@@ -157,11 +157,19 @@
                                         <div class="col-sm-3">
                                             <div class="form-group">
                                                 <div class="form-block">
-                                                    <select class="form-control" name="role">
-                                                        <option value="">Quyền *</option>
-                                                        <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Quản trị</option>
-                                                        <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Nhân viên</option>
-                                                    </select>
+                                                    @if(auth()->user()->role == 2)
+                                                        <select class="form-control" name="role">
+                                                            <option value="" disabled>Quyền *</option>
+                                                            <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Quản trị</option>
+                                                            <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Nhân viên</option>
+                                                        </select>
+                                                    @else
+                                                        @if($user->role == 0)
+                                                            <input type="text" class="form-control" value="Quản trị" disabled>
+                                                        @else
+                                                            <input type="text" class="form-control" value="Nhân viên" disabled>
+                                                        @endif
+                                                    @endif
                                                 </div>
                                                 <div id="help-block-role" style="color: red">
                                                 </div>

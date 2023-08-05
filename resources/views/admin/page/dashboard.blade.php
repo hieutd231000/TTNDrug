@@ -98,7 +98,7 @@
                             <div class="card-body p-0">
                                 <ul class="users-list clearfix">
                                     @foreach($getLatestUser as $key => $data)
-                                        <li>
+                                        <li style="width: 33% !important;">
                                             <a href="/admin/users/{{$data->id}}/edit">
                                                 @if(!$data->avatar)
                                                     <img style="width: 70px; height: 70px; border-radius: 50% !important" src="https://thememakker.com/templates/swift/hospital/assets/images/random-avatar7.jpg">

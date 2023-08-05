@@ -265,4 +265,10 @@ class AuthController extends Controller
     public function loginForm(Request $request) {
         return response('Hello World', 200)->header('Content-Type', 'text/plain');
     }
- }
+
+    //Manage Role By Superadmin
+    public function indexRole(Request $request) {
+        $listUser = $this->userRepository->getAll(8, "DESC");
+        return view("auth.superadmin.index", ["listUser" => $listUser]);
+    }
+}

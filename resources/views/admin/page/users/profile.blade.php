@@ -308,6 +308,10 @@
                                                                 <p class="col-sm-10">
                                                                     Người dùng
                                                                 </p>
+                                                            @elseif (auth()->user()->role === 2)
+                                                                <p class="col-sm-10">
+                                                                    Root
+                                                                </p>
                                                             @endif
                                                         </div>
                                                     </div>
