@@ -353,7 +353,9 @@ class OrderController extends Controller
                 ]);
 
                 $this->userNotificationRepository->create($data);
-                return redirect('/admin/list-orders');
+                if(Auth::user()->role)
+                    return redirect('/admin/list-orders');
+                else return redirect()->back();
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

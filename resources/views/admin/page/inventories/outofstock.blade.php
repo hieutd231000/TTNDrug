@@ -58,15 +58,6 @@
         width: 250px;
         height: 235px;
     }
-    #loading {
-        background: {{ URL::asset('image/loading_icon.gif')}} no-repeat center center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 9999999;
-    }
 </style>
 
 @extends("admin.master")
@@ -224,9 +215,6 @@
                                     </div>
                                     <div class="col-12" style="text-align: end">
                                         <button type="button" class="btn btn-primary handleRequest">Yêu cầu</button>
-                                        <button type="button" class="btn btn-primary">
-                                            <div id="loading"></div>
-                                        </button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
                                     </div>
                                 </div>

@@ -154,9 +154,11 @@
                             <div class="header">
                                 <h5>Danh sách dược phẩm</h5>
                                 <div style="text-align: end">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm dược phẩm</button>
-                                    @if($totalProduct)
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá dược phẩm</button>
+                                    @if(auth()->user()->role)
+                                        <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm dược phẩm</button>
+                                        @if($totalProduct)
+                                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá dược phẩm</button>
+                                        @endif
                                     @endif
                                     <a class="btn btn-success" href="/admin/orders/{{$supplierDetail->id}}/product">Đặt hàng</a>
                                 </div>

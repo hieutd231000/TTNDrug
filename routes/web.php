@@ -91,7 +91,7 @@ Route::middleware('auth')->group(function () {
             });
             Route::group(["prefix" => "list-orders"], function () {
                 Route::get('/', [\App\Http\Controllers\Admin\OrderController::class, 'listOrder']);
-                Route::post('/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'store']);
+//                Route::post('/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'store']);
                 Route::post('/verify-order', [\App\Http\Controllers\Admin\OrderController::class, 'verifyOrder']);
                 Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
                 Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
@@ -118,13 +118,21 @@ Route::middleware('auth')->group(function () {
         Route::get("/", [\App\Http\Controllers\Admin\InventoryController::class, 'index']);
         Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
         Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
-        Route::post("/ordered-success", [\App\Http\Controllers\Admin\InventoryController::class, 'orderedSuccess']);
-        Route::post("/request-outofstock", [\App\Http\Controllers\Admin\InventoryController::class, 'requestOutOfStock']);
     });
+    Route::post("/admin/inventories/ordered-success", [\App\Http\Controllers\Admin\InventoryController::class, 'orderedSuccess']);
+    Route::post("/admin/inventories/request-outofstock", [\App\Http\Controllers\Admin\InventoryController::class, 'requestOutOfStock']);
+
     Route::get("/products", [\App\Http\Controllers\Admin\ProductController::class, 'index']);
-    Route::get("/suppliers/{id}/detail", [\App\Http\Controllers\Admin\SupplierController::class, 'detail']);
+    Route::get("/admin/suppliers/{id}/detail", [\App\Http\Controllers\Admin\SupplierController::class, 'detail']);
+    Route::get("/admin/suppliers/get-product", [\App\Http\Controllers\Admin\SupplierController::class, 'getAllProduct']);
 
     Route::get('/user-profile', [\App\Http\Controllers\Admin\UserController::class, 'userProfile']);
     Route::get('/pos', [\App\Http\Controllers\PosController::class, 'index']);
     Route::get('/read-notification/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'readNotification']);
+
+    Route::get('/admin/orders/{id}/product', [\App\Http\Controllers\Admin\OrderController::class, 'index']);
+    Route::post('/admin/orders/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'store']);
+
+    Route::post("/admin/users/edit-info", [\App\Http\Controllers\Admin\UserController::class, 'handleEditInfo']);
+    Route::post("/admin/users/update-avatar", [\App\Http\Controllers\Admin\UserController::class, 'handleUpdateAvatar']);
 });

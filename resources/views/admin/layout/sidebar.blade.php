@@ -96,9 +96,10 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-header">Người dùng</li>
+                @if(Auth::user()->role)
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-user-md"></i>
+                            <i class="nav-icon far fa-plus-square"></i>
                             <p>
                                 Đặt hàng
                                 <i class="fas fa-angle-left right"></i>
@@ -119,9 +120,19 @@
                             </li>
                         </ul>
                     </li>
+                @else
+                    <li class="nav-item">
+                        <a href="/admin/orders/{{0}}/product" class="nav-link">
+                            <i class="nav-icon far fa-plus-square"></i>
+                            <p>
+                                Đặt dược phẩm
+                            </p>
+                        </a>
+                    </li>
+                @endif
                     <li class="nav-item">
                         <a href="/pos" class="nav-link">
-                            <i class="nav-icon fas fa-puzzle-piece"></i>
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 PoS
                             </p>
@@ -139,7 +150,7 @@
                     <li class="nav-header">Báo cáo</li>
                     <li class="nav-item">
                         <a href="/admin/dashboard" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <i class="nav-icon fas fa-chart-pie"></i>
                             <p>
                                 Thống kê
                             </p>
@@ -283,7 +294,7 @@
                     <li class="nav-header">Thông tin</li>
                     <li class="nav-item">
                         <a href="/categories" class="nav-link">
-                            <i class="nav-icon fas fa-folder"></i>
+                            <i class="nav-icon fas fa-box"></i>
                             <p>
                                 Danh mục dược
                             </p>
@@ -327,7 +338,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="/suppliers/{{0}}/detail" class="nav-link">
+                        <a href="/admin/suppliers/{{0}}/detail" class="nav-link">
                             <i class="nav-icon fas fa-truck"></i>
                             <p>
                                 Thông tin nhà cung cấp

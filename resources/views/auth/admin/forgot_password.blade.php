@@ -122,7 +122,7 @@
     <div class="card">
         <div class="card-container">
             <h5 class="title">
-                <span class="title-e1">Dream Hospital</span>
+                <span class="title-e1">TTN Drug</span>
                 Quên mật khẩu ?
                 <span class="title-e2">Nhập email của bạn</span>
             </h5>

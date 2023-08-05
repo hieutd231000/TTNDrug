@@ -221,17 +221,17 @@
                                     @elseif (auth()->user()->gender == 1)
                                         <h4 class="text-white font-weight-bold mb-0">Ms.{{auth()->user()->lastname}}</h4>
                                     @endif
-                                    <div class="row">
-                                        <a href="#">
-                                            <i class="fad fa-facebook"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="fas fa-twitter"></i>
-                                        </a>
-                                        <a href="#">
-                                            <i class="fa fa-facebook"></i>
-                                        </a>
-                                    </div>
+{{--                                    <div class="row">--}}
+{{--                                        <a href="#">--}}
+{{--                                            <i class="fad fa-facebook"></i>--}}
+{{--                                        </a>--}}
+{{--                                        <a href="#">--}}
+{{--                                            <i class="fas fa-twitter"></i>--}}
+{{--                                        </a>--}}
+{{--                                        <a href="#">--}}
+{{--                                            <i class="fa fa-facebook"></i>--}}
+{{--                                        </a>--}}
+{{--                                    </div>--}}
                                     <span class="text-white font-weight-normal">{{auth()->user()->email}}</span>
                                 </div>
                             </div>
@@ -247,7 +247,7 @@
                                         <a href="#infor" class="nav-link active" data-toggle="tab">Thông tin</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#avatar" class="nav-link" data-toggle="tab">Avatar</a>
+                                        <a href="#avatar" class="nav-link" data-toggle="tab">Hình đại diện</a>
                                     </li>
                                     <li class="nav-item">
                                         <a href="#password" class="nav-link" data-toggle="tab">Đổi mật khẩu</a>
@@ -379,7 +379,7 @@
                                         </div>
                                     </div>
                                     <div role="tabpanel" class="tab-pane padding-20" id="avatar">
-                                        <h4>Avatar cá nhân</h4>
+                                        <h4>Hình đại diện cá nhân</h4>
                                         <div class="row clearfix">
                                             <div class="col-md-12">
                                                 <div class="profile-current-image">
@@ -394,7 +394,7 @@
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title">Thay đổi avatar</h5>
+                                                                <h5 class="modal-title">Thay đổi hình đổi diện</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">×</span>
                                                                 </button>
@@ -428,7 +428,7 @@
                                                 <!-- /Edit Avatar Modal -->
                                             </div>
                                             <div class="col-sm-12">
-                                                <button data-toggle="modal" href="#edit_avatar" class="btn btn-success btn-sm">Chỉnh sửa avatar</button>
+                                                <button data-toggle="modal" href="#edit_avatar" class="btn btn-success btn-sm">Chỉnh sửa hình đại diện</button>
                                             </div>
                                         </div>
 {{--                                        <form>--}}

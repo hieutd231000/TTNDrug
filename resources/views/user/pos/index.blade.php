@@ -794,7 +794,7 @@
                 document.getElementById("validatePaid").innerHTML = "Mời bạn chọn hình thức thanh toán !";
             }
             else if(total_price_order > parseInt(moneyPay)) {
-                document.getElementById("validatePaid").innerHTML = "Số tiền thanh toán không được thấp hơn số tiền của đơn hàng !";
+                document.getElementById("validatePaid").innerHTML = "Số tiền khách hàng thanh toán không đủ !";
             } else {
                 document.getElementById("validatePaid").innerHTML = "";
                 $("input[name='total_price']").val(total_price_order);
