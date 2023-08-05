@@ -145,6 +145,14 @@
                                                         <a href="/admin/suppliers/{{$data -> id}}/detail" class="font-weight-bold">{{$data -> name}}
                                                         </a>
                                                         <div style="margin-top: 3px">
+                                                            <i class="fad fab fas fa fa-search-location" style="margin-right: 5px"></i>
+                                                            {{$data->address}}
+                                                        </div>
+                                                        <div style="margin-top: 3px">
+                                                            <i class="far fa-envelope" style="margin-right: 5px"></i>
+                                                            {{$data -> email}}
+                                                        </div>
+                                                        <div style="margin-top: 3px">
                                                             <i class="fad fab fas fa fa-phone" style="margin-right: 5px"></i>
                                                             {{$data -> phone}}
                                                         </div>

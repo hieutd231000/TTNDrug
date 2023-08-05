@@ -94,7 +94,7 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="col-md-12 add-button">
-                    <a href="/admin/suppliers/add-supplier" class="btn btn-raised g-bg-cyan">Thêm nhà cung cấp</a>
+                    <a href="/admin/suppliers/add-supplier" class="btn btn-primary">Thêm nhà cung cấp</a>
                 </div>
                 <div class="row clearfix margin-bottom-20">
                     @foreach($supplier as $key => $data)
@@ -126,16 +126,20 @@
                                                 {{$data->address}}
                                             </div>
                                             <div>
+                                                <i class="far fa-envelope" style="margin-right: 5px"></i>
+                                                {{$data->email}}
+                                            </div>
+                                            <div>
                                                 <i class="fad fab fas fa fa-phone" style="margin-right: 5px"></i>
                                                 {{$data->phone}}
                                             </div>
                                             <div class="row clearfix" style="margin-top: 12px">
-                                                <button class="btn btn-sm btn-secondary" style="margin-right: 6px">
+                                                <button class="btn btn-sm btn-primary" style="margin-right: 3px">
                                                     <a href="/admin/suppliers/{{$data->id}}/detail" style="color: white">
                                                         Chi tiết
                                                     </a>
                                                 </button>
-                                                <button class="btn btn-sm btn-primary" style="margin-right: 6px">
+                                                <button class="btn btn-sm btn-secondary" style="margin-right: 3px">
                                                     <a href="/admin/suppliers/{{$data->id}}/edit" style="color: white">
                                                         Chỉnh sửa
                                                     </a>

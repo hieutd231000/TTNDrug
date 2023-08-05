@@ -119,9 +119,9 @@
                                             @if(auth()->user()->role)
                                                 <td>
                                                     <a data-id="1" id="viewBtn">
-                                                        <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
+                                                        <button class="btn btn-sm btn-primary" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
                                                     </a>
-                                                    <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                    <a href="/admin/products/{{$data->id}}/edit" class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></a>
                                                     <a data-id="2" id="deleteBtn">
                                                         <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
                                                     </a>

@@ -112,8 +112,12 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-top: 20px">
                         <div class="card">
                             <div class="header">
-                                <h5>Thông tin cơ bản</h5>
+                                <h5 style="display: inline">Thông tin cơ bản</h5>
+                                @if(auth()->user()->role)
+                                    <a href="/admin/suppliers/{{$supplierDetail->id}}/edit" class="btn btn-secondary float-right mt-2">Chỉnh sửa</a>
+                                @endif
                             </div>
+
                             <div class="body">
                                 <div class="row">
                                     <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Tên nhà cung cấp:</p>

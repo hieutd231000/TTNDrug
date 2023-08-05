@@ -282,7 +282,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
-                                        <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Thêm mới</button>
+                                        <button type="submit" class="btn btn-primary margin-right-3 handleSubmit">Thêm mới</button>
                                         <button type="button" class="btn btn-cancel handleCancel">Huỷ</button>
                                     </div>
                                 </div>
