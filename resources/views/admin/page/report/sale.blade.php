@@ -122,7 +122,7 @@
                 </div>
                 <!-- Main row -->
                 <div class="row">
-                    <section class="col-lg-8 connectedSortable">
+                    <section class="col-lg-8 col-md-8 col-8 connectedSortable">
                         <!-- BAR CHART -->
                         <div class="card">
                             <div class="card-body" style="height: 430px !important;">
@@ -148,10 +148,10 @@
                         </div>
                         <!-- /.card -->
                     </section>
-                    <section class="col-lg-4 connectedSortable">
+                    <section class="col-lg-4 col-md-4 col-4 connectedSortable">
                         <!-- /.info-box -->
                         <div class="card">
-                            <div class="card-body" style="height: 400px !important;">
+                            <div class="card-body" style="height: 430px !important;">
                                 <div
                                     class="chart tab-pane"
                                     id="sales-chart"
@@ -169,7 +169,133 @@
                     </section>
                 </div>
                 <!-- /.row (main row) -->
+                <div class="row">
+                    <section class="col-lg-6 col-md-6 col-6 connectedSortable" style="height: 500px; min-height: 500px; max-height: 500px">
+                        <div class="card">
+                            <div class="card-header" style="margin-bottom: 15px">
+                                <h3 class="card-title" style="color: blue; font-weight: 600">Top 3 dược phẩm có doanh thu cao nhất</h3>
+                            </div>
+                            <div style="text-align: end; margin: 5px 20px 15px 0px">
+                                Năm: <select name="selectYear" id="selectYear" style="padding: 2px">
+                                    <option value="2023" selected>2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
+                                </select>
+                                &nbsp;
+                                Quý: <select name="selectQuy" id="selectQuy" style="padding: 2px">
+                                    <option value="allQuy" selected>Cả năm</option>
+                                    <option value="quy1">Quý 1</option>
+                                    <option value="quy2">Quý 2</option>
+                                    <option value="quy3">Quý 3</option>
+                                    <option value="quy4">Quý 4</option>
+                                </select>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-striped table-valign-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Tên dược phẩm</th>
+                                        <th>Số lượng bán ra</th>
+                                        <th>Tổng doanh thu</th>
+                                        <th>Thông tin</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="listTopProduct">
+                                        <tr>
+                                            <td colspan="4" style="text-align: center">
+                                                Không có doanh thu
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="col-lg-6 col-md-6 col-6 connectedSortable" style="height: 500px; min-height: 500px; max-height: 500px">
+                        <div class="card">
+                            <div class="card-header" style="margin-bottom: 15px">
+                                <h3 class="card-title" style="color: green; font-weight: 600">Top 3 nhà cung cấp chính</h3>
+                            </div>
+                            <div style="text-align: end; margin: 5px 20px 15px 0px">
+                                Năm: <select name="selectYear1" id="selectYear1" style="padding: 2px">
+                                    <option value="2023" selected>2023</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2019">2019</option>
+                                    <option value="2018">2018</option>
+                                    <option value="2017">2017</option>
+                                    <option value="2016">2016</option>
+                                    <option value="2015">2015</option>
+                                    <option value="2014">2014</option>
+                                </select>
+                                &nbsp;
+                                Quý: <select name="selectQuy1" id="selectQuy1" style="padding: 2px">
+                                    <option value="allQuy" selected>Cả năm</option>
+                                    <option value="quy1">Quý 1</option>
+                                    <option value="quy2">Quý 2</option>
+                                    <option value="quy3">Quý 3</option>
+                                    <option value="quy4">Quý 4</option>
+                                </select>
+                            </div>
+                            <div class="card-body table-responsive p-0">
+                                <table class="table table-striped table-valign-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Tên nhà cung cấp</th>
+                                        <th>Số đơn hàng đã nhập</th>
+                                        <th>Tổng chi phí</th>
+                                        <th>Thông tin</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="listTopSupplier">
+                                    <tr>
+                                        <td colspan="4" style="text-align: center">
+                                            Không có đơn hàng
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div><!-- /.container-fluid -->
+            <!--View Modal -->
+            <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="card">
+                                <img src="" class="card-img-top" id="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h3 class="product-name" id="product-name" style="margin-bottom: 20px">Card title</h3>
+                                    <p class="product-code" id="product-code"></p>
+                                    <p class="category" id="category"></p>
+                                    <p class="route_of_use" id="route_of_use"></p>
+                                    <p class="dosage" id="dosage"></p>
+                                    <p class="content" id="content"></p>
+                                    <p class="instruction" id="instruction"></p>
+                                    <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- /.content -->
     </div>
@@ -342,7 +468,7 @@
             }
             var pieOptions = {
                 legend: {
-                    position: 'top',
+                    position: 'bottom',
 
                 },
                 title: {
@@ -434,7 +560,363 @@
                     }
                 }
             })
+            //Thong ke san pham ban chay theo nam, theo
+            getTopProductReload();
+            var thkProductSaleByTime = @json($thkProductSaleByTime);
+            var sortable = [];
+            console.log(thkProductSaleByTime);
+            $('#selectYear').change(function(){
+                sortable = [];
+                $("#listTopProduct").empty();
+                console.log($(this).val());
+                console.log($("select[name='selectQuy']").val());
+                const arrQuy = ["quy1", "quy2", "quy3", "quy4", "allQuy"];
+                for (const productSale of thkProductSaleByTime) {
+                    if(productSale["currentYear"] === $(this).val()) {
+                        const index = arrQuy.indexOf($("select[name='selectQuy']").val());
+                        const getSaleByQuy = productSale["getSaleByYear"][index];
+                        // sort by sale
+                        console.log(getSaleByQuy);
 
+                        for (let sale in getSaleByQuy) {
+                            sortable.push([sale, getSaleByQuy[sale]]);
+                        }
+                        sortable.sort(function(a, b) {
+                            return b[1][1] - a[1][1];
+                        });
+                        console.log(sortable);
+                        //Lay 3 san pham co doanh thu cao nhat;
+                        if(sortable.length === 0) {
+                            let newTrHtml = `
+                                <tr>
+                                    <td colspan="4" style="text-align: center">
+                                        Không có doanh thu
+                                    </td>
+                                </tr>`
+                            console.log(newTrHtml);
+                            $("#listTopProduct").append(newTrHtml);
+                        } else {
+                            for(let i=0; i<sortable.length; i++) {
+                                if(i===3) break;
+                                let newTrHtml = `
+                                <tr>
+                                    <td>
+                                        `+sortable[i][0]+`
+                                    </td>
+                                    <td>`+sortable[i][1][0]+`</td>
+                                    <td>
+                                        `+sortable[i][1][1]+` VNĐ
+                                    </td>
+                                    <td>
+                                        <button class="btn" onclick="viewProduct(`+sortable[i][1][2]+`)">
+                                            <i class="fas fa-eye" style="color: blue"></i>
+
+                                        </button>
+                                    </td>
+                                </tr>`
+                                console.log(newTrHtml);
+                                $("#listTopProduct").append(newTrHtml);
+                            }
+                        }
+                    }
+                }
+            });
+            $('#selectQuy').change(function(){
+                sortable = [];
+                $("#listTopProduct").empty();
+                //console.log($("select[name='selectYear']").val());
+                //console.log($(this).val());
+                const arrQuy = ["quy1", "quy2", "quy3", "quy4", "allQuy"];
+                for (const productSale of thkProductSaleByTime) {
+                    if(productSale["currentYear"] === $("select[name='selectYear']").val()) {
+                        const index = arrQuy.indexOf($(this).val());
+                        const getSaleByQuy = productSale["getSaleByYear"][index];
+                        // sort by sale
+                        console.log(getSaleByQuy);
+
+                        for (let sale in getSaleByQuy) {
+                            sortable.push([sale, getSaleByQuy[sale]]);
+                        }
+                        sortable.sort(function(a, b) {
+                            return b[1][1] - a[1][1];
+                        });
+                        console.log(sortable);
+                        //Lay 3 san pham co doanh thu cao nhat;
+                        if(sortable.length === 0) {
+                            let newTrHtml = `
+                                <tr>
+                                    <td colspan="4" style="text-align: center">
+                                        Không có doanh thu
+                                    </td>
+                                </tr>`
+                            console.log(newTrHtml);
+                            $("#listTopProduct").append(newTrHtml);
+                        } else {
+                            for(let i=0; i<sortable.length; i++) {
+                                if(i===3) break;
+                                let newTrHtml = `
+                                <tr>
+                                    <td>
+                                        `+sortable[i][0]+`
+                                    </td>
+                                    <td>`+sortable[i][1][0]+`</td>
+                                    <td>
+                                        `+sortable[i][1][1]+` VNĐ
+                                    </td>
+                                    <td>
+                                        <button class="btn" onclick="viewProduct(`+sortable[i][1][2]+`)">
+                                            <i class="fas fa-eye" style="color: blue"></i>
+
+                                        </button>
+                                    </td>
+                                </tr>`
+                                console.log(newTrHtml);
+                                $("#listTopProduct").append(newTrHtml);
+                            }
+                        }
+                    }
+                }
+            });
+
+            //Thong ke nha cung cap
+            getTopSuppierReload();
+            var thkSupplierByTime = @json($thkSupplierByTime);
+            var sortSupplierTable = [];
+            console.log(thkSupplierByTime);
+            $('#selectYear1').change(function(){
+                sortSupplierTable = [];
+                $("#listTopSupplier").empty();
+                console.log($(this).val());
+                console.log($("select[name='selectQuy1']").val());
+                const arrQuy = ["quy1", "quy2", "quy3", "quy4", "allQuy"];
+                for (const productSupplier of thkSupplierByTime) {
+                    if(productSupplier["currentYear"] === $(this).val()) {
+                        const index = arrQuy.indexOf($("select[name='selectQuy1']").val());
+                        const getSaleByQuy = productSupplier["getProductSupplierByYear"][index];
+                        // sort by sale
+                        console.log(getSaleByQuy);
+
+                        for (let sale in getSaleByQuy) {
+                            sortSupplierTable.push([sale, getSaleByQuy[sale]]);
+                        }
+                        sortSupplierTable.sort(function(a, b) {
+                            return b[1][0] - a[1][0];
+                        });
+                        console.log(sortSupplierTable);
+                        //Lay 3 nha cung cap co nhieu don hang nhat;
+                        if(sortSupplierTable.length === 0) {
+                            let newTrHtml = `
+                                <tr>
+                                    <td colspan="4" style="text-align: center">
+                                        Không có đơn hàng
+                                    </td>
+                                </tr>`
+                            console.log(newTrHtml);
+                            $("#listTopSupplier").append(newTrHtml);
+                        } else {
+                            for(let i=0; i<sortSupplierTable.length; i++) {
+                                if(i===3) break;
+                                let newTrHtml = `
+                                <tr>
+                                    <td>
+                                        `+sortSupplierTable[i][0]+`
+                                    </td>
+                                    <td>`+sortSupplierTable[i][1][0]+`</td>
+                                    <td>
+                                        `+sortSupplierTable[i][1][1]+` VNĐ
+                                    </td>
+                                    <td>
+                                        <button class="btn" onclick="viewSupplier(`+sortSupplierTable[i][1][2]+`)">
+                                            <i class="fas fa-eye" style="color: blue"></i>
+
+                                        </button>
+                                    </td>
+                                </tr>`
+                                console.log(newTrHtml);
+                                $("#listTopSupplier").append(newTrHtml);
+                            }
+                        }
+                    }
+                }
+            });
+            $('#selectQuy1').change(function(){
+                sortSupplierTable = [];
+                $("#listTopSupplier").empty();
+                console.log($(this).val());
+                console.log($("select[name='selectQuy1']").val());
+                const arrQuy = ["quy1", "quy2", "quy3", "quy4", "allQuy"];
+                for (const productSupplier of thkSupplierByTime) {
+                    if(productSupplier["currentYear"] === $("select[name='selectYear1']").val()) {
+                        const index = arrQuy.indexOf($(this).val());
+                        const getSaleByQuy = productSupplier["getProductSupplierByYear"][index];
+                        // sort by sale
+                        console.log(getSaleByQuy);
+
+                        for (let sale in getSaleByQuy) {
+                            sortSupplierTable.push([sale, getSaleByQuy[sale]]);
+                        }
+                        sortSupplierTable.sort(function(a, b) {
+                            return b[1][0] - a[1][0];
+                        });
+                        console.log(sortSupplierTable);
+                        //Lay 3 nha cung cap co nhieu don hang nhat;
+                        if(sortSupplierTable.length === 0) {
+                            let newTrHtml = `
+                                <tr>
+                                    <td colspan="4" style="text-align: center">
+                                        Không có đơn hàng
+                                    </td>
+                                </tr>`
+                            console.log(newTrHtml);
+                            $("#listTopSupplier").append(newTrHtml);
+                        } else {
+                            for(let i=0; i<sortSupplierTable.length; i++) {
+                                if(i===3) break;
+                                let newTrHtml = `
+                                <tr>
+                                    <td>
+                                        `+sortSupplierTable[i][0]+`
+                                    </td>
+                                    <td>`+sortSupplierTable[i][1][0]+`</td>
+                                    <td>
+                                        `+sortSupplierTable[i][1][1]+` VNĐ
+                                    </td>
+                                    <td>
+                                        <button class="btn" onclick="viewSupplier(`+sortSupplierTable[i][1][2]+`)">
+                                            <i class="fas fa-eye" style="color: blue"></i>
+
+                                        </button>
+                                    </td>
+                                </tr>`
+                                console.log(newTrHtml);
+                                $("#listTopSupplier").append(newTrHtml);
+                            }
+                        }
+                    }
+                }
+            });
         });
+
+        /**
+         *
+         */
+        const getTopProductReload = () => {
+            let thkProductSale = @json($thkProductSaleByTime);
+            let sortPro = [];
+            $("#listTopProduct").empty();
+            const getSaleByQuy = thkProductSale[0]["getSaleByYear"][4];
+            // sort by sale
+            console.log(getSaleByQuy);
+
+            for (let sale in getSaleByQuy) {
+                sortPro.push([sale, getSaleByQuy[sale]]);
+            }
+            sortPro.sort(function(a, b) {
+                return b[1][1] - a[1][1];
+            });
+            console.log(sortPro);
+            //Lay 3 san pham co doanh thu cao nhat;
+            for(let i=0; i<sortPro.length; i++) {
+                if(i===3) break;
+                let newTrHtml = `
+                        <tr>
+                            <td>
+                                `+sortPro[i][0]+`
+                            </td>
+                            <td>`+sortPro[i][1][0]+` </td>
+                            <td>
+                                `+sortPro[i][1][1]+` VNĐ
+                            </td>
+                            <td>
+                                <button class="btn" onclick="viewProduct(`+sortPro[i][1][2]+`)">
+                                    <i class="fas fa-eye" style="color: blue"></i>
+
+                                </button>
+
+                            </td>
+                        </tr>`
+                console.log(newTrHtml);
+                $("#listTopProduct").append(newTrHtml);
+            }
+        }
+
+        /**
+         *
+         */
+        const getTopSuppierReload = () => {
+            var thkSupplierByTime = @json($thkSupplierByTime);
+            let sortSup = [];
+            $("#listTopSupplier").empty();
+            const getSaleByQuy = thkSupplierByTime[0]["getProductSupplierByYear"][4];
+            // sort by sale
+            console.log(getSaleByQuy);
+
+            for (let sale in getSaleByQuy) {
+                sortSup.push([sale, getSaleByQuy[sale]]);
+            }
+            sortSup.sort(function(a, b) {
+                return b[1][0] - a[1][0];
+            });
+            console.log(sortSup);
+            //Lay 3 nha cung cap co nhieu don cao nhat;
+            for(let i=0; i<sortSup.length; i++) {
+                if(i===3) break;
+                let newTrHtml = `
+                        <tr>
+                            <td>
+                                `+sortSup[i][0]+`
+                            </td>
+                            <td>`+sortSup[i][1][0]+` </td>
+                            <td>
+                                `+sortSup[i][1][1]+` VNĐ
+                            </td>
+                            <td>
+                                <button class="btn" onclick="viewSupplier(`+sortSup[i][1][2]+`)">
+                                    <i class="fas fa-eye" style="color: blue"></i>
+
+                                </button>
+
+                            </td>
+                        </tr>`
+                console.log(newTrHtml);
+                $("#listTopSupplier").append(newTrHtml);
+            }
+        }
+        /**
+         * Confirm view product
+         * @param id
+         */
+        const viewProduct = (id) => {
+            $.ajax({
+                url: "/admin/products/detail",
+                type:'GET',
+                data: { id:id },
+                success: function(response) {
+                    console.log(response["data"]);
+                    if(response["code"] === 200) {
+                        document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
+                        document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
+                        document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã sản phẩm: </i></span>" + response["data"][0]["product_code"];
+                        document.getElementById("category").innerHTML = "<span class='text-muted'><i>Danh mục: </i></span>" + response["data"][0]["category_name"];
+                        document.getElementById("route_of_use").innerHTML = "<span class='text-muted'><i>Đường dùng: </i></span>" + response["data"][0]["route_of_use"];
+                        document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];
+                        document.getElementById("content").innerHTML = "<span class='text-muted'><i>Hàm lượng: </i></span>" + response["data"][0]["content"];
+                        if(response["data"][0]["instruction"]) {
+                            document.getElementById("instruction").innerHTML = "<span style='color: red'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];
+                        } else {
+                            document.getElementById("instruction").innerHTML = "";
+                        }
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            $("#viewModal").modal("show");
+        }
+
+        const viewSupplier = (id) => {
+            window.location.href = "/admin/suppliers/" + id + "/detail";
+        }
     </script>
 @endsection

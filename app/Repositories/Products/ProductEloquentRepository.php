@@ -82,6 +82,15 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
             ->get();
     }
 
+    public function getItemByName($name)
+    {
+        return DB::table('products')
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'categories.name AS category_name')
+            ->where('products.product_name', $name)
+            ->get();
+    }
+
     /**
      * @param $productName
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null

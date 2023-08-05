@@ -145,14 +145,14 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="/admin/dashboard" class="nav-link">
-                            <i class="nav-icon fas fa-chart-bar"></i>
-                            <p>
-                                Prediction Report
-                            </p>
-                        </a>
-                    </li>
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="/admin/dashboard" class="nav-link">--}}
+{{--                            <i class="nav-icon fas fa-chart-bar"></i>--}}
+{{--                            <p>--}}
+{{--                                Prediction Report--}}
+{{--                            </p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
                     <li class="nav-item">
                         <a href="/admin/sale-report" class="nav-link">
                             <i class="nav-icon fas fa-chart-line"></i>

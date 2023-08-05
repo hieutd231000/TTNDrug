@@ -191,7 +191,7 @@ class DashboardController extends Controller
             foreach($period as $date) {
                 $arrayDayIn10Y[] = $date->format('Y-m-d');
             }
-         //II. Thong ke don hang
+         //II. Thong ke don hang, san pham
             $orderUnConfirm = $this->orderRepository->thkorderUnConfirm();
             $orderEdConfirm = $this->orderRepository->thkorderEdConfirm();
             $orderEdReceive = $this->orderRepository->thkorderEdReceive();
@@ -200,6 +200,10 @@ class DashboardController extends Controller
             $thkOrder[2] = $orderEdReceive;
             //Chi phi theo nam
             $thkExpenseByTime = $this->orderRepository->thkExpenseByTime();
+            //Thong ke san pham theo nam va theo quy
+            $thkProductSaleByTime = $this->saleRepository->thkProductSaleByTime();
+            //Thong ke nha cung cap theo nam va theo quy
+            $thkSupplierByTime = $this->saleRepository->thkSupplierByTime();
         return view("admin.page.report.sale", [
             "currentRevenue" => $currentRevenue,
             "rateRevenue" => $rateRevenue,
@@ -212,7 +216,9 @@ class DashboardController extends Controller
             "profitByDayIn10Year" => $profit10y,
             "arrayDayIn10Year" => $arrayDayIn10Y,
             "thkOrder" => $thkOrder,
-            "thkExpenseByTime" => $thkExpenseByTime
+            "thkExpenseByTime" => $thkExpenseByTime,
+            "thkProductSaleByTime" => $thkProductSaleByTime,
+            "thkSupplierByTime" => $thkSupplierByTime
         ]);
     }
 
