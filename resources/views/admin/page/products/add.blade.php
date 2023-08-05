@@ -105,7 +105,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Thêm sản phẩm</h4>
+                        <h4 class="m-0">Thêm dược phẩm</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -129,14 +129,14 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="header">
-                                <h5>Thông tin sản phẩm</h5>
+                                <h5>Thông tin dược phẩm</h5>
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="product_name" id="product_name" class="form-control" placeholder="Tên sản phẩm *" value="{{ old("product_name") }}">
+                                                <input type="text" name="product_name" id="product_name" class="form-control" placeholder="Tên dược phẩm *" value="{{ old("product_name") }}">
                                             </div>
                                             @if($errors->has('product_name'))
                                                 <p style="height: 0; margin: 0; color: red">
@@ -169,7 +169,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã sản phẩm *" value="{{ old("product_code") }}">
+                                                <input type="text" name="product_code" id="product_code" class="form-control" placeholder="Mã dược phẩm *" value="{{ old("product_code") }}">
                                             </div>
                                             @if($errors->has('product_code'))
                                                 <p style="height: 0; margin: 0; color: red">
@@ -260,7 +260,7 @@
                                             <div class="form-block" style="border-bottom: 0">
                                                 <input type="file" name="product_image" id="product_image" accept="image/*" style="display: none">
                                                 <label for="product_image" class="inputFileCustom">
-                                                        Chọn hình ảnh mô tả sản phẩm
+                                                        Chọn hình ảnh mô tả dược phẩm
                                                 </label>
                                                 <div id="img_preview" class="hidden">
                                                     <img id="imgPreview" class="imgPreview" src="#" alt="pic" />

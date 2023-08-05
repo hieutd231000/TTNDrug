@@ -255,7 +255,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
-                                    Tìm kiếm sản phẩm
+                                    Tìm kiếm dược phẩm
                                 </div>
                                 <div class="body">
                                     <div class="row clearfix">
@@ -314,14 +314,14 @@
                                     <div class="row clearfix" style="margin: 10px 0 20px 0">
                                         <div class="card">
                                             <div class="card-header">
-                                                <h3 class="card-title">Danh sách sản phẩm</h3>
+                                                <h3 class="card-title">Danh sách dược phẩm</h3>
                                             </div>
                                             <!-- /.card-header -->
                                             <div class="card-body table-responsive p-0" style="">
                                                 <table class="table table-head-fixed text-nowrap" id="cartTable">
                                                     <thead>
                                                     <tr>
-                                                        <th style="width: 200px">Tên sản phẩm</th>
+                                                        <th style="width: 200px">Tên dược phẩm</th>
                                                         <th style="width: 250px">Danh mục</th>
                                                         <th style="width: 130px">Số lượng</th>
                                                         <th style="width: 150px">Đơn giá</th>

@@ -58,6 +58,15 @@
         width: 250px;
         height: 235px;
     }
+    #loading {
+        background: {{ URL::asset('image/loading_icon.gif')}} no-repeat center center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        z-index: 9999999;
+    }
 </style>
 
 @extends("admin.master")
@@ -77,7 +86,7 @@
                 @endif
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <h3>Sản phẩm hết hàng</h3>
+                        <h3>Dược phẩm hết hàng</h3>
                         {{--                        <ol class="breadcrumb">--}}
                         {{--                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>--}}
                         {{--                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>--}}
@@ -95,7 +104,7 @@
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <h5>Sản phẩm đã hết hàng</h5>
+                            <h5>Dược phẩm đã hết hàng</h5>
                         </div>
                         <div class="col-sm-12">
                             <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
@@ -103,7 +112,7 @@
                         </div>
                         <form>
                             <div class="card-body" style="padding-bottom: 0px">
-                                <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search">
+                                <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" placeholder="Tìm kiếm tên dược phẩm" aria-label="Search">
                             </div>
                         </form>
                         @foreach($listOutOfStock as $key => $data)
@@ -116,8 +125,8 @@
                                             <table class="table">
                                                 <thead>
                                                 <tr>
-                                                    <th scope="col">Mã sản phẩm</th>
-                                                    <th scope="col">Tên sản phẩm</th>
+                                                    <th scope="col">Mã dược phẩm</th>
+                                                    <th scope="col">Tên dược phẩm</th>
                                                     <th scope="col">DS nhà cung cấp</th>
                                                     <th scope="col">Danh mục</th>
                                                     <th scope="col">Đường dùng</th>
@@ -148,7 +157,7 @@
                                             </table>
                                         </div>
                                         @if(count($data->listSupplier))
-                                            <div class="card-footer btn btn-primary" onclick="confirmOrder( {{ $data->product_code }}, {{$data->listSupplier}} )" style="background-color: #007bff !important;">
+                                            <div class="card-footer btn btn-primary" onclick="confirmOrder('{{$data->product_code}}',{{$data->listSupplier}})" style="background-color: #007bff !important;">
                                                 Gửi yêu cầu
                                             </div>
                                         @endif
@@ -165,7 +174,7 @@
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Thông tin sản phẩm</h5>
+                            <h5 class="modal-title">Thông tin dược phẩm</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
@@ -215,6 +224,9 @@
                                     </div>
                                     <div class="col-12" style="text-align: end">
                                         <button type="button" class="btn btn-primary handleRequest">Yêu cầu</button>
+                                        <button type="button" class="btn btn-primary">
+                                            <div id="loading"></div>
+                                        </button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
                                     </div>
                                 </div>
@@ -287,7 +299,7 @@
                         type:'POST',
                         data: {_token:_token, product_code:product_code, supplier_selected: supplier_selected, amount:amount, request_time:request_time, detail:detail},
                         success: function(response) {
-                            blockSuccess.innerHTML = "Yêu cầu thêm về sản phẩm thành công"
+                            blockSuccess.innerHTML = "Yêu cầu thêm về dược phẩm thành công"
                             setTimeout(function(){
                                 $("#requestModal").modal("hide");
                             }, 1000);
@@ -358,22 +370,11 @@
          * @param id
          * @param listSupplier
          */
-        function confirmOrder(productCode, listSupplier) {
+        const confirmOrder = (productCode, listSupplier) => {
+            console.log(productCode);
             $("input[name='product_code']").val(productCode);
             let select = document.getElementById("supplier_selected");
             removeOptions(select);
-            // // //Add default
-            // // const newOptionDefault = document.createElement('option');
-            // // const optionDefaultText = document.createTextNode("Nhà cung cấp");
-            // // // set option text
-            // // newOptionDefault.appendChild(optionDefaultText);
-            // // // and addtribute
-            // // newOptionDefault.setAttribute('value',"");
-            // // newOptionDefault.setAttribute('disabled', '');
-            // // newOptionDefault.setAttribute('selected', '');
-            // // // add to select
-            // // select.appendChild(newOptionDefault);
-            //
             // Add list supplier
             for (const supplier of listSupplier) {
                 const newOption = document.createElement('option');

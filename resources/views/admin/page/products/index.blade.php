@@ -52,16 +52,11 @@
 @section("content")
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
+        <div class="content-header" style="padding-bottom: 0px !important;">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <h3>Sản phẩm</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/products">Danh sách sản phẩm</a></li>
-                        </ol>
+                        <h3>Danh sách dược phẩm</h3>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -71,19 +66,21 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="row clearfix">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <a href="/admin/products/add-product" class="btn btn-raised g-bg-cyan float-right mt-2">Thêm sản phẩm</a>
-                    </div><!-- /.col -->
-                </div>
-                @if (session('failed'))
-                    <div class="alert alert-edit alert-danger" style="display: inline">
-                        {{ session('failed') }}
+                @if(auth()->user()->role)
+                    <div class="row clearfix">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <a href="/admin/products/add-product" class="btn btn-primary float-right mt-2">Thêm dược phẩm</a>
+                        </div><!-- /.col -->
                     </div>
-                @elseif(session('success'))
-                    <div class="alert alert-edit alert-success" style="display: inline">
-                        {{ session('success') }}
-                    </div>
+                    @if (session('failed'))
+                        <div class="alert alert-edit alert-danger" style="display: inline">
+                            {{ session('failed') }}
+                        </div>
+                    @elseif(session('success'))
+                        <div class="alert alert-edit alert-success" style="display: inline">
+                            {{ session('success') }}
+                        </div>
+                    @endif
                 @endif
                 <div class="row clearfix margin-20">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
@@ -93,12 +90,14 @@
                                     <thead>
                                         <tr>
                                             <th>STT</th>
-                                            <th>Tên sản phẩm</th>
+                                            <th>Tên dược phẩm</th>
                                             <th>Danh mục</th>
                                             <th>Đường dùng</th>
                                             <th>Dạng bào chế</th>
                                             <th>Hàm lượng</th>
-                                            <th style="width: 140px">Xem/Sửa/Xoá</th>
+                                            @if(auth()->user()->role)
+                                                <th style="width: 140px">Xem/Sửa/Xoá</th>
+                                            @endif
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -109,16 +108,25 @@
                                             <td>{{$data->category_name}}</td>
                                             <td>{{$data->route_of_use}}</td>
                                             <td>{{$data->dosage}}</td>
-                                            <td>{{$data->content}}</td>
                                             <td>
-                                                <a data-id="1" id="viewBtn">
-                                                    <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
-                                                </a>
-                                                <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
-                                                <a data-id="2" id="deleteBtn">
-                                                    <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
-                                                </a>
+                                                {{$data->content}}
+{{--                                                @if(!auth()->user()->role)--}}
+{{--                                                    <a data-id="1" id="viewBtn">--}}
+{{--                                                        <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>--}}
+{{--                                                    </a>--}}
+{{--                                                @endif--}}
                                             </td>
+                                            @if(auth()->user()->role)
+                                                <td>
+                                                    <a data-id="1" id="viewBtn">
+                                                        <button class="btn btn-sm btn-info" onclick="confirmView( {{ $data->id }} )"><i class="fas fa-eye"></i></button>
+                                                    </a>
+                                                    <a href="/admin/products/{{$data->id}}/edit" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i></a>
+                                                    <a data-id="2" id="deleteBtn">
+                                                        <button class="btn btn-sm btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -140,7 +148,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết dược phẩm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -171,7 +179,7 @@
                     <input type="hidden" name="id" id="id_product" value="">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá sản phẩm này?</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá dược phẩm này?</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -219,9 +227,9 @@
                 info: true,
                 "language": {
                     // url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json',
-                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-                    "zeroRecords": "Không có sản phẩm",
-                    "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
+                    "lengthMenu": "Hiển thị _MENU_ dược phẩm trên một trang",
+                    "zeroRecords": "Không có dược phẩm",
+                    "info": "Hiển thị _START_ đến _END_ dược phẩm trên tổng số _TOTAL_ dược phẩm",
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {
@@ -254,7 +262,7 @@
                     if(response["code"] === 200) {
                         document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
                         document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
-                        document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã sản phẩm: </i></span>" + response["data"][0]["product_code"];
+                        document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã dược phẩm: </i></span>" + response["data"][0]["product_code"];
                         document.getElementById("category").innerHTML = "<span class='text-muted'><i>Danh mục: </i></span>" + response["data"][0]["category_name"];
                         document.getElementById("route_of_use").innerHTML = "<span class='text-muted'><i>Đường dùng: </i></span>" + response["data"][0]["route_of_use"];
                         document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];

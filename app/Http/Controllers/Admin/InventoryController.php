@@ -90,7 +90,7 @@ class InventoryController extends Controller
         //Create new notification
         $orderNotification["from_user_id"] = Auth::user()->id;
         $product_name = $this->productRepository->getProductNameByProductCode($listRequest["product_code"]);
-        $orderNotification["notification"] = "Yêu cầu nhập thêm sản phẩm " . $product_name . " thành công.";
+        $orderNotification["notification"] = "Yêu cầu nhập thêm dược phẩm " . $product_name . " thành công.";
         $newNotification = $this->notificationRepository->create($orderNotification);
         //Pusher notification
         $options = array(
@@ -108,7 +108,7 @@ class InventoryController extends Controller
             "from_user_id" => Auth::user()->id,
             "notification_content" => $newNotification->notification
         ]);
-        return $this->response->success(null, 200, 'Chúng tôi đã gửi cho bạn thông tin sản phẩm hiện hết hàng');
+        return $this->response->success(null, 200, 'Chúng tôi đã gửi cho bạn thông tin dược phẩm hiện hết hàng');
     }
 
     public function listExpiredProduct(Request $request) {

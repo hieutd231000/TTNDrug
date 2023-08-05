@@ -414,13 +414,13 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
-                                    Tìm kiếm sản phẩm
+                                    Tìm kiếm dược phẩm
                                 </div>
                                 <div class="body">
                                     <div class="row clearfix">
                                         <div class="col-sm-12">
                                             <form class="form-inline">
-                                                <input class="form-control" type="text" id="posNameSearch" name="posNameSearch" style="width: 100%" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search">
+                                                <input class="form-control" type="text" id="posNameSearch" name="posNameSearch" style="width: 100%" placeholder="Tìm kiếm tên dược phẩm" aria-label="Search">
 {{--                                                <button class="btn btn-primary" type="submit" style="width: 10%">Tìm kiếm</button>--}}
                                             </form>
                                         </div>
@@ -772,7 +772,7 @@
                 document.getElementById("standard-select").disabled = false;
             } else {
                 document.getElementById("paidCardBtn").disabled = true;
-                document.getElementById("validateEmptyCart").innerHTML = "Mời bạn chọn sản phẩm";
+                document.getElementById("validateEmptyCart").innerHTML = "Mời bạn chọn dược phẩm";
                 document.getElementById("paidCart").disabled = true;
                 document.getElementById("standard-select").disabled = true;
             }
@@ -925,7 +925,7 @@
             } else if(parseInt(document.getElementById(id).value) === 0) {
                 document.getElementById(name).innerHTML = "Số lượng phải lớn hơn 0 !";
             } else if(!checkProductionBatchName(getProductionBatchNameById(document.getElementById(code).value))) {
-                document.getElementById(name).innerHTML = "Lô sản phẩm đã tồn tại !";
+                document.getElementById(name).innerHTML = "Lô dược phẩm đã tồn tại !";
             } else if(!checkProductionBatchAmount(document.getElementById(code).value, document.getElementById(id).value)) {
                 document.getElementById(name).innerHTML = "Không đủ số lượng !";
             } else {

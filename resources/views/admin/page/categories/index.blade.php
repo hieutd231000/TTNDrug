@@ -49,16 +49,14 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h3>Danh mục</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>
-                            <li class="breadcrumb-item"><a href="/admin/categories">Danh mục</a></li>
-                        </ol>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <h3>Danh mục dược</h3>
                     </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <a href="" class="btn btn-raised g-bg-cyan float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm danh mục</a>
-                    </div><!-- /.col -->
+                    @if(auth()->user()->role)
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                            <a href="" class="btn btn-primary float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm danh mục</a>
+                        </div><!-- /.col -->
+                    @endif
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
@@ -93,7 +91,9 @@
                                         <th>STT</th>
                                         <th>Tên danh mục</th>
                                         <th>Mô tả</th>
-                                        <th>Sửa/Xoá</th>
+                                        @if(auth()->user()->role)
+                                            <th>Sửa/Xoá</th>
+                                        @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -106,14 +106,16 @@
                                                 @else
                                                     <td style="width: 50%;">{{$data->description}}</td>
                                                 @endif
-                                                <td>
-                                                    <a data-id="1" id="editBtn">
-                                                        <button class="btn btn-primary" onclick="editForm({{ $data->id }}, '{{ $data->name }}', '{{ $data->description }}')" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
-                                                    </a>
-                                                    <a data-id="1" id="deleteBtn">
-                                                        <button class="btn btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
-                                                    </a>
-                                                </td>
+                                                @if(auth()->user()->role)
+                                                    <td>
+                                                        <a data-id="1" id="editBtn">
+                                                            <button class="btn btn-primary" onclick="editForm({{ $data->id }}, '{{ $data->name }}', '{{ $data->description }}')" data-toggle="modal" data-target="#editModal"><i class="fas fa-edit"></i></button>
+                                                        </a>
+                                                        <a data-id="1" id="deleteBtn">
+                                                            <button class="btn btn-danger" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"><i class="fas fa-trash"></i></button>
+                                                        </a>
+                                                    </td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                     </tbody>

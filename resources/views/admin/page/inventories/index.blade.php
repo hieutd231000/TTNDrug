@@ -87,8 +87,8 @@
                                 <table id="products" style="width: 100% !important;" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
-                                        <th>Mã sản phẩm</th>
-                                        <th>Tên sản phẩm</th>
+                                        <th>Mã dược phẩm</th>
+                                        <th>Tên dược phẩm</th>
                                         <th>Danh mục</th>
                                         <th>Đơn hàng</th>
                                         <th>Lô sản xuất</th>
@@ -146,7 +146,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết dược phẩm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -177,7 +177,7 @@
                     <input type="hidden" name="id" id="id_product" value="">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá sản phẩm này?</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn xoá dược phẩm này?</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -224,9 +224,9 @@
                 lengthChange: true,
                 info: true,
                 "language": {
-                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-                    "zeroRecords": "Không có sản phẩm",
-                    "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
+                    "lengthMenu": "Hiển thị _MENU_ dược phẩm trên một trang",
+                    "zeroRecords": "Không có dược phẩm",
+                    "info": "Hiển thị _START_ đến _END_ dược phẩm trên tổng số _TOTAL_ dược phẩm",
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {

@@ -132,7 +132,7 @@
                                     <p class="col-sm-10">{{$supplierDetail->address}}</p>
                                 </div>
                                 <div class="row">
-                                    <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Số lượng sản phẩm:</p>
+                                    <p class="col-sm-2 text-muted text-sm-right mb-0 mb-sm-3">Số lượng dược phẩm:</p>
                                     <p id="totalProduct" style="margin-left: 4px">{{$totalProduct}}</p>
                                     <a class="product-detail" style="margin: 4px 0px 0px 10px" onclick="viewAllProduct()">
                                         <i class="fas fa-eye"></i>
@@ -152,11 +152,11 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 listProductBySupplier">
                         <div class="card">
                             <div class="header">
-                                <h5>Danh sách sản phẩm</h5>
+                                <h5>Danh sách dược phẩm</h5>
                                 <div style="text-align: end">
-                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm sản phẩm</button>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#addModal">Thêm dược phẩm</button>
                                     @if($totalProduct)
-                                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá sản phẩm</button>
+                                        <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá dược phẩm</button>
                                     @endif
                                     <a class="btn btn-success" href="/admin/orders/{{$supplierDetail->id}}/product">Đặt hàng</a>
                                 </div>
@@ -166,7 +166,7 @@
                                     <thead>
                                     <tr>
                                         <th>STT</th>
-                                        <th>Tên sản phẩm</th>
+                                        <th>Tên dược phẩm</th>
                                         <th>Danh mục</th>
                                         <th>Mã code</th>
                                     </tr>
@@ -174,7 +174,7 @@
                                     <tbody>
                                     @if($totalProduct == 0)
                                         <tr>
-                                            <td colspan="4" style="text-align: center">Không có sản phẩm</td>
+                                            <td colspan="4" style="text-align: center">Không có dược phẩm</td>
                                         </tr>
                                     @else
                                         @foreach($listProduct as $key => $data)
@@ -207,7 +207,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Thêm sản phẩm</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Thêm dược phẩm</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -218,7 +218,7 @@
                                 <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
                                 <div class="form-group">
                                     <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
-                                        <option value="" disabled selected>Chọn sản phẩm</option>
+                                        <option value="" disabled selected>Chọn dược phẩm</option>
                                         @foreach($listAllProduct as $key => $data)
                                             <option value={{$data->id}}>{{$data->product_name}}</option>
                                         @endforeach
@@ -243,7 +243,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Danh sách sản phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Danh sách dược phẩm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -271,7 +271,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Xoá sản phẩm</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Xoá dược phẩm</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -281,7 +281,7 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
                                 <div class="form-group">
-                                    <select data-placeholder="Lựa chọn sản phẩm bạn muốn xoá..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_delete">
+                                    <select data-placeholder="Lựa chọn dược phẩm bạn muốn xoá..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_delete">
 {{--                                        <option value=""></option>--}}
                                         @foreach($listProduct as $key => $data)
                                             <option value="{{$data[0]->id}}">{{$data[0]->product_name}}</option>
@@ -342,9 +342,9 @@
                 blockSuccess.innerHTML = "";
                 // Check validate
                 if(!product_id) {
-                    blockErrProduct.innerHTML = "Mời bạn chọn sản phẩm";
+                    blockErrProduct.innerHTML = "Mời bạn chọn dược phẩm";
                 } else if(!checkExistProduct(product_id)) {
-                    blockErrProduct.innerHTML = "Sản phẩm này đã có trong danh sách";
+                    blockErrProduct.innerHTML = "Dược phẩm này đã có trong danh sách";
                 } else {
                     blockErrProduct.innerHTML = "";
                 }
@@ -355,7 +355,7 @@
                         data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
                         success: function(response) {
                             blockErrProduct.innerHTML = "";
-                            blockSuccess.innerHTML = "Thêm sản phẩm thành công";
+                            blockSuccess.innerHTML = "Thêm dược phẩm thành công";
                             console.log(response["data"]);
                             // addProductToTable(response["data"][0], response["data"][1], response["data"][2]);
                             setTimeout(function(){
@@ -388,7 +388,7 @@
                 console.log(product_id);
                 // Check validate
                 if(!product_id.length) {
-                    blockErrProductDelete.innerHTML = "Mời bạn chọn sản phẩm";
+                    blockErrProductDelete.innerHTML = "Mời bạn chọn dược phẩm";
                 } else {
                     blockErrProductDelete.innerHTML = "";
                 }
@@ -399,7 +399,7 @@
                         data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
                         success: function(response) {
                             blockErrProductDelete.innerHTML = "";
-                            blockSuccessDelete.innerHTML = "Xoá sản phẩm thành công";
+                            blockSuccessDelete.innerHTML = "Xoá dược phẩm thành công";
                             setTimeout(function(){
                                 location.reload();
                             }, 600);

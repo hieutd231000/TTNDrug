@@ -56,7 +56,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <h3>Sản phẩm hết hạn</h3>
+                        <h3>Dược phẩm hết hạn</h3>
                         {{--                        <ol class="breadcrumb">--}}
                         {{--                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>--}}
                         {{--                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>--}}
@@ -88,7 +88,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>Sản phẩm đã hết hạn</h5>
+                                    <h5>Dược phẩm đã hết hạn</h5>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
@@ -104,8 +104,8 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">Mã sản phẩm</th>
-                                                            <th scope="col" style="width: 130px">Tên sản phẩm</th>
+                                                            <th scope="col">Mã dược phẩm</th>
+                                                            <th scope="col" style="width: 130px">Tên dược phẩm</th>
                                                             <th scope="col">Danh mục</th>
                                                             <th scope="col">Lô sản xuất</th>
                                                             <th scope="col">Tên nhà cung cấp</th>
@@ -153,7 +153,7 @@
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5>Sản phẩm sắp hết hạn</h5>
+                                    <h5>Dược phẩm sắp hết hạn</h5>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
@@ -169,8 +169,8 @@
                                                     <table class="table">
                                                         <thead>
                                                         <tr>
-                                                            <th scope="col">Mã sản phẩm</th>
-                                                            <th scope="col" style="width: 130px">Tên sản phẩm</th>
+                                                            <th scope="col">Mã dược phẩm</th>
+                                                            <th scope="col" style="width: 130px">Tên dược phẩm</th>
                                                             <th scope="col">Danh mục</th>
                                                             <th scope="col">Lô sản xuất</th>
                                                             <th scope="col">Tên nhà cung cấp</th>
@@ -245,9 +245,9 @@
                 lengthChange: true,
                 info: true,
                 "language": {
-                    "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-                    "zeroRecords": "Không có sản phẩm",
-                    "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
+                    "lengthMenu": "Hiển thị _MENU_ dược phẩm trên một trang",
+                    "zeroRecords": "Không có dược phẩm",
+                    "info": "Hiển thị _START_ đến _END_ dược phẩm trên tổng số _TOTAL_ dược phẩm",
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {

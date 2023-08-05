@@ -340,19 +340,19 @@
                     @if (count($listProductBySupplierId))
                         <div class="row clearfix" style="margin-top: 10px">
                             <div class="col-sm-12" style="text-align: end; margin-bottom: 10px">
-                                <a class="btn btn-success" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 100px">Thêm sản phẩm</a>
+                                <a class="btn btn-primary" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 120px">Thêm dược phẩm</a>
                                 <a class="btn btn-danger" href="/admin/production-batch" style="width: 100px">Thêm lô sản xuất</a>
                             </div>
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="card-header bg-light font-weight-bold" style="color: black!important;">
-                                        Chọn sản phẩm
+                                        Chọn dược phẩm
                                     </div>
                                     <div class="body">
                                         <div class="row clearfix">
                                             <div class="col-sm-12">
                                                 <form class="form-inline">
-                                                    <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" style="width: 100%" placeholder="Tìm kiếm tên sản phẩm" aria-label="Search">
+                                                    <input class="form-control" type="text" id="productNameSearch" name="productNameSearch" style="width: 100%" placeholder="Tìm kiếm tên dược phẩm" aria-label="Search">
 {{--                                                    <button class="btn btn-primary handleProductNameSearch" type="submit" style="width: 10%">Tìm kiếm</button>--}}
                                                 </form>
                                             </div>
@@ -389,7 +389,7 @@
 {{--                                                                        <input type="button" onclick="subtractCount({{$key}})" value="-">--}}
 {{--                                                                        <input type="button" onclick="increaseCount({{$key}})" value="+">--}}
                                                                     </div>
-                                                                    <button class="btn btn-secondary" onclick="addNewProduct('{{$data[0]->product_id}}', '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm sản phẩm</button>
+                                                                    <button class="btn btn-secondary" onclick="addNewProduct('{{$data[0]->product_id}}', '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm dược phẩm</button>
                                                                     <p id="{{$data[0]->product_name}}" style="color: red; height: 40px"></p>
                                                                 </div>
                                                             </div>
@@ -409,7 +409,7 @@
                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                                 <div class="card">
                                     <div class="card-header bg-light font-weight-bold" style="color: black!important;">
-                                        Danh sách sản phẩm
+                                        Danh sách dược phẩm
                                     </div>
                                     <div class="body">
                                         <div class="row clearfix" style="margin: 10px 0 0 0">
@@ -418,7 +418,7 @@
                                                     <table class="table table-head-fixed text-nowrap" id="cartTable">
                                                         <thead>
                                                             <tr>
-                                                                <th style="width: 200px">Tên sản phẩm</th>
+                                                                <th style="width: 200px">Tên dược phẩm</th>
                                                                 <th style="width: 250px">Danh mục</th>
                                                                 <th style="width: 180px">Lô sản xuất</th>
                                                                 <th style="width: 130px">Số lượng</th>
@@ -491,7 +491,7 @@
                             </div>
                         </div>
                     @else
-                        <p style="color:red;">Nhà cung cấp này không có sản phẩm</p>
+                        <p style="color:red;">Nhà cung cấp này không có dược phẩm</p>
                     @endif
                 @endisset
             </div><!-- /.container-fluid -->
@@ -553,9 +553,9 @@
         //         info: false,
         //         "language": {
         //             // // url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/vi.json',
-        //             // "lengthMenu": "Hiển thị _MENU_ sản phẩm trên một trang",
-        //             "zeroRecords": "Không có sản phẩm",
-        //             // "info": "Hiển thị _START_ đến _END_ sản phẩm trên tổng số _TOTAL_ sản phẩm",
+        //             // "lengthMenu": "Hiển thị _MENU_ dược phẩm trên một trang",
+        //             "zeroRecords": "Không có dược phẩm",
+        //             // "info": "Hiển thị _START_ đến _END_ dược phẩm trên tổng số _TOTAL_ sản phẩm",
         //             "search": "Tìm kiếm:",
         //             // "infoEmpty": "",
         //             // "paginate": {
@@ -632,7 +632,7 @@
                 document.getElementById("reservationdate").disabled = false;
             } else {
                 document.getElementById("handleCancelBtn").disabled = true;
-                document.getElementById("validateEmptyCart").innerHTML = "Mời bạn chọn sản phẩm";
+                document.getElementById("validateEmptyCart").innerHTML = "Mời bạn chọn dược phẩm";
                 document.getElementById("handleOrderBtn").disabled = true;
                 document.getElementById("detail").disabled = true;
                 document.getElementById("reservationdate").disabled = true;
@@ -838,7 +838,7 @@
             } else if(parseInt(document.getElementById(id).value) === 0 ) {
                 document.getElementById(name).innerHTML = "Số lượng phải lớn hơn 0 !";
             } else if(!checkProductionBatchName(document.getElementById(production_batch_id).value, supplier_id)) {
-                document.getElementById(name).innerHTML = "Lô sản phẩm đã tồn tại !";
+                document.getElementById(name).innerHTML = "Lô dược phẩm đã tồn tại !";
             } else {
                 document.getElementById(name).innerHTML = "";
             }

@@ -49,11 +49,13 @@
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-sm-6">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <h4>Lô sản xuất</h4>
                     </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <a href="" class="btn btn-raised g-bg-cyan float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm lô sản xuất</a>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        @if(auth()->user()->role)
+                            <a href="" class="btn btn-primary float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm lô sản xuất</a>
+                        @endif
                         <a href="/admin/orders/{{0}}/product" style="margin-right: 5px" class="btn btn-success float-right mt-2">Đặt hàng</a>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -82,10 +84,12 @@
                                     <tr>
                                         <th>STT</th>
                                         <th>Tên lô sản xuất</th>
-                                        <th>Sản phẩm</th>
+                                        <th>Dược phẩm</th>
                                         <th>Ngày hết hạn</th>
                                         <th>Trạng thái</th>
-                                        <th>Sửa/Xoá</th>
+                                        @if(auth()->user()->role)
+                                            <th>Sửa/Xoá</th>
+                                        @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -104,14 +108,16 @@
                                                     <button class="btn btn-danger" disabled style="opacity: 1 !important; width: 80%">Hết hạn</button>
                                                 </td>
                                             @endif
-                                            <td style="font-size: 20px">
-                                                <a data-id="1" id="editBtn" style="cursor: pointer; color: blue; margin-right: 5px; margin-left: 7px">
-                                                    <i class="fas fa-edit" onclick="editForm({{ $data->id }}, '{{ $data->production_batch_name }}', '{{ $data->product_id }}' , '{{ $data->expired_time }}')" data-toggle="modal" data-target="#editModal"></i>
-                                                </a>
-                                                <a data-id="1" id="deleteBtn" style="cursor: pointer;   color: red">
-                                                    <i class="fas fa-trash" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"></i></button>
-                                                </a>
-                                            </td>
+                                            @if(auth()->user()->role)
+                                                <td style="font-size: 20px">
+                                                    <a data-id="1" id="editBtn" style="cursor: pointer; color: blue; margin-right: 5px; margin-left: 7px">
+                                                        <i class="fas fa-edit" onclick="editForm({{ $data->id }}, '{{ $data->production_batch_name }}', '{{ $data->product_id }}' , '{{ $data->expired_time }}')" data-toggle="modal" data-target="#editModal"></i>
+                                                    </a>
+                                                    <a data-id="1" id="deleteBtn" style="cursor: pointer;   color: red">
+                                                        <i class="fas fa-trash" onclick="confirmDelete( {{ $data->id }} )" data-toggle="modal" data-target="#deleteModal"></i></button>
+                                                    </a>
+                                                </td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                     </tbody>
@@ -150,9 +156,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="product_selected">Tên sản phẩm <span style="color: red">*</span></label>
+                                <label for="product_selected">Tên dược phẩm <span style="color: red">*</span></label>
                                 <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
-                                    <option value="" disabled selected>Chọn sản phẩm</option>
+                                    <option value="" disabled selected>Chọn dược phẩm</option>
                                     @foreach($listAllProduct as $key => $data)
                                         <option value={{$data->id}}>{{$data->product_name}}</option>
                                     @endforeach
@@ -200,9 +206,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="product_selected">Tên sản phẩm <span style="color: red">*</span></label>
+                                <label for="product_selected">Tên dược phẩm <span style="color: red">*</span></label>
                                 <select name="product_selected_edit" id="product_selected_edit" style="height: 38px; width: 100%">
-                                    <option value="" disabled selected>Chọn sản phẩm</option>
+                                    <option value="" disabled selected>Chọn dược phẩm</option>
                                     @foreach($listAllProduct as $key => $data)
                                         <option value={{$data->id}}>{{$data->product_name}}</option>
                                     @endforeach

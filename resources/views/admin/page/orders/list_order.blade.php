@@ -104,7 +104,7 @@
                                                             <th scope="col">Mã đơn hàng</th>
                                                             <th scope="col" style="width: 150px">Tên nhà cung cấp</th>
                                                             <th scope="col">SĐT</th>
-                                                            <th scope="col">Danh sách sản phẩm</th>
+                                                            <th scope="col">Danh sách dược phẩm</th>
                                                             <th scope="col">Lô sản xuất</th>
                                                             <th scope="col">Đơn giá</th>
                                                             <th scope="col">Số lượng</th>
@@ -169,7 +169,7 @@
                                             <th scope="col">STT</th>
                                             <th scope="col" style="width: 95px;">Mã đơn hàng</th>
                                             <th scope="col" style="width: 140px;">Tên nhà cung cấp</th>
-                                            <th scope="col" style="width: 100px;">Sản phẩm</th>
+                                            <th scope="col" style="width: 100px;">Dược phẩm</th>
                                             <th scope="col" style="width: 100px;">Lô sản xuất</th>
                                             <th scope="col" style="width: 65px;">Đơn giá</th>
                                             <th scope="col" style="width: 70px;">Số lượng</th>

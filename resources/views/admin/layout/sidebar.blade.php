@@ -108,7 +108,7 @@
                             <li class="nav-item">
                                 <a href="/admin/orders/{{0}}/product" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Đặt sản phẩm</p>
+                                    <p>Đặt dược phẩm</p>
                                 </a>
                             </li>
                             <li class="nav-item">
@@ -145,14 +145,6 @@
                             </p>
                         </a>
                     </li>
-{{--                    <li class="nav-item">--}}
-{{--                        <a href="/admin/dashboard" class="nav-link">--}}
-{{--                            <i class="nav-icon fas fa-chart-bar"></i>--}}
-{{--                            <p>--}}
-{{--                                Prediction Report--}}
-{{--                            </p>--}}
-{{--                        </a>--}}
-{{--                    </li>--}}
                     <li class="nav-item">
                         <a href="/admin/sale-report" class="nav-link">
                             <i class="nav-icon fas fa-chart-line"></i>
@@ -165,9 +157,9 @@
                     <li class="nav-header">Quản lý</li>
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-book"></i>
+                            <i class="nav-icon fas fa-capsules"></i>
                             <p>
-                                Sản phẩm
+                                Dược phẩm
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>
@@ -175,26 +167,26 @@
                             <li class="nav-item">
                                 <a href="/admin/products" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Danh sách sản phẩm</p>
+                                    <p>Danh sách dược phẩm</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/products/add-product" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Thêm sản phẩm mới</p>
+                                    <p>Thêm dược phẩm mới</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/products/{{0}}/price-product" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Giá sản phẩm</p>
+                                    <p>Giá dược phẩm</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/categories" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
                                     <p>
-                                        Danh mục
+                                        Danh mục dược
                                     </p>
                                 </a>
                             </li>
@@ -218,19 +210,19 @@
                             <li class="nav-item">
                                 <a href="/admin/inventories" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Danh sách sản phẩm</p>
+                                    <p>Danh sách dược phẩm</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/inventories/out-of-stock" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Sản phẩm hết hàng</p>
+                                    <p>Dược phẩm hết hàng</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="/admin/inventories/list-expired" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Sản phẩm hết hạn</p>
+                                    <p>Dược phẩm hết hạn</p>
                                 </a>
                             </li>
                         </ul>
@@ -286,6 +278,69 @@
                                 </a>
                             </li>
                         </ul>
+                    </li>
+                @else
+                    <li class="nav-header">Thông tin</li>
+                    <li class="nav-item">
+                        <a href="/categories" class="nav-link">
+                            <i class="nav-icon fas fa-folder"></i>
+                            <p>
+                                Danh mục dược
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/products" class="nav-link">
+                            <i class="nav-icon fas fa-capsules"></i>
+                            <p>
+                                Danh sách dược phẩm
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-columns"></i>
+                            <p>
+                                Kho hàng
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/inventories" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Danh sách dược phẩm</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/inventories/out-of-stock" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Dược phẩm hết hàng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/inventories/list-expired" class="nav-link">
+                                    <i class="fas fa-plus nav-icon font-size-11"></i>
+                                    <p>Dược phẩm hết hạn</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/suppliers/{{0}}/detail" class="nav-link">
+                            <i class="nav-icon fas fa-truck"></i>
+                            <p>
+                                Thông tin nhà cung cấp
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/production-batch" class="nav-link">
+                            <i class="nav-icon fas fa-folder"></i>
+                            <p>
+                                Thông tin lô sản xuất
+                            </p>
+                        </a>
                     </li>
                 @endif
             </ul>

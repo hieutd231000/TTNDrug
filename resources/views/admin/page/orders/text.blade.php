@@ -115,7 +115,7 @@
                                                                         </select>
 
                                                                         <select class="form-control attribute" name="product[]" id="product_id" style="margin-top: 15px">
-                                                                            <option value="" disabled selected>Chọn sản phẩm *</option>
+                                                                            <option value="" disabled selected>Chọn dược phẩm *</option>
                                                                         </select>
                                                                         <div id="help-block-product" style="color: red; margin-left: 16px">
                                                                         </div>

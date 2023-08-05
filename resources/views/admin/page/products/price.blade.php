@@ -73,7 +73,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <h3>Nhập mã sản phẩm</h3>
+                        <h3>Nhập mã dược phẩm</h3>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -88,7 +88,7 @@
                         <form>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <div class="form-group" style="display: flex; margin-bottom: 6px">
-                                <input type="text" name="product_code" style="width: 30%; margin-right: 2px; border-radius: 0px !important;" class="form-control" id="product_code" placeholder="Mã sản phẩm">
+                                <input type="text" name="product_code" style="width: 30%; margin-right: 2px; border-radius: 0px !important;" class="form-control" id="product_code" placeholder="Mã dược phẩm">
                                 <button type="submit" class="btn btn-primary handleSubmit" style="border-radius: 0px !important;">Tìm kiếm</button>
                             </div>
                             <div id="help-block-product" style="color: red">
@@ -101,7 +101,7 @@
                 <div class="container-fluid" style="margin-bottom: 25px">
                         <ul class="nav nav-tabs" role="tablist">
                             <li class="nav-item">
-                                <a href="#productPriceInfo" class="nav-link active" data-toggle="tab">Giá sản phẩm</a>
+                                <a href="#productPriceInfo" class="nav-link active" data-toggle="tab">Giá dược phẩm</a>
                             </li>
                             <li class="nav-item">
                                 <a href="#importPriceTable" class="nav-link" data-toggle="tab">Bảng giá nhập</a>
@@ -125,11 +125,11 @@
                                             </div>
                                             <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Tên sản phẩm:</p>
+                                                    <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Tên dược phẩm:</p>
                                                     <p class="col-sm-9">{{$productDetail->product_name}}</p>
                                                 </div>
                                                 <div class="row">
-                                                    <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Mã sản phẩm:</p>
+                                                    <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Mã dược phẩm:</p>
                                                     <p class="col-sm-9">{{$productDetail->product_code}}</p>
                                                 </div>
                                                 <div class="row">
@@ -160,7 +160,7 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Cập nhật giá sản phẩm</h5>
+                                            <h5 class="modal-title">Cập nhật giá dược phẩm</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">×</span>
                                             </button>
@@ -174,7 +174,7 @@
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-group">
-                                                            <input class="form-control" name="price" type="text" value="" placeholder="Nhập giá sản phẩm">
+                                                            <input class="form-control" name="price" type="text" value="" placeholder="Nhập giá dược phẩm">
                                                             <div id="help-block-price" style="color: red">
                                                             </div>
                                                         </div>
@@ -191,15 +191,15 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Lịch sử giá nhập sản phẩm</h5>
+                                        <h5>Lịch sử giá nhập dược phẩm</h5>
                                     </div>
                                     <div class="col-sm-12" style="padding: 15px">
                                         <table id="listOrderTable" class="table table-bordered table-striped">
                                             <thead>
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tên sản phẩm</th>
-                                                <th scope="col">Mã sản phẩm</th>
+                                                <th scope="col">Tên dược phẩm</th>
+                                                <th scope="col">Mã dược phẩm</th>
                                                 <th scope="col">Danh mục</th>
                                                 <th scope="col">Số lượng</th>
                                                 <th scope="col">Giá</th>
@@ -234,15 +234,15 @@
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Lịch sử giá bán sản phẩm</h5>
+                                        <h5>Lịch sử giá bán dược phẩm</h5>
                                     </div>
                                     <div class="col-sm-12" style="padding: 15px">
                                         <table id="listOrderTable" class="table table-bordered table-striped">
                                             <thead>
                                             <tr>
                                                 <th scope="col">STT</th>
-                                                <th scope="col">Tên sản phẩm</th>
-                                                <th scope="col">Mã sản phẩm</th>
+                                                <th scope="col">Tên dược phẩm</th>
+                                                <th scope="col">Mã dược phẩm</th>
                                                 <th scope="col">Danh mục</th>
                                                 <th scope="col">Giá</th>
                                                 <th scope="col">Ngày cập nhật</th>
@@ -302,9 +302,9 @@
                 blockErrProduct.innerHTML = "";
                 // Check validate
                 if(!product_code) {
-                    blockErrProduct.innerHTML = "Mời bạn nhập mã sản phẩm";
+                    blockErrProduct.innerHTML = "Mời bạn nhập mã dược phẩm";
                 } else if(!checkExistProductCode(product_code)) {
-                    blockErrProduct.innerHTML = "Mã sản phẩm này không tồn tại";
+                    blockErrProduct.innerHTML = "Mã dược phẩm này không tồn tại";
                 } else {
                     blockErrProduct.innerHTML = "";
                 }
