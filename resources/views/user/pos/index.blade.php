@@ -452,11 +452,11 @@
                                                                 </select>
 {{--                                                                <p style="margin-bottom: 0px; color: blue"></p>--}}
                                                             @if($data->current_price)
-                                                                <p style="margin-bottom: 8px; color: blue" id="{{$data->current_price_search}}">Giá: {{$data->current_price}} VNĐ</p>
+                                                                <p style="margin-bottom: 8px; color: red; font-weight: 600" id="{{$data->current_price_search}}">Giá: {{$data->current_price}} VNĐ</p>
                                                                 <div style="display: flex">
                                                                     <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->product_id}}" placeholder="Nhập SL">
                                                                 </div>
-                                                                <button class="btn btn-secondary" onclick="addCart('{{$data->product_id}}', '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                <button class="btn btn-success" onclick="addCart('{{$data->product_id}}', '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
                                                                 <p id="{{$data->product_name}}" style="color: red; height: 40px"></p>
                                                             @else
                                                                 <span style="margin-bottom: 8px; color: red">Chưa cập nhật giá bán</span>
@@ -505,7 +505,7 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="card-footer" id="total_price_order" style="color: #0006ff">
+                                            <div class="card-footer" id="total_price_order" style="color: red; font-weight: 600">
                                                 Tổng tiền: 0 VNĐ
                                             </div>
                                             <!-- /.card-body -->
@@ -528,15 +528,15 @@
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                             <div class="row">
                                                 <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Khách cần trả: </p>
-                                                <p class="col-sm-7" id="confirm_price">0 VNĐ</p>
+                                                <p class="col-sm-7" id="confirm_price" style="color: red">0 VNĐ</p>
                                             </div>
                                             <div class="row">
-                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Thanh toán:</p>
-                                                <input type="text" style="height: 10px !important;"  id="paidCart" name="paidCart" disabled autocomplete="off">
+                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Khách hàng đã thanh toán:</p>
+                                                <input type="text" style="height: 10px !important; margin-top: 20px; margin-left: 5px"  id="paidCart" name="paidCart" disabled autocomplete="off">
                                             </div>
                                             <div class="row" style="margin-bottom: 10px">
                                                 <p class="col-sm-5 text-sm-right mb-0 mb-sm-3" style="margin-bottom: 7px !important;">Trả lại khách:</p>
-                                                <p class="col-sm-7" id="return_price" style="margin-bottom: 7px !important;"></p>
+                                                <p class="col-sm-7" id="return_price" style="margin-bottom: 7px !important; color: green"></p>
                                             </div>
                                             <div class="row" style="margin-bottom: 10px">
                                                 <select id="standard-select" style="height: 38px; width: 400px; padding-left: 5px" disabled>
@@ -794,7 +794,7 @@
                 document.getElementById("validatePaid").innerHTML = "Mời bạn chọn hình thức thanh toán !";
             }
             else if(total_price_order > parseInt(moneyPay)) {
-                document.getElementById("validatePaid").innerHTML = "Số tiền khách hàng thanh toán không đủ !";
+                document.getElementById("validatePaid").innerHTML = "Số tiền khách hàng đã thanh toán không đủ !";
             } else {
                 document.getElementById("validatePaid").innerHTML = "";
                 $("input[name='total_price']").val(total_price_order);

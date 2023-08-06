@@ -75,7 +75,7 @@
         <div class="content-header" style="padding-bottom: 0px !important;">
             <div class="container-fluid">
                 <div class="row mb-2">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 5px">
                         <h3>Thông tin nhà cung cấp</h3>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
@@ -89,22 +89,22 @@
                 <div class="row clearfix">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="margin-bottom: 10px">
                         <div class="select">
-                            <select id="standard-select" style="height: 38px; width: 300px; padding-left: 5px">
-                                <option value="null" disabled selected>Chọn nhà cung cấp</option>
+                            <form id="myForm">
                                 @if(isset($supplierDetail))
-                                    @foreach($supplier as $key => $data)
-                                        <option value={{$data->id}} {{ $supplierDetail->id == $data->id ? 'selected' : '' }}>{{$data->name}}</option>
-                                    @endforeach
+                                    <input id="answerInput" value="{{$supplierDetail->name}}" style="height: 38px; width: 313px; padding-bottom: 6px" list="suggestionList">
                                 @else
-                                    @foreach($supplier as $key => $data)
-                                        <option value={{$data->id}}>{{$data->name}}</option>
-                                    @endforeach
+                                    <input id="answerInput" style="height: 38px; width: 313px; padding-bottom: 6px; padding-left: 6px" list="suggestionList">
                                 @endif
-                            </select>
-                            <span class="focus"></span>
-                            <input class="btn btn-primary" onclick="handleSearch()" type="button" value="Chọn" style="margin-bottom: 5px">
-                            <div id="help-block-supplier" style="color: red">
-                            </div>
+                                <datalist id="suggestionList">
+                                    @foreach($supplier as $key => $data)
+                                        <option data-value={{$data->id}}>{{$data->name}}</option>
+                                    @endforeach
+                                </datalist>
+                                <input type="hidden" name="answer" id="answerInput-hidden">
+                                <input class="btn btn-primary" type="submit" value="Chọn" style="margin-left: -3px; border-radius: 0px">
+                                <div id="help-block-supplier" style="color: red">
+                                </div>
+                            </form>
                         </div>
                     </div><!-- /.col -->
                 </div>
@@ -467,15 +467,46 @@
         /**
          * Handle when chose supplier
          */
-        const handleSearch = () => {
-            var supplier_search = $('#standard-select').find(":selected").val();
-            if(supplier_search === "null") {
+        document.querySelector('input[list]').addEventListener('input', function(e) {
+            var input = e.target,
+                list = input.getAttribute('list'),
+                options = document.querySelectorAll('#' + list + ' option'),
+                hiddenInput = document.getElementById(input.getAttribute('id') + '-hidden'),
+                inputValue = input.value;
+
+            hiddenInput.value = inputValue;
+
+            for(var i = 0; i < options.length; i++) {
+                var option = options[i];
+
+                if(option.innerText === inputValue) {
+                    hiddenInput.value = option.getAttribute('data-value');
+                    break;
+                }
+            }
+        });
+        document.getElementById("myForm").addEventListener('submit', function(e) {
+            var supplier_search = $("input[name=answer]").val();
+            console.log(supplier_search);
+            if(supplier_search === "") {
                 document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
             } else {
                 document.getElementById("help-block-supplier").innerHTML = "";
                 window.location.href = "/admin/suppliers/" + supplier_search + "/detail";
             }
-        }
+            e.preventDefault();
+        });
+
+        // const handleSearch = () => {
+            // var supplier_search = $("input[name=answer]").val();
+            // alert(supplier_search);
+            // if(supplier_search === "null") {
+            //     document.getElementById("help-block-supplier").innerHTML = "Mời bạn chọn nhà cung cấp";
+            // } else {
+            //     document.getElementById("help-block-supplier").innerHTML = "";
+            //     window.location.href = "/admin/suppliers/" + supplier_search + "/detail";
+            // }
+        // }
         /**
          * Chosen jquery
          */

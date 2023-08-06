@@ -58,6 +58,9 @@
         width: 250px;
         height: 235px;
     }
+    .displayNone {
+        display: none !important;
+    }
 </style>
 
 @extends("admin.master")
@@ -214,7 +217,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12" style="text-align: end">
-                                        <button type="button" class="btn btn-primary handleRequest">Yêu cầu</button>
+                                        <button type="button" class="btn btn-primary handleRequest" id="requestBtn">Yêu cầu</button>
+                                        <div class="btn btn-primary displayNone" id="loadingBtn">
+                                            <img class="" alt="loaing" style="width: 24px; height: 24px; margin: 0 8px" src="{{ URL::asset('image/loading.gif')}}">
+                                        </div>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Thoát</button>
                                     </div>
                                 </div>
@@ -282,12 +288,16 @@
                 }
 
                 if(!blockErrDateRequest.innerHTML && !blockErrAmount.innerHTML && !blockErrSupplierSelected.innerHTML) {
+                    document.getElementById("loadingBtn").classList.remove("displayNone");
+                    document.getElementById("requestBtn").classList.add("displayNone");
                     $.ajax({
                         url: "/admin/inventories/request-outofstock",
                         type:'POST',
                         data: {_token:_token, product_code:product_code, supplier_selected: supplier_selected, amount:amount, request_time:request_time, detail:detail},
                         success: function(response) {
                             blockSuccess.innerHTML = "Yêu cầu thêm về dược phẩm thành công"
+                            document.getElementById("loadingBtn").classList.add("displayNone");
+                            document.getElementById("requestBtn").classList.remove("displayNone");
                             setTimeout(function(){
                                 $("#requestModal").modal("hide");
                             }, 1000);
@@ -305,7 +315,7 @@
          */
         $('#reservationdate').datetimepicker({
             format:'DD/MM/YYYY HH:mm:ss',
-            // minDate: getFormattedDate(new Date())
+            minDate: getFormattedDate(new Date())
         });
 
         function getFormattedDate(date) {

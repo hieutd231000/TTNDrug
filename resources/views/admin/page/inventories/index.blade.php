@@ -87,14 +87,14 @@
                                 <table id="products" style="width: 100% !important;" class="table table-bordered table-striped">
                                     <thead>
                                     <tr>
+                                        <th>Lô hàng</th>
+                                        <th>Lô sản xuất</th>
                                         <th>Mã dược phẩm</th>
                                         <th>Tên dược phẩm</th>
                                         <th>Danh mục</th>
-                                        <th>Đơn hàng</th>
-                                        <th>Lô sản xuất</th>
-                                        <th>Nhà cung cấp</th>
+{{--                                        <th>Nhà cung cấp</th>--}}
                                         <th>Đơn giá</th>
-                                        <th>Số lượng</th>
+                                        <th>Số lượng còn lại</th>
                                         <th>Ngày đặt hàng</th>
                                         <th>Ngày hết hạn</th>
 {{--                                        <th>Tình trạng</th>--}}
@@ -104,12 +104,12 @@
                                     @foreach($listProductInventory as $key => $data)
                                         @if(!$data->check_expired_time)
                                             <tr>
+                                                <td>{{$data->order_code}}</td>
+                                                <td>{{$data->production_batch_name}}</td>
                                                 <td>{{$data->product_code}}</td>
                                                 <td>{{$data->product_name}}</td>
                                                 <td>{{$data->category_name}}</td>
-                                                <td>{{$data->order_code}}</td>
-                                                <td>{{$data->production_batch_name}}</td>
-                                                <td>{{$data->supplier_name}}</td>
+{{--                                                <td>{{$data->supplier_name}}</td>--}}
                                                 <td>{{$data->price}}</td>
                                                 <td>{{$data->amount}}</td>
                                                 <td>{{$data->order_time}}</td>
