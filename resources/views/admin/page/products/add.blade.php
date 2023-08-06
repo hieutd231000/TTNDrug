@@ -129,7 +129,8 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="header">
-                                <h5>Thông tin dược phẩm</h5>
+                                <h5 style="display: inline">Thông tin dược phẩm</h5>
+                                <a class="btn btn-primary btn-sm float-right" href="/products">Quay lại</a>
                             </div>
                             <div class="body">
                                 <div class="row clearfix">
@@ -249,7 +250,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-block">
-                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Mô tả cơ bản...">{{ old("instruction") }}</textarea>
+                                                <textarea name="instruction" id="instruction" rows="4" class="form-control no-resize" placeholder="Hướng dẫn sử dụng...">{{ old("instruction") }}</textarea>
                                             </div>
                                         </div>
                                     </div>

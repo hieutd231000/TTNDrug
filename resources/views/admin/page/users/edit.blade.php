@@ -160,14 +160,14 @@
                                                     @if(auth()->user()->role == 2)
                                                         <select class="form-control" name="role">
                                                             <option value="" disabled>Quyền *</option>
-                                                            <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Quản trị</option>
-                                                            <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Nhân viên</option>
+                                                            <option value="0" {{ $user->role == 0 ? 'selected' : '' }}>Nhân viên</option>
+                                                            <option value="1" {{ $user->role == 1 ? 'selected' : '' }}>Quản trị viên</option>
                                                         </select>
                                                     @else
                                                         @if($user->role == 0)
-                                                            <input type="text" class="form-control" value="Quản trị" disabled>
-                                                        @else
                                                             <input type="text" class="form-control" value="Nhân viên" disabled>
+                                                        @else
+                                                            <input type="text" class="form-control" value="Quản trị viên" disabled>
                                                         @endif
                                                     @endif
                                                 </div>
@@ -341,17 +341,12 @@
                 } else {
                     blockErrGender.innerHTML = "";
                 }
-                if(!role) {
-                    blockErrRole.innerHTML = "Không được để trống";
-                } else {
-                    blockErrRole.innerHTML = "";
-                }
                 if(!phone) {
                     blockErrPhone.innerHTML = "Không được để trống";
                 } else {
                     blockErrPhone.innerHTML = "";
                 }
-                if(!blockErrFirstname.innerHTML && !blockErrLastname.innerHTML && !blockErrGender.innerHTML && !blockErrPhone.innerHTML && !blockErrRole.innerHTML) {
+                if(!blockErrFirstname.innerHTML && !blockErrLastname.innerHTML && !blockErrGender.innerHTML && !blockErrPhone.innerHTML) {
                     console.log("thanh cong");
                     checkInfo = 1;
                     alertIntro.classList.remove("hidden");

@@ -79,8 +79,7 @@
                 @endif
                 <div class="row clearfix margin-bottom-20">
                     @foreach($users as $key => $data)
-                        @if($data->role != 2)
-                            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="body">
                                     <div class="member-card verified">
@@ -110,7 +109,6 @@
                                 </div>
                             </div>
                         </div>
-                        @endif
                     @endforeach
                 </div>
                 <div class="d-flex justify-content-end" style="margin-right: 3%">

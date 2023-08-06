@@ -81,9 +81,9 @@
             <div class="info">
                 <span class="info-welcome">Xin chào</span>
                 @if (auth()->user()->gender == 0)
-                    <h5>Mr.{{auth()->user()->lastname}}</h5>
+                    <h5>{{auth()->user()->lastname}}</h5>
                 @elseif (auth()->user()->gender == 1)
-                    <h5>Ms.{{auth()->user()->lastname}}</h5>
+                    <h5>{{auth()->user()->lastname}}</h5>
                 @endif
                 <div>
                     {{-- <a href="/admin/users/mailbox"><i class="fas fa-envelope fa-style"></i></a> --}}
@@ -338,7 +338,7 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/suppliers/{{0}}/detail" class="nav-link">
+                        <a href="/suppliers" class="nav-link">
                             <i class="nav-icon fas fa-truck"></i>
                             <p>
                                 Thông tin nhà cung cấp

@@ -69,7 +69,7 @@
                             <div class="inner">
                                 <h3>{{$countCurrentCategory}}</h3>
 
-                                <p>Danh mục</p>
+                                <p>Danh mục dược</p>
                             </div>
                             <div class="icon">
                                     <i style="font-size: 50px; margin-top: 10px;" class="fas fa-box"></i>

@@ -89,7 +89,8 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="card">
                             <div class="header">
-                                <h5>Thông tin nhà cung cấp</h5>
+                                <h5 style="display: inline">Thông tin nhà cung cấp</h5>
+                                <a class="btn btn-primary btn-sm float-right" href="/suppliers">Quay lại</a>
                             </div>
                             <div class="body">
                                 <div class="row clearfix">

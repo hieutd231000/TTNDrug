@@ -53,7 +53,7 @@ class ProductController extends Controller
     public function addProductForm(Request $request)
     {
         $listName = $this->productRepository->getName();
-        $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
+        $category = $this->categoryRepository->listAll();
         return view("admin.page.products.add", ['listName' => $listName, 'category' => $category]);
     }
 
@@ -149,7 +149,7 @@ class ProductController extends Controller
         $product = $this->productRepository->find($id);
         $listName = $this->productRepository->getName();
         $listProductCode = $this->productRepository->getProductCode();
-        $category = $this->categoryRepository->getAll(config("const.paginate"), "DESC");
+        $category = $this->categoryRepository->listAll();
         return view("admin.page.products.edit", ["product" => $product, 'listName' => $listName, 'listProductCode' => $listProductCode, 'category' => $category]);
     }
 

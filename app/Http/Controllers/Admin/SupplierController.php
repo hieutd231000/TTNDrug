@@ -39,7 +39,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $supplier = $this->supplierRepository->getAll(config("const.paginate"), "DESC");
+        $supplier = $this->supplierRepository->getAll(9, "DESC");
         return view("admin.page.suppliers.index", ['supplier' => $supplier]);
     }
 

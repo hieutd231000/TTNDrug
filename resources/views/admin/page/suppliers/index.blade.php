@@ -93,14 +93,23 @@
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="col-md-12 add-button">
-                    <a href="/admin/suppliers/add-supplier" class="btn btn-primary">Thêm nhà cung cấp</a>
-                </div>
+                @if(auth()->user()->role)
+                    <div class="col-md-12 add-button">
+                        <a href="/admin/suppliers/add-supplier" class="btn btn-primary">Thêm nhà cung cấp</a>
+                    </div>
+                @endif
                 <div class="row clearfix margin-bottom-20">
                     @foreach($supplier as $key => $data)
                         <div class="col-lg-4 col-md-6 col-sm-12">
                             <div class="card">
                                 <div class="body">
+                                    @if(!auth()->user()->role)
+                                        <div style="float: right">
+                                            <a href="/admin/suppliers/{{$data->id}}/detail" style="color: blue">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </div>
+                                    @endif
                                     <div class="row">
 {{--                                        <div class="col-sm-3">--}}
 {{--                                            <a href="" class="">--}}
@@ -133,19 +142,21 @@
                                                 <i class="fad fab fas fa fa-phone" style="margin-right: 5px"></i>
                                                 {{$data->phone}}
                                             </div>
-                                            <div class="row clearfix" style="margin-top: 12px">
-                                                <button class="btn btn-sm btn-primary" style="margin-right: 3px">
-                                                    <a href="/admin/suppliers/{{$data->id}}/detail" style="color: white">
-                                                        Chi tiết
-                                                    </a>
-                                                </button>
-                                                <button class="btn btn-sm btn-secondary" style="margin-right: 3px">
-                                                    <a href="/admin/suppliers/{{$data->id}}/edit" style="color: white">
-                                                        Chỉnh sửa
-                                                    </a>
-                                                </button>
-                                                <button class="btn btn-sm btn-danger" onclick="confirmDelete({{$data->id}})">Xoá bỏ</button>
-                                            </div>
+                                            @if(auth()->user()->role)
+                                                <div class="row clearfix" style="margin-top: 12px">
+                                                    <button class="btn btn-sm btn-primary" style="margin-right: 3px">
+                                                        <a href="/admin/suppliers/{{$data->id}}/detail" style="color: white">
+                                                            Chi tiết
+                                                        </a>
+                                                    </button>
+                                                        <button class="btn btn-sm btn-secondary" style="margin-right: 3px">
+                                                            <a href="/admin/suppliers/{{$data->id}}/edit" style="color: white">
+                                                                Chỉnh sửa
+                                                            </a>
+                                                        </button>
+                                                        <button class="btn btn-sm btn-danger" onclick="confirmDelete({{$data->id}})">Xoá bỏ</button>
+                                                </div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

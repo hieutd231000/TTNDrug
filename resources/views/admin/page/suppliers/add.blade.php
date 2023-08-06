@@ -89,7 +89,8 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
                         <div class="header">
-                            <h5>Thông tin nhà cung cấp</h5>
+                            <h5 style="display: inline">Thông tin nhà cung cấp</h5>
+                            <a class="btn btn-primary btn-sm float-right" href="/suppliers">Quay lại</a>
                         </div>
                         <div class="body">
                             <div class="row clearfix">
@@ -145,7 +146,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit">Thêm mới</button>
+                                    <button type="submit" class="btn btn-primary margin-right-3 handleSubmit">Thêm mới</button>
                                     <button type="submit" class="btn btn-cancel handleCancel">Huỷ</button>
                                 </div>
                             </div>
@@ -218,9 +219,9 @@
                         },
                         success: function(response) {
                             blockErrSubmit.innerHTML = response["message"];
-                            // setTimeout(function(){
-                            //     window.location.href = '/admin/suppliers';
-                            // }, 400);
+                            setTimeout(function(){
+                                window.location.href = '/admin/suppliers';
+                            }, 400);
                         },
                         error: function (err) {
                             console.log(err);

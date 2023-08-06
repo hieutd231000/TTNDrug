@@ -39,7 +39,7 @@ class UserController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index(Request $request) {
-        $users = $this->userRepository->getAll(config("const.paginate"), "DESC");
+        $users = $this->userRepository->getAll(8, "DESC");
         foreach ($users as $user) {
             if($user["dob"] != null) {
                 $date = explode("/", $user["dob"]);

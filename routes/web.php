@@ -123,6 +123,7 @@ Route::middleware('auth')->group(function () {
     Route::post("/admin/inventories/request-outofstock", [\App\Http\Controllers\Admin\InventoryController::class, 'requestOutOfStock']);
 
     Route::get("/products", [\App\Http\Controllers\Admin\ProductController::class, 'index']);
+    Route::get("/suppliers", [\App\Http\Controllers\Admin\SupplierController::class, 'index']);
     Route::get("/admin/suppliers/{id}/detail", [\App\Http\Controllers\Admin\SupplierController::class, 'detail']);
     Route::get("/admin/suppliers/get-product", [\App\Http\Controllers\Admin\SupplierController::class, 'getAllProduct']);
 

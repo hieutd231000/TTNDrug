@@ -217,9 +217,9 @@
                                         <img style="width: 120px; height: 120px" src="{{ URL::asset('image/avatars' . '/'. auth()->user()->avatar)}}">
                                     @endif
                                     @if (auth()->user()->gender == 0)
-                                        <h4 class="text-white font-weight-bold mb-0">Mr.{{auth()->user()->lastname}}</h4>
+                                        <h4 class="text-white font-weight-bold mb-0">{{auth()->user()->lastname}}</h4>
                                     @elseif (auth()->user()->gender == 1)
-                                        <h4 class="text-white font-weight-bold mb-0">Ms.{{auth()->user()->lastname}}</h4>
+                                        <h4 class="text-white font-weight-bold mb-0">{{auth()->user()->lastname}}</h4>
                                     @endif
 {{--                                    <div class="row">--}}
 {{--                                        <a href="#">--}}
@@ -260,7 +260,7 @@
                                             {{ session('failed') }}
                                         </div>
                                     @elseif(session('success'))
-                                        <div class="alert alert-edit alert-primary" style="display: inline; padding: 7px">
+                                        <div class="alert alert-edit alert-success" style="display: inline; padding: 7px">
                                             {{ session('success') }}
                                         </div>
                                     @endif
@@ -302,11 +302,11 @@
                                                             <p class="col-sm-2 text-muted text-sm-right mv-0 mb-sm-3">Quyền:</p>
                                                             @if (auth()->user()->role === 0)
                                                                 <p class="col-sm-10">
-                                                                    Quản trị
+                                                                    Nhân viên
                                                                 </p>
                                                             @elseif (auth()->user()->role === 1)
                                                                 <p class="col-sm-10">
-                                                                    Người dùng
+                                                                    Quản trị viên
                                                                 </p>
                                                             @elseif (auth()->user()->role === 2)
                                                                 <p class="col-sm-10">

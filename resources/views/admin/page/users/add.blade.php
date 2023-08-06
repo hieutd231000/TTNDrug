@@ -159,8 +159,8 @@
                                                 <div class="form-block">
                                                     <select class="form-control" name="role">
                                                         <option value="">Quyền *</option>
-                                                        <option value="0">Quản trị</option>
-                                                        <option value="1">Nhân viên</option>
+                                                        <option value="0">Nhân viên</option>
+                                                        <option value="1">Quản trị viên</option>
                                                     </select>
                                                 </div>
                                                 <div id="help-block-role" style="color: red">
