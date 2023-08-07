@@ -233,7 +233,7 @@
                             <li class="nav-item">
                                 <a href="/admin/inventories/list-expired" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Dược phẩm hết hạn</p>
+                                    <p>Lô dược phẩm hết hạn</p>
                                 </a>
                             </li>
                         </ul>
@@ -332,7 +332,7 @@
                             <li class="nav-item">
                                 <a href="/inventories/list-expired" class="nav-link">
                                     <i class="fas fa-plus nav-icon font-size-11"></i>
-                                    <p>Dược phẩm hết hạn</p>
+                                    <p>Lô dược phẩm hết hạn</p>
                                 </a>
                             </li>
                         </ul>

@@ -50,7 +50,7 @@
 
 @extends("admin.master")
 @section("content")
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="max-height: 1000px !important;">
         <!-- Content Header (Page header) -->
         <div class="content-header" style="padding-bottom: 0px !important;">
             <div class="container-fluid">
@@ -268,7 +268,7 @@
                         document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];
                         document.getElementById("content").innerHTML = "<span class='text-muted'><i>Hàm lượng: </i></span>" + response["data"][0]["content"];
                         if(response["data"][0]["instruction"]) {
-                            document.getElementById("instruction").innerHTML = "<span style='color: red'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];
+                            document.getElementById("instruction").innerHTML = "<span style='color: red; font-weight: 600'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];
                         } else {
                             document.getElementById("instruction").innerHTML = "";
                         }

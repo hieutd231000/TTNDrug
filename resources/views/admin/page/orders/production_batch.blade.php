@@ -44,7 +44,7 @@
 
 @extends("admin.master")
 @section("content")
-    <div class="content-wrapper">
+    <div class="content-wrapper" style="max-height: 1000px">
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
@@ -53,10 +53,10 @@
                         <h4>Lô sản xuất</h4>
                     </div><!-- /.col -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <a href="/admin/orders/{{0}}/product" style="margin-left: 5px" class="btn btn-info float-right mt-2">Đặt hàng</a>
                         @if(auth()->user()->role)
                             <a href="" class="btn btn-primary float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm lô sản xuất</a>
                         @endif
-                        <a href="/admin/orders/{{0}}/product" style="margin-right: 5px" class="btn btn-success float-right mt-2">Đặt hàng</a>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -101,7 +101,7 @@
                                             <td>{{ $data->expired_time }}</td>
                                             @if($data->status)
                                                 <td>
-                                                    <button class="btn btn-primary " disabled style="opacity: 1 !important; width: 80%">Còn hạn</button>
+                                                    <button class="btn btn-success " disabled style="opacity: 1 !important; width: 80%">Còn hạn</button>
                                                 </td>
                                             @else
                                                 <td>
@@ -124,9 +124,9 @@
                                 </table>
                             </div>
                             <!-- /.card-body -->
-                            <div class="d-flex justify-content-end" style="margin-right: 3%">
-                                {!! $listProductionBatch->appends($_GET)->links("pagination::bootstrap-4") !!}
-                            </div>
+{{--                            <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+{{--                                {!! $listProductionBatch->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -290,13 +290,16 @@
          */
         $(function () {
             $("#category").DataTable({
-                paging: false,
+                paging: true,
                 ordering: false,
-                info: false,
+                autoWidth: true,
+                responsive: true,
+                lengthChange: true,
+                info: true,
                 "language": {
                     "lengthMenu": "Hiển thị _MENU_ lô sản xuất trên một trang",
                     "zeroRecords": "Không có lô sản xuất",
-                    "info": "Hiển thị trang _PAGE_ trên _PAGES_",
+                    "info": "Hiển thị _START_ đến _END_ lô sản xuất trên tổng số _TOTAL_ lô sản xuất",
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {
@@ -305,7 +308,10 @@
                     },
                     "infoFiltered": "(filtered from _MAX_ total records)"
                 }
-            });
+            })
+                .buttons()
+                .container()
+                .appendTo("#category_wrapper .col-md-6:eq(0)");
         });
 
         /**

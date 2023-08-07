@@ -357,8 +357,8 @@
                         <div class="row clearfix" style="margin-top: 10px">
                             @if(auth()->user()->role)
                                 <div class="col-sm-12" style="text-align: end; margin-bottom: 10px">
-                                    <a class="btn btn-primary" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 120px">Thêm dược phẩm</a>
-                                    <a class="btn btn-danger" href="/admin/production-batch" style="width: 100px">Thêm lô sản xuất</a>
+                                    <a class="btn btn-primary" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 120px">Thêm dược phẩm mới</a>
+                                    <a class="btn btn-danger" href="/admin/production-batch" style="width: 120px">Thêm lô sản xuất mới</a>
                                 </div>
                             @endif
                             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">

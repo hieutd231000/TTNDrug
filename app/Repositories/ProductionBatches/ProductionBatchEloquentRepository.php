@@ -19,7 +19,7 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
             ->join("products", "products.id", "=", "production_batches.product_id")
             ->select("products.product_name", "production_batches.*")
             ->orderBy("production_batches.expired_time", "DESC")
-            ->paginate(8);
+            ->get();
     }
 
     public function statusProductionBatch($expired_time) {

@@ -16,6 +16,7 @@ use App\Repositories\Sales\SaleRepositoryInterface;
 use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use App\Repositories\Users\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 
 class DashboardController extends Controller
@@ -130,6 +131,11 @@ class DashboardController extends Controller
      */
     public function sale(Request $request)
     {
+//        $listProductionBatch = DB::table("production_batches")
+//            ->where("product_id", 1)
+//            ->pluck("id");
+//        $listProductionBatchArr = $listProductionBatch->toArray();
+//        dd($listProductionBatchArr);
         //I.Bao cao doanh thu
             $currentYear = date("Y");
             $preYear = strval((int)$currentYear - 1);
@@ -162,7 +168,7 @@ class DashboardController extends Controller
             } else
                 $rateProfit = 0;
             //Goal
-            $goalCost = 1000000;
+            $goalCost = 100000000;
             if(!$currentProfit) {
                 $rateGoal = -100;
             } else if ($goalCost > $currentProfit) {

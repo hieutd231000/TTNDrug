@@ -91,7 +91,7 @@
                         <div class="select">
                             <form id="myForm">
                                 @if(isset($supplierDetail))
-                                    <input id="answerInput" value="{{$supplierDetail->name}}" style="height: 38px; width: 313px; padding-bottom: 6px" list="suggestionList">
+                                    <input id="answerInput" value="{{$supplierDetail->name}}" style="height: 38px; width: 313px; padding-bottom: 6px; padding-left: 6px" list="suggestionList">
                                 @else
                                     <input id="answerInput" style="height: 38px; width: 313px; padding-bottom: 6px; padding-left: 6px" list="suggestionList">
                                 @endif
@@ -165,7 +165,7 @@
                                             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá dược phẩm</button>
                                         @endif
                                     @endif
-                                    <a class="btn btn-success" href="/admin/orders/{{$supplierDetail->id}}/product">Đặt hàng</a>
+                                    <a class="btn btn-info" href="/admin/orders/{{$supplierDetail->id}}/product">Đặt hàng</a>
                                 </div>
                             </div>
                             <div class="card-body" style="padding-top: 0px !important;">
@@ -175,7 +175,7 @@
                                         <th>STT</th>
                                         <th>Tên dược phẩm</th>
                                         <th>Danh mục</th>
-                                        <th>Mã code</th>
+                                        <th>Mã sản phẩm</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -520,6 +520,7 @@
         const editSupplier = (id) => {
             window.location.href = "/admin/suppliers/" + id + "/edit";
         }
+
     </script>
 
 @endsection

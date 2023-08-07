@@ -24,6 +24,7 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         $listOrdersUnVerify = DB::table("orders")
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
             ->select("suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
+            ->where("orders.created_at", ">", "2023-00-00 00:00:00")
             ->where("orders.status", 0)
             ->orderBy("orders.id", "DESC")
             ->paginate(12);
@@ -47,8 +48,9 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         $listOrders = DB::table("orders")
             ->join("suppliers", "suppliers.id", "=", "orders.supplier_id")
             ->select("suppliers.email as supplier_email", "suppliers.phone as supplier_phone", "suppliers.name as supplier_name", "orders.*")
+            ->where("orders.created_at", ">", "2023-00-00 00:00:00")
             ->orderBy("orders.id", "DESC")
-            ->get();
+            ->paginate(35);
         foreach ($listOrders as $listOrder) {
             $listOrderProducts = DB::table("order_products")
                 ->join("products", "products.id", "=", "order_products.product_id")

@@ -56,12 +56,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <h3>Dược phẩm hết hạn</h3>
-                        {{--                        <ol class="breadcrumb">--}}
-                        {{--                            <li class="breadcrumb-item"><a href="/admin/dashboard" style="color: black">Thống kê</a></li>--}}
-                        {{--                            <li class="breadcrumb-item"><a href="/admin/products" style="color: black">Sản phẩm</a></li>--}}
-                        {{--                            <li class="breadcrumb-item"><a href="/admin/products">Danh sách sản phẩm</a></li>--}}
-                        {{--                        </ol>--}}
+                        <h3>Lô dược phẩm hết hạn</h3>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -91,61 +86,59 @@
                                     <h5>Dược phẩm đã hết hạn</h5>
                                 </div>
                                 <div class="col-sm-12">
-                                    <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
-                                    </div>
-                                </div>
-                                @foreach($listExpiredProduct as $key => $data)
-                                    @if($data->check_expired_time)
-                                        <form>
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="card-body" style="padding-bottom: 0px">
-                                            <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
-                                                <div class="card-body">
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">Mã dược phẩm</th>
-                                                            <th scope="col" style="width: 130px">Tên dược phẩm</th>
-                                                            <th scope="col">Danh mục</th>
-                                                            <th scope="col">Lô sản xuất</th>
-                                                            <th scope="col">Tên nhà cung cấp</th>
-                                                            <th scope="col">Đơn giá</th>
-                                                            <th scope="col">Số lượng</th>
-                                                            <th scope="col" style="width: 110px">Ngày đặt hàng</th>
-                                                            <th scope="col" style="width: 110px">Ngày hết hạn</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                        <tr>
-                                                            <td>{{$data->product_code}}</td>
-                                                            <td>{{$data->product_name}}</td>
-                                                            <td>{{$data->category_name}}</td>
-                                                            <td>{{$data->production_batch_name}}</td>
-                                                            <td>{{$data->supplier_name}}</td>
-                                                            <td>{{$data->price}}</td>
-                                                            <td>{{$data->amount}}</td>
-                                                            <td>
-                                                                <button class="btn btn-primary" style="font-weight: bold">
-                                                                    {{$data->order_time}}
-                                                                </button>
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn btn-danger" style="font-weight: bold">
-                                                                    {{$data->expired_time}}
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    </table>
+                                    @foreach($listExpiredProduct as $key => $data)
+                                        @if($data->check_expired_time)
+                                            <form>
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <div class="card-body" style="padding-bottom: 0px">
+                                                    <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
+                                                        <div class="card-body">
+                                                            <table class="table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">Mã dược phẩm</th>
+                                                                    <th scope="col" style="width: 130px">Tên dược phẩm</th>
+                                                                    <th scope="col">Danh mục</th>
+                                                                    <th scope="col">Lô sản xuất</th>
+                                                                    <th scope="col">Tên nhà cung cấp</th>
+                                                                    <th scope="col">Đơn giá</th>
+                                                                    <th scope="col">Số lượng</th>
+                                                                    <th scope="col" style="width: 110px">Ngày đặt hàng</th>
+                                                                    <th scope="col" style="width: 110px">Ngày hết hạn</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>{{$data->product_code}}</td>
+                                                                    <td>{{$data->product_name}}</td>
+                                                                    <td>{{$data->category_name}}</td>
+                                                                    <td>{{$data->production_batch_name}}</td>
+                                                                    <td>{{$data->supplier_name}}</td>
+                                                                    <td>{{$data->price}}</td>
+                                                                    <td>{{$data->amount}}</td>
+                                                                    <td>
+                                                                        <button class="btn btn-primary" style="font-weight: bold">
+                                                                            {{$data->order_time}}
+                                                                        </button>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-danger" style="font-weight: bold">
+                                                                            {{$data->expired_time}}
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
-{{--                                                <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">--}}
-{{--                                                    Gửi yêu cầu--}}
-{{--                                                </div>--}}
-                                            </div>
-                                        </div>
-                                    </form>
-                                    @endif
-                                @endforeach
+                                            </form>
+                                        @endif
+                                    @endforeach
+                                </div>
+{{--                                <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+{{--                                    {!! $listExpiredProduct->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
@@ -156,61 +149,59 @@
                                     <h5>Dược phẩm sắp hết hạn</h5>
                                 </div>
                                 <div class="col-sm-12">
-                                    <div class="alert alert-success hidden" id="confirmation" style="padding: 8px; margin-top: 15px">
-                                    </div>
-                                </div>
-                                @foreach($listNextExpiredProduct as $key => $data)
-                                    @if(!$data->check_next_expired_time)
-                                        <form>
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <div class="card-body" style="padding-bottom: 0px">
-                                            <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
-                                                <div class="card-body">
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th scope="col">Mã dược phẩm</th>
-                                                            <th scope="col" style="width: 130px">Tên dược phẩm</th>
-                                                            <th scope="col">Danh mục</th>
-                                                            <th scope="col">Lô sản xuất</th>
-                                                            <th scope="col">Tên nhà cung cấp</th>
-                                                            <th scope="col">Đơn giá</th>
-                                                            <th scope="col">Số lượng</th>
-                                                            <th scope="col" style="width: 110px">Ngày đặt hàng</th>
-                                                            <th scope="col" style="width: 110px">Ngày hết hạn</th>
-                                                        </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td>{{$data->product_code}}</td>
-                                                                <td>{{$data->product_name}}</td>
-                                                                <td>{{$data->category_name}}</td>
-                                                                <td>{{$data->production_batch_name}}</td>
-                                                                <td>{{$data->supplier_name}}</td>
-                                                                <td>{{$data->price}}</td>
-                                                                <td>{{$data->amount}}</td>
-                                                                <td>
-                                                                    <button class="btn btn-primary" style="font-weight: bold">
-                                                                        {{$data->order_time}}
-                                                                    </button>
-                                                                </td>
-                                                                <td>
-                                                                    <button class="btn btn-danger" style="font-weight: bold">
-                                                                        {{$data->expired_time}}
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
+                                    @foreach($listNextExpiredProduct as $key => $data)
+                                        @if(!$data->check_next_expired_time)
+                                            <form>
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <div class="card-body" style="padding-bottom: 0px">
+                                                    <div class="card text-center" style="color: #000 !important; background-color: #e9e9e9 !important;">
+                                                        <div class="card-body">
+                                                            <table class="table">
+                                                                <thead>
+                                                                <tr>
+                                                                    <th scope="col">Mã dược phẩm</th>
+                                                                    <th scope="col" style="width: 130px">Tên dược phẩm</th>
+                                                                    <th scope="col">Danh mục</th>
+                                                                    <th scope="col">Lô sản xuất</th>
+                                                                    <th scope="col">Tên nhà cung cấp</th>
+                                                                    <th scope="col">Đơn giá</th>
+                                                                    <th scope="col">Số lượng</th>
+                                                                    <th scope="col" style="width: 110px">Ngày đặt hàng</th>
+                                                                    <th scope="col" style="width: 110px">Ngày hết hạn</th>
+                                                                </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                <tr>
+                                                                    <td>{{$data->product_code}}</td>
+                                                                    <td>{{$data->product_name}}</td>
+                                                                    <td>{{$data->category_name}}</td>
+                                                                    <td>{{$data->production_batch_name}}</td>
+                                                                    <td>{{$data->supplier_name}}</td>
+                                                                    <td>{{$data->price}}</td>
+                                                                    <td>{{$data->amount}}</td>
+                                                                    <td>
+                                                                        <button class="btn btn-primary" style="font-weight: bold">
+                                                                            {{$data->order_time}}
+                                                                        </button>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-danger" style="font-weight: bold">
+                                                                            {{$data->expired_time}}
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                {{--                                                <div class="card-footer btn btn-primary" style="background-color: #007bff !important;">--}}
-                                                {{--                                                    Gửi yêu cầu--}}
-                                                {{--                                                </div>--}}
-                                            </div>
-                                        </div>
-                                    </form>
-                                    @endif
-                                @endforeach
+                                            </form>
+                                        @endif
+                                    @endforeach
+                                </div>
+{{--                                <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
+{{--                                    {!! $listNextExpiredProduct->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
+{{--                                </div>--}}
                             </div>
                         </div>
                     </div>
