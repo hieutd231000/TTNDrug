@@ -319,7 +319,7 @@
                         <div class="select">
                             <form id="myForm">
                                 @if(isset($supplierDetail))
-                                    <input id="answerInput" value="{{$supplierDetail->name}}" style="height: 38px; width: 313px; padding-bottom: 6px" list="suggestionList">
+                                    <input id="answerInput" value="{{$supplierDetail->name}}" style="height: 38px; width: 313px; padding-bottom: 6px; padding-left: 4px" list="suggestionList">
                                 @else
                                     <input id="answerInput" style="height: 38px; width: 313px; padding-bottom: 6px; padding-left: 6px" list="suggestionList">
                                 @endif
@@ -402,11 +402,6 @@
                                                                     </select>
                                                                     <input type="text" name="price" id="{{$data[0]->product_code}}" placeholder="Nhập giá (VNĐ)" style="width: 60%; margin-bottom: 5px; font-size: 14px">
                                                                     <input type="text" name="sl" id="{{$data[0]->product_id}}" placeholder="SL:" style="width: 40px; text-align: center; font-size: 14px">
-
-                                                                    <div style="display: flex">
-{{--                                                                        <input type="button" onclick="subtractCount({{$key}})" value="-">--}}
-{{--                                                                        <input type="button" onclick="increaseCount({{$key}})" value="+">--}}
-                                                                    </div>
                                                                     <button class="btn btn-success" onclick="addNewProduct('{{$data[0]->product_id}}', '{{$supplierDetail->id}}', '{{$data[0]->product_name}}', '{{$data[0]->category_name}}', '{{$data[0]->product_code}}', '{{$data[0]->production_batch_id}}')" style="margin-top: 10px; font-size: 14px">Thêm dược phẩm</button>
                                                                     <p id="{{$data[0]->product_name}}" style="color: red; height: 40px"></p>
                                                                 </div>
@@ -774,7 +769,7 @@
                         blockErrOrderTime.innerHTML = "";
                         removeItemStorage(supplierDetailId);
                         setTimeout(function(){
-                            // window.location.href = "/admin/list-orders";
+                            window.location.href = "/admin/list-orders";
                             window.location.reload();
                         }, 1200);
                     },

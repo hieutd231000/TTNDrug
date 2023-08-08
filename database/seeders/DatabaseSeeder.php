@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
 //            $random_instruction=array_rand($instruction,2);
 //
 //            DB::table('products')->insert([
-//                'id' => $i,
+//                'id' => $i+1,
 //                'category_id' => rand(3,47),
 //                'product_name' => $randomString,
 //                'product_image' => rand(2,40).".png",
@@ -80,22 +80,20 @@ class DatabaseSeeder extends Seeder
 //        }
 
         //DB supplier_products
-//        date_default_timezone_set('Europe/Isle_of_Man');
-//        $end_at = date('Y-m-d H:i:s', time());
-//        for($i=0; $i<1000; $i++) {
-//            DB::table("supplier_products")->insert([
-//                'product_id' => rand(1,227),
-//                'supplier_id' => rand(10,33),
-//                'created_at' => $end_at,
-//                'updated_at' => $end_at,
-//            ]);
-//        }
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $create_at = date('Y-m-d H:i:s', time());
+        for($i=0; $i<500; $i++) {
+            DB::table("supplier_products")->insert([
+                'product_id' => rand(1,224),
+                'supplier_id' => rand(1,27),
+                'created_at' => $create_at,
+                'updated_at' => $create_at,
+            ]);
+        }
 
         //DB production_batches
-//        date_default_timezone_set('Europe/Isle_of_Man');
-//        $end_at = date('Y-m-d H:i:s', time());
 //        $text = array("LV", "TX", "BT", "XS", "LP", "QM", "AD", "AL", "SY", "LA", "TM", "XP", "QK", "QS", "PA");
-//        for($i=13; $i<1000; $i++) {
+//        for($i=1; $i<1000; $i++) {
 //            $randMonthOrder = rand(1,12);
 //            if($randMonthOrder >= 10) {
 //                $createOrder = rand(10,30)."/".$randMonthOrder."/".rand(2023,2030)." ".rand(10,23).":".rand(10,59).":".rand(10,59);
@@ -115,7 +113,7 @@ class DatabaseSeeder extends Seeder
 //            $random_text=array_rand($text,2);
 //            DB::table("production_batches")->insert([
 //                'id' => $i,
-//                'product_id' => rand(1,227),
+//                'product_id' => rand(1,224),
 //                'production_batch_name' => $text[$random_text[0]].rand(100,999),
 //                'expired_time' => $createOrder,
 //                'created_at' => $createOrderTime,
@@ -170,91 +168,91 @@ class DatabaseSeeder extends Seeder
 //        }
 
         //DB order, order_product
-        $count = 636;
-        $hehe = 199;
-        $countRec = 194;
-        for($i=321; $i<5000; $i++) {
-            $totalProduct = rand(1,4);
-            $totalOrder = 0;
-
-            $randMonthOrder = rand(1,12);
-            $randDayOrder = rand(10,28);
-            $randYearOrder = rand(2014,2023);
-            if($randMonthOrder < 10) {
-                $randMonthOrder = "0".$randMonthOrder;
-            }
-            $createOrder = $randDayOrder."/".$randMonthOrder."/".$randYearOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59);
-
-
-            for($k=0; $k<$totalProduct; $k++) {
-                $amount = rand(1,3);
-                $listPrice = array("5000", "3000", "4000", "20000", "2000", "10000", "50000");
-                $random_price=array_rand($listPrice,2);
-                $price = $listPrice[$random_price[0]];
-                $totalPrice = (int)$amount * (int)$price;
-                $productId = rand(1,220);
-                $listProductionBatch = DB::table("production_batches")
-                    ->where("product_id", $productId)
-                    ->pluck("id");
-                $listProductionBatchArr = $listProductionBatch->toArray();
-                if(count($listProductionBatchArr) == 1) {
-                    $productionBatchId = $listProductionBatchArr[0];
-                } else {
-                    $randomId = array_rand($listProductionBatchArr,2);
-                    $productionBatchId = $listProductionBatchArr[$randomId[0]];
-                }
-                DB::table("order_products")->insert([
-                    'id' => $count,
-                    'order_id' => $i,
-                    'product_id' => $productId,
-                    'production_batch_id' => $productionBatchId,
-                    'price_amount' => $price,
-                    'amount' => $amount,
-                    'total_price' => $totalPrice,
-                    'created_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59),
-                    'updated_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59)
-                ]);
-                $count ++;
-                $totalOrder += $totalPrice;
-            }
-
-            if($i < 3000)
-                $status = 2;
-            else $status = rand(0,2);
-            DB::table("orders")->insert([
-                "id" => $i,
-                "supplier_id" => rand(6,27),
-                "order_time" => $createOrder,
-                "order_code" => "#".rand(2014,2023).rand(100000,999999),
-                "price_order" => $totalOrder,
-                "status" => $status,
-                "user_order_id" => rand(31,68),
-                'created_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59),
-                'updated_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59)
-            ]);
-
-            date_default_timezone_set('Europe/Isle_of_Man');
-            $end_at = date('Y-m-d H:i:s', time());
-            if($status == 2) {
-                DB::table("order_receiveds")->insert([
-                    "id" => $countRec,
-                    "order_id" => $i,
-                    "order_user_confirm_id" => rand(31,68),
-                    "order_received_time" => $createOrder,
-                    'created_at' => $end_at,
-                    'updated_at' => $end_at,
-                ]);
-
-                DB::table("order_received_users")->insert([
-                    "id" => $hehe,
-                    "order_received_id" => $countRec,
-                    "order_user_received_id" => rand(31,68),
-                    'created_at' => $end_at,
-                    'updated_at' => $end_at,
-                ]);
-                $countRec++;
-                $hehe++;
-            }
-        }
+//        $count = 636;
+//        $hehe = 199;
+//        $countRec = 194;
+//        for($i=321; $i<5000; $i++) {
+//            $totalProduct = rand(1,4);
+//            $totalOrder = 0;
+//
+//            $randMonthOrder = rand(1,12);
+//            $randDayOrder = rand(10,28);
+//            $randYearOrder = rand(2014,2023);
+//            if($randMonthOrder < 10) {
+//                $randMonthOrder = "0".$randMonthOrder;
+//            }
+//            $createOrder = $randDayOrder."/".$randMonthOrder."/".$randYearOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59);
+//
+//
+//            for($k=0; $k<$totalProduct; $k++) {
+//                $amount = rand(1,3);
+//                $listPrice = array("5000", "3000", "4000", "20000", "2000", "10000", "50000");
+//                $random_price=array_rand($listPrice,2);
+//                $price = $listPrice[$random_price[0]];
+//                $totalPrice = (int)$amount * (int)$price;
+//                $productId = rand(1,220);
+//                $listProductionBatch = DB::table("production_batches")
+//                    ->where("product_id", $productId)
+//                    ->pluck("id");
+//                $listProductionBatchArr = $listProductionBatch->toArray();
+//                if(count($listProductionBatchArr) == 1) {
+//                    $productionBatchId = $listProductionBatchArr[0];
+//                } else {
+//                    $randomId = array_rand($listProductionBatchArr,2);
+//                    $productionBatchId = $listProductionBatchArr[$randomId[0]];
+//                }
+//                DB::table("order_products")->insert([
+//                    'id' => $count,
+//                    'order_id' => $i,
+//                    'product_id' => $productId,
+//                    'production_batch_id' => $productionBatchId,
+//                    'price_amount' => $price,
+//                    'amount' => $amount,
+//                    'total_price' => $totalPrice,
+//                    'created_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59),
+//                    'updated_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59)
+//                ]);
+//                $count ++;
+//                $totalOrder += $totalPrice;
+//            }
+//
+//            if($i < 3000)
+//                $status = 2;
+//            else $status = rand(0,2);
+//            DB::table("orders")->insert([
+//                "id" => $i,
+//                "supplier_id" => rand(6,27),
+//                "order_time" => $createOrder,
+//                "order_code" => "#".rand(2014,2023).rand(100000,999999),
+//                "price_order" => $totalOrder,
+//                "status" => $status,
+//                "user_order_id" => rand(31,68),
+//                'created_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59),
+//                'updated_at' => $randYearOrder."-".$randMonthOrder."-".$randDayOrder." ".rand(10,23).":".rand(10,59).":".rand(10,59)
+//            ]);
+//
+//            date_default_timezone_set('Europe/Isle_of_Man');
+//            $end_at = date('Y-m-d H:i:s', time());
+//            if($status == 2) {
+//                DB::table("order_receiveds")->insert([
+//                    "id" => $countRec,
+//                    "order_id" => $i,
+//                    "order_user_confirm_id" => rand(31,68),
+//                    "order_received_time" => $createOrder,
+//                    'created_at' => $end_at,
+//                    'updated_at' => $end_at,
+//                ]);
+//
+//                DB::table("order_received_users")->insert([
+//                    "id" => $hehe,
+//                    "order_received_id" => $countRec,
+//                    "order_user_received_id" => rand(31,68),
+//                    'created_at' => $end_at,
+//                    'updated_at' => $end_at,
+//                ]);
+//                $countRec++;
+//                $hehe++;
+//            }
+//        }
     }
 }

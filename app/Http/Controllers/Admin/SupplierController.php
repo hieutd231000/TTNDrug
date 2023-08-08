@@ -94,18 +94,18 @@ class SupplierController extends Controller
     public function detail(Request $request, $id) {
         $listSupplier = $this->supplierRepository->listAll();
         $listProductId = $this->supplierProductRepository->listAllProductBySupplierId($id);
-        $listAllProduct = $this->productRepository->listAll();
         if($id) {
             $supplier = $this->supplierRepository->find($id);
             if(empty($supplier)) {
                 return redirect()->back()->with("failed", trans("auth.empty"));
             }
             $totalProduct = $this->supplierRepository->countProduct($id);
+            $listNotProductBySupplerId = $this->supplierRepository->getNotAllProductBySupplierId($id);
             $listProductBySupplerId = $this->supplierRepository->getAllProductBySupplierId($id);
             $rank = 1;
-            return view("admin.page.suppliers.detail", ["listProductId" => $listProductId , "supplier" => $listSupplier, "rank" => $rank, "supplierDetail" => $supplier, "totalProduct" => $totalProduct, "listProduct" => $listProductBySupplerId, "listAllProduct" => $listAllProduct]);
+            return view("admin.page.suppliers.detail", ["listProductId" => $listProductId , "supplier" => $listSupplier, "rank" => $rank, "supplierDetail" => $supplier, "totalProduct" => $totalProduct, "listProduct" => $listProductBySupplerId, "listNotProduct" => $listNotProductBySupplerId]);
         }
-        return view("admin.page.suppliers.detail", ["supplier" => $listSupplier, "listProductId" => $listProductId, "listAllProduct" => $listAllProduct]);
+        return view("admin.page.suppliers.detail", ["supplier" => $listSupplier, "listProductId" => $listProductId]);
     }
 
     /**
@@ -170,15 +170,32 @@ class SupplierController extends Controller
     }
 
     public function addSupplierProduct(Request $request) {
+        $supplier = $this->supplierRepository->find($request["supplier_id"]);
+        if(empty($supplier)) {
+            return redirect()->back()->with("failed", trans("auth.empty"));
+        }
         try {
-            $data = $request->all();
-            $newProductDetail = $this->supplierProductRepository->getProductDetail($request["product_id"]);
-            $this->supplierProductRepository->create($data);
-            return $this->response->success($newProductDetail, 200, 'Thêm sản phẩm thành công');
+            $products_id = $request["product_id"];
+            $data["supplier_id"] = $supplier->id;
+            for($i=0; $i < count($products_id); $i++) {
+                $data["product_id"] = $products_id[$i];
+                $this->supplierProductRepository->create($data);
+            }
+            return $this->response->success($products_id, 200, 'Xoá sản phẩm thành công');
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
-            return $this->response->error(null, 500, 'Thêm sản phẩm thất bại');
+            return $this->response->error(null, 500, 'Xoá sản phẩm thất bại');
         }
+//        try {
+//            $data = $request->all();
+//            dd($data);
+//            $newProductDetail = $this->supplierProductRepository->getProductDetail($request["product_id"]);
+//            $this->supplierProductRepository->create($data);
+//            return $this->response->success($newProductDetail, 200, 'Thêm sản phẩm thành công');
+//        } catch (\Exception $exception) {
+//            Log::error($exception->getMessage());
+//            return $this->response->error(null, 500, 'Thêm sản phẩm thất bại');
+//        }
     }
 
     /**

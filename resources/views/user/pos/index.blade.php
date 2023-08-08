@@ -2,34 +2,9 @@
     .body {
         padding: 20px;
     }
-    .member-card {
-        text-align: center;
-    }
-    .text-link {
-        display: block;
-        color: #007bff !important;
-    }
-    .btn-raised {
-        border-radius: 2px;
-        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%);
-        border: none;
-    }
-    .btn-sm {
-        padding: 0.25rem 0.5rem;
-        font-size: .875rem;
-        line-height: 1.5;
-    }
-    .m-t-10 {
-        margin-top: 10px;
-        margin-bottom: 3px;
-    }
     .social-links>li {
         display: inline-block;
         margin: 0 5px;
-    }
-    .g-bg-cyan {
-        background: linear-gradient(60deg, #09b9ac, #7dd1c1);
-        color: #fff !important;
     }
     .margin-bottom-20 {
         margin-bottom: 20px;
@@ -40,56 +15,12 @@
     .card .body {
         padding: 20px;
     }
-    .form-block {
-        border-bottom: 1px solid #bdbdbd;
-    }
     .form-block .form-control {
         border: none !important;
         padding-left: 0 !important;
     }
-    .btn-padding {
-        padding: 0px 8px !important;
-    }
-    .no-resize {
-        resize: none;
-    }
-    .btn-save {
-        background: linear-gradient(60deg, #09b9ac, #7dd1c1) !important;
-        color: #fff !important;
-        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%) !important;
-        cursor: pointer;
-    }
-    .btn-cancel {
-        background-color: #cbcdcf !important;
-        box-shadow: 0 2px 5px rgb(0 0 0 / 16%), 0 2px 10px rgb(0 0 0 / 12%) !important;
-        color: #3a3a3a !important;
-    }
-    .margin-right-3 {
-        margin-right: 3px;
-    }
     .card .header {
         padding: 20px 20px 0 20px !important;
-    }
-    .alert {
-        display: inline-block;
-        margin-bottom: 0 !important;
-        padding: .5rem 1rem !important;
-    }
-    .hidden {
-        display: none !important;
-    }
-    .swiper-hidden-slide {
-        display:none !important;
-        float:left;
-    }
-    /*.hideElement {*/
-    /*    visibility: hidden !important;*/
-    /*}*/
-    .color-red {
-        color: red;
-    }
-    .color-green {
-        color: green;
     }
     .slide-container{
         max-width: 1120px;
@@ -100,6 +31,9 @@
         margin: 0 40px;
         overflow: hidden;
         border-radius: 25px;
+    }
+    .hidden {
+        display: none !important;
     }
     .swiper-slide {
         transition: all .2s ease-out;
@@ -123,15 +57,6 @@
         row-gap: 5px;
         padding: 0 0 10px 0;
     }
-    /*.overlay{*/
-    /*    position: absolute;*/
-    /*    left: 0;*/
-    /*    top: 0;*/
-    /*    height: 100%;*/
-    /*    width: 100%;*/
-    /*    background-color: #4070F4;*/
-    /*    border-radius: 25px 25px 0 25px;*/
-    /*}*/
     .overlay::before,
     .overlay::after{
         content: '';
@@ -154,41 +79,11 @@
         background: #FFF;
         padding: 3px;
     }
-    /*.card-image .card-img{*/
-    /*    height: 100%;*/
-    /*    width: 100%;*/
-    /*    object-fit: cover;*/
-    /*    border-radius: 50%;*/
-    /*    border: 4px solid #4070F4;*/
-    /*}*/
     .name{
         font-size: 18px;
         font-weight: 600;
         color: #333;
     }
-    .description{
-        font-size: 16px;
-        color: #707070;
-        text-align: center;
-    }
-    .button{
-        border: none;
-        font-size: 16px;
-        color: #FFF;
-        padding: 8px 16px;
-        background-color: #4070F4;
-        border-radius: 6px;
-        margin: 14px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    .button:hover{
-        background: #265DF2;
-    }
-    .alert {
-        margin-left: 15px;
-    }
-
     .swiper-navBtn{
         color: #6E93f7;
         transition: color 0.3s ease;
@@ -326,74 +221,6 @@
         top: 80px;
         position: absolute;
     }
-
-    /*@-webkit-keyframes checkmark {*/
-    /*    0% {*/
-    /*        height: 0;*/
-    /*        width: 0;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    20% {*/
-    /*        height: 0;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    40% {*/
-    /*        height: 75px;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    100% {*/
-    /*        height: 75px;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*}*/
-    /*@-moz-keyframes checkmark {*/
-    /*    0% {*/
-    /*        height: 0;*/
-    /*        width: 0;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    20% {*/
-    /*        height: 0;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    40% {*/
-    /*        height: 75px;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    100% {*/
-    /*        height: 75px;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*}*/
-    /*@keyframes checkmark {*/
-    /*    0% {*/
-    /*        height: 0;*/
-    /*        width: 0;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    20% {*/
-    /*        height: 0;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    40% {*/
-    /*        height: 75px;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*    100% {*/
-    /*        height: 75px;*/
-    /*        width: 37.5px;*/
-    /*        opacity: 1;*/
-    /*    }*/
-    /*}*/
-
 </style>
 
 @extends("admin.master")
@@ -430,7 +257,7 @@
                                             <div class="slide-content">
                                                 <div class="card-wrapper swiper-wrapper">
                                                     @foreach($products as $key => $data)
-                                                        <div class="card swiper-slide" id="{{$data->search_product_name}}">
+                                                        <div class="card swiper-slide">
                                                             <div class="image-content">
                                                                 <span class="overlay"></span>
                                                                 <div class="card-image">
@@ -438,29 +265,31 @@
                                                                 </div>
                                                             </div>
                                                             <div class="card-content">
-                                                                <h2 class="name">{{$data->product_name}}</h2>
-                                                                <select name="production_batch_selected" id="{{$data->product_code}}" style="width: 60%; margin-top: 8px; height: 30px; margin-bottom: 6px;">
-{{--                                                                    <input type="hidden" name="product_code" value="{{$data->product_code}}">--}}
+                                                                <input type="hidden" name="productId" value="{{$data->id}}">
+                                                                <input type="hidden" name="categoryName" value="{{$data->category_name}}">
+                                                                <input type="hidden" name="productCode" value="{{$data->product_code}}">
+                                                                <h4 class="productName">{{$data->product_name}}</h4>
+                                                                <select name="production_batch_selected" style="width: 60%; margin-top: 8px; height: 30px; margin-bottom: 6px;">
                                                                     <option value="" disabled selected>Lô sản xuất</option>
                                                                     @foreach($data->production_batch as $key_production_batch => $data_production_batch)
                                                                         @if($data_production_batch->expired_status)
                                                                             <option value={{$data_production_batch->id}}>{{$data_production_batch->production_batch_name}}</option>
-{{--                                                                        @else--}}
-{{--                                                                            <option value={{$data_production_batch->id}}>{{$data_production_batch->production_batch_name}}</option>--}}
                                                                         @endif
                                                                     @endforeach
                                                                 </select>
 {{--                                                                <p style="margin-bottom: 0px; color: blue"></p>--}}
-                                                            @if($data->current_price)
-                                                                <p style="margin-bottom: 8px; color: red; font-weight: 600" id="{{$data->current_price_search}}">Giá: {{$data->current_price}} VNĐ</p>
-                                                                <div style="display: flex">
-                                                                    <input type="text" style="width: 70px; text-align: center; font-size: 14px" id="{{$data->product_id}}" placeholder="Nhập SL">
-                                                                </div>
-                                                                <button class="btn btn-success" onclick="addCart('{{$data->product_id}}', '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
-                                                                <p id="{{$data->product_name}}" style="color: red; height: 40px"></p>
-                                                            @else
-                                                                <span style="margin-bottom: 8px; color: red">Chưa cập nhật giá bán</span>
-                                                            @endif
+                                                                @if($data->current_price)
+                                                                    <input type="hidden" name="currentPrice" value="{{$data->current_price}}">
+                                                                    <p style="margin-bottom: 8px; color: red; font-weight: 600">Giá: {{$data->current_price}} VNĐ</p>
+                                                                    <div style="display: flex">
+                                                                        <input type="text" style="width: 70px; text-align: center; font-size: 14px" name="amount" placeholder="Nhập SL">
+                                                                    </div>
+{{--                                                                    onclick="addCart('{{$data->product_id}}', '{{$data->product_name}}', '{{$data->category_name}}', '{{$data->current_price}}', '{{$data->product_code}}')"--}}
+                                                                    <button class="btn btn-success" onclick="addProductToCart(this)" style="margin-top: 10px; font-size: 14px">Thêm vào giỏ hàng</button>
+                                                                    <p class="errNotification" style="color: red; height: 40px"></p>
+                                                                @else
+                                                                    <span style="margin-bottom: 8px; color: red">Chưa cập nhật giá bán</span>
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -618,44 +447,6 @@
         $(document).ready(function() {
             $("#success_tic").modal("hide");
             buildTableReload();
-
-            $('select[name="production_batch_selected"]').change(function () {
-                // let production_batch_id = $('select[name="production_batch_selected"]').val();
-                // console.log(this.id);
-                var e = document.getElementById(this.id);
-
-                // for (let productBatchAmount of listProductBatchAmount) {
-                //     // console.log(productBatchAmount);
-                //     // console.log(productBatchAmount["production_batch_id"]);
-                //     if(productBatchAmount["production_batch_id"] === parseInt(e.value)){
-                //         console.log(productBatchAmount["total_amount"]);
-                //         let h6 = document.createElement("h6");
-                //         let text = document.createTextNode("SL: " + productBatchAmount["total_amount"]);
-                //         h6.style.color = "green";
-                //         h6.style.marginBottom = "3px";
-                //         h6.style.marginTop = "1px";
-                //         h6.style.textAlign = "center";
-                //         h6.classList.add(productBatchAmount["product_name"]);
-                //         h6.appendChild(text);
-                //         let element = document.getElementById(this.id);
-                //         let priceSearch = document.getElementById(productBatchAmount["current_price_search"]);
-                //         let parentDiv = element.parentNode;
-                //         // console.log(element.parentNode);
-                //         if(parentDiv.contains(document.getElementsByClassName(productBatchAmount["product_name"])[0])) {
-                //             document.getElementsByClassName(productBatchAmount["product_name"])[0].remove();
-                //             parentDiv.insertBefore(h6, priceSearch);
-                //         } else
-                //             parentDiv.insertBefore(h6, priceSearch);
-                //         // if(element.childNodes.length === 2)
-                //         //     element.removeChild(element.childNodes[1]);
-                //         // $( "<p style='color: green; margin-bottom: 0px; text-align: center'>$text</p>" ).insertAfter( "#" + productBatchAmount["product_code"]);
-                //         // element.appendChild(p);
-                //     }
-                // }
-
-
-                // document.getElementById("production_batch_amount").innerHTML = 'dsad';
-            });
         });
 
         /**
@@ -700,31 +491,43 @@
         /**
          * Handle when search box
          */
-        document.getElementById("posNameSearch").addEventListener('keyup', function(){
-            console.log(this.value);
-            const allProduct = document.querySelectorAll('[id^="pos_sch_"]');
-            // let countFindSearchProduct = 0;
-            // let countNotFindSearchProduct = 0;
-            // for(let product of allProduct) {
-            //     const product_search = product.id.split('_');
-            //     if(product_search[2].includes(this.value)) countFindSearchProduct++;
-            //     else countNotFindSearchProduct++;
-            // }
 
-            for(let product of allProduct) {
-                const product_search = product.id.split('_');
-                if(product_search[2].includes(this.value.toLowerCase().replace(/\s/g,''))) {
-                    console.log(product);
-                    product.classList.remove("hidden");
-                    swiper.update();
-                    // product.classList.add("swiper-slide");
-                } else {
-                    product.classList.add("hidden");
-                    swiper.update()
-                    // swiper.removeSlide($('.swiper-slide').length - 1);
-                    // product.classList.remove("swiper-slide");
-                }
-            }
+        document.getElementById("posNameSearch").addEventListener('keyup', function(){
+            // setTimeout(function(){
+                console.log(this.value);
+                var valueSearch = this.value;
+
+                // var _token = $("input[name='_token']").val();
+                $.ajax({
+                    url: "/pos/search",
+                    type: 'GET',
+                    data: {valueSearch: valueSearch},
+                    success: function (response) {
+                        console.log(response.data);
+                        $('.card-wrapper').html(response.data);
+                        swiper.update();
+                    },
+                    error: function (err) {
+                        console.log(err);
+                    }
+                });
+
+                // const allProduct = document.querySelectorAll('[id^="pos_sch_"]');
+                // for(let product of allProduct) {
+                //     const product_search = product.id.split('_');
+                //     if(product_search[2].includes(this.value.toLowerCase().replace(/\s/g,''))) {
+                //         console.log(product);
+                //         product.classList.remove("hidden");
+                //         swiper.update();
+                //         // product.classList.add("swiper-slide");
+                //     } else {
+                //         product.classList.add("hidden");
+                //         swiper.update()
+                //         // swiper.removeSlide($('.swiper-slide').length - 1);
+                //         // product.classList.remove("swiper-slide");
+                //     }
+                // }
+            // }, 1200);
         });
 
         /**
@@ -843,6 +646,64 @@
          */
         cartArray = [];
         var total_price_order = 0;
+        const addProductToCart = (e) => {
+            const el = e.closest(".card-content");
+            console.log(el);
+            console.log(el.getElementsByClassName("productName")[0].textContent);
+            console.log(el.querySelector("[name='productId']").value);
+            console.log(el.querySelector("[name='categoryName']").value);
+            console.log(el.querySelector("[name='currentPrice']").value);
+            console.log(el.querySelector("[name='productCode']").value);
+            console.log(el.querySelector("[name='amount']").value);
+            console.log(el.querySelector("[name='production_batch_selected']").value);
+
+            let productName = el.getElementsByClassName("productName")[0].textContent;
+            let productId = el.querySelector("[name='productId']").value;
+            let categoryName = el.querySelector("[name='categoryName']").value;
+            let currentPrice = el.querySelector("[name='currentPrice']").value;
+            let productCode = el.querySelector("[name='productCode']").value;
+            let amount = el.querySelector("[name='amount']").value;
+            let production_batch_id = el.querySelector("[name='production_batch_selected']").value;
+
+            // errNotification
+            if(!amount || !production_batch_id) {
+                el.getElementsByClassName("errNotification")[0].textContent = "Không được bỏ trống !";
+            } else if(!checkNumber(amount)) {
+                el.getElementsByClassName("errNotification")[0].textContent = "Sai định dạng !";
+            } else if(parseInt(amount) === 0) {
+                el.getElementsByClassName("errNotification")[0].textContent = "Số lượng phải lớn hơn 0 !";
+            } else if(!checkProductionBatchName(getProductionBatchNameById(production_batch_id))) {
+                el.getElementsByClassName("errNotification")[0].textContent = "Lô dược phẩm đã tồn tại !";
+            } else if(!checkProductionBatchAmount(production_batch_id, amount)) {
+                el.getElementsByClassName("errNotification")[0].textContent = "Không đủ số lượng !";
+            } else {
+                el.getElementsByClassName("errNotification")[0].textContent = "";
+            }
+            // Pass
+            if(!el.getElementsByClassName("errNotification")[0].textContent) {
+                let value = parseInt(amount, 10);
+                console.log(value);
+                if(!isNaN(value) && value > 0) {
+                    //Add to product array
+                    cartArray.push({
+                        product_id: productId,
+                        product_name: productName,
+                        category_name: categoryName,
+                        production_batch_name: getProductionBatchNameById(production_batch_id),
+                        amount: amount,
+                        price: currentPrice,
+                        total_price: (parseInt(amount, 10) * parseInt(currentPrice)).toString()
+                    })
+                    total_price_order +=  parseInt(amount) * parseInt(currentPrice);
+                    document.getElementById("total_price_order").innerHTML = "Tổng tiền: " + total_price_order + " VNĐ";
+                    console.log(cartArray);
+                    el.querySelector("[name='amount']").value = "";
+                    el.querySelector("[name='production_batch_selected']").value = "";
+                    buildStorage();
+                    buildTable();
+                }
+            }
+        }
         const getProductionBatchNameById = (id) => {
             for (let productBatchAmount of listProductBatchAmount) {
                 if(productBatchAmount["production_batch_id"] === parseInt(id)){
@@ -916,44 +777,6 @@
                 buildStorage();
                 buildTable();
             });
-        }
-        const addCart = (id, name, category, current_price, code) => {
-            if(!document.getElementById(id).value || !document.getElementById(code).value) {
-                document.getElementById(name).innerHTML = "Không được bỏ trống !";
-            } else if(!checkNumber(document.getElementById(id).value)) {
-                document.getElementById(name).innerHTML = "Sai định dạng !";
-            } else if(parseInt(document.getElementById(id).value) === 0) {
-                document.getElementById(name).innerHTML = "Số lượng phải lớn hơn 0 !";
-            } else if(!checkProductionBatchName(getProductionBatchNameById(document.getElementById(code).value))) {
-                document.getElementById(name).innerHTML = "Lô dược phẩm đã tồn tại !";
-            } else if(!checkProductionBatchAmount(document.getElementById(code).value, document.getElementById(id).value)) {
-                document.getElementById(name).innerHTML = "Không đủ số lượng !";
-            } else {
-                document.getElementById(name).innerHTML = "";
-            }
-            if(!document.getElementById(name).innerHTML) {
-                let value = parseInt(document.getElementById(id).value, 10);
-                console.log(value);
-                if(!isNaN(value) && value > 0) {
-                    //Add to product array
-                    cartArray.push({
-                        product_id: id,
-                        product_name: name,
-                        category_name: category,
-                        production_batch_name: getProductionBatchNameById(document.getElementById(code).value),
-                        amount: document.getElementById(id).value,
-                        price: current_price,
-                        total_price: (parseInt(document.getElementById(id).value, 10) * parseInt(current_price)).toString()
-                    })
-                    total_price_order +=  parseInt(document.getElementById(id).value, 10) * parseInt(current_price);
-                    document.getElementById("total_price_order").innerHTML = "Tổng tiền: " + total_price_order + " VNĐ";
-                    console.log(cartArray);
-                    document.getElementById(id).value = "";
-                    document.getElementById(code).value = "";
-                    buildStorage();
-                    buildTable();
-                }
-            }
         }
         const deleteAllRowTable = () => {
             var tableHeaderRowCount = 1;

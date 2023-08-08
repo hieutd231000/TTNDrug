@@ -146,21 +146,23 @@
             var existingNotifications = notificationsContent.html();
             var newNotificationHtml = `
                 <div class="dropdown-divider"></div>
-                <a href="/read-notification/`+data.notification_id+`" class="dropdown-item">
-                    <div class="row">
-                        <div class="col-11 col-md-11 col-lg-11 col-sm-11">
-                            <p>`+data.notification_content+`</p>
-                            <p class="text-muted text-sm">Khoảng 1 phút trước</p>
-                        </div>
-                        <div class="col-1 col-md-1 col-lg-1 col-sm-1" id="`+data.notification_id+`" style="display: flex; align-items: center;">
-                            <div style="background: hsl(214, 100%, 59%);
-                              border-radius: 50%;
-                              height: 12px;
-                              width: 12px;">
+                <form>
+                    <button class="dropdown-item" onclick="readNotification(`+data.notification_id+`)" type="button">
+                        <div class="row">
+                            <div class="col-11 col-md-11 col-lg-11 col-sm-11">
+                                <p>`+data.notification_content+`</p>
+                                <p class="text-muted text-sm">Khoảng 1 phút trước</p>
+                            </div>
+                            <div class="col-1 col-md-1 col-lg-1 col-sm-1" id="`+data.notification_id+`" style="display: flex; align-items: center;">
+                                <div style="background: hsl(214, 100%, 59%);
+                                  border-radius: 50%;
+                                  height: 12px;
+                                  width: 12px;">
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </a>
+                    </button>
+                </form>
             `;
             notificationsContent.html(newNotificationHtml + existingNotifications);
         });

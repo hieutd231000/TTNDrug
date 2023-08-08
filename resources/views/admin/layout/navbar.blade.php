@@ -110,23 +110,26 @@
                             <div class="dropdown-content">
                                 @foreach($data->listNotifications as $dem => $notifi)
                                     <div class="dropdown-divider"></div>
-                                    <a href="/read-notification/{{$notifi->id}}" class="dropdown-item">
-                                        <div class="row">
-                                            <div class="col-11 col-md-11 col-lg-11 col-sm-11">
-                                                <p>{{$notifi->notification}}</p>
-                                                <p class="text-muted text-sm">{{$notifi->createAgo}}</p>
-                                            </div>
-                                            <div class="col-1 col-md-1 col-lg-1 col-sm-1" id="{{$notifi->id}}" style="display: flex; align-items: center;">
-                                                @if(!$notifi->is_read)
-                                                    <div style="background: hsl(214, 100%, 59%);
+                                    <form>
+{{--                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+                                        <button class="dropdown-item" onclick="readNotification({{$notifi->id}})" type="button" >
+                                            <div class="row">
+                                                <div class="col-11 col-md-11 col-lg-11 col-sm-11">
+                                                    <p>{{$notifi->notification}}</p>
+                                                    <p class="text-muted text-sm">{{$notifi->createAgo}}</p>
+                                                </div>
+                                                <div class="col-1 col-md-1 col-lg-1 col-sm-1" id="{{$notifi->id}}" style="display: flex; align-items: center;">
+                                                    @if(!$notifi->is_read)
+                                                        <div style="background: hsl(214, 100%, 59%);
                                                       border-radius: 50%;
                                                       height: 12px;
                                                       width: 12px;">
-                                                    </div>
-                                                @endif
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </button>
+                                    </form>
                                 @endforeach
     {{--                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>--}}
                             </div>
@@ -145,3 +148,24 @@
         </li>
     </ul>
 </nav>
+
+<script>
+    /**
+     * Read notification
+     * @param id
+     */
+    const readNotification = (id) => {
+        var _token = $("input[name='_token']").val();
+        $.ajax({
+            url: "/read-notification",
+            type: 'POST',
+            data: {_token: _token, id: id},
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (err) {
+                console.log(err);
+            }
+        });
+    }
+</script>

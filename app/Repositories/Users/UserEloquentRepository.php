@@ -80,20 +80,22 @@ class UserEloquentRepository extends EloquentRepository implements UserRepositor
     public function getLatestUser()
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $date = date('Y/m/d', time());
-        $currentDates = explode("/", $date);
+        $currentDate = date('Y-m-d', time());
         $users = DB::table("users")
-            ->take(8)
-            ->orderBy("id", "DESC")
             ->get();
         foreach ($users as $user) {
             if(!is_null($user->created_at)) {
-                $createUserTime = explode(" ", $user->created_at);
-                $createUserDay = explode("-", $user->created_at);
-                $user->countDayCreate =((int)$currentDates[1] - (int)$createUserDay[1]) * 31 + ((int)$currentDates[2] - (int)$createUserDay[2]);
+                $diff = strtotime($currentDate) - strtotime($user->created_at);
+                $betweenDate = abs(round($diff / 86400));
+                $user->countDayCreate = (int)$betweenDate;
             }
         }
-        return $users;
+        $usersArr = $users->toArray();
+        usort($usersArr, function($a, $b)
+        {
+            return (int)$a->countDayCreate > (int)$b->countDayCreate;
+        });
+        return collect($usersArr)->where("countDayCreate" , "<=", 31);
     }
 
     /**

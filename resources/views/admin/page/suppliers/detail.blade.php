@@ -224,20 +224,21 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="supplier_id" value="{{ $supplierDetail->id }}">
                                 <div class="form-group">
-                                    <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">
-                                        <option value="" disabled selected>Chọn dược phẩm</option>
-                                        @foreach($listAllProduct as $key => $data)
-                                            <option value={{$data->id}}>{{$data->product_name}}</option>
+                                    <select data-placeholder="Lựa chọn dược phẩm bạn muốn thêm..." multiple class="chosen-select" style="margin-bottom: 3px" name="product_add">
+{{--                                    <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">--}}
+{{--                                        <option value="" disabled selected>Chọn dược phẩm</option>--}}
+                                        @foreach($listNotProduct as $key => $data)
+                                            <option value={{$data[0]->id}}>{{$data[0]->product_name}}</option>
                                         @endforeach
                                     </select>
-                                    <div id="help-block-product" style="color: red">
+                                    <div id="help-block-add-product" style="color: red">
                                     </div>
-                                    <div id="help-block-success" style="color: green">
+                                    <div id="help-block-success-add" style="color: green">
                                     </div>
                                 </div>
                                 <div class="float-right">
                                     <button type="button" class="btn btn-secondary handleCancel">Huỷ bỏ</button>
-                                    <button type="submit" class="btn btn-primary handleSubmit">Lưu</button>
+                                    <button type="submit" class="btn btn-primary handleAdd">Lưu</button>
                                 </div>
                             </form>
                         </div>
@@ -339,45 +340,6 @@
          */
         var listProduct = {!! $listProductId !!};
         $(document).ready(function() {
-            $(".handleSubmit").click(function(e){
-                e.preventDefault();
-                var _token = $("input[name='_token']").val();
-                var product_id = $('#product_selected').find(":selected").val();
-                var supplier_id = $("input[name='supplier_id']").val();
-                var blockErrProduct = document.getElementById("help-block-product");
-                var blockSuccess = document.getElementById("help-block-success");
-                blockSuccess.innerHTML = "";
-                // Check validate
-                if(!product_id) {
-                    blockErrProduct.innerHTML = "Mời bạn chọn dược phẩm";
-                } else if(!checkExistProduct(product_id)) {
-                    blockErrProduct.innerHTML = "Dược phẩm này đã có trong danh sách";
-                } else {
-                    blockErrProduct.innerHTML = "";
-                }
-                if(!blockErrProduct.innerHTML) {
-                    $.ajax({
-                        url: "/admin/suppliers/add-product",
-                        type:'POST',
-                        data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
-                        success: function(response) {
-                            blockErrProduct.innerHTML = "";
-                            blockSuccess.innerHTML = "Thêm dược phẩm thành công";
-                            console.log(response["data"]);
-                            // addProductToTable(response["data"][0], response["data"][1], response["data"][2]);
-                            setTimeout(function(){
-                                location.reload();
-                            }, 600);
-                        },
-                        error: function (err) {
-                            console.log(err);
-                        }
-                    });
-                    setTimeout(function(){
-                        $("#addModal").modal("hide");
-                    }, 400);
-                }
-            });
             $(".handleCancel").click(function(e){
                 e.preventDefault();
                 document.getElementById("help-block-product").innerHTML = "";
@@ -409,7 +371,7 @@
                             blockSuccessDelete.innerHTML = "Xoá dược phẩm thành công";
                             setTimeout(function(){
                                 location.reload();
-                            }, 600);
+                            }, 800);
                         },
                         error: function (err) {
                             console.log(err);
@@ -417,6 +379,48 @@
                     });
                     setTimeout(function(){
                         $("#deleteModal").modal("hide");
+                    }, 400);
+                }
+            });
+            $(".handleAdd").click(function(e){
+                e.preventDefault();
+                var _token = $("input[name='_token']").val();
+                var product_id = $("select[name='product_add']").val();
+                var supplier_id = $("input[name='supplier_id']").val();
+                var blockErrProductAdd = document.getElementById("help-block-add-product");
+                var blockSuccessAdd= document.getElementById("help-block-success-add");
+                blockSuccessAdd.innerHTML = "";
+                console.log(product_id);
+                // Check validate
+                if(!product_id.length) {
+                    blockErrProductAdd.innerHTML = "Mời bạn chọn dược phẩm";
+                } else {
+                    for(let i=0; i<product_id.length; i++) {
+                        if(!checkExistProduct(product_id[i])) {
+                            blockErrProductAdd.innerHTML = "Dược phẩm này đã có trong danh sách";
+                            break;
+                        }
+                        blockErrProductAdd.innerHTML = "";
+                    }
+                }
+                if(!blockErrProductAdd.innerHTML) {
+                    $.ajax({
+                        url: "/admin/suppliers/add-product",
+                        type:'POST',
+                        data: {_token:_token, product_id:product_id, supplier_id:supplier_id},
+                        success: function(response) {
+                            blockErrProductAdd.innerHTML = "";
+                            blockSuccessAdd.innerHTML = "Thêm dược phẩm thành công";
+                            setTimeout(function(){
+                                location.reload();
+                            }, 800);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+                    setTimeout(function(){
+                        $("#addModal").modal("hide");
                     }, 400);
                 }
             });

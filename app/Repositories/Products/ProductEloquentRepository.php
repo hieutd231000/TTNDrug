@@ -415,4 +415,13 @@ class ProductEloquentRepository extends EloquentRepository implements ProductRep
         }
         return $countProductByTime;
     }
+
+    public function searchProductByLike($valueSearch) {
+        return DB::table("products")
+            ->join('categories', 'products.category_id', '=', 'categories.id')
+            ->select('products.*', 'categories.name AS category_name')
+            ->where('products.product_name', 'LIKE', '%' . $valueSearch . '%')
+            ->orderBy('products.id', "DESC")
+            ->get();
+    }
 }

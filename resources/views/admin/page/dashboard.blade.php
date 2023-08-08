@@ -86,7 +86,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Người dùng mới nhất
                                     &nbsp;
-                                    <span class="badge badge-warning">8 người</span>
+                                    <span class="badge badge-warning">{{count($getLatestUser)}} người</span>
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -127,7 +127,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">Nhà cung cấp mới nhất
                                     &nbsp;
-                                    <span class="badge badge-info">5 đơn vị</span>
+                                    <span class="badge badge-info">{{count($getLatestSupplier)}} đơn vị</span>
                                 </h3>
                                 <div class="card-tools">
                                     <button type="button" class="btn btn-tool" data-card-widget="collapse">

@@ -129,7 +129,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/user-profile', [\App\Http\Controllers\Admin\UserController::class, 'userProfile']);
     Route::get('/pos', [\App\Http\Controllers\PosController::class, 'index']);
-    Route::get('/read-notification/{id}', [\App\Http\Controllers\Admin\OrderController::class, 'readNotification']);
+    Route::get('/pos/search', [\App\Http\Controllers\PosController::class, 'search']);
+    Route::post('/read-notification', [\App\Http\Controllers\Admin\OrderController::class, 'readNotification']);
 
     Route::get('/admin/orders/{id}/product', [\App\Http\Controllers\Admin\OrderController::class, 'index']);
     Route::post('/admin/orders/add-order', [\App\Http\Controllers\Admin\OrderController::class, 'store']);

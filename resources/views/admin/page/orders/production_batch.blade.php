@@ -79,7 +79,7 @@
                                         {{ session('success') }}
                                     </div>
                                 @endif
-                                <table id="category" class="table table-bordered table-striped">
+                                <table id="category" class="table table-bordered table-striped" style="min-width: 100% !important;">
                                     <thead>
                                     <tr>
                                         <th>STT</th>

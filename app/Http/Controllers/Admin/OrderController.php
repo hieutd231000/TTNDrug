@@ -326,11 +326,12 @@ class OrderController extends Controller
      * @param $id
      * @return void
      */
-    public function readNotification(Request $request, $id) {
+    public function readNotification(Request $request) {
         try {
+            $id = $request["id"];
             if($id) {
                 if($this->userNotificationRepository->is_read($id, Auth::user()->id)) {
-                    return redirect()->back();
+                    return $this->response->success(null, 200, 'Thông báo đã đọc');
                 }
                 $data["user_id"] = Auth::user()->id;
                 $data["notification_id"] = $id;
@@ -351,11 +352,11 @@ class OrderController extends Controller
                     "read_user_email" => Auth::user()->email,
                     "notification_content" => "Đã đọc thông báo"
                 ]);
-
                 $this->userNotificationRepository->create($data);
-                if(Auth::user()->role)
-                    return redirect('/admin/list-orders');
-                else return redirect()->back();
+                return $this->response->success(null, 200, 'Đọc thông báo thành công');
+//                if(Auth::user()->role)
+//                    return redirect('/admin/list-orders');
+//                else return redirect()->back();
             }
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());

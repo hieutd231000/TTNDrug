@@ -76,6 +76,40 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
                 array_push($myArray, $product);
             }
         }
+        usort($myArray, function($a, $b)
+        {
+            return strcmp($a[0]->product_name, $b[0]->product_name);
+        });
+        return $myArray;
+    }
+    public function getNotAllProductBySupplierId($supplier_id) {
+        $listProductId = DB::table("supplier_products")
+            ->select("product_id")
+            ->where("supplier_id", $supplier_id)
+            ->orderBy("product_id")
+            ->get();
+        $myArray = [];
+        $product = DB::table("products")
+            ->get();
+        for($i = 0; $i < count($product); $i++) {
+            for($k = 0; $i < count($listProductId); $k++) {
+                $product = DB::table("products")
+                    ->where("id", "!=", $listProductId[$i]->product_id)
+                    ->get();
+                if(count($product)) {
+                    $categoryName = DB::table("categories")
+                        ->select('categories.name AS category_name')
+                        ->where("id", $product[0]->category_id)
+                        ->get();
+                    $product[0]->category_name = $categoryName[0]->category_name;
+                    array_push($myArray, $product);
+                }
+            }
+        }
+        usort($myArray, function($a, $b)
+        {
+            return strcmp($a[0]->product_name, $b[0]->product_name);
+        });
         return $myArray;
     }
 
@@ -144,20 +178,22 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
 
     public function getLatestSupplier() {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $date = date('Y/m/d', time());
-        $currentDates = explode("/", $date);
+        $currentDate = date('Y-m-d', time());
         $suppliers = DB::table("suppliers")
-            ->take(5)
-            ->orderBy("id", "DESC")
             ->get();
         foreach ($suppliers as $supplier) {
             if(!is_null($supplier->created_at)) {
-                $createUserTime = explode(" ", $supplier->created_at);
-                $createUserDay = explode("-", $supplier->created_at);
-                $supplier->countDayCreate =((int)$currentDates[1] - (int)$createUserDay[1]) * 31 + ((int)$currentDates[2] - (int)$createUserDay[2]);
+                $diff = strtotime($currentDate) - strtotime($supplier->created_at);
+                $betweenDate = abs(round($diff / 86400));
+                $supplier->countDayCreate = (int)$betweenDate;
             }
         }
-        return $suppliers;
+        $suppliersArr = $suppliers->toArray();
+        usort($suppliersArr, function($a, $b)
+        {
+            return (int)$a->countDayCreate > (int)$b->countDayCreate;
+        });
+        return collect($suppliersArr)->where("countDayCreate" , "<=", 31);
     }
 
 }

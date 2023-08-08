@@ -97,7 +97,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-block">
-                                            <input type="text" name="name" id="name" class="form-control" placeholder="Tên *">
+                                            <input type="text" name="name" id="name" class="form-control" placeholder="Tên nhà cung cấp *">
                                         </div>
                                         <div id="help-block-name" style="color: red">
                                         </div>
@@ -117,7 +117,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <div class="form-block">
-                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Phone *">
+                                            <input type="text" name="phone" id="phone" class="form-control" placeholder="Số điện thoại *">
                                         </div>
                                         <div id="help-block-phone" style="color: red">
                                         </div>

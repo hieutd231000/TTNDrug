@@ -18,7 +18,7 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
         return DB::table("production_batches")
             ->join("products", "products.id", "=", "production_batches.product_id")
             ->select("products.product_name", "production_batches.*")
-            ->orderBy("production_batches.expired_time", "DESC")
+            ->orderBy("id", "DESC")
             ->get();
     }
 
