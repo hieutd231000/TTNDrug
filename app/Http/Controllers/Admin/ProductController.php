@@ -75,7 +75,6 @@ class ProductController extends Controller
             $exportPriceProductUpdated = $this->orderProductRepository->getExportPriceProductUpdated($id);
             // Bang gia nhap
             $listImportPriceProduct = $this->orderProductRepository->getImportPriceProduct($id);
-//            dd($listImportPriceProduct);
             // Bang gia ban
             $listExportPriceProduct = $this->exportPriceRepository->getExportPriceProduct($id);
             return view("admin.page.products.price", ['listImportPriceProduct' => $listImportPriceProduct, 'listExportPriceProduct' => $listExportPriceProduct, 'listProductCode' => $listProductCode, 'exportPriceProductUpdated' => $exportPriceProductUpdated, 'productDetail' => $productDetail, 'importPriceProductUpdated' => $importPriceProductUpdated]);

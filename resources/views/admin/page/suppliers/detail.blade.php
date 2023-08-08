@@ -187,7 +187,11 @@
                                         @foreach($listProduct as $key => $data)
                                             <tr>
                                                 <td>{{$rank ++}}</td>
-                                                <td>{{$data[0]->product_name}}</td>
+                                                <td>
+                                                    <div style="cursor: pointer; color: blue" onclick="viewProduct({{$data[0]->id}})">
+                                                        {{$data[0]->product_name}}
+                                                    </div>
+                                                </td>
                                                 <td>{{$data[0]->category_name}}</td>
                                                 <td>{{$data[0]->product_code}}</td>
                                             </tr>
@@ -228,7 +232,7 @@
 {{--                                    <select name="product_selected" id="product_selected" style="height: 38px; width: 100%">--}}
 {{--                                        <option value="" disabled selected>Chọn dược phẩm</option>--}}
                                         @foreach($listNotProduct as $key => $data)
-                                            <option value={{$data[0]->id}}>{{$data[0]->product_name}}</option>
+                                            <option value={{$data->id}}>{{$data->product_name}}</option>
                                         @endforeach
                                     </select>
                                     <div id="help-block-add-product" style="color: red">
@@ -251,7 +255,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Danh sách dược phẩm</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Chi tiết sản phẩm</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -260,11 +264,12 @@
                         <div class="card">
                             <img src="" class="card-img-top" id="card-img-top" alt="...">
                             <div class="card-body">
-                                <h3 class="product-name" id="product-name">Card title</h3>
+                                <h3 class="product-name" id="product-name" style="margin-bottom: 20px">Card title</h3>
                                 <p class="product-code" id="product-code"></p>
                                 <p class="category" id="category"></p>
-{{--                                <p class="unit" id="unit"></p>--}}
-{{--                                <p class="price-unit" id="price-unit"></p>--}}
+                                <p class="route_of_use" id="route_of_use"></p>
+                                <p class="dosage" id="dosage"></p>
+                                <p class="content" id="content"></p>
                                 <p class="instruction" id="instruction"></p>
                                 <button type="button" class="btn btn-danger" style="float: right" data-dismiss="modal">Thoát</button>
                             </div>
@@ -272,8 +277,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <!--Delete Modal -->
+        </div>        <!--Delete Modal -->
+
         @isset($supplierDetail)
             <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -523,6 +528,39 @@
 
         const editSupplier = (id) => {
             window.location.href = "/admin/suppliers/" + id + "/edit";
+        }
+
+        /**
+         * Confirm view product
+         * @param id
+         */
+        const viewProduct = (id) => {
+            $.ajax({
+                url: "/admin/products/detail",
+                type:'GET',
+                data: { id:id },
+                success: function(response) {
+                    console.log(response["data"]);
+                    if(response["code"] === 200) {
+                        document.getElementById("card-img-top").src = '{{ URL::asset('image/products') }}' + '/' + response["data"][0]["product_image"];
+                        document.getElementById("product-name").innerHTML = response["data"][0]["product_name"];
+                        document.getElementById("product-code").innerHTML = "<span class='text-muted'><i>Mã sản phẩm: </i></span>" + response["data"][0]["product_code"];
+                        document.getElementById("category").innerHTML = "<span class='text-muted'><i>Danh mục: </i></span>" + response["data"][0]["category_name"];
+                        document.getElementById("route_of_use").innerHTML = "<span class='text-muted'><i>Đường dùng: </i></span>" + response["data"][0]["route_of_use"];
+                        document.getElementById("dosage").innerHTML = "<span class='text-muted'><i>Dạng bào chế: </i></span>" + response["data"][0]["dosage"];
+                        document.getElementById("content").innerHTML = "<span class='text-muted'><i>Hàm lượng: </i></span>" + response["data"][0]["content"];
+                        if(response["data"][0]["instruction"]) {
+                            document.getElementById("instruction").innerHTML = "<span style='color: red'>Hướng dẫn sử dụng: </span>" + response["data"][0]["instruction"];
+                        } else {
+                            document.getElementById("instruction").innerHTML = "";
+                        }
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+            $("#viewModal").modal("show");
         }
 
     </script>

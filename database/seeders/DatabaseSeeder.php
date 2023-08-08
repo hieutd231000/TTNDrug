@@ -24,6 +24,12 @@ class DatabaseSeeder extends Seeder
 //", "Người lớn và trẻ em từ 12 tuổi trở lên: Có thể sử dụng liều từ 500mg đến 1g Paracetamol (1-2 viên/lần). Khoảng thời gian giữa mỗi lần uống là 4-6 giờ. Hàng ngày uống tối đa 4000mg và tuyệt đối không dùng cùng với các thuốc khác có chứa thành phần paracetamol.", "Liều lượng tiền mê của người lớn là 50 – 100 microgam tiêm tĩnh mạch chậm. Đối với trẻ em là 3 – 5 microgam/kg sau đó 1 microgam/kg nếu cần", "Trẻ em trên 6 tuổi: 1 giọt, 1 đến 2 lần mỗi ngày.
 //", "Nên uống ampicillin vào dạ dày rỗng, tức là khoảng 30 phút đến 1 giờ trước khi ăn hoặc đợi sau khi ăn khoảng 2 giờ. Nên uống xa bữa ăn như vậy bởi nếu dùng cùng thức ăn thì lượng thuốc ampicillin được hấp thu vào cơ thể sẽ ít hơn, dẫn đến tác dụng của thuốc sẽ kém hơn. Ngoài ra nên uống thuốc với nhiều nước cũng sẽ giúp thuốc được hấp thu dễ dàng hơn.", "Liều từ 4-10mg/kg cân nặng mỗi 6-8 giờ. Liều tối đa là 40 mg/kg cân nặng. Trong trường hợp loại trừ nguyên nhân do sốt xuất huyết, dùng hạ sốt cho trẻ với liều 5mg/kg cân nặng khi thân nhiệt < 39,2 độ C cách mỗi 6-8h nếu trẻ sốt lại; liều 10mg/kg cân nặng khi số >=39,2 độ C cách mỗi 6-8h nếu trẻ sốt lại.", "Liều chung: 325 - 650mg/ liều cách 4-6 giờ hoặc 1000mg cách 6-8 giờ bằng đường uống hoặc đặt hậu môn.");
 //        for($i=0; $i<200; $i++) {
+//            $randMonth = rand(1,12);
+//            if($randMonth >= 10) {
+//                $create = rand(2014,2023)."-".$randMonth."-".rand(10,28)." ".rand(10,23).":".rand(10,59).":".rand(10,59);
+//            } else {
+//                $create = rand(2014, 2023) . "-0" . $randMonth . "-" . rand(10, 28) . " " . rand(10, 23) . ":" . rand(10, 59) . ":" . rand(10, 59);
+//            }
 //            $characters = 'abcdefghiklmnopqrstuvxyz';
 //            $charactersLength = strlen($characters);
 //            $randomString = strtoupper($characters[rand(0, $charactersLength - 1)]);
@@ -45,6 +51,8 @@ class DatabaseSeeder extends Seeder
 //                'product_code' => rand(100000, 999999),
 //                'content' => $content[$random_content[0]],
 //                'route_of_use' => $route_of_use[$random_route_of_use[0]],
+//                'created_at' => $create,
+//                'updated_at' => $create,
 //            ]);
 //        }
 
@@ -62,16 +70,16 @@ class DatabaseSeeder extends Seeder
 //        ]);
 
         //DB export_prices
-//        date_default_timezone_set('Europe/Isle_of_Man');
+//        date_default_timezone_set('Asia/Ho_Chi_Minh');
 //        $end_at = date('Y-m-d H:i:s', time());
-//        $price = array("5000", "10000", "20000", "30000", "40000", "50000", "100000", "15000", "2000");
+//        $price = array("5000", "10000", "20000", "30000", "40000", "50000", "15000", "2000");
 //        $price_update_time = array("16:53:57 10/09", "16:55:07 25/03", "16:56:58 24/06", "16:57:25 10/04", "16:57:44 10/09", "14:17:40 11/08", "11:00:06 25/06", "11:00:37 25/10", "00:42:08 28/10", "13:39:16 05/07", "13:51:04 05/11", "14:56:18 05/12", "12:06:48 05/01", "12:07:06 05/02");
 //        for($i=0; $i<2000; $i++) {
 //            $random_price=array_rand($price,2);
 //            $random_price_update_time=array_rand($price_update_time,2);
 //            DB::table("export_prices")->insert([
-//                'id' => $i+15,
-//                'product_id' => rand(1,227),
+//                'id' => $i+1,
+//                'product_id' => rand(1,224),
 //                'current_price' => $price[$random_price[0]],
 //                'price_update_time' => $price_update_time[$random_price_update_time[0]]."/".rand(2014,2023),
 //                'created_at' => $end_at,
@@ -80,16 +88,16 @@ class DatabaseSeeder extends Seeder
 //        }
 
         //DB supplier_products
-        date_default_timezone_set('Asia/Ho_Chi_Minh');
-        $create_at = date('Y-m-d H:i:s', time());
-        for($i=0; $i<500; $i++) {
-            DB::table("supplier_products")->insert([
-                'product_id' => rand(1,224),
-                'supplier_id' => rand(1,27),
-                'created_at' => $create_at,
-                'updated_at' => $create_at,
-            ]);
-        }
+//        date_default_timezone_set('Asia/Ho_Chi_Minh');
+//        $create_at = date('Y-m-d H:i:s', time());
+//        for($i=0; $i<500; $i++) {
+//            DB::table("supplier_products")->insert([
+//                'product_id' => rand(1,224),
+//                'supplier_id' => rand(1,27),
+//                'created_at' => $create_at,
+//                'updated_at' => $create_at,
+//            ]);
+//        }
 
         //DB production_batches
 //        $text = array("LV", "TX", "BT", "XS", "LP", "QM", "AD", "AL", "SY", "LA", "TM", "XP", "QK", "QS", "PA");

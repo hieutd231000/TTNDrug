@@ -89,26 +89,28 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             ->orderBy("product_id")
             ->get();
         $myArray = [];
-        $product = DB::table("products")
+        $products = DB::table("products")
             ->get();
-        for($i = 0; $i < count($product); $i++) {
-            for($k = 0; $i < count($listProductId); $k++) {
+        $dem = 0;
+        for($i = 0; $i < count($products); $i++) {
+            if($products[$i]->id != $listProductId[$dem]->product_id) {
                 $product = DB::table("products")
-                    ->where("id", "!=", $listProductId[$i]->product_id)
-                    ->get();
-                if(count($product)) {
-                    $categoryName = DB::table("categories")
-                        ->select('categories.name AS category_name')
-                        ->where("id", $product[0]->category_id)
-                        ->get();
-                    $product[0]->category_name = $categoryName[0]->category_name;
-                    array_push($myArray, $product);
-                }
+                    ->where("id", $i+1)
+                    ->first();
+                $categoryName = DB::table("categories")
+                    ->select('categories.name AS category_name')
+                    ->where("id", $product->category_id)
+                    ->first();
+                $product->category_name = $categoryName->category_name;
+                array_push($myArray, $product);
+            } else {
+                $dem++;
+                if($dem == count($listProductId)) break;
             }
         }
         usort($myArray, function($a, $b)
         {
-            return strcmp($a[0]->product_name, $b[0]->product_name);
+            return strcmp($a->product_name, $b->product_name);
         });
         return $myArray;
     }
