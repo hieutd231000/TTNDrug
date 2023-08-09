@@ -9,7 +9,7 @@ composer --ignore-platform-req=php install
 composer --ignore-platform-req=php update
 
 php artisan migrate
-php artisan db:seed
+php artisan db:seed --class=SqlFileSeeder
 php artisan passport:install
 php artisan key:generate
 echo "run..."

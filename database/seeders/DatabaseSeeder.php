@@ -15,6 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+//        $sql = public_path('db/db.sql');
+//
+//        $db = [
+//            'username' => env('DB_USERNAME'),
+//            'password' => env('DB_PASSWORD'),
+//            'host' => env('DB_HOST'),
+//            'database' => env('DB_DATABASE')
+//        ];
+//
+//        exec("mysql --user={$db['username']} --password={$db['password']} --host={$db['host']} --database {$db['database']} < $sql");
+
         //DB Products
 //        $route_of_use = array("Tiêm", "Đường hô hấp", "Uống", "Đặt trực tràng", "Dùng ngoài", "Tiêm truyền", "Nhỏ mắt", "Đặt dưới lưỡi", "Đường hô hấp");
 //        $dosage = array("Dung dịch", "Khí hóa lỏng", "Viên", "Viên nén", "Viên đạn", "Bột pha dung dịch", "Bột pha tiêm", "Siro", "Hỗn dịch", "Ống thụt", "Miếng dán");
@@ -130,62 +141,62 @@ class DatabaseSeeder extends Seeder
 //        }
 
         //DB invoices, sales
-        $count = 1;
-        for($i=0; $i<20000; $i++) {
-            $totalProduct = rand(1,3);
-            $totalInvoice = 0;
-            $randYear = rand(2014,2023);
-            if($randYear == 2023) {
-                $randMonth = rand(1,8);
-                if($randMonth == 8) {
-                    $randDay = "0".rand(1,9);
-                } else {
-                    $randDay = rand(10,28);
-                }
-            } else {
-                $randMonth = rand(1,12);
-                $randDay = rand(10,28);
-            }
-
-            if($randMonth >= 10) {
-                $create = $randYear."-".$randMonth."-".$randDay." ".rand(10,23).":".rand(10,59).":".rand(10,59);
-            } else {
-                $create = $randYear."-0".$randMonth."-".$randDay." ".rand(10,23).":".rand(10,59).":".rand(10,59);
-            }
-            for($k=0; $k<$totalProduct; $k++) {
-                $listTableCol = DB::table("products")
-                    ->pluck("product_name");
-                $listTable = $listTableCol->toArray();
-                $randomString = array_rand($listTable,2);
-                $amount = rand(1,3);
-                $listPrice = array("5000", "3000", "4000", "1000", "2000");
-                $random_price=array_rand($listPrice,2);
-                $price = $listPrice[$random_price[0]];
-                $totalPrice = (int)$amount * (int)$price;
-                DB::table("sales")->insert([
-                    'id' => $count,
-                    'product_name' => $listTable[$randomString[0]],
-                    'invoice_id' => $i+1,
-                    'amount' => $amount,
-                    'price' => $price,
-                    'total_price' => $totalPrice,
-                    'created_at' => $create,
-                    'updated_at' => $create,
-                ]);
-                $count ++;
-                $totalInvoice += $totalPrice;
-            }
-            $method = ["tien", "the"];
-            $random_method = array_rand($method, 2);
-            DB::table("invoices")->insert([
-                "id" => $i+1,
-                "money" => $totalInvoice,
-                "method" => $method[$random_method[0]],
-                "user_id" => rand(31,68),
-                'created_at' => $create,
-                'updated_at' => $create,
-            ]);
-        }
+//        $count = 1;
+//        for($i=0; $i<20000; $i++) {
+//            $totalProduct = rand(1,3);
+//            $totalInvoice = 0;
+//            $randYear = rand(2014,2023);
+//            if($randYear == 2023) {
+//                $randMonth = rand(1,8);
+//                if($randMonth == 8) {
+//                    $randDay = "0".rand(1,9);
+//                } else {
+//                    $randDay = rand(10,28);
+//                }
+//            } else {
+//                $randMonth = rand(1,12);
+//                $randDay = rand(10,28);
+//            }
+//
+//            if($randMonth >= 10) {
+//                $create = $randYear."-".$randMonth."-".$randDay." ".rand(10,23).":".rand(10,59).":".rand(10,59);
+//            } else {
+//                $create = $randYear."-0".$randMonth."-".$randDay." ".rand(10,23).":".rand(10,59).":".rand(10,59);
+//            }
+//            for($k=0; $k<$totalProduct; $k++) {
+//                $listTableCol = DB::table("products")
+//                    ->pluck("product_name");
+//                $listTable = $listTableCol->toArray();
+//                $randomString = array_rand($listTable,2);
+//                $amount = rand(1,3);
+//                $listPrice = array("5000", "3000", "4000", "1000", "2000");
+//                $random_price=array_rand($listPrice,2);
+//                $price = $listPrice[$random_price[0]];
+//                $totalPrice = (int)$amount * (int)$price;
+//                DB::table("sales")->insert([
+//                    'id' => $count,
+//                    'product_name' => $listTable[$randomString[0]],
+//                    'invoice_id' => $i+1,
+//                    'amount' => $amount,
+//                    'price' => $price,
+//                    'total_price' => $totalPrice,
+//                    'created_at' => $create,
+//                    'updated_at' => $create,
+//                ]);
+//                $count ++;
+//                $totalInvoice += $totalPrice;
+//            }
+//            $method = ["tien", "the"];
+//            $random_method = array_rand($method, 2);
+//            DB::table("invoices")->insert([
+//                "id" => $i+1,
+//                "money" => $totalInvoice,
+//                "method" => $method[$random_method[0]],
+//                "user_id" => rand(31,68),
+//                'created_at' => $create,
+//                'updated_at' => $create,
+//            ]);
+//        }
 
         //DB order, order_product
 //        $count = 1;
