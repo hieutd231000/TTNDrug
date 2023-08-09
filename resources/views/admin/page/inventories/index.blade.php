@@ -226,7 +226,7 @@
                 "language": {
                     "lengthMenu": "Hiển thị _MENU_ dược phẩm trên một trang",
                     "zeroRecords": "Không có dược phẩm",
-                    "info": "Hiển thị _START_ đến _END_ dược phẩm trên tổng số _TOTAL_ dược phẩm",
+                    "info": "Hiển thị _START_ đến _END_ lô hàng trên tổng số _TOTAL_ lô hàng",
                     "search": "Tìm kiếm:",
                     "infoEmpty": "",
                     "paginate": {

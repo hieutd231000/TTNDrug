@@ -593,10 +593,11 @@
             document.getElementById("validatePaid").innerHTML = "";
             if(!moneyPay) {
                 document.getElementById("validatePaid").innerHTML = "Nhập số tiền thanh toán !";
+            } else if(!checkNumber(moneyPay)) {
+                document.getElementById("validatePaid").innerHTML = "Số tiền bạn nhập không hợp lệ !";
             } else if(method_chose === "null") {
                 document.getElementById("validatePaid").innerHTML = "Mời bạn chọn hình thức thanh toán !";
-            }
-            else if(total_price_order > parseInt(moneyPay)) {
+            } else if(total_price_order > parseInt(moneyPay)) {
                 document.getElementById("validatePaid").innerHTML = "Số tiền khách hàng đã thanh toán không đủ !";
             } else {
                 document.getElementById("validatePaid").innerHTML = "";

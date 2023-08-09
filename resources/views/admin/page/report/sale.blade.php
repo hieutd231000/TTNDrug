@@ -534,7 +534,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Thống kê chi phí (VNĐ)',
+                    text: 'Thống kê chi phí nhập hàng (VNĐ)',
                 }
             }
 

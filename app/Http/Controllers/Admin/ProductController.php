@@ -67,17 +67,11 @@ class ProductController extends Controller
         if($id) {
             //Gia san pham
             $productDetail = $this->productRepository->find($id);
-            $importPriceProductUpdated = $this->orderProductRepository->getImportPriceProductUpdated($id);
-            if($importPriceProductUpdated) {
-                $dateTimeOrder = explode(" ", $importPriceProductUpdated->order_time);
-                $importPriceProductUpdated->order_time = $dateTimeOrder[1] . " " . $dateTimeOrder[0];
-            }
-            $exportPriceProductUpdated = $this->orderProductRepository->getExportPriceProductUpdated($id);
             // Bang gia nhap
-            $listImportPriceProduct = $this->orderProductRepository->getImportPriceProduct($id);
+            $listImportPriceProduct = $this->orderProductRepository->getListImportPriceProduct($id);
             // Bang gia ban
-            $listExportPriceProduct = $this->exportPriceRepository->getExportPriceProduct($id);
-            return view("admin.page.products.price", ['listImportPriceProduct' => $listImportPriceProduct, 'listExportPriceProduct' => $listExportPriceProduct, 'listProductCode' => $listProductCode, 'exportPriceProductUpdated' => $exportPriceProductUpdated, 'productDetail' => $productDetail, 'importPriceProductUpdated' => $importPriceProductUpdated]);
+            $listExportPriceProduct = $this->orderProductRepository->getListExportPriceProduct($id);
+            return view("admin.page.products.price", ['listImportPriceProduct' => $listImportPriceProduct, 'listExportPriceProduct' => $listExportPriceProduct, 'listProductCode' => $listProductCode, 'productDetail' => $productDetail]);
         }
         return view("admin.page.products.price", ['listProductCode' => $listProductCode]);
     }

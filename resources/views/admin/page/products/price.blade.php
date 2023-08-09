@@ -134,18 +134,18 @@
                                                 </div>
                                                 <div class="row">
                                                     <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Giá nhập thuốc:</p>
-                                                    @if(!$importPriceProductUpdated)
+                                                    @if(!count($listImportPriceProduct))
                                                         <p class="col-sm-9">Chưa cập nhật</p>
                                                     @else
-                                                        <p class="col-sm-9">{{$importPriceProductUpdated->price_amount}} VNĐ ( Cập nhật lúc: {{$importPriceProductUpdated->order_time}} )</p>
+                                                        <p class="col-sm-9">{{$listImportPriceProduct[0]->current_price}} VNĐ ( Cập nhật lúc: {{$listImportPriceProduct[0]->order_time}} )</p>
                                                     @endif
                                                 </div>
                                                 <div class="row">
                                                     <p class="col-sm-3 text-muted text-sm-right mb-0 mb-sm-3">Giá bán ra:</p>
-                                                    @if(!$exportPriceProductUpdated)
+                                                    @if(!count($listExportPriceProduct))
                                                         <p class="col-sm-9">Chưa cập nhật</p>
                                                     @else
-                                                        <p class="col-sm-9">{{$exportPriceProductUpdated->current_price}} VNĐ ( Cập nhật lúc: {{$exportPriceProductUpdated->price_update_time}} )</p>
+                                                        <p class="col-sm-9">{{$listExportPriceProduct[0]->current_price}} VNĐ ( Cập nhật lúc: {{$listExportPriceProduct[0]->price_update_time}} )</p>
                                                     @endif
                                                 </div>
                                                 <div class="col-sm-12" style="margin-left: 40px; margin-top: 5px;">
@@ -219,7 +219,7 @@
                                                             <td>{{$importPriceProduct->product_code}}</td>
                                                             <td>{{$importPriceProduct->category_name}}</td>
                                                             <td>{{$importPriceProduct->amount}}</td>
-                                                            <td>{{$importPriceProduct->price_amount}} VNĐ</td>
+                                                            <td>{{$importPriceProduct->current_price}} VNĐ</td>
                                                             <td>{{$importPriceProduct->order_time}}</td>
                                                         </tr>
                                                     @endforeach

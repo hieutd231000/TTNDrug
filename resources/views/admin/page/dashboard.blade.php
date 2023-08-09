@@ -239,19 +239,18 @@
                             <span class="info-box-icon"><i class="fas fa-folder"></i></span>
 
                             <div class="info-box-content" style="padding: 0 0 0 5px">
-                                <span class="info-box-text">Lô sản xuất</span>
+                                <span class="info-box-text">Số lượng lô sản xuất</span>
                                 <span class="info-box-number">{{$countCurrentProductionBatch}}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
-                        <div class="info-box mb-3 bg-danger">
-                            <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
+                        <div class="info-box mb-3 bg-info">
+                            <span class="info-box-icon"><i class="fas fa-truck"></i></span>
 
                             <div class="info-box-content" style="padding: 0 0 0 5px">
-                                <span class="info-box-text" style="line-height: 23px">Lô sản xuất sắp <br>
-                                    <span>quá hạn</span>
+                                <span class="info-box-text" style="line-height: 23px">Đơn hàng
                                 </span>
-                                <span class="info-box-number">{{$countCurrentExpiredProduct}}</span>
+                                <span class="info-box-number">{{$countCurrentOrder}}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
@@ -261,17 +260,17 @@
                             <span class="info-box-icon"><i class="fas fa-capsules"></i></span>
 
                             <div class="info-box-content" style="padding: 0 0 0 5px">
-                                <span class="info-box-text">Số lượng thuốc</span>
+                                <span class="info-box-text">Tổng số lượng dược</span>
                                 <span class="info-box-number">{{$countCurrentProduct}}</span>
                             </div>
                             <!-- /.info-box-content -->
                         </div>
                         <!-- /.info-box -->
-                        <div class="info-box mb-3 bg-info">
-                            <span class="info-box-icon"><i class="fas fa-cloud-upload-alt"></i></span>
+                        <div class="info-box mb-3 bg-danger">
+                            <span class="info-box-icon"><i class="fas fa-cloud-download-alt"></i></span>
 
                             <div class="info-box-content" style="padding: 0 0 0 5px">
-                                <span class="info-box-text" style="line-height: 23px">Số thuốc sắp hết <br>
+                                <span class="info-box-text" style="line-height: 23px">Số dược sắp hết <br>
                                     <span>tồn kho</span>
                                 </span>
                                 <span class="info-box-number">{{$countCurrentOutOfProduct}}</span>
@@ -354,7 +353,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Thống kê số lượng nhân lực mới',
+                    text: 'Thống kê số nhân lực mới',
                 }
             }
             //-------------
@@ -389,13 +388,13 @@
             //-------------
             var thkProduct = @json($thkProduct);
             var thkProductionBatch = @json($thkProductionBatch);
-            var thkProductionExBatch = @json($thkProductionExBatch);
+            var thkOrder = @json($thkOrder);
             var areaChartData1 = {
                 labels  : ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
                     'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                 datasets: [
                     {
-                        label               : 'Thuốc',
+                        label               : 'Dược',
                         backgroundColor     : '#ffc107',
                         borderColor         : '#ffc107',
                         pointRadius          : true,
@@ -417,15 +416,15 @@
                         data                : thkProductionBatch[0]["countProductionBatchByTime"]
                     },
                     {
-                        label               : 'Lô sản xuất sắp hết hạn',
-                        backgroundColor     : '#dc3545',
-                        borderColor         : '#dc3545',
+                        label               : 'Đơn hàng',
+                        backgroundColor     : '#17a2b8',
+                        borderColor         : '#17a2b8',
                         pointRadius          : true,
                         pointColor          : '#3b8bba',
                         pointStrokeColor    : 'rgba(60,141,188,1)',
                         pointHighlightFill  : '#fff',
                         pointHighlightStroke: 'rgba(60,141,188,1)',
-                        data                : thkProductionExBatch[0]["countProductionBatchByTime"]
+                        data                : thkOrder[0]["countOrderByTime"]
                     }
                 ]
             }
@@ -445,7 +444,7 @@
                 datasetFill: false,
                 title: {
                     display: true,
-                    text: 'Thống kê số lượng thuốc mới',
+                    text: 'Thống kê số dược mới',
                 }
             };
 
@@ -462,7 +461,7 @@
                                 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
                             datasets: [
                                 {
-                                    label               : 'Thuốc',
+                                    label               : 'Dược',
                                     backgroundColor     : '#ffc107',
                                     borderColor         : '#ffc107',
                                     pointRadius          : true,
@@ -484,15 +483,15 @@
                                     data                : thkProductionBatch[i]["countProductionBatchByTime"]
                                 },
                                 {
-                                    label               : 'Lô sản xuất sẽ hết hạn',
-                                    backgroundColor     : '#dc3545',
-                                    borderColor         : '#dc3545',
+                                    label               : 'Đơn hàng',
+                                    backgroundColor     : '#17a2b8',
+                                    borderColor         : '#17a2b8',
                                     pointRadius          : true,
                                     pointColor          : '#3b8bba',
                                     pointStrokeColor    : 'rgba(60,141,188,1)',
                                     pointHighlightFill  : '#fff',
                                     pointHighlightStroke: 'rgba(60,141,188,1)',
-                                    data                : thkProductionExBatch[i]["countProductionBatchByTime"]
+                                    data                : thkOrder[i]["countOrderByTime"]
                                 }
                             ]
                         }

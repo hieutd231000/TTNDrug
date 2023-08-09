@@ -114,24 +114,24 @@ class ProductionBatchEloquentRepository extends EloquentRepository implements Pr
         return $countItemByTime;
     }
 
-    public function thkProductExBatchByTime() {
+    public function thkOrderByTime() {
         $currentYear = date("Y");
         $countItemByTime = [];
-        $listItems = DB::table("production_batches")
-            ->select("id", "expired_time")
+        $listOrders = DB::table("orders")
+            ->select("id", "order_time")
             ->get();
         for($i = 0; $i < 10; $i++) {
             $countByMonth = array_fill(0, 12, 0);
-            foreach ($listItems as $item) {
-                if(!is_null($item->expired_time )) {
-                    $getCreateTimes = explode(" ", $item->expired_time);
+            foreach ($listOrders as $order) {
+                if(!is_null($order->order_time )) {
+                    $getCreateTimes = explode(" ", $order->order_time);
                     $getCreateTime = explode("/", $getCreateTimes[0]);
                     if($getCreateTime[2] == strval((int)$currentYear - $i)) {
                         $countByMonth[(int)$getCreateTime[1] - 1] += 1;
                     }
                 }
             }
-            array_push($countItemByTime, ['currentYear' => strval((int)$currentYear - $i), 'countProductionBatchByTime' => $countByMonth]);
+            array_push($countItemByTime, ['currentYear' => strval((int)$currentYear - $i), 'countOrderByTime' => $countByMonth]);
         }
         return $countItemByTime;
     }

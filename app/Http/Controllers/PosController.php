@@ -33,7 +33,8 @@ class PosController extends Controller
     public function index(Request $request) {
         $products = $this->productRepository->getAllItem("DESC");
         foreach ($products as $product) {
-            $productsPrice = $this->orderProductRepository->getExportPriceProductUpdated($product->id);
+            $listExportPriceProduct = $this->orderProductRepository->getListExportPriceProduct($product->id);
+            $productsPrice = $listExportPriceProduct[0];
             if($productsPrice) {
                 $product->current_price = $productsPrice->current_price;
 //                $product->current_price_search = $productsPrice->current_price . "_" . $product->product_name;
@@ -71,7 +72,8 @@ class PosController extends Controller
             $output = '';
             $products = $this->productRepository->searchProductByLike($request->valueSearch);
             foreach ($products as $product) {
-                $productsPrice = $this->orderProductRepository->getExportPriceProductUpdated($product->id);
+                $listExportPriceProduct = $this->orderProductRepository->getListExportPriceProduct($product->id);
+                $productsPrice = $listExportPriceProduct[0];
                 if($productsPrice) {
                     $product->current_price = $productsPrice->current_price;
 //                    $product->current_price_search = $productsPrice->current_price . "_" . $product->product_name;

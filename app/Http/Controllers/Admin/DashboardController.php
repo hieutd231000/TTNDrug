@@ -78,7 +78,7 @@ class DashboardController extends Controller
         $thkSupplier = $this->userRepository->thkSupplierByTime();
         $thkProduct = $this->productRepository->thkProductByTime();
         $thkProductionBatch = $this->productionBatchRepository->thkProductBatchByTime();
-        $thkProductionExBatch = $this->productionBatchRepository->thkProductExBatchByTime();
+        $thkOrder = $this->productionBatchRepository->thkOrderByTime();
         //San pham
         $countCurrentProductionBatch = $this->productionBatchRepository->countProductionBatch();
         $countCurrentOutOfProduct = 0;
@@ -87,12 +87,7 @@ class DashboardController extends Controller
             if(!$outOfProduct->checkAmount)
                 $countCurrentOutOfProduct ++;
         }
-        $countCurrentExpiredProduct = 0;
-        $listExpiredProduct = $this->productRepository->getListExpiredProductInventory();
-        foreach ($listExpiredProduct as $expiredProduct) {
-            if($expiredProduct->check_expired_time)
-                $countCurrentExpiredProduct ++;
-        }
+        $countOrder = $this->orderRepository->countOrder();
         //User notification
 //        $userNotification = $this->userRepository->getAllUserNotification();
 ////        dd($userNotification);
@@ -115,11 +110,11 @@ class DashboardController extends Controller
             "thkSupplier" => $thkSupplier,
             "thkProduct" => $thkProduct,
             "thkProductionBatch" => $thkProductionBatch,
-            "thkProductionExBatch" => $thkProductionExBatch,
+            "thkOrder" => $thkOrder,
 
             "countCurrentProductionBatch" => $countCurrentProductionBatch,
             "countCurrentOutOfProduct" => $countCurrentOutOfProduct,
-            "countCurrentExpiredProduct" => $countCurrentExpiredProduct,
+            "countCurrentOrder" => $countOrder,
 
         ]);
     }

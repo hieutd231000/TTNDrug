@@ -119,7 +119,6 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
     public function getCost($selectYear) {
         $orders = DB::table("orders")
             ->select()
-            ->where("status", 2)
             ->get();
         $sumTotal = 0;
         foreach ($orders as $order) {
@@ -133,19 +132,27 @@ class OrderEloquentRepository extends EloquentRepository implements OrderReposit
         return $sumTotal;
     }
 
+    public function countOrder() {
+        return DB::table("orders")
+            ->count();
+    }
+
     public function thkorderUnConfirm() {
         return DB::table("orders")
             ->where("status", 0)
+            ->where("created_at", ">=", "2023-00-00 00:00:00")
             ->count();
     }
     public function thkorderEdConfirm() {
         return DB::table("orders")
             ->where("status", 1)
+            ->where("created_at", ">=", "2023-00-00 00:00:00")
             ->count();
     }
     public function thkorderEdReceive() {
         return DB::table("orders")
             ->where("status", 2)
+            ->where("created_at", ">=", "2023-00-00 00:00:00")
             ->count();
     }
 

@@ -34,13 +34,67 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
      * @param $product_id
      * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
      */
-    public function getExportPriceProductUpdated($product_id)
+
+    public function getListExportPriceProduct($product_id)
     {
-        return DB::table("export_prices")
-            ->where("product_id", $product_id)
-            ->orderBy("id", "DESC")
-            ->first();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $currentDate = date('Y-m-d', time());
+        $exportPrices = DB::table("export_prices")
+            ->select("export_prices.*", "products.product_name", "products.product_code", "categories.name as category_name")
+            ->join("products", "products.id", "=", "export_prices.product_id")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->where("export_prices.product_id", $product_id)
+            ->get();
+        foreach ($exportPrices as $exportPrice) {
+            if(!is_null($exportPrice->price_update_time)) {
+                $priceUpdateTime = $exportPrice->price_update_time;
+                $priceUpdateTimes = explode(" ", $priceUpdateTime);
+                $priceUpdateDates = explode("/", $priceUpdateTimes[1]);
+                $endDate = $priceUpdateDates[2]."-".$priceUpdateDates[1]."-".$priceUpdateDates[0]." ".$priceUpdateTimes[0];
+                $diff = strtotime($currentDate) - strtotime($endDate);
+                $betweenDate = abs(round($diff / 86400));
+                $exportPrice->countUpdateDay = (int)$betweenDate;
+                $exportPrice->price_update_time = $priceUpdateTimes[1]." ".$priceUpdateTimes[0];
+            }
+        }
+        $exportsArr = $exportPrices->toArray();
+        usort($exportsArr, function($a, $b)
+        {
+            return (int)$a->countUpdateDay > (int)$b->countUpdateDay;
+        });
+        return collect($exportsArr);
     }
+
+    public function getListImportPriceProduct($product_id)
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $currentDate = date('Y-m-d', time());
+        $importPrices = DB::table("order_products")
+            ->select("order_products.price_amount as current_price", "order_products.amount", "products.product_name", "products.product_code", "categories.name as category_name", "orders.order_time")
+            ->join("orders", "orders.id", "=", "order_products.order_id")
+            ->join("products", "products.id", "=", "order_products.product_id")
+            ->join("categories", "categories.id", "=", "products.category_id")
+            ->where("order_products.product_id", $product_id)
+            ->get();
+        foreach ($importPrices as $importPrice) {
+            if(!is_null($importPrice->order_time)) {
+                $priceUpdateTime = $importPrice->order_time;
+                $priceUpdateTimes = explode(" ", $priceUpdateTime);
+                $priceUpdateDates = explode("/", $priceUpdateTimes[0]);
+                $endDate = $priceUpdateDates[2]."-".$priceUpdateDates[1]."-".$priceUpdateDates[0]." ".$priceUpdateTimes[1];
+                $diff = strtotime($currentDate) - strtotime($endDate);
+                $betweenDate = abs(round($diff / 86400));
+                $importPrice->countUpdateDay = (int)$betweenDate;
+            }
+        }
+        $importsArr = $importPrices->toArray();
+        usort($importsArr, function($a, $b)
+        {
+            return (int)$a->countUpdateDay > (int)$b->countUpdateDay;
+        });
+        return collect($importsArr);
+    }
+
 
     /**
      * Get import price product
@@ -74,14 +128,14 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
     public function orderedSuccess($product_name, $production_batch_name, $amount) {
         $total = intval($amount);
         $listProductInventory = DB::table('order_products')
-            ->select("order_products.*")
+            ->select("order_products.*", "orders.order_code")
             ->join("orders", "orders.id", "=" ,"order_products.order_id")
             ->join("products", "products.id", "=" ,"order_products.product_id")
             ->join("production_batches", "production_batches.id", "=" ,"order_products.production_batch_id")
             ->where("orders.status", 2)
             ->where("products.product_name", $product_name)
             ->where("production_batches.production_batch_name", $production_batch_name)
-            ->orderBy("orders.order_time", "ASC")
+            ->orderBy("orders.order_code", "ASC")
             ->get();
         foreach ($listProductInventory as $product) {
 //            dd(intval($product->amount));

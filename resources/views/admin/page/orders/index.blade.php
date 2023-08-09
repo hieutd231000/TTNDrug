@@ -770,7 +770,6 @@
                         removeItemStorage(supplierDetailId);
                         setTimeout(function(){
                             window.location.href = "/admin/list-orders";
-                            window.location.reload();
                         }, 1200);
                     },
                     error: function (err) {
