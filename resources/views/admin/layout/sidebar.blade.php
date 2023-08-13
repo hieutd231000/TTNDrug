@@ -95,13 +95,13 @@
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-header">Người dùng</li>
+                    <li class="nav-header">Nhân viên</li>
                 @if(Auth::user()->role)
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <i class="nav-icon far fa-plus-square"></i>
                             <p>
-                                Đặt hàng
+                                Nhập hàng
                                 <i class="fas fa-angle-left right"></i>
                             </p>
                         </a>

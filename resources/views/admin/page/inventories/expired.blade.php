@@ -103,7 +103,7 @@
                                                                     <th scope="col">Tên nhà cung cấp</th>
                                                                     <th scope="col">Đơn giá</th>
                                                                     <th scope="col">Số lượng</th>
-                                                                    <th scope="col" style="width: 110px">Ngày đặt hàng</th>
+                                                                    <th scope="col" style="width: 110px">Ngày nhập hàng</th>
                                                                     <th scope="col" style="width: 110px">Ngày hết hạn</th>
                                                                 </tr>
                                                                 </thead>
@@ -166,7 +166,7 @@
                                                                     <th scope="col">Tên nhà cung cấp</th>
                                                                     <th scope="col">Đơn giá</th>
                                                                     <th scope="col">Số lượng</th>
-                                                                    <th scope="col" style="width: 110px">Ngày đặt hàng</th>
+                                                                    <th scope="col" style="width: 110px">Ngày nhập hàng</th>
                                                                     <th scope="col" style="width: 110px">Ngày hết hạn</th>
                                                                 </tr>
                                                                 </thead>

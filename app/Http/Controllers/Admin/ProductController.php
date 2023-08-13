@@ -12,6 +12,7 @@ use App\Repositories\OrderProducts\OrderProductRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 //use App\Repositories\Units\UnitRepositoryInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
@@ -111,6 +112,8 @@ class ProductController extends Controller
      * @return \App\Helpers\JsonResponse
      */
     public function store(ProductRequest $request) {
+        $countProduct = DB::table("products")
+            ->count();
         $file = $request->file("product_image");
         if($file->getClientOriginalExtension() != 'png' && $file->getClientOriginalExtension() != 'jpg') {
             return redirect()->back()->with('failed', trans("auth.add.failed"));
@@ -122,7 +125,20 @@ class ProductController extends Controller
             //Insert to db
             $data = $request->all();
             $data["product_image"] = $fileName;
-            $this->productRepository->create($data);
+            $newProduct = $this->productRepository->create($data);
+            //Export Price
+            if($newProduct->id) {
+                $data1["product_id"] = $newProduct->id;
+                $data1["current_price"] = 0;
+                date_default_timezone_set('Asia/Ho_Chi_Minh');
+                $currentDate = date('Y-m-d H:i:s', time());
+                $currentDateArr = explode(" ", $currentDate);
+                $currentTimeArr = explode("-", $currentDateArr[0]);
+                $data1["created_at"] = $currentDate;
+                $data1["price_update_time"] = $currentDateArr[1] . " " .$currentTimeArr[2]. "/" . $currentTimeArr[1]. "/" . $currentTimeArr[0];
+                $data1["updated_at"] = $currentDate;
+                $this->exportPriceRepository->create($data1);
+            }
             return redirect("admin/products")->with("success", trans("auth.add.success"));
 
         } catch (\Exception $exception) {

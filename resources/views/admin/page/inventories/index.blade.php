@@ -95,7 +95,7 @@
 {{--                                        <th>Nhà cung cấp</th>--}}
                                         <th>Đơn giá</th>
                                         <th>Số lượng còn lại</th>
-                                        <th>Ngày đặt hàng</th>
+                                        <th>Ngày nhập hàng</th>
                                         <th>Ngày hết hạn</th>
 {{--                                        <th>Tình trạng</th>--}}
                                     </tr>

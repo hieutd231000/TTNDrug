@@ -251,7 +251,7 @@
                                     <tr>
                                         <th>Tên nhà cung cấp</th>
                                         <th>Số đơn hàng đã nhập</th>
-                                        <th>Tổng chi phí</th>
+                                        <th>Tổng chi phí nhập hàng</th>
                                         <th>Thông tin</th>
                                     </tr>
                                     </thead>

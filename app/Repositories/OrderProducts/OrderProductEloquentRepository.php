@@ -57,9 +57,12 @@ class OrderProductEloquentRepository extends EloquentRepository implements Order
                 $exportPrice->price_update_time = $priceUpdateTimes[1]." ".$priceUpdateTimes[0];
             }
         }
+
         $exportsArr = $exportPrices->toArray();
         usort($exportsArr, function($a, $b)
         {
+            if((int)$a->countUpdateDay == (int)$b->countUpdateDay)
+                return (int)$a->id < (int)$b->id;
             return (int)$a->countUpdateDay > (int)$b->countUpdateDay;
         });
         return collect($exportsArr);

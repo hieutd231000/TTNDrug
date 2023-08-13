@@ -246,7 +246,7 @@
                                         <div class="col-sm-6">
                                             <div class="form-group">
                                                 <div class="form-block">
-                                                    <input type="text" class="form-control" value="{{ old("order_time") }}" name="order_time" placeholder="Thời gian đặt hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
+                                                    <input type="text" class="form-control" value="{{ old("order_time") }}" name="order_time" placeholder="Thời gian nhập hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker"/>
                                                 </div>
                                                 <div id="help-block-order_time" style="color: red">
                                                 </div>
@@ -264,7 +264,7 @@
                                     </div>
                                     <div class="row clearfix">
                                         <div class="col-sm-12">
-                                            <button type="button" id="handleSubmitBtn" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Đặt hàng</button>
+                                            <button type="button" id="handleSubmitBtn" class="btn btn-raised g-bg-cyan margin-right-3 handleSubmit" style="margin-right: 3px">Nhập hàng</button>
                                             <button type="button" id="handleCancelBtn" class="btn btn-cancel handleCancel">Huỷ</button>
                                         </div>
                                     </div>
@@ -281,7 +281,7 @@
                     <div class="modal-content" style="position: absolute; top: 80px; right: -45px">
                         <div class="page-body">
                             <div class="head">
-                                <h4 style="margin-bottom: 15px">Tạo đơn hàng thành công</h4>
+                                <h4 style="margin-bottom: 15px">Nhập hàng thành công</h4>
                             </div>
                             <h1 style="text-align:center;">
                                 <div class="checkmark-circle">
@@ -334,7 +334,7 @@
                 if(!order_code) {
                     blockErrOrderCode.innerHTML = "Không được bỏ trống";
                 } else if(checkOrderCode(order_code)) {
-                    blockErrOrderCode.innerHTML = "Mã đơn hàng đã được sử dụng";
+                    blockErrOrderCode.innerHTML = "Mã hàng đã được sử dụng";
                 } else {
                     blockErrOrderCode.innerHTML = "";
                 }

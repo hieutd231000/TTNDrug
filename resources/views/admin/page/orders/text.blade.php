@@ -51,7 +51,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Đặt hàng</h4>
+                        <h4 class="m-0">Nhập hàng</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->

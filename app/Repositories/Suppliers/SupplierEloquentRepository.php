@@ -90,19 +90,17 @@ class SupplierEloquentRepository extends EloquentRepository implements SuppierRe
             ->get();
         $myArray = [];
         $products = DB::table("products")
+            ->orderBy("id", "DESC")
             ->get();
         $dem = 0;
         for($i = 0; $i < count($products); $i++) {
             if($products[$i]->id != $listProductId[$dem]->product_id) {
-                $product = DB::table("products")
-                    ->where("id", $i+1)
-                    ->first();
                 $categoryName = DB::table("categories")
                     ->select('categories.name AS category_name')
-                    ->where("id", $product->category_id)
+                    ->where("id", $products[$i]->category_id)
                     ->first();
-                $product->category_name = $categoryName->category_name;
-                array_push($myArray, $product);
+                $products[$i]->category_name = $categoryName->category_name;
+                array_push($myArray, $products[$i]);
             } else {
                 $dem++;
                 if($dem == count($listProductId)) break;

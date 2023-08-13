@@ -165,7 +165,7 @@
                                             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Xoá dược phẩm</button>
                                         @endif
                                     @endif
-                                    <a class="btn btn-info" href="/admin/orders/{{$supplierDetail->id}}/product">Đặt hàng</a>
+                                    <a class="btn btn-info" href="/admin/orders/{{$supplierDetail->id}}/product">Nhập hàng</a>
                                 </div>
                             </div>
                             <div class="card-body" style="padding-top: 0px !important;">

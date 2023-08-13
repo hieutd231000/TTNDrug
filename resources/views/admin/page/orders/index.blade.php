@@ -296,7 +296,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Đặt hàng</h4>
+                        <h4 class="m-0">Nhập hàng</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -357,7 +357,7 @@
                         <div class="row clearfix" style="margin-top: 10px">
                             @if(auth()->user()->role)
                                 <div class="col-sm-12" style="text-align: end; margin-bottom: 10px">
-                                    <a class="btn btn-primary" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 120px">Thêm dược phẩm mới</a>
+                                    <a class="btn btn-primary" href="/admin/suppliers/{{$supplierDetailId}}/detail" style="width: 120px">Nhập dược phẩm mới</a>
                                     <a class="btn btn-danger" href="/admin/production-batch" style="width: 120px">Thêm lô sản xuất mới</a>
                                 </div>
                             @endif
@@ -480,7 +480,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <div class="form-block" style="margin-bottom: 3px !important;">
-                                                            <input type="text" class="form-control" value="{{ old("order_time") }}" name="order_time" placeholder="Thời gian đặt hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker" disabled autocomplete="off"/>
+                                                            <input type="text" class="form-control" value="{{ old("order_time") }}" name="order_time" placeholder="Thời gian nhập hàng *" id="reservationdate"  data-target="#reservationdate" data-toggle="datetimepicker" disabled autocomplete="off"/>
                                                         </div>
                                                         <div id="help-block-order_time" style="color: red">
                                                         </div>
@@ -495,7 +495,7 @@
                                             <div class="row clearfix">
                                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12" style="text-align: end">
                                                     <button type="button" class="btn btn-cancel" onclick="handleCancel()" id="handleCancelBtn" disabled>Huỷ</button>
-                                                    <button type="button" class="btn btn-primary" onclick="handleOrder()" id="handleOrderBtn" disabled>Đặt hàng</button>
+                                                    <button type="button" class="btn btn-primary" onclick="handleOrder()" id="handleOrderBtn" disabled>Nhập hàng</button>
                                                 </div>
                                             </div>
                                         </form>
@@ -515,7 +515,7 @@
                     <div class="modal-content" style="position: absolute; top: 80px; right: -45px">
                         <div class="page-body">
                             <div class="head">
-                                <h4 style="margin-bottom: 15px">Tạo đơn hàng thành công</h4>
+                                <h4 style="margin-bottom: 15px">Nhập hàng thành công</h4>
                             </div>
                             <h1 style="text-align:center;">
                                 <div class="checkmark-circle">

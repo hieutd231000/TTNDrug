@@ -53,7 +53,7 @@
                         <h4>Lô sản xuất</h4>
                     </div><!-- /.col -->
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <a href="/admin/orders/{{0}}/product" style="margin-left: 5px" class="btn btn-info float-right mt-2">Đặt hàng</a>
+                        <a href="/admin/orders/{{0}}/product" style="margin-left: 5px" class="btn btn-info float-right mt-2">Nhập hàng</a>
                         @if(auth()->user()->role)
                             <a href="" class="btn btn-primary float-right mt-2" data-toggle="modal" data-target="#addModal">Thêm lô sản xuất</a>
                         @endif
@@ -123,10 +123,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- /.card-body -->
-{{--                            <div class="d-flex justify-content-end" style="margin-right: 3%">--}}
-{{--                                {!! $listProductionBatch->appends($_GET)->links("pagination::bootstrap-4") !!}--}}
-{{--                            </div>--}}
                         </div>
                     </div>
                 </div>
@@ -386,7 +382,7 @@
         }
 
         /**
-         * Handle edit category
+         * Handle edit production batch
          */
         $(document).ready(function() {
             $(".handleEdit").click(function(e){

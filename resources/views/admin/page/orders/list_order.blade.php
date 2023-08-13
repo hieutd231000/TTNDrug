@@ -51,7 +51,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h4 class="m-0">Danh sách đơn hàng</h4>
+                        <h4 class="m-0">Danh sách nhập hàng</h4>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -109,7 +109,7 @@
                                                             <th scope="col">Đơn giá</th>
                                                             <th scope="col">Số lượng</th>
                                                             <th scope="col">Tổng giá</th>
-                                                            <th scope="col" style="width: 150px">Ngày đặt hàng</th>
+                                                            <th scope="col" style="width: 150px">Ngày nhập hàng</th>
                                                         </tr>
                                                         </thead>
                                                         <tbody>
@@ -174,7 +174,7 @@
                                             <th scope="col" style="width: 65px;">Đơn giá</th>
                                             <th scope="col" style="width: 70px;">Số lượng</th>
                                             <th scope="col">Tổng giá</th>
-                                            <th scope="col">Ngày đặt hàng</th>
+                                            <th scope="col">Ngày nhập hàng</th>
                                             <th scope="col" style="width: 90px">Trạng thái</th>
                                         </tr>
                                         </thead>

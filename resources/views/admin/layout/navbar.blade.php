@@ -111,7 +111,7 @@
                                 @foreach($data->listNotifications as $dem => $notifi)
                                     <div class="dropdown-divider"></div>
                                     <form>
-{{--                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">--}}
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <button class="dropdown-item" onclick="readNotification({{$notifi->id}})" type="button" >
                                             <div class="row">
                                                 <div class="col-11 col-md-11 col-lg-11 col-sm-11">

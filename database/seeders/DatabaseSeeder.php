@@ -81,22 +81,22 @@ class DatabaseSeeder extends Seeder
 //        ]);
 
         //DB export_prices
-//        date_default_timezone_set('Asia/Ho_Chi_Minh');
-//        $end_at = date('Y-m-d H:i:s', time());
-//        $price = array("5000", "10000", "20000", "30000", "40000", "50000", "15000", "2000");
-//        $price_update_time = array("16:53:57 10/09", "16:55:07 25/03", "16:56:58 24/06", "16:57:25 10/04", "16:57:44 10/09", "14:17:40 11/08", "11:00:06 25/06", "11:00:37 25/10", "00:42:08 28/10", "13:39:16 05/07", "13:51:04 05/11", "14:56:18 05/12", "12:06:48 05/01", "12:07:06 05/02");
-//        for($i=0; $i<2000; $i++) {
-//            $random_price=array_rand($price,2);
-//            $random_price_update_time=array_rand($price_update_time,2);
-//            DB::table("export_prices")->insert([
-//                'id' => $i+1,
-//                'product_id' => rand(1,224),
-//                'current_price' => $price[$random_price[0]],
-//                'price_update_time' => $price_update_time[$random_price_update_time[0]]."/".rand(2014,2022),
-//                'created_at' => $end_at,
-//                'updated_at' => $end_at,
-//            ]);
-//        }
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        $end_at = date('Y-m-d H:i:s', time());
+        $price = array("5000", "10000", "20000", "30000", "40000", "50000", "15000", "2000");
+        $price_update_time = array("16:53:57 10/09", "16:55:07 25/03", "16:56:58 24/06", "16:57:25 10/04", "16:57:44 10/09", "14:17:40 11/08", "11:00:06 25/06", "11:00:37 25/10", "00:42:08 28/10", "13:39:16 05/07", "13:51:04 05/11", "14:56:18 05/12", "12:06:48 05/01", "12:07:06 05/02");
+        for($i=0; $i<2000; $i++) {
+            $random_price=array_rand($price,2);
+            $random_price_update_time=array_rand($price_update_time,2);
+            DB::table("export_prices")->insert([
+                'id' => $i+1,
+                'product_id' => rand(1,224),
+                'current_price' => $price[$random_price[0]],
+                'price_update_time' => $price_update_time[$random_price_update_time[0]]."/".rand(2014,2022),
+                'created_at' => $end_at,
+                'updated_at' => $end_at,
+            ]);
+        }
 
         //DB supplier_products
 //        date_default_timezone_set('Asia/Ho_Chi_Minh');
