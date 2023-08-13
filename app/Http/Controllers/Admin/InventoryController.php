@@ -6,6 +6,8 @@ use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Mail\RequestProduct;
 use App\Models\Suppliers;
+use App\Repositories\CustomerInvoices\CustomerInvoiceRepositoryInterface;
+use App\Repositories\Customers\CustomerRepositoryInterface;
 use App\Repositories\Inventories\InventoryRepositoryInterface;
 use App\Repositories\Invoices\InvoiceRepositoryInterface;
 use App\Repositories\Notifications\NotificationRepositoryInterface;
@@ -18,6 +20,7 @@ use App\Repositories\Suppliers\SuppierRepositoryInterface;
 use App\Repositories\UserNotifications\UserNotificationsRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Pusher\Pusher;
@@ -35,9 +38,11 @@ class InventoryController extends Controller
     protected $invoiceRepository;
     protected $notificationRepository;
     protected $userNotificationRepository;
+    protected $customerRepository;
+    protected $customerInvoiceRepository;
     protected $response;
 
-    public function __construct(NotificationRepositoryInterface $notificationRepository, UserNotificationsRepositoryInterface $userNotificationsRepository, SaleRepositoryInterface $saleRepository, InvoiceRepositoryInterface $invoiceRepository, SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
+    public function __construct(CustomerRepositoryInterface $customerRepository, CustomerInvoiceRepositoryInterface $customerInvoiceRepository, NotificationRepositoryInterface $notificationRepository, UserNotificationsRepositoryInterface $userNotificationsRepository, SaleRepositoryInterface $saleRepository, InvoiceRepositoryInterface $invoiceRepository, SuppierRepositoryInterface $supplierRepository, ResponseHelper $response, OrderProductRepositoryInterface $orderProductRepository, ProductionBatchRepositoryInterface $productionBatchRepository, ProductRepositoryInterface $productRepository)
     {
         $this->productRepository = $productRepository;
         $this->productionBatchRepository = $productionBatchRepository;
@@ -47,6 +52,8 @@ class InventoryController extends Controller
         $this->supplierRepository = $supplierRepository;
         $this->notificationRepository = $notificationRepository;
         $this->userNotificationRepository = $userNotificationsRepository;
+        $this->customerRepository = $customerRepository;
+        $this->customerInvoiceRepository = $customerInvoiceRepository;
         $this->response = $response;
     }
 
@@ -119,6 +126,7 @@ class InventoryController extends Controller
 
     public function orderedSuccess(Request $request) {
         try {
+//            dd($request->all());
             $data1["money"] = $request["totalPrice"];
             $data1["method"] = $request["methodChose"];
             $data1["user_id"] = auth()->user()->id;
@@ -154,6 +162,24 @@ class InventoryController extends Controller
                     $data2["total_price"] = $product["total_price"];
                     $this->saleRepository->create($data2);
                     $this->orderProductRepository->orderedSuccess($product["product_name"], $product["production_batch_name"], $product["amount"]);
+                }
+
+                //Xu ly khach hang
+                if($request->isCustomer == "true") {
+                    if($request->customerIdPaid) {
+                        $customer = DB::table("customers")
+                            ->where("id", $request->customerIdPaid)
+                            ->first();
+                        $data3["point"] = (int)$customer->point - (int)$request->customerPointUse;
+                        $this->customerRepository->update($data3, $request->customerIdPaid);
+                        $data4["customer_id"] = $request->customerIdPaid;
+                        $data4["invoice_id"] = $newInvoice->id;
+                        $data4["code"] = "#".$newInvoice->id.rand(10000,99999);
+                        $this->customerInvoiceRepository->create($data4);
+                        return $this->response->success(null, 200, 'Khách hàng thanh toán thành công');
+                    } else {
+                        return $this->response->error(null, 500, 'Khách hàng thanh toán thất bại');
+                    }
                 }
                 return $this->response->success(null, 200, 'Khách hàng thanh toán thành công');
             }

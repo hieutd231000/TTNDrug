@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Repositories\Categories\CategoryEloquentRepository;
 use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\CustomerInvoices\CustomerInvoiceEloquentRepository;
+use App\Repositories\CustomerInvoices\CustomerInvoiceRepositoryInterface;
+use App\Repositories\Customers\CustomerEloquentRepository;
+use App\Repositories\Customers\CustomerRepositoryInterface;
 use App\Repositories\ExportPrices\ExportPricesEloquentRepository;
 use App\Repositories\ExportPrices\ExportPricesRepositoryInterface;
 use App\Repositories\Infos\InfoEloquentRepository;
@@ -126,6 +130,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             UserNotificationsRepositoryInterface::class,
             UserNotificationsEloquentRepository::class
+        );
+        $this->app->bind(
+            CustomerInvoiceRepositoryInterface::class,
+            CustomerInvoiceEloquentRepository::class
+        );
+        $this->app->bind(
+            CustomerRepositoryInterface::class,
+            CustomerEloquentRepository::class
         );
     }
 

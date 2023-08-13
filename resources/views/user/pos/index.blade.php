@@ -305,10 +305,10 @@
                         </div>
                     </div>
                     <div class="row clearfix">
-                        <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                             <div class="card">
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
-                                    Hoá đơn
+                                    Giỏ hàng
                                 </div>
                                 <div class="body" style="padding-bottom: 0px">
                                     <div class="row clearfix" style="margin: 10px 0 0 0">
@@ -322,7 +322,7 @@
                                                     <thead>
                                                     <tr>
                                                         <th style="width: 200px">Tên sản phẩm</th>
-{{--                                                        <th style="width: 200px">Danh mục</th>--}}
+                                                        <th style="width: 200px">Danh mục</th>
                                                         <th style="width: 170px">Lô sản xuất</th>
                                                         <th style="width: 130px">Số lượng</th>
                                                         <th style="width: 150px">Đơn giá</th>
@@ -343,11 +343,58 @@
                                     </div>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    <button class="btn btn-primary" onclick="handleConfirmCard()" style="width: 100%">Xác nhận</button>
+                                    <button class="btn btn-primary" onclick="handleConfirmCard()" style="width: 100%">Xác nhận giỏ hàng</button>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+                    </div>
+                    <div class="row clearfix">
+                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                            <div class="card">
+                                <div class="card-header bg-light font-weight-bold" style="color: black!important;">
+                                    Thông tin khách hàng
+                                </div>
+                                <div class="body">
+                                    <div class="row clearfix">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                            <form class="form-inline" style="margin-bottom: 3px !important;">
+                                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                                <input class="form-control" type="text" id="phoneSearch" name="phoneSearch" style="border-radius: 0 !important;" placeholder="Tìm kiếm số điện thoại" aria-label="Search">
+                                                <button type="button" class="btn btn-primary handleSearchCustomer" style="border-radius: 0 !important;">Tìm kiếm</button>
+                                            </form>
+                                            <p id="errSearchPhone" style="color: red; margin-bottom: 10px !important;"></p>
+                                            <a href="" class="btn btn-success hidden" id="buttonAddCustomer" data-toggle="modal" data-target="#addModal">Thêm khách hàng</a>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix" style="margin: 20px 0 20px 0">
+                                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                                            <div class="card hidden" id="customerInfo">
+                                                <div class="card-body">
+                                                    <i class="fas fa-edit float-right" id="customerId" style="cursor: pointer">
+                                                    </i>
+                                                    <div class="row">
+                                                        <p class="col-sm-4 text-muted text-sm-right mb-0 mb-sm-3">Tên khách hàng:</p>
+                                                        <p class="col-sm-8" id="customerNameInfo"></p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <p class="col-sm-4 text-muted text-sm-right mb-0 mb-sm-3">Số điện thoại:</p>
+                                                        <p class="col-sm-8" id="customerPhoneInfo"></p>
+                                                    </div>
+                                                    <div class="row">
+                                                        <p class="col-sm-4 text-muted text-sm-right mb-0 mb-sm-3">Điểm:</p>
+                                                        <p class="col-sm-8" id="customerPointInfo"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <button class="btn btn-info" id="confirmCustomerBtn" onclick="handleConfirmCustomer()" style="width: 100%" disabled>Thêm thông tin khách hàng thanh toán</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5">
                             <div class="card">
                                 <div class="card-header bg-light font-weight-bold" style="color: black!important;">
                                     Thanh toán
@@ -356,15 +403,37 @@
                                     <div class="container-form">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                                             <div class="row">
-                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Khách cần trả: </p>
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Tên khách hàng: </p>
+                                                <p class="col-sm-7" id="customerNamePaid"></p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Số điện thoại: </p>
+                                                <p class="col-sm-7" id="customerPhonePaid"></p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Điểm hiện tại: </p>
+                                                <p class="col-sm-7" id="customerPointPaid" style="color: red"></p>
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Điểm sử dụng: </p>
+                                                <input type="text" style="height: 10px !important; margin-left: 5px" placeholder="10đ = 1000VNĐ"  id="pointUse" name="pointUse" disabled autocomplete="off">
+                                            </div>
+                                            <div class="row">
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Điểm còn lại: </p>
+                                                <p class="col-sm-7" id="customerCurrentPoint" style="color: green"></p>
+                                            </div>
+                                            <p class="col-sm-12" id="validatePoint" style="color: red; width: 100%; margin-bottom: 7px"></p>
+                                            <hr>
+                                            <div class="row">
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Khách cần trả: </p>
                                                 <p class="col-sm-7" id="confirm_price" style="color: red">0 VNĐ</p>
                                             </div>
                                             <div class="row">
-                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3">Khách hàng đã thanh toán:</p>
-                                                <input type="text" style="height: 10px !important; margin-top: 20px; margin-left: 5px"  id="paidCart" name="paidCart" disabled autocomplete="off">
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3">Khách hàng đã thanh toán:</p>
+                                                <input type="text" style="height: 10px !important; margin-top: 20px; margin-left: 5px" placeholder="VNĐ" id="paidCart" name="paidCart" disabled autocomplete="off">
                                             </div>
                                             <div class="row" style="margin-bottom: 10px">
-                                                <p class="col-sm-5 text-sm-right mb-0 mb-sm-3" style="margin-bottom: 7px !important;">Trả lại khách:</p>
+                                                <p class="col-sm-5 text-muted text-sm-right mb-0 mb-sm-3" style="margin-bottom: 7px !important;">Trả lại khách:</p>
                                                 <p class="col-sm-7" id="return_price" style="margin-bottom: 7px !important; color: green"></p>
                                             </div>
                                             <div class="row" style="margin-bottom: 10px">
@@ -379,11 +448,11 @@
                                     </div>
                                     <div class="row clearfix">
                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                                            <button class="btn btn-primary" onclick="handlePaid()" id="paidCardBtn" disabled style="width: 100%">Thanh toán</button>
+                                            <button class="btn btn-success" onclick="handlePaid()" id="paidCardBtn" disabled style="width: 100%">Thanh toán giỏ hàng</button>
                                         </div>
-{{--                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">--}}
-{{--                                                <button class="btn btn-primary" id="returnCardBtn" disabled style="width: 100%">In hoá đơn</button>--}}
-{{--                                            </div>--}}
+                                        {{--                                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">--}}
+                                        {{--                                                <button class="btn btn-primary" id="returnCardBtn" disabled style="width: 100%">In hoá đơn</button>--}}
+                                        {{--                                            </div>--}}
                                     </div>
                                 </div>
                             </div>
@@ -399,6 +468,9 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="total_price" value="">
                     <input type="hidden" name="method_chose" value="">
+                    <input type="hidden" name="customerIdPaid" value="">
+                    <input type="hidden" name="customerPointUse" value="">
+                    <input type="hidden" name="isCustomer" value="false">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc chắn muốn thanh toán giỏ hàng này?</h5>
@@ -432,6 +504,88 @@
                                 <div class="checkmark draw"></div>
                             </div>
                         </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{--Add customer modal--}}
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm khách hàng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success hidden" id="notificationAddCustomer">
+                        </div>
+                        <form>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <div class="form-group">
+                                <label for="customerName">Tên khách hàng <span style="color: red">*</span></label>
+                                <input type="text" minlength="1" maxlength="64" class="form-control" name="customerName" id="customerName" placeholder="Nhập tên khách hàng">
+                                <div id="help-block-name" style="color: red">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhone">Số điện thoại<span style="color: red">*</span></label>
+                                <input type="text" minlength="1" maxlength="10" class="form-control" name="customerPhone" id="customerPhone" placeholder="Số điện thoại">
+                                <div id="help-block-phone" style="color: red">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerDes">Thông tin thêm </label>
+                                <textarea class="form-control" style="resize: none" name="customerDes" id="customerDes" rows="3"></textarea>
+                            </div>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                <button type="submit" class="btn btn-primary handleSubmitAdd">Lưu</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Sửa thông tin khách hàng</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="alert alert-success hidden" id="notificationEdit">
+                        </div>
+                        <form>
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="customerIdEdit" id="customerIdEdit" value="">
+
+                            <div class="form-group">
+                                <label for="customerNameEdit">Tên khách hàng <span style="color: red">*</span></label>
+                                <input type="text" minlength="1" maxlength="64" class="form-control" name="customerNameEdit" id="customerNameEdit" placeholder="">
+                                <div id="help-block-name-edit" style="color: red">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerPhoneEdit">Số điện thoại <span style="color: red">*</span></label>
+                                <input type="text" minlength="1" maxlength="10" class="form-control" name="customerPhoneEdit" id="customerPhoneEdit" placeholder="">
+                                <div id="help-block-phone-edit" style="color: red">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="customerEditDes">Mô tả </label>
+                                <textarea class="form-control" style="resize: none" name="customerEditDes" id="customerEditDes" rows="3"></textarea>
+                            </div>
+                            <div class="float-right">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                                <button type="submit" class="btn btn-primary handleEdit">Lưu</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -511,23 +665,6 @@
                         console.log(err);
                     }
                 });
-
-                // const allProduct = document.querySelectorAll('[id^="pos_sch_"]');
-                // for(let product of allProduct) {
-                //     const product_search = product.id.split('_');
-                //     if(product_search[2].includes(this.value.toLowerCase().replace(/\s/g,''))) {
-                //         console.log(product);
-                //         product.classList.remove("hidden");
-                //         swiper.update();
-                //         // product.classList.add("swiper-slide");
-                //     } else {
-                //         product.classList.add("hidden");
-                //         swiper.update()
-                //         // swiper.removeSlide($('.swiper-slide').length - 1);
-                //         // product.classList.remove("swiper-slide");
-                //     }
-                // }
-            // }, 1200);
         });
 
         /**
@@ -573,38 +710,67 @@
                 document.getElementById("validateEmptyCart").innerHTML = "";
                 document.getElementById("paidCart").disabled = false;
                 document.getElementById("standard-select").disabled = false;
+                document.getElementById("confirmCustomerBtn").disabled = false;
+
             } else {
                 document.getElementById("paidCardBtn").disabled = true;
                 document.getElementById("validateEmptyCart").innerHTML = "Mời bạn chọn dược phẩm";
                 document.getElementById("paidCart").disabled = true;
                 document.getElementById("standard-select").disabled = true;
+                document.getElementById("confirmCustomerBtn").disabled = true;
+
             }
         };
         document.getElementById("paidCart").addEventListener('keyup', function(){
             if(!this.value || !checkNumber(this.value)) {
                 document.getElementById("return_price").innerHTML = "";
             } else {
-                document.getElementById("return_price").innerHTML = - total_price_order + parseInt(this.value) + " VNĐ";
+                document.getElementById("return_price").innerHTML = - parseInt(document.getElementById("confirm_price").innerHTML) + parseInt(this.value) + " VNĐ";
             }
         });
         const handlePaid = () => {
             let moneyPay = $("input[name='paidCart']").val();
+            let customerPointPaid = document.getElementById("customerPointPaid").textContent;
+            let pointUse = $("input[name='pointUse']").val();
             let method_chose = $('#standard-select').find(":selected").val();
             document.getElementById("validatePaid").innerHTML = "";
+            document.getElementById("validatePoint").innerHTML = "";
+            let priceOrders = document.getElementById("confirm_price").textContent.split(" ");
+
+            //Validate
+            if(pointUse) {
+                if(!checkNumber(pointUse)) {
+                    document.getElementById("validatePoint").innerHTML = "Số điểm bạn nhập không hợp lệ !";
+                } else if (parseInt(pointUse) >= parseInt(customerPointPaid)) {
+                    document.getElementById("validatePoint").innerHTML = "Số điểm khách hàng không đủ !";
+                } else if (parseInt(priceOrders[0]) < 0) {
+                    document.getElementById("validatePoint").innerHTML = "Vượt quá số tiền của đơn hàng !";
+                } else {
+                    document.getElementById("validatePoint").innerHTML = "";
+                }
+            }
+
             if(!moneyPay) {
                 document.getElementById("validatePaid").innerHTML = "Nhập số tiền thanh toán !";
             } else if(!checkNumber(moneyPay)) {
                 document.getElementById("validatePaid").innerHTML = "Số tiền bạn nhập không hợp lệ !";
             } else if(method_chose === "null") {
                 document.getElementById("validatePaid").innerHTML = "Mời bạn chọn hình thức thanh toán !";
-            } else if(total_price_order > parseInt(moneyPay)) {
+            } else if(parseInt(priceOrders[0]) > parseInt(moneyPay)) {
                 document.getElementById("validatePaid").innerHTML = "Số tiền khách hàng đã thanh toán không đủ !";
             } else {
                 document.getElementById("validatePaid").innerHTML = "";
+            }
+            //Pass
+            if(!document.getElementById("validatePaid").innerHTML && !document.getElementById("validatePoint").innerHTML) {
                 $("input[name='total_price']").val(total_price_order);
                 $("input[name='method_chose']").val(method_chose);
+                if(pointUse) {
+                    $("input[name='customerPointUse']").val(pointUse);
+                } else {
+                    $("input[name='customerPointUse']").val(0);
+                }
                 $("#confirmModal").modal("show");
-                // document.getElementById("return_price").innerHTML = total_price - parseInt(moneyPay) + "VNĐ";
             }
         };
         const handlePayOrderSuccess = () => {
@@ -612,13 +778,16 @@
             var _token = $("input[name='_token']").val();
             var totalPrice = $("input[name='total_price']").val();
             var method_chose = $("input[name='method_chose']").val();
+            var customerIdPaid = $("input[name='customerIdPaid']").val();
+            var customerPointUse = $("input[name='customerPointUse']").val();
+            var isCustomer = $("input[name='isCustomer']").val();
             let storageSupplierOrder = "cartStorage";
             let retrievedProductObject = localStorage.getItem(storageSupplierOrder);
             let listProductObject = JSON.parse(retrievedProductObject);
             $.ajax({
                 url: "/admin/inventories/ordered-success",
                 type:'POST',
-                data: {_token:_token, listProductObject: listProductObject, totalPrice: totalPrice, methodChose: method_chose},
+                data: {_token:_token, isCustomer: isCustomer, listProductObject: listProductObject, totalPrice: totalPrice, methodChose: method_chose, customerIdPaid:customerIdPaid, customerPointUse:customerPointUse},
                 success: function(response) {
                     document.getElementById("notification").innerHTML = response["message"];
                     document.getElementsByClassName("background")[0].classList.remove("background-failed");
@@ -758,14 +927,14 @@
             let cell3 = row.insertCell(2);
             let cell4 = row.insertCell(3);
             let cell5 = row.insertCell(4);
-            // let cell6 = row.insertCell(5);
-            var deleteRow = row.insertCell(5);
+            let cell6 = row.insertCell(5);
+            var deleteRow = row.insertCell(6);
             cell1.innerHTML = name;
-            // cell2.innerHTML = category;
-            cell2.innerHTML = production_batch_name;
-            cell3.innerHTML = amount;
-            cell4.innerHTML = price + " VNĐ";
-            cell5.innerHTML = totalPrice + "<span> VNĐ</span>";
+            cell2.innerHTML = category;
+            cell3.innerHTML = production_batch_name;
+            cell4.innerHTML = amount;
+            cell5.innerHTML = price + " VNĐ";
+            cell6.innerHTML = totalPrice + "<span> VNĐ</span>";
             //Create button
             let button = document.createElement("button");
             button.innerText = "Xoá";
@@ -791,5 +960,223 @@
             let storageSupplierOrder = "cartStorage";
             localStorage.removeItem(storageSupplierOrder);
         }
+
+
+        // Xử lý khách hàng
+        const hiddenCard = () => {
+            document.getElementById("customerInfo").classList.add("hidden");
+            document.getElementById("customerNameInfo").textContent = "";
+            document.getElementById("customerPhoneInfo").textContent = "";
+            document.getElementById("customerPointInfo").textContent = "";
+            // document.getElementById("confirmCustomerBtn").disabled = true;
+        }
+        $(document).ready(function() {
+            /**
+             * Search customer
+             */
+
+            $(".handleSearchCustomer").click(function(e){
+                e.preventDefault();
+                const phoneSearch = document.getElementById("phoneSearch").value;
+                const errPhoneSearch = document.getElementById("errSearchPhone");
+                const buttonAddCustomer = document.getElementById("buttonAddCustomer");
+                const customerInfoCard = document.getElementById("customerInfo");
+                if(!phoneSearch) {
+                    errPhoneSearch.textContent = "Không được bỏ trống";
+                    hiddenCard();
+                } else if(!checkNumber(phoneSearch)) {
+                    errPhoneSearch.textContent = "Sai định dạng"
+                    hiddenCard();
+                } else if(phoneSearch.length !== 10) {
+                    errPhoneSearch.textContent = "Số điện thoại không hợp lệ"
+                    hiddenCard();
+                } else {
+                    errPhoneSearch.textContent = ""
+                }
+                //Pass
+                if(!errPhoneSearch.textContent) {
+                    errPhoneSearch.textContent = "";
+                    var _token = $("input[name='_token']").val();
+                    $.ajax({
+                        url: "/customer/search",
+                        type: 'GET',
+                        data: {_token: _token, valueSearch: phoneSearch},
+                        success: function (response) {
+                            console.log(response.data);
+                            if(response.data === null) {
+                                errPhoneSearch.textContent = "Không tìm thấy thông tin khách hàng";
+                                buttonAddCustomer.classList.remove("hidden");
+                                hiddenCard();
+                            } else {
+                                errPhoneSearch.textContent = "";
+                                buttonAddCustomer.classList.add("hidden");
+                                customerInfoCard.classList.remove("hidden");
+                                document.getElementById("customerNameInfo").textContent = response.data.name;
+                                document.getElementById("customerPhoneInfo").textContent = response.data.phone;
+                                document.getElementById("customerPointInfo").textContent = response.data.point;
+                                $("input[name='customerIdPaid']").val(response.data.id);
+                                // document.getElementById("confirmCustomerBtn").disabled = false;
+                                document.getElementById("customerId").onclick = () => {
+                                    document.getElementById("customerNameEdit").value = response.data.name;
+                                    document.getElementById("customerPhoneEdit").value = response.data.phone;
+                                    document.getElementById("customerIdEdit").value = response.data.id;
+                                    $("#editModal").modal("show");
+                                };
+                            }
+                        },
+                        error: function (err) {
+                            console.log(err);
+                            // document.getElementById("confirmCustomerBtn").disabled = true;
+                        }
+                    });
+                }
+            })
+
+            /**
+             * Handle add new customer
+             */
+            $(".handleSubmitAdd").click(function(e){
+                e.preventDefault();
+                const _token = $("input[name='_token']").val();
+                const name = $("input[name='customerName']").val();
+                const phone = $("input[name='customerPhone']").val();
+                const blockErrName = document.getElementById("help-block-name");
+                const blockErrPhone = document.getElementById("help-block-phone");
+                const buttonAddCustomer = document.getElementById("buttonAddCustomer");
+                const errPhoneSearch = document.getElementById("errSearchPhone");
+                if(!name) {
+                    blockErrName.textContent = "Không được bỏ trống";
+                } else {
+                    blockErrName.textContent = "";
+                }
+                if(!phone) {
+                    blockErrPhone.textContent = "Không được bỏ trống"
+                } else if(!checkNumber(phone)) {
+                    blockErrPhone.textContent = "Sai định dạng"
+                } else if(phone.length !== 10) {
+                    blockErrPhone.textContent = "Số điện thoại không hợp lệ"
+                } else {
+                    blockErrPhone.textContent = ""
+                }
+
+                if(!blockErrName.textContent && !blockErrPhone.textContent) {
+                    $.ajax({
+                        url: "/customer/add",
+                        type:'POST',
+                        data: {_token:_token, name:name, phone:phone},
+                        success: function(response) {
+                            var alertDiv = document.getElementById("notificationAddCustomer");
+                            alertDiv.classList.remove("hidden");
+                            alertDiv.textContent = "Thêm khách hàng thành công";
+                            $("input[name='phoneSearch']").val(phone);
+                            $("input[name='customerName']").val("");
+                            $("input[name='customerPhone']").val("");
+                            $("textarea[name='customerDes']").val("");
+                            errPhoneSearch.textContent = "";
+                            buttonAddCustomer.classList.add("hidden");
+                            setTimeout(function(){
+                                $("#addModal").modal("hide");
+                            }, 600);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+
+                }
+            });
+            $(".handleEdit").click(function(e){
+                e.preventDefault();
+                const _token = $("input[name='_token']").val();
+                const name = $("input[name='customerNameEdit']").val();
+                const phone = $("input[name='customerPhoneEdit']").val();
+                const id = $("input[name='customerIdEdit']").val();
+                const blockErrName = document.getElementById("help-block-name-edit");
+                const blockErrPhone = document.getElementById("help-block-phone-edit");
+                const buttonAddCustomer = document.getElementById("buttonAddCustomer");
+                const errPhoneSearch = document.getElementById("errSearchPhone");
+                if(!name) {
+                    blockErrName.textContent = "Không được bỏ trống";
+                } else {
+                    blockErrName.textContent = "";
+                }
+                if(!phone) {
+                    blockErrPhone.textContent = "Không được bỏ trống"
+                } else if(!checkNumber(phone)) {
+                    blockErrPhone.textContent = "Sai định dạng"
+                } else if(phone.length !== 10) {
+                    blockErrPhone.textContent = "Số điện thoại không hợp lệ"
+                } else {
+                    blockErrPhone.textContent = ""
+                }
+
+                if(!blockErrName.textContent && !blockErrPhone.textContent) {
+                    $.ajax({
+                        url: "/customer/edit/" + id,
+                        type:'POST',
+                        data: {_token:_token, name:name, phone:phone},
+                        success: function(response) {
+                            var alertDiv = document.getElementById("notificationEdit");
+                            alertDiv.classList.remove("hidden");
+                            alertDiv.textContent = "Cập nhật thông tin khách hàng thành công";
+                            // $("input[name='phoneSearch']").val(phone);
+                            // document.getElementById("customerNameInfo").textContent = name;
+                            // document.getElementById("customerPhoneInfo").textContent = phone;
+                            // // $("input[name='customerNameEdit']").val(name);
+                            // // $("input[name='customerPhoneEdit']").val(phone);
+                            // errPhoneSearch.textContent = "";
+                            // buttonAddCustomer.classList.add("hidden");
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 300);
+                        },
+                        error: function (err) {
+                            console.log(err);
+                        }
+                    });
+
+                }
+            });
+        });
+        //Thanh toán giỏ hàng
+        const handleConfirmCustomer = () => {
+            const customerNamePaid = document.getElementById("customerNamePaid");
+            const customerPhonePaid = document.getElementById("customerPhonePaid");
+            const customerPointPaid = document.getElementById("customerPointPaid");
+            if(!document.getElementById("customerNameInfo").textContent || !document.getElementById("customerPhoneInfo").textContent || !document.getElementById("customerPointInfo").textContent) {
+                document.getElementById("errSearchPhone").textContent = "Mời bạn tìm kiếm khách hàng !";
+                customerNamePaid.textContent = "";
+                customerPhonePaid.textContent = "";
+                customerPointPaid.textContent = "";
+                document.getElementById("pointUse").disabled = true;
+            } else {
+                customerNamePaid.textContent = document.getElementById("customerNameInfo").textContent;
+                customerPhonePaid.textContent = document.getElementById("customerPhoneInfo").textContent;
+                customerPointPaid.textContent = document.getElementById("customerPointInfo").textContent + " điểm";
+                document.getElementById("pointUse").disabled = false;
+                $("input[name='isCustomer']").val("true");
+                document.getElementById("errSearchPhone").textContent = "";
+            }
+        }
+        document.getElementById("pointUse").addEventListener('keyup', function(){
+            let current_price_order = total_price_order;
+            if(!this.value || !checkNumber(this.value)) {
+                document.getElementById("customerCurrentPoint").innerHTML = "";
+                document.getElementById("confirm_price").innerHTML = total_price_order + " VNĐ";
+                if(!$("input[name='paidCart']").val()) {
+                    document.getElementById("return_price").innerHTML = "";
+                } else
+                    document.getElementById("return_price").innerHTML = - parseInt(document.getElementById("confirm_price").innerHTML) + parseInt($("input[name='paidCart']").val()) + " VNĐ";
+
+            } else {
+                current_price_order = total_price_order - parseInt(this.value) * 100;
+                document.getElementById("confirm_price").innerHTML = current_price_order + " VNĐ";
+                document.getElementById("customerCurrentPoint").innerHTML = parseInt(document.getElementById("customerPointInfo").innerHTML) - parseInt(this.value) + " điểm";
+                if(!$("input[name='paidCart']").val()) {
+                    document.getElementById("return_price").innerHTML = "";
+                } else
+                    document.getElementById("return_price").innerHTML = - parseInt(document.getElementById("confirm_price").innerHTML) + parseInt($("input[name='paidCart']").val()) + " VNĐ";
+            }
+        });
     </script>
 @endsection

@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ResponseHelper;
 use App\Repositories\Categories\CategoryRepositoryInterface;
+use App\Repositories\CustomerInvoices\CustomerInvoiceRepositoryInterface;
+use App\Repositories\Customers\CustomerRepositoryInterface;
 use App\Repositories\OrderProducts\OrderProductEloquentRepository;
 use App\Repositories\ProductionBatches\ProductionBatchRepositoryInterface;
 use App\Repositories\Products\ProductRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 
 class PosController extends Controller
@@ -20,14 +23,18 @@ class PosController extends Controller
     protected $orderProductRepository;
     protected $categoryRepository;
     protected $productionBatchRepository;
+    protected $customerRepository;
+    protected $customerInvoiceRepository;
     protected $response;
 
-    public function __construct(ProductionBatchRepositoryInterface $productionBatchRepository, CategoryRepositoryInterface $categoryRepository, OrderProductEloquentRepository $orderProductRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
+    public function __construct(CustomerRepositoryInterface $customerRepository, CustomerInvoiceRepositoryInterface $customerInvoiceRepository, ProductionBatchRepositoryInterface $productionBatchRepository, CategoryRepositoryInterface $categoryRepository, OrderProductEloquentRepository $orderProductRepository, ProductRepositoryInterface $productRepository, ResponseHelper $response)
     {
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
         $this->orderProductRepository = $orderProductRepository;
         $this->productionBatchRepository = $productionBatchRepository;
+        $this->customerRepository = $customerRepository;
+        $this->customerInvoiceRepository = $customerInvoiceRepository;
         $this->response = $response;
     }
     public function index(Request $request) {
@@ -37,29 +44,15 @@ class PosController extends Controller
             $productsPrice = $listExportPriceProduct[0];
             if($productsPrice) {
                 $product->current_price = $productsPrice->current_price;
-//                $product->current_price_search = $productsPrice->current_price . "_" . $product->product_name;
             } else {
                 $product->current_price = null;
             }
-//            $product->search_product_name = "pos_sch_" . strtolower($product->product_name);
-//            $product->product_id = "product_id_" . $product->id;
             $product->production_batch = $this->productionBatchRepository->getAllProductionBatchByProductId($product->id);
             foreach ($product->production_batch as $production_batch) {
                 $production_batch->expired_status = $this->productionBatchRepository->statusProductionBatch($production_batch->expired_time);
             }
         }
         $productionBatchAmount = $this->productionBatchRepository->getAmountByProductionBatchId();
-//        dd($productionBatchAmount);
-//        foreach ($productionBatchAmount as $productBatch) {
-//            $productBatch->product_code = $this->productRepository->getProductCodeByProductId($productBatch->product_id);
-//            $productBatch->product_name = $this->productRepository->idToName($productBatch->product_id);
-//            $productsPrice = $this->orderProductRepository->getExportPriceProductUpdated($productBatch->product_id);
-//            if($productsPrice) {
-//                $productBatch->current_price_search = $productsPrice->current_price . "_" . $this->productRepository->idToName($productBatch->product_id);
-//            } else {
-//                $productBatch->current_price_search = null;
-//            }
-//        }
         return view("user.pos.index", ['rank' => 1 , 'products' => $products, 'productionBatchAmount' => $productionBatchAmount]);
     }
 
@@ -129,5 +122,52 @@ class PosController extends Controller
             return $this->response->error(null, 500, 'Tìm kiếm thất bại');
         }
         return $this->response->error(null, 500, 'Tìm kiếm thất bại');
+    }
+
+    /**
+     * @param Request $request
+     * @return \App\Helpers\JsonResponse
+     */
+    public function searchCustomer(Request $request) {
+        $customer = $this->customerRepository->search($request["valueSearch"]);
+        return $this->response->success($customer, 200, "Tìm kiếm khách hàng thành công");
+    }
+
+    /**
+     * Add customer
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function addCustomer(Request $request) {
+        try {
+            $data = $request->all();
+            $data["point"] = 0;
+            $newCustomer = $this->customerRepository->create($data);
+            return $this->response->success($newCustomer, 200, "Thêm khách hàng thành công");
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Thêm khách hàng thất bại');
+        }
+    }
+
+    /**
+     * Edit customer
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function editCustomer(Request $request, $id) {
+        try {
+            if($id) {
+                $data = $request->all();
+                $this->customerRepository->update($data, $id);
+                return $this->response->success(null, 200, "Cập nhật thông tin khách hàng thành công");
+            }
+            return $this->response->error(null, 500, 'Cập nhật thông tin khách hàng thất bại');
+        } catch (\Exception $exception) {
+            Log::error($exception->getMessage());
+            return $this->response->error(null, 500, 'Cập nhật thông tin khách hàng thất bại');
+        }
     }
 }

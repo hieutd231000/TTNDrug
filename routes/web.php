@@ -119,6 +119,13 @@ Route::middleware('auth')->group(function () {
         Route::get("/list-expired", [\App\Http\Controllers\Admin\InventoryController::class, 'listExpiredProduct']);
         Route::get("/out-of-stock", [\App\Http\Controllers\Admin\InventoryController::class, 'listOutOfStock']);
     });
+    Route::group(["prefix" => "customer"], function () {
+        Route::get("/", [\App\Http\Controllers\PosController::class, 'index']);
+        Route::post("/add", [\App\Http\Controllers\PosController::class, 'addCustomer']);
+        Route::post("/edit/{id}", [\App\Http\Controllers\PosController::class, 'editCustomer']);
+        Route::get("/delete", [\App\Http\Controllers\PosController::class, 'deleteCustomer']);
+        Route::get("/search", [\App\Http\Controllers\PosController::class, 'searchCustomer']);
+    });
     Route::post("/admin/inventories/ordered-success", [\App\Http\Controllers\Admin\InventoryController::class, 'orderedSuccess']);
     Route::post("/admin/inventories/request-outofstock", [\App\Http\Controllers\Admin\InventoryController::class, 'requestOutOfStock']);
 
