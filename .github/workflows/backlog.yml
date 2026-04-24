@@ -1,0 +1,17 @@
+name: Backlog Webhook Receiver
+
+# Nhận tín hiệu repository_dispatch từ Cloudflare Worker
+on:
+  repository_dispatch:
+    types: [backlog-issue-created, backlog-issue-updated]
+
+jobs:
+  process-backlog-event:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Kiểm tra dữ liệu từ Backlog
+        run: |
+          echo "Sự kiện: ${{ github.event.action }}"
+          echo "Issue Key: ${{ github.event.client_payload.issue_key }}"
+          echo "Tiêu đề: ${{ github.event.client_payload.title }}"
+          echo "Nội dung: ${{ github.event.client_payload.body }}"
