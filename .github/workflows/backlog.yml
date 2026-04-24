@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Check data from Backlog
         run: |
-          echo "Sự kiện: ${{ github.event.action }}"
+          echo "Event: ${{ github.event.action }}"
           echo "Issue Key: ${{ github.event.client_payload.issue_key }}"
-          echo "Tiêu đề: ${{ github.event.client_payload.title }}"
-          echo "Nội dung: ${{ github.event.client_payload.body }}"
+          echo "Title: ${{ github.event.client_payload.title }}"
+          echo "Content: ${{ github.event.client_payload.body }}"
