@@ -9,7 +9,7 @@ jobs:
   process-backlog-event:
     runs-on: ubuntu-latest
     steps:
-      - name: Kiểm tra dữ liệu từ Backlog
+      - name: Check data from Backlog
         run: |
           echo "Sự kiện: ${{ github.event.action }}"
           echo "Issue Key: ${{ github.event.client_payload.issue_key }}"
